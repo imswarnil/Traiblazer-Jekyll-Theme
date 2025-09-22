@@ -4,38 +4,52 @@ layout: default
 
 <div class="sf-container" style="padding: var(--sf-8) 0;">
   <div class="category-archive-layout">
+
     <!-- ======================================================= -->
     <!-- LEFT SIDEBAR: NAVIGATION & ADS                          -->
     <!-- ======================================================= -->
     <aside class="category-archive-sidebar">
       
-      <div class="category-archive-sidebar__section">
-        <h3 class="sf-h3 category-archive-sidebar__title">Categories</h3>
-        <nav>
-          <ul class="category-archive-nav">
-            {% assign categories = site.categories | sort %}
-            {% for category in categories %}
-              {% assign category_name = category | first %}
-              <li class="category-archive-nav__item">
-                <a href="#{{ category_name | slugify }}" class="category-archive-nav__link">
-                  {{ category_name }}
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </nav>
+      <!-- Categories Card -->
+      <div class="sidebar-card">
+        <header class="sidebar-card__header">
+          <h3 class="sf-h4 sidebar-card__title">Categories</h3>
+        </header>
+        <div class="sidebar-card__body">
+          <nav>
+            <ul class="category-archive-nav">
+              {% assign categories = site.categories | sort %}
+              {% for category in categories %}
+                {% assign category_name = category | first %}
+                <li>
+                  <a href="#{{ category_name | slugify }}" class="category-archive-nav__link">
+                    <i class="ph-bold ph-folder-simple"></i>
+                    <span>{{ category_name }}</span>
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </nav>
+        </div>
       </div>
 
-      <div class="category-archive-sidebar__section">
-        <h3 class="sf-h3 category-archive-sidebar__title">Tags</h3>
-        <!-- You can add a similar list for site.tags here if you use them -->
-        <p class="sf-text--small sf-text-muted">Tag navigation coming soon.</p>
+      <!-- Tags Card (Placeholder) -->
+      <div class="sidebar-card">
+        <header class="sidebar-card__header">
+          <h3 class="sf-h4 sidebar-card__title">Tags</h3>
+        </header>
+        <div class="sidebar-card__body">
+          <p class="sf-text--small sf-text-muted">Tag navigation will appear here once you start using `tags:` in your posts.</p>
+        </div>
       </div>
-
-      <div class="category-archive-sidebar__section">
+      
+      <!-- Ad Placeholder Card -->
+      <div class="sidebar-card">
         <div class="sidebar-ad-placeholder">
-          <i class="ph-bold ph-presentation-chart"></i>
-          <span>Advertisement</span>
+          <div class="sidebar-ad-placeholder__content">
+            <i class="ph-bold ph-presentation-chart"></i>
+            <span>Advertisement</span>
+          </div>
         </div>
       </div>
 
@@ -50,14 +64,16 @@ layout: default
         {% assign categories = site.categories | sort %}
         {% for category in categories %}
           {% assign category_name = category | first %}
+          {% assign posts_in_category = site.categories[category_name] %}
           
           <section class="category-group" id="{{ category_name | slugify }}">
             <header class="category-group__header">
               <h2 class="sf-h2">{{ category_name }}</h2>
+              <span class="category-group__count">{{ posts_in_category | size }} Posts</span>
             </header>
 
             <ul class="post-card-grid">
-              {% for post in site.categories[category_name] %}
+              {% for post in posts_in_category %}
                 <li>
                   <article class="sf-card post-card">
                     {% if post.feature_image %}
@@ -71,6 +87,7 @@ layout: default
                       </h3>
                       <div class="post-card__meta">
                         <span><i class="ph-bold ph-calendar"></i> {{ post.date | date: "%b %d, %Y" }}</span>
+                        <!-- Reading time is removed as requested -->
                       </div>
                       <p class="post-card__excerpt">
                         {{ post.excerpt | strip_html | truncatewords: 20 }}
