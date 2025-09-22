@@ -1,0 +1,116 @@
+/* ============================================================================
+   PAGES / HOME
+   Styles for the personal portfolio homepage layout.
+   ============================================================================ */
+
+// --- Hero Section ---
+.home-hero {
+  padding: calc(var(--sf-6) + 2vh) 0;
+  // Use the beautiful radial gradient from your example
+  background:
+    radial-gradient(60rem 60rem at 0% 0%, color-mix(in oklab, var(--sf-brand), white 88%), transparent 60%),
+    radial-gradient(60rem 60rem at 100% 0%, color-mix(in oklab, var(--sf-accent), white 88%), transparent 60%);
+}
+
+// --- KPI (Key Performance Indicator) Cards ---
+.kpi-grid {
+  display: grid;
+  gap: var(--sf-4);
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); // Responsive grid
+}
+
+.kpi-card {
+  text-align: center;
+  background: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  padding: var(--sf-4);
+  box-shadow: var(--sf-shadow-sm);
+  
+  &__number {
+    font-size: clamp(1.8rem, 1.2rem + 2vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--sf-brand);
+  }
+  &__label {
+    margin-top: var(--sf-1);
+  }
+}
+
+// --- Profile Card in Hero ---
+.profile-card {
+  &__avatar-wrapper {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--sf-4);
+    align-items: center;
+  }
+  &__avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 1.5rem; // 24px
+    border: 4px solid color-mix(in oklab, var(--sf-brand), white 70%);
+    box-shadow: var(--sf-shadow-md);
+  }
+}
+
+// --- Career Timeline ---
+.timeline {
+  position: relative;
+  padding-left: 1.5rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: .35rem; top: .5rem; bottom: .5rem;
+    width: 2px;
+    background: var(--sf-line-2);
+  }
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: var(--sf-5);
+  padding-left: 1rem;
+
+  &:last-child { padding-bottom: 0; }
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: -0.25rem; top: .3rem;
+    width: .8rem; height: .8rem;
+    border-radius: 50%;
+    background: var(--sf-brand);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--sf-brand), white 80%);
+  }
+}
+
+// --- Skills Grid ---
+.skills-grid {
+  display: grid;
+  gap: var(--sf-4);
+  grid-template-columns: 1fr;
+  @media (min-width: 768px) { grid-template-columns: repeat(2, 1fr); }
+}
+
+.skill-item {
+  &__label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--sf-2);
+  }
+  &__bar {
+    height: 10px;
+    background: var(--sf-line-2);
+    border-radius: 999px;
+    overflow: hidden;
+    > i {
+      display: block;
+      height: 100%;
+      background: var(--sf-brand);
+    }
+  }
+}
