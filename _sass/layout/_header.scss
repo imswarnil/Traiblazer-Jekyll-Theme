@@ -1,10 +1,11 @@
 /* ============================================================================
-   LAYOUT / HEADER
-   A fully responsive, feature-rich header with a desktop-first navigation.
+   NAVBAR.SCSS — ImSwarnil x Salesforce UI Kit
+   All styles for the responsive header, modals, and live search.
    ============================================================================ */
 
 // --- Main Header Bar ---
 .sf-header {
+  // Uses variables from _structure.scss for sticky behavior & backdrop-filter
   padding-block: var(--sf-2);
 }
 
@@ -21,7 +22,7 @@
   gap: var(--sf-3);
   text-decoration: none;
   color: inherit;
-  flex-shrink: 0; // Prevent the brand from shrinking
+  flex-shrink: 0;
 
   &__logo {
     width: 36px; height: 36px; border-radius: 8px;
@@ -30,19 +31,21 @@
   }
 }
 
-// --- Desktop Navigation (Visible on large screens) ---
+// --- Desktop Navigation ---
 .sf-nav--desktop {
   display: flex;
   align-items: center;
   gap: var(--sf-1);
-  margin-inline: auto; // This centers the nav between the brand and actions
+  margin-inline: auto; // Center the nav
 
-  @media (max-width: $bp-md) {
-    display: none; // Hide on tablet and mobile
+  @media (max-width: 960px) { // Using a static value for self-containment
+    display: none;
   }
 
   &__link {
-    display: inline-block;
+    display: inline-flex; // For icon alignment
+    align-items: center;
+    gap: var(--sf-2);
     padding: var(--sf-2) var(--sf-3);
     border-radius: var(--sf-radius-md);
     font-weight: 600;
@@ -50,19 +53,19 @@
     text-decoration: none;
     transition: background-color .15s ease, color .15s ease;
 
+    .ph-bold { font-size: 1.1rem; }
+
     &:hover, &:focus-visible {
       background: color-mix(in oklab, var(--sf-bg-1), white 60%);
       color: var(--sf-fg);
     }
     
-    // For the active/current page link
     &.is-active {
       color: var(--sf-brand);
       font-weight: 700;
     }
   }
 }
-
 
 // --- Header Actions (Right Side) ---
 .sf-header__actions {
@@ -81,19 +84,35 @@
     background: color-mix(in oklab, var(--sf-bg-1), white 60%);
     color: var(--sf-fg);
   }
-  .ph-duotone { font-size: 1.5rem; }
+  .ph-bold { font-size: 1.5rem; }
 }
 
+// --- Animated Theme Switcher ---
+.sf-theme-switcher {
+  position: relative;
+  overflow: hidden;
+  
+  .ph-bold {
+    transition: transform .4s ease-in-out, opacity .4s ease-in-out;
+    position: absolute;
+    top: 50%; left: 50%;
+    margin-left: -.75rem; margin-top: -.75rem;
+  }
+  .ph-sun { transform: translateY(0) rotate(0deg); opacity: 1; }
+  .ph-moon { transform: translateY(-150%) rotate(-90deg); opacity: 0; }
+}
+[data-theme="dark"] .sf-theme-switcher {
+  .ph-sun { transform: translateY(150%) rotate(90deg); opacity: 0; }
+  .ph-moon { transform: translateY(0) rotate(0deg); opacity: 1; }
+}
 
-// --- Animated Hamburger Menu Toggle (Visible on small screens) ---
+// --- Animated Hamburger Toggle ---
 .sf-nav-toggle {
-  display: none; // Hidden on desktop
+  display: none;
   position: relative; width: 2.5rem; height: 2.5rem;
   border: none; background: transparent; cursor: pointer;
 
-  @media (max-width: $bp-md) {
-    display: block; // Show on tablet and mobile
-  }
+  @media (max-width: 960px) { display: block; }
   
   span {
     display: block; position: absolute; height: 3px; width: 60%;
@@ -109,46 +128,86 @@
   &.is-active span:nth-child(3) { top: 48%; transform: rotate(-135deg); }
 }
 
-
-// --- Full-Screen Navigation Panel & Search Modal (No changes needed) ---
-// (The SCSS from the previous answer for .sf-nav-panel and .sf-search-panel remains the same)
-// --- Theme Switcher Logic (No changes needed) ---
-// (The SCSS from the previous answer for .sf-theme-switcher remains the same)
-
-// (For completeness, I'll include them again here)
+// --- Salesforce-Style Navigation Modal ---
 .sf-nav-panel {
   position: fixed; inset: 0; z-index: 1000;
-  display: flex; align-items: center; justify-content: center;
+  display: grid; place-items: center; padding: var(--sf-4);
   opacity: 0; pointer-events: none; transition: opacity .3s ease;
   &.is-open { opacity: 1; pointer-events: auto; }
-  &__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.3); backdrop-filter: blur(10px); }
-  &__content { position: relative; text-align: center; transform: translateY(20px); transition: transform .3s ease; }
-  &.is-open &__content { transform: translateY(0); }
-  &__list { list-style: none; margin: 0; padding: 0; }
+
+  &__backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,.3); backdrop-filter: blur(8px);
+  }
+
+  &__content {
+    position: relative; width: min(500px, 100%); background: var(--sf-bg-2);
+    border-radius: var(--sf-radius-lg); box-shadow: var(--sf-shadow-md);
+    overflow: hidden; transform: scale(0.95);
+    transition: transform .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  &.is-open &__content { transform: scale(1); }
+
+  &__header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: var(--sf-3) var(--sf-4);
+    border-bottom: 1px solid var(--sf-line-2); font-weight: 600;
+  }
+
+  &__list { list-style: none; margin: 0; padding: var(--sf-2); }
+  
   &__link {
-    display: block; padding: var(--sf-3) var(--sf-6);
-    font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 700; color: var(--sf-fg);
-    text-decoration: none; transition: color .2s ease;
-    &:hover { color: var(--sf-brand); }
-    &.is-active { color: var(--sf-brand); }
+    display: flex; align-items: center; gap: var(--sf-3);
+    padding: var(--sf-3) var(--sf-4); border-radius: var(--sf-radius-md);
+    font-size: 1rem; font-weight: 600; color: var(--sf-fg-2);
+    text-decoration: none; transition: background-color .15s ease, color .15s ease;
+
+    .ph-bold { font-size: 1.25rem; }
+
+    &:hover { background-color: color-mix(in oklab, var(--sf-bg-1), white 60%); color: var(--sf-fg); }
+    &.is-active { background-color: color-mix(in oklab, var(--sf-brand), white 88%); color: var(--sf-brand); }
   }
 }
 
+// --- Search Panel & Live Results ---
 .sf-search-panel {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1010;
-  background: var(--sf-bg-2); padding: var(--sf-4);
-  border-bottom: 1px solid var(--sf-line-2); box-shadow: var(--sf-shadow-md);
-  transform: translateY(-120%); transition: transform .3s ease-in-out;
+  background: var(--sf-bg-2); border-bottom: 1px solid var(--sf-line-2);
+  box-shadow: var(--sf-shadow-md); transform: translateY(-120%);
+  transition: transform .3s ease-in-out;
   &.is-open { transform: translateY(0); }
+
+  &__form-container { padding: var(--sf-4); }
   &__form { display: flex; gap: var(--sf-3); align-items: center; }
   &__input {
     flex-grow: 1; padding: var(--sf-3); font-size: 1.2rem;
-    border: none; background: transparent;
+    border: none; background: transparent; color: var(--sf-fg);
     &:focus-visible { box-shadow: none; outline: none; }
+  }
+  
+  &__results-container {
+    margin-top: var(--sf-4); max-height: 60vh;
+    overflow-y: auto; border-top: 1px solid var(--sf-line-2);
   }
 }
 
-.sf-theme-switcher .ph-moon { display: none; }
-.sf-theme-switcher .ph-sun { display: inline-block; }
-[data-theme="dark"] .sf-theme-switcher .ph-moon { display: inline-block; }
-[data-theme="dark"] .sf-theme-switcher .ph-sun { display: none; }
+.sf-search-results { list-style: none; margin: 0; padding: 0; }
+.sf-search-result {
+  &__link {
+    display: block; padding: var(--sf-3) var(--sf-4);
+    border-bottom: 1px solid var(--sf-line-2); text-decoration: none;
+    transition: background-color .15s ease;
+    &:hover { background-color: color-mix(in oklab, var(--sf-bg-1), white 60%); }
+  }
+  &__title {
+    margin: 0 0 var(--sf-1) 0; color: var(--sf-fg); font-weight: 600;
+  }
+  &__excerpt {
+    margin: 0; font-size: .9rem; color: var(--sf-muted);
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+  }
+}
+.sf-search-panel__no-results {
+  padding: var(--sf-4); text-align: center; color: var(--sf-muted);
+}

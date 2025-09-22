@@ -1,139 +1,155 @@
 <!-- ============================================================================
-_includes/header.html — ImSwarnil x Salesforce UI Kit (Desktop & Mobile Nav)
+_includes/navbar.html — ImSwarnil x Salesforce UI Kit (Enhanced)
 ============================================================================ -->
 
 <header class="sf-header">
 <div class="sf-container sf-header__bar">
 
-<!-- Left: Brand/Logo -->
+<!-- Left: Brand -->
 <a href="{{ '/' | relative_url }}" class="sf-brand">
- {% if site.logo %}
-   <img src="{{ site.logo | relative_url }}" alt="{{ site.title }}" class="sf-brand__image-logo" />
- {% else %}
-   <div class="sf-brand__logo"></div>
-   <div class="sf-brand__text">
-     <div class="sf-h5 sf-mb-0">{{ site.title | default: "My Site" }}</div>
-     <div class="sf-text--small">{{ site.description | default: "" }}</div>
-   </div>
- {% endif %}
+ <div class="sf-brand__logo"></div>
+ <div class="sf-brand__text">
+   <div class="sf-h5 sf-mb-0">{{ site.title }}</div>
+   <div class="sf-text--small">{{ site.description }}</div>
+ </div>
 </a>
 
 <!-- Center: Desktop Navigation -->
 <nav class="sf-nav--desktop" aria-label="Main navigation">
- {% if site.navigation_header %}
-   {% for item in site.navigation_header %}
-     {% assign url = item.url | relative_url %}
-     <a href="{{ url }}" class="sf-nav--desktop__link {% if page.url == item.url %}is-active{% endif %}">
-       {{ item.title }}
-     </a>
-   {% endfor %}
- {% endif %}
+ {% for item in site.navigation_header %}
+   <a href="{{ item.url | relative_url }}" class="sf-nav--desktop__link {% if page.url == item.url %}is-active{% endif %}">
+     {% if item.icon %}<i class="ph-bold ph-{{ item.icon }}"></i>{% endif %}
+     <span>{{ item.title }}</span>
+   </a>
+ {% endfor %}
 </nav>
 
-<!-- Right: Action Buttons -->
+<!-- Right: Actions -->
 <div class="sf-header__actions">
  <button class="sf-header__action-btn" aria-label="Open Search" data-toggle="search-panel">
-   <i class="ph-duotone ph-magnifying-glass"></i>
+   <i class="ph-bold ph-magnifying-glass"></i>
  </button>
-
+ <a href="https://github.com/your-username" class="sf-header__action-btn" aria-label="GitHub Profile" target="_blank" rel="noopener noreferrer">
+   <i class="ph-bold ph-github-logo"></i>
+ </a>
  <button class="sf-header__action-btn sf-theme-switcher" aria-label="Toggle theme">
-   <i class="ph-duotone ph-sun"></i>
-   <i class="ph-duotone ph-moon"></i>
+   <i class="ph-bold ph-sun"></i>
+   <i class="ph-bold ph-moon"></i>
  </button>
- 
- <!-- Hamburger Toggle (Only visible on mobile) -->
  <button class="sf-nav-toggle" aria-label="Toggle navigation" data-toggle="nav-panel">
-   <span></span>
-   <span></span>
-   <span></span>
+   <span></span><span></span><span></span>
  </button>
 </div>
 </div>
 </header>
 
-<!-- Search Panel (Modal) -->
+<!-- Search Panel (Modal) with Integrated Live Search -->
 <div class="sf-search-panel" id="search-panel">
-<!-- (Content is the same as previous answer) -->
 <div class="sf-container">
-<form class="sf-search-panel__form" role="search" action="/search" method="get">
- <i class="ph-duotone ph-magnifying-glass" style="font-size: 1.5rem; color: var(--sf-muted);"></i>
- <input type="search" name="q" class="sf-search-panel__input" placeholder="Search the site..." aria-label="Search">
- <button type="button" class="sf-header__action-btn" aria-label="Close Search" data-toggle="search-panel">
-   <i class="ph-duotone ph-x"></i>
- </button>
-</form>
+<div class="sf-search-panel__form-container">
+ <div class="sf-search-panel__form">
+   <i class="ph-bold ph-magnifying-glass" style="font-size: 1.5rem; color: var(--sf-muted);"></i>
+   <input type="search" id="sf-search-input" class="sf-search-panel__input" placeholder="e.g. About us" autocomplete="off" />
+   <button type="button" class="sf-header__action-btn" aria-label="Close Search" data-toggle="search-panel">
+     <i class="ph-bold ph-x"></i>
+   </button>
+ </div>
+</div>
+<div class="sf-search-panel__results-container" id="sf-search-results-container">
+ <ul class="sf-search-results" id="sf-search-results-list">
+   <!-- JS will populate this -->
+ </ul>
+</div>
 </div>
 </div>
 
-<!-- Mobile Navigation Panel (Modal) -->
+<!-- Mobile Navigation Panel (Salesforce Modal Style) -->
 <div class="sf-nav-panel" id="nav-panel">
 <div class="sf-nav-panel__backdrop" data-toggle="nav-panel"></div>
-<nav class="sf-nav-panel__content">
-<ul class="sf-nav-panel__list">
- {% if site.navigation_header %}
+<div class="sf-nav-panel__content">
+<header class="sf-nav-panel__header">
+ <span>Navigation</span>
+ <button class="sf-header__action-btn" aria-label="Close navigation" data-toggle="nav-panel">
+   <i class="ph-bold ph-x"></i>
+ </button>
+</header>
+<nav>
+ <ul class="sf-nav-panel__list">
    {% for item in site.navigation_header %}
-     {% assign url = item.url | relative_url %}
      <li>
-       <a href="{{ url }}" class="sf-nav-panel__link {% if page.url == item.url %}is-active{% endif %}" data-toggle="nav-panel">
-         {{ item.title }}
+       <a href="{{ item.url | relative_url }}" class="sf-nav-panel__link {% if page.url == item.url %}is-active{% endif %}" data-toggle="nav-panel">
+         {% if item.icon %}<i class="ph-bold ph-{{ item.icon }}"></i>{% endif %}
+         <span>{{ item.title }}</span>
        </a>
      </li>
    {% endfor %}
- {% endif %}
- <!-- You could also add a prominent CTA button here for mobile -->
- <li style="margin-top: var(--sf-4);">
-   {% include button.html text="Contact Sales" link="/contact/" variant="brand" size="lg" %}
- </li>
-</ul>
+ </ul>
 </nav>
 </div>
+</div>
 
-<!-- Self-contained JavaScript for all header interactions -->
-<!-- (The JavaScript from the previous answer is exactly the same and will work perfectly here) -->
+<!-- Self-contained JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-
-// --- Panel Toggling Logic ---
-const toggles = document.querySelectorAll('[data-toggle]');
-toggles.forEach(toggle => {
- toggle.addEventListener('click', (event) => {
-   const targetId = toggle.getAttribute('data-toggle');
-   const targetPanel = document.getElementById(targetId);
-   const isNavPanel = targetId === 'nav-panel';
-
-   if (targetPanel) {
-     const isOpen = targetPanel.classList.toggle('is-open');
-     if (isNavPanel) {
-       document.body.style.overflow = isOpen ? 'hidden' : '';
-       document.querySelector('.sf-nav-toggle').classList.toggle('is-active', isOpen);
-     }
-     if (targetId === 'search-panel' && isOpen) {
-       setTimeout(() => targetPanel.querySelector('input[type="search"]').focus(), 300);
-     }
+// --- Panel Toggling ---
+document.querySelectorAll('[data-toggle]').forEach(toggle => {
+ toggle.addEventListener('click', () => {
+   const targetPanel = document.getElementById(toggle.getAttribute('data-toggle'));
+   if (!targetPanel) return;
+   
+   const isOpen = targetPanel.classList.toggle('is-open');
+   if (targetPanel.id === 'nav-panel') {
+     document.body.style.overflow = isOpen ? 'hidden' : '';
+     document.querySelector('.sf-nav-toggle').classList.toggle('is-active', isOpen);
+   }
+   if (targetPanel.id === 'search-panel' && isOpen) {
+     setTimeout(() => targetPanel.querySelector('input[type="search"]').focus(), 300);
    }
  });
 });
 
-// --- Theme Switcher Logic ---
+// --- Theme Switching ---
 const themeSwitcher = document.querySelector('.sf-theme-switcher');
 const htmlEl = document.documentElement;
-const setTheme = (theme) => {
+const setTheme = theme => {
  htmlEl.setAttribute('data-theme', theme);
  localStorage.setItem('theme', theme);
 };
-const savedTheme = localStorage.getItem('theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-if (savedTheme) {
- setTheme(savedTheme);
-} else if (prefersDark) {
- setTheme('dark');
-} else {
- setTheme('light');
-}
-themeSwitcher.addEventListener('click', () => {
- const currentTheme = htmlEl.getAttribute('data-theme') || 'light';
- const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
- setTheme(newTheme);
+const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+setTheme(savedTheme);
+themeSwitcher.addEventListener('click', () => setTheme(htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+// --- Live Search ---
+const searchInput = document.getElementById('sf-search-input');
+const resultsList = document.getElementById('sf-search-results-list');
+let pages = [];
+
+fetch('{{ "/assets/search.json" | relative_url }}')
+ .then(res => res.json())
+ .then(data => pages.push(...data));
+
+searchInput.addEventListener('keyup', function() {
+ const term = this.value.trim();
+ if (!term) {
+   resultsList.innerHTML = '';
+   return;
+ }
+ const results = pages.filter(p => {
+   const regex = new RegExp(term, 'gi');
+   return p.title.match(regex) || p.content.match(regex);
+ });
+ 
+ if (results.length > 0) {
+   resultsList.innerHTML = results.map(item => `
+     <li class="sf-search-result">
+       <a href="${item.url}" class="sf-search-result__link">
+         <h4 class="sf-search-result__title">${item.title}</h4>
+         <p class="sf-search-result__excerpt">${item.excerpt}</p>
+       </a>
+     </li>`).join('');
+ } else {
+   resultsList.innerHTML = `<div class="sf-search-panel__no-results">No results found for "${term}"</div>`;
+ }
 });
 });
 </script>
