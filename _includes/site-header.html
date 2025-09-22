@@ -1,10 +1,101 @@
 <header class="header">
   <div class="container">
     {% if site.logo %}{% include site-logo.html %}{% endif %}
+    {% if site.navigation_header %}
+<nav class="nav  nav--header">
+  <ul class="list  list--nav">
+    {% for item in site.navigation_header %}
 
-    {% include nav-header.html %}
+      {% if item.url contains '://' %}
+        {% assign url = item.url %}
+      {% else %}
+        {% assign url = item.url | relative_url %}
+      {% endif %}
+
+      <li class="item  item--nav{% if item.url == page.url %}  item--current{% endif %}">
+        <a href="{{ url }}">{{ item.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <button class="button  button--nav" aria-label="Menu toggle">
+    {% include icon.html id="nav" title="Menu" %}
+  </button>
+</nav>
+{% else %}
+<nav class="nav">
+  <ul class="list list--nav">
+    {% for item in site.html_pages %}
+      {% unless item.title == false or item.url contains "/page" or item.url contains "/404.html" %}
+        <li class="item  item--nav{% if item.url == page.url %}  item--current{% endif %}">
+
+          {% if item.url contains '://' %}
+            {% assign url = item.url %}
+          {% else %}
+            {% assign url = item.url | relative_url %}
+          {% endif %}
+
+          {% if item.collectionpage %}
+            {% assign collectiondata = site.collections | where: "label", item.collectionpage | first %}
+            <a href="{{ url }}">{{ collectiondata.title }}</a>
+          {% else %}
+            <a href="{{ url }}">{{ item.title }}</a>
+          {% endif %}
+        </li>
+      {% endunless %}
+    {% endfor %}
+  </ul>
+</nav>
+
+{% endif %}
+
+<script type="text/javascript">
+  // Get list and button
+  const navList = document.querySelector('.header .list--nav')
+  const button  = document.querySelector('.header .button--nav')
+
+  // Hide nav and apply toggle
+  const collapseNav = () => {
+    if (document.body.clientWidth < 640) {
+      navList.style.setProperty('--listHeight', `-${navList.offsetHeight}px`)
+    } else {
+      navList.removeAttribute('style')
+    }
+
+    button.onclick = () => {
+      navList.style.setProperty('transition', `margin .1s`)
+      if (navList.style.getPropertyValue('--listHeight')) {
+        navList.style.removeProperty('--listHeight')
+      } else {
+        navList.style.setProperty('--listHeight', `-${navList.offsetHeight}px`)
+      }
+    }
+  }
+
+  collapseNav()
+
+  // Check on resize if to collapse nav
+  window.addEventListener('resize', () => {
+    collapseNav()
+  })
+</script>
+
   </div>
 
-  {% include site-feature.html %}
+  {% assign feature_text = page.feature_text %}
+{% assign feature_image = page.feature_image %}
+{% if page.collectionpage %}
+  {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
+  {% assign feature_text = collectiondata.feature_text %}
+  {% assign feature_image = collectiondata.feature_image %}
+{% endif %}
+
+{% if feature_text or feature_image %}
+  <div class="feature"{% if feature_image %} style="background-image: url({{ feature_image }})"{% endif %}>
+    <div class="container  typeset">
+      {{ feature_text | markdownify }}
+    </div>
+  </div>
+{% endif %}
+
 
 </header>
