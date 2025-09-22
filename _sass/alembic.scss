@@ -1,4 +1,471 @@
-@charset "utf-8";
+/* ============================================================================
+  theme.css — Salesforce-y (SLDS-like) UI Kit (no external deps)
+  Prefix: .sf-
+  Notes:
+  - Built with CSS variables so you can theme easily.
+  - Accessible focus rings, keyboard-friendly.
+  - Inspired by SLDS spacing, radii, shadows, color harmony.
+============================================================================ */
 
-// Import frameworks & theme styles
-@import "theme";
+/* ---------------------------
+   0) TOKENS / THEME VARIABLES
+---------------------------- */
+:root {
+  /* Brand */
+  --sf-brand: #0176d3;           /* SLDS-ish brand blue */
+  --sf-brand-2: #0b5cab;         /* darker hover */
+  --sf-accent: #009ed9;          /* your brand tweak */
+  --sf-link: #0176d3;
+
+  /* Greys */
+  --sf-ink: #0b1221;
+  --sf-fg: #2e2e3a;
+  --sf-fg-2: #3f4954;
+  --sf-fg-3: #5b6673;
+  --sf-muted: #8a96a3;
+  --sf-line-1: #cfd7e0;
+  --sf-line-2: #e6ebf1;
+  --sf-bg-1: #f4f6f9;            /* page bg tint */
+  --sf-bg-2: #ffffff;            /* surface */
+
+  /* Semantics */
+  --sf-success: #2e844a;
+  --sf-warning: #ffb75d;
+  --sf-danger:  #ba0517;
+  --sf-info:    #1b96ff;
+
+  /* Effects */
+  --sf-radius-sm: .25rem;
+  --sf-radius-md: .375rem;
+  --sf-radius-lg: .5rem;
+  --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.06);
+  --sf-shadow-md: 0 4px 12px rgba(0,0,0,.08);
+  --sf-focus: 0 0 0 .14rem rgba(1,118,211,.9);
+
+  /* Typography */
+  --sf-font-body: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --sf-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Spacing scale */
+  --sf-0: 0;
+  --sf-1: .25rem;
+  --sf-2: .5rem;
+  --sf-3: .75rem;
+  --sf-4: 1rem;
+  --sf-5: 1.5rem;
+  --sf-6: 2rem;
+  --sf-8: 3rem;
+}
+
+/* Optional Dark Mode — toggle <html data-theme="dark"> */
+:root[data-theme="dark"] {
+  --sf-bg-1: #0f172a;
+  --sf-bg-2: #121a2e;
+  --sf-fg:   #e5e7eb;
+  --sf-fg-2: #c8d0da;
+  --sf-fg-3: #9aa5b1;
+  --sf-muted:#9aa5b1;
+  --sf-line-1: #243045;
+  --sf-line-2: #1b2436;
+  --sf-link: #66b3ff;
+  --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.5);
+  --sf-shadow-md: 0 6px 24px rgba(0,0,0,.45);
+}
+
+/* ---------------------------
+   1) RESET / BASE
+---------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--sf-font-body);
+  color: var(--sf-fg);
+  background: var(--sf-bg-1);
+  line-height: 1.5;
+}
+
+img, svg, video, canvas { display: block; max-width: 100%; height: auto; }
+a { color: var(--sf-link); text-decoration: none; }
+a:hover { color: var(--sf-brand-2); }
+:focus-visible { outline: none; box-shadow: var(--sf-focus); border-radius: 2px; }
+::selection { background: var(--sf-ink); color: #fff; }
+
+/* Fluid type scale */
+.sf-text--body   { font-size: clamp(0.98rem, 0.95rem + .2vw, 1.05rem); }
+.sf-text--small  { font-size: .875rem; color: var(--sf-muted); }
+.sf-text--large  { font-size: clamp(1.05rem, 1rem + .4vw, 1.25rem); }
+
+/* Headings (Salesforce-y weight & spacing) */
+.sf-h1,.sf-h2,.sf-h3,.sf-h4,.sf-h5,.sf-h6 { margin: 0 0 var(--sf-3) 0; font-weight: 700; letter-spacing: .2px; }
+.sf-h1 { font-size: clamp(1.6rem, 1.2rem + 2vw, 2.25rem); line-height: 1.2; }
+.sf-h2 { font-size: clamp(1.4rem, 1.1rem + 1.5vw, 1.8rem); }
+.sf-h3 { font-size: clamp(1.2rem, 1.05rem + 1vw, 1.5rem); }
+.sf-h4 { font-size: 1.125rem; }
+.sf-h5 { font-size: 1rem; }
+.sf-h6 { font-size: .875rem; color: var(--sf-muted); }
+
+/* Links with gentle underline on hover (SLDS vibe) */
+.sf-link-underline { position: relative; }
+.sf-link-underline::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
+  background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .15s ease;
+}
+.sf-link-underline:hover::after { transform: scaleX(1); }
+
+/* ---------------------------
+   2) LAYOUT / GRID
+---------------------------- */
+.sf-container { width: min(1200px, 92%); margin-inline: auto; }
+
+.sf-grid { display: grid; gap: var(--sf-4); }
+@media (min-width: 640px) { .sf-grid--2 { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 960px) { .sf-grid--3 { grid-template-columns: repeat(3, 1fr); } }
+
+/* App shell bits */
+.sf-page { display: flex; flex-direction: column; min-height: 100%; }
+.sf-main { flex: 1 0 auto; }
+.sf-header, .sf-footer { flex: 0 0 auto; background: var(--sf-bg-2); }
+.sf-header { border-bottom: 1px solid var(--sf-line-2); }
+.sf-footer { border-top: 1px solid var(--sf-line-2); color: var(--sf-muted); }
+
+/* Page header component */
+.sf-page-header {
+  background: var(--sf-bg-2);
+  border-bottom: 1px solid var(--sf-line-2);
+  padding: var(--sf-4) 0;
+  box-shadow: var(--sf-shadow-sm);
+}
+.sf-page-header__title { display: flex; align-items: center; gap: var(--sf-3); }
+.sf-page-header__meta  { margin-top: var(--sf-2); color: var(--sf-muted); }
+
+/* ---------------------------
+   3) SURFACES / CARDS
+---------------------------- */
+.sf-card {
+  background: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-sm);
+  overflow: hidden;
+}
+.sf-card__header { padding: var(--sf-4); border-bottom: 1px solid var(--sf-line-2); font-weight: 600; }
+.sf-card__body   { padding: var(--sf-4); }
+.sf-card__footer { padding: var(--sf-4); border-top: 1px solid var(--sf-line-2); background: color-mix(in oklab, var(--sf-bg-2), var(--sf-bg-1) 30%); }
+
+/* Tiles (compact card) */
+.sf-tile {
+  background: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-md);
+  padding: var(--sf-4);
+  box-shadow: var(--sf-shadow-sm);
+}
+
+/* ---------------------------
+   4) BUTTONS
+---------------------------- */
+.sf-btn {
+  --bg: var(--sf-brand);
+  --fg: #fff;
+  --bg-h: var(--sf-brand-2);
+
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .55rem 1rem;
+  border: 1px solid transparent;
+  border-radius: var(--sf-radius-md);
+  background: var(--bg);
+  color: var(--fg);
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 2rem transparent, var(--sf-shadow-sm);
+  transition: background-color .12s ease, box-shadow .12s ease, color .12s ease, border-color .12s ease;
+}
+.sf-btn:hover { background: var(--bg-h); }
+.sf-btn:focus-visible { box-shadow: var(--sf-focus), inset 0 0 0 2rem rgba(255,255,255,0); }
+
+.sf-btn--neutral {
+  --bg: var(--sf-bg-2); --fg: var(--sf-fg); --bg-h: color-mix(in oklab, var(--sf-bg-2), var(--sf-line-2) 50%);
+  border-color: var(--sf-line-1);
+}
+.sf-btn--outline {
+  --bg: transparent; --fg: var(--sf-brand); --bg-h: color-mix(in oklab, var(--sf-brand), transparent 85%);
+  border-color: currentColor;
+}
+.sf-btn--success { --bg: var(--sf-success); --bg-h: color-mix(in oklab, var(--sf-success), black 10%); }
+.sf-btn--warning { --bg: var(--sf-warning); --fg: #3b2e12; --bg-h: color-mix(in oklab, var(--sf-warning), black 10%); }
+.sf-btn--destructive { --bg: var(--sf-danger); --bg-h: color-mix(in oklab, var(--sf-danger), black 10%); }
+.sf-btn--ghost { --bg: transparent; --fg: var(--sf-fg); border-color: transparent; }
+.sf-btn--icon { padding: .5rem; width: 2.25rem; height: 2.25rem; }
+
+/* Button groups */
+.sf-btn-group { display: inline-flex; align-items: stretch; border-radius: var(--sf-radius-md); overflow: hidden; border: 1px solid var(--sf-line-1); }
+.sf-btn-group > .sf-btn { border-radius: 0; border-inline: 1px solid var(--sf-line-1); }
+.sf-btn-group > .sf-btn:first-child { border-inline-start: 0; }
+.sf-btn-group > .sf-btn:last-child  { border-inline-end: 0; }
+
+/* ---------------------------
+   5) FORMS
+---------------------------- */
+.sf-form__label { display: inline-block; margin-bottom: var(--sf-2); font-weight: 600; }
+.sf-input,
+.sf-select,
+.sf-textarea {
+  width: 100%;
+  background: var(--sf-bg-2);
+  color: var(--sf-fg);
+  border: 1px solid var(--sf-line-1);
+  border-radius: var(--sf-radius-sm);
+  padding: .6rem .9rem;
+  line-height: 1.3;
+  transition: border-color .12s, box-shadow .12s, background-color .12s;
+  box-shadow: var(--sf-shadow-sm);
+}
+.sf-input::placeholder { color: var(--sf-muted); }
+.sf-input:hover,
+.sf-select:hover,
+.sf-textarea:hover { border-color: var(--sf-fg-3); }
+.sf-input:focus-visible,
+.sf-select:focus-visible,
+.sf-textarea:focus-visible { border-color: var(--sf-brand); box-shadow: var(--sf-focus); }
+.sf-textarea { min-height: 120px; resize: vertical; }
+
+/* Checkbox & Radio */
+.sf-check {
+  display: inline-flex; align-items: center; gap: .6rem; cursor: pointer; user-select: none;
+}
+.sf-check__box, .sf-radio__dot {
+  width: 1.05rem; height: 1.05rem; border: 1px solid var(--sf-fg-3); border-radius: .2rem; background: var(--sf-bg-2); box-shadow: var(--sf-shadow-sm);
+  display: inline-grid; place-items: center; transition: border-color .12s, background .12s;
+}
+.sf-check input { position: absolute; opacity: 0; pointer-events: none; }
+.sf-check input:focus-visible + .sf-check__box { box-shadow: var(--sf-focus); }
+.sf-check input:checked + .sf-check__box { background: var(--sf-brand); border-color: var(--sf-brand); }
+.sf-check input:checked + .sf-check__box::after {
+  content: ""; width: .55rem; height: .55rem; border: 2px solid #fff; border-left: 0; border-top: 0; transform: rotate(45deg); margin-top: -2px;
+}
+
+/* Radio */
+.sf-radio { display: inline-flex; align-items: center; gap: .6rem; cursor: pointer; }
+.sf-radio__dot { border-radius: 999px; }
+.sf-radio input { position: absolute; opacity: 0; }
+.sf-radio input:focus-visible + .sf-radio__dot { box-shadow: var(--sf-focus); }
+.sf-radio input:checked + .sf-radio__dot { border-color: var(--sf-brand); }
+.sf-radio input:checked + .sf-radio__dot::after { content:""; width:.55rem; height:.55rem; background: var(--sf-brand); border-radius: 999px; }
+
+/* Field layout */
+.sf-field { margin-bottom: var(--sf-4); }
+.sf-field__help { margin-top: var(--sf-1); color: var(--sf-muted); font-size: .875rem; }
+
+/* ---------------------------
+   6) BADGES / PILLS / CHIPS
+---------------------------- */
+.sf-badge {
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .25rem .5rem; border-radius: 999px; font-weight: 600; font-size: .8rem;
+  background: var(--sf-bg-2); border: 1px solid var(--sf-line-1); color: var(--sf-fg);
+}
+.sf-badge--brand      { background: color-mix(in oklab, var(--sf-brand), white 85%); color: var(--sf-brand); border-color: color-mix(in oklab, var(--sf-brand), white 70%); }
+.sf-badge--success    { background: color-mix(in oklab, var(--sf-success), white 85%); color: var(--sf-success); border-color: color-mix(in oklab, var(--sf-success), white 70%); }
+.sf-badge--warning    { background: color-mix(in oklab, var(--sf-warning), white 85%); color: #4c3a17; border-color: color-mix(in oklab, var(--sf-warning), white 70%); }
+.sf-badge--destructive{ background: color-mix(in oklab, var(--sf-danger), white 85%); color: var(--sf-danger); border-color: color-mix(in oklab, var(--sf-danger), white 70%); }
+
+/* ---------------------------
+   7) ALERTS / TOASTS
+---------------------------- */
+.sf-alert {
+  border: 1px solid var(--sf-line-1);
+  border-left-width: .35rem;
+  background: var(--sf-bg-2);
+  padding: .85rem 1rem;
+  border-radius: var(--sf-radius-md);
+  box-shadow: var(--sf-shadow-sm);
+  display: flex; gap: .75rem; align-items: flex-start;
+}
+.sf-alert--info       { border-left-color: var(--sf-info); }
+.sf-alert--success    { border-left-color: var(--sf-success); }
+.sf-alert--warning    { border-left-color: var(--sf-warning); }
+.sf-alert--destructive{ border-left-color: var(--sf-danger); }
+
+.sf-toast {
+  position: fixed; right: var(--sf-4); bottom: var(--sf-4);
+  background: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-1);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-md);
+  padding: .85rem 1rem;
+  min-width: 260px;
+  z-index: 1000;
+}
+
+/* ---------------------------
+   8) BREADCRUMBS
+---------------------------- */
+.sf-breadcrumbs { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; color: var(--sf-muted); }
+.sf-breadcrumbs a { color: var(--sf-link); }
+.sf-breadcrumbs__sep { color: var(--sf-line-1); }
+
+/* ---------------------------
+   9) TABS
+---------------------------- */
+.sf-tabs { border-bottom: 1px solid var(--sf-line-2); display: flex; gap: .25rem; }
+.sf-tab {
+  position: relative; padding: .75rem 1rem; color: var(--sf-fg-3); font-weight: 600; cursor: pointer;
+}
+.sf-tab:hover { color: var(--sf-fg); }
+.sf-tab[aria-selected="true"] {
+  color: var(--sf-fg);
+}
+.sf-tab[aria-selected="true"]::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--sf-brand); border-radius: 2px 2px 0 0;
+}
+
+/* ---------------------------
+   10) TABLES (Data table-ish)
+---------------------------- */
+.sf-table {
+  width: 100%;
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  overflow: hidden;
+  background: var(--sf-bg-2);
+  box-shadow: var(--sf-shadow-sm);
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.sf-table thead th {
+  background: var(--sf-bg-1);
+  color: var(--sf-fg-2);
+  font-weight: 700;
+  text-align: left;
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--sf-line-2);
+}
+.sf-table tbody td {
+  padding: .75rem 1rem;
+  border-top: 1px solid var(--sf-line-2);
+}
+.sf-table tbody tr:hover { background: color-mix(in oklab, var(--sf-bg-1), white 60%); }
+
+/* Density controls */
+.sf-table--compact thead th, .sf-table--compact tbody td { padding: .5rem .75rem; }
+
+/* ---------------------------
+   11) PAGINATION
+---------------------------- */
+.sf-pagination { display: flex; gap: .25rem; align-items: center; color: var(--sf-muted); }
+.sf-page-btn {
+  min-width: 2rem; height: 2rem; display: inline-grid; place-items: center;
+  border-radius: var(--sf-radius-md); padding: 0 .5rem; border: 1px solid var(--sf-line-1); background: var(--sf-bg-2);
+}
+.sf-page-btn[aria-current="page"] { background: color-mix(in oklab, var(--sf-brand), white 85%); color: var(--sf-brand); border-color: color-mix(in oklab, var(--sf-brand), white 70%); }
+
+/* ---------------------------
+   12) MODAL
+---------------------------- */
+.sf-modal {
+  position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 1100;
+}
+.sf-modal[open] { display: flex; }
+.sf-modal__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
+.sf-modal__dialog {
+  position: relative; z-index: 1;
+  width: min(640px, 92%);
+  background: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-md);
+  overflow: hidden;
+}
+.sf-modal__header, .sf-modal__footer { padding: var(--sf-4); border-bottom: 1px solid var(--sf-line-2); }
+.sf-modal__footer { border-top: 1px solid var(--sf-line-2); border-bottom: 0; display: flex; justify-content: flex-end; gap: .5rem; }
+.sf-modal__body { padding: var(--sf-4); }
+
+/* ---------------------------
+   13) AVATAR / MEDIA
+---------------------------- */
+.sf-avatar { width: 2rem; height: 2rem; border-radius: 50%; background: var(--sf-line-2); display: inline-block; }
+.sf-avatar--lg { width: 3rem; height: 3rem; }
+
+/* ---------------------------
+   14) LISTS / DIVIDERS
+---------------------------- */
+.sf-list { list-style: none; margin: 0; padding: 0; }
+.sf-list__item { padding: .75rem 0; border-bottom: 1px solid var(--sf-line-2); }
+.sf-list__item:last-child { border-bottom: 0; }
+.sf-divider { height: 1px; background: var(--sf-line-2); width: 100%; }
+
+/* ---------------------------
+   15) UTILITIES (spacing, flex, text, width)
+---------------------------- */
+/* spacing (margin/padding y-axis) */
+.sf-my-0{margin-block:0}.sf-my-2{margin-block:var(--sf-2)}.sf-my-4{margin-block:var(--sf-4)}.sf-my-6{margin-block:var(--sf-6)}
+.sf-mb-0{margin-bottom:0}.sf-mb-1{margin-bottom:var(--sf-1)}.sf-mb-2{margin-bottom:var(--sf-2)}.sf-mb-4{margin-bottom:var(--sf-4)}
+.sf-pt-0{padding-top:0}.sf-pt-2{padding-top:var(--sf-2)}.sf-pt-4{padding-top:var(--sf-4)}.sf-p-4{padding:var(--sf-4)}
+.sf-gap-2{gap:var(--sf-2)}.sf-gap-4{gap:var(--sf-4)}
+
+.sf-flex { display:flex }.sf-inline-flex{display:inline-flex}
+.sf-center { align-items:center; justify-content:center }
+.sf-justify-between{justify-content:space-between}
+.sf-items-center{align-items:center}
+.sf-flex-col{flex-direction:column}
+.sf-wrap{flex-wrap:wrap}
+
+.sf-text-muted{color:var(--sf-muted)}
+.sf-text-right{text-align:right}
+.sf-text-center{text-align:center}
+.sf-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.sf-w-100{width:100%}
+.sf-max-w { max-width: 100%; }
+
+/* Hide-only visually (screen-reader available) */
+.sf-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ---------------------------
+   16) PAGE EXAMPLES (header/nav/footer)
+---------------------------- */
+.sf-header__bar {
+  display:flex; align-items:center; justify-content:space-between; gap: var(--sf-3);
+  padding-block: var(--sf-3);
+}
+.sf-brand { display:flex; align-items:center; gap: .75rem; }
+.sf-brand__logo { width: 36px; height: 36px; border-radius: 8px; background: color-mix(in oklab, var(--sf-brand), white 75%); }
+.sf-nav { display:flex; gap: var(--sf-2); align-items:center; }
+.sf-nav a { color: var(--sf-fg-2); padding: .5rem .6rem; border-radius: var(--sf-radius-sm); }
+.sf-nav a:hover, .sf-nav a:focus-visible { background: color-mix(in oklab, var(--sf-bg-1), white 60%); }
+
+/* ---------------------------
+   17) CODE BLOCKS
+---------------------------- */
+.sf-code, pre.sf-code {
+  background: color-mix(in oklab, var(--sf-bg-2), black 2%);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-md);
+  box-shadow: var(--sf-shadow-sm);
+  padding: .85rem 1rem;
+  font-family: var(--sf-font-mono);
+  font-size: .92rem;
+  overflow: auto;
+}
+
+/* ---------------------------
+   18) KANBAN-ish BOARD (bonus)
+---------------------------- */
+.sf-board { display: grid; gap: var(--sf-4); grid-auto-flow: column; grid-auto-columns: 1fr; overflow-x: auto; padding-bottom: var(--sf-4); }
+.sf-column { background: var(--sf-bg-2); border: 1px solid var(--sf-line-2); border-radius: var(--sf-radius-lg); box-shadow: var(--sf-shadow-sm); padding: var(--sf-3); min-width: 280px; }
+.sf-card--ghost { border: 2px dashed var(--sf-line-1); background: transparent; }
+
+/* ---------------------------
+   19) ICON SLOT HELPERS
+---------------------------- */
+.sf-icon { width: 1.1em; height: 1.1em; display: inline-block; fill: currentColor; vertical-align: -2px; }
+
+/* Done. Go ship it 🚀 */
