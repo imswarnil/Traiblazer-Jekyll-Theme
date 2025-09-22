@@ -1,94 +1,167 @@
 ---
-title: About Alembic
-layout : default
-feature_text: |
-  ## Alembic
-  A Jekyll boilerplate theme designed to be a starting point for any Jekyll website
-feature_image: "https://picsum.photos/1300/400?image=989"
-excerpt: "Alembic is a starting point for [Jekyll](https://jekyllrb.com/) projects. Rather than starting from scratch, this boilerplate is designed to get the ball rolling immediately. Install it, configure it, tweak it, push it."
+layout: home
+title: ImSwarnil — Filmmaker • Software Engineer • Storyteller
 ---
 
-Alembic is a starting point for [Jekyll](https://jekyllrb.com/) projects. Rather than starting from scratch, this boilerplate is designed to get rolling immediately. Install it, configure it, tweak it, push it.
+<!-- ======================================================= -->
+<!-- HERO SECTION                                            -->
+<!-- ======================================================= -->
+<section class="home-hero">
+  <div class="sf-container">
+    <div class="sf-grid sf-grid--2" style="gap:var(--sf-6); align-items:center;">
+      <!-- Left: Intro & KPIs -->
+      <div>
+        <h1 class="sf-h1">Creative chaos, engineered.</h1>
+        <p class="sf-text--large sf-text-muted" style="max-width:62ch;">
+          I build <strong>Salesforce CRM Analytics</strong> by day and craft cinematic stories by night. Deadpool wit. Jack Sparrow swagger. Pixels with purpose.
+        </p>
+        <div class="sf-flex sf-gap-2 sf-mt-4">
+          {% include button.html text="See Projects" link="#work" variant="brand" %}
+          {% include button.html text="Contact Me" link="#contact" variant="neutral" %}
+        </div>
+        <div class="kpi-grid sf-mt-6">
+          <div class="kpi-card">
+            <div class="kpi-card__number">17K+</div>
+            <div class="sf-text--small kpi-card__label">YouTube Subscribers</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card__number">50+</div>
+            <div class="sf-text--small kpi-card__label">Features Shipped</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-card__number">9 yrs</div>
+            <div class="sf-text--small kpi-card__label">Engineering Experience</div>
+          </div>
+        </div>
+      </div>
+      <!-- Right: Profile Card -->
+      <aside>
+        <div class="sf-card profile-card">
+          <div class="sf-card__body">
+            <div class="profile-card__avatar-wrapper">
+              <img src="https://www.imswarnil.com/assets/images/swarnil-logo.png" alt="Profile photo of Swarnil Singhai" class="profile-card__avatar">
+              <div>
+                <h2 class="sf-h3" style="margin:0;">Swarnil Singhai</h2>
+                <div class="sf-text--small sf-text-muted">Bengaluru, India • Open to Onsite</div>
+              </div>
+            </div>
+          </div>
+          <div class="sf-card__footer">
+            <span class="sf-text--small">Quick Links</span>
+            <div class="sf-flex sf-gap-2">
+              {% include button.html text="Resume" link="/resume.pdf" variant="outline" size="sm" %}
+              {% include button.html text="Email" link="mailto:hello@imswarnil.com" variant="outline" size="sm" %}
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
 
-{% include button.html text="Fork it" icon="github" link="https://github.com/daviddarnes/alembic" color="#0366d6" %} {% include button.html text="Buy me a coffee ☕️" link="https://buymeacoffee.com/daviddarnes#support" color="#f68140" %} {% include button.html text="Tweet it" icon="twitter" link="https://twitter.com/intent/tweet/?url=https://alembic.darn.es&text=Alembic%20-%20A%20Jekyll%20boilerplate%20theme&via=DavidDarnes" color="#0d94e7" %} {% include button.html text="Install Alembic ⚗️" link="https://github.com/daviddarnes/alembic#installation" %}
+<!-- ======================================================= -->
+<!-- CAREER TIMELINE                                         -->
+<!-- ======================================================= -->
+<section id="timeline" class="sf-container sf-my-8">
+  <div class="sf-page-header" style="margin-bottom:var(--sf-4);">
+    <div class="sf-page-header__title">
+      <h2 class="sf-h2" style="margin:0;">Career Timeline</h2>
+    </div>
+  </div>
+  <div class="sf-card">
+    <div class="sf-card__body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <h3 class="sf-h5">Twilio — Software Engineer, CRM Analytics</h3>
+          <div class="sf-text--small sf-text-muted">2022 — Present • Bengaluru</div>
+          <p class="sf-text--body sf-mt-2">Shipped AI widgets, credit-memo dashboards, and AE revenue insights. Led UX polish across LWC apps.</p>
+        </div>
+        <div class="timeline-item">
+          <h3 class="sf-h5">Full-stack Engineer — Product & Data</h3>
+          <div class="sf-text--small sf-text-muted">2019 — 2022</div>
+          <p class="sf-text--body sf-mt-2">Built internal platforms, APIs, and analytics dashboards. Mentored devs; streamlined CI/CD.</p>
+        </div>
+        <div class="timeline-item">
+          <h3 class="sf-h5">Creator — Imswarnil</div>
+          <div class="sf-text--small sf-text-muted">2017 — Present</div>
+          <p class="sf-text--body sf-mt-2">17K+ subs documenting Bengaluru hustle, filmmaking, and tech stories.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-## Features
+<!-- ======================================================= -->
+<!-- FEATURED PROJECTS                                       -->
+<!-- ======================================================= -->
+<section id="work" class="sf-container sf-my-8">
+  <div class="sf-page-header" style="margin-bottom:var(--sf-4);">
+    <div class="sf-page-header__title">
+      <h2 class="sf-h2" style="margin:0;">Featured Projects</h2>
+      <span class="sf-badge sf-badge--brand">Active</span>
+    </div>
+  </div>
+  <div class="sf-grid sf-grid--3">
+    <!-- Your project cards from the example would go here -->
+    <!-- using the .sf-marketing-card from the category page -->
+    <article class="sf-marketing-card">...</article>
+    <article class="sf-marketing-card">...</article>
+    <article class="sf-marketing-card">...</article>
+  </div>
+</section>
 
-- Available as a **theme gem** and **GitHub Pages** theme
-- Clear and elegant design that can be used out of the box or as solid starting point
-- Tested in all major browsers, including **IE and Edge**
-- Built in **Service Worker** so it can work offline and on slow connections
-- **Configurable colours** and typography in a single settings file
-- Extensive set of **shortcodes** to include various elements; such as buttons, icons, figure images and more
-- Solid **typographic framework** from [Sassline](https://sassline.com/)
-- Configurable navigation via a single file
-- Modular Jekyll components
-- Post category support in the form of a single post index page grouped by category
-- Built in live search using JavaScript
-- **Contact form** built in using [Formspree](https://formspree.io/)
-- Designed with **[Siteleaf](https://www.siteleaf.com/)** in mind
-- Has 9 of the most popular networks as performant sharing buttons
-- Has documentation
+<!-- ======================================================= -->
+<!-- SKILLS SECTION                                          -->
+<!-- ======================================================= -->
+<section id="skills" class="sf-container sf-my-8">
+  <div class="sf-page-header" style="margin-bottom:var(--sf-4);">
+    <h2 class="sf-h2" style="margin:0;">Core Skills</h2>
+  </div>
+  <div class="sf-card">
+    <div class="sf-card__body">
+      <div class="skills-grid">
+        <div class="skill-item">
+          <div class="skill-item__label"><h4 class="sf-h5">CRM Analytics</h4><span class="sf-text--small sf-text-muted">90%</span></div>
+          <div class="skill-item__bar"><i style="width:90%"></i></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item__label"><h4 class="sf-h5">Apex / LWC</h4><span class="sf-text--small sf-text-muted">85%</span></div>
+          <div class="skill-item__bar"><i style="width:85%"></i></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item__label"><h4 class="sf-h5">UX & Systems</h4><span class="sf-text--small sf-text-muted">80%</span></div>
+          <div class="skill-item__bar"><i style="width:80%"></i></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item__label"><h4 class="sf-h5">Node / JS</h4><span class="sf-text--small sf-text-muted">75%</span></div>
+          <div class="skill-item__bar"><i style="width:75%"></i></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item__label"><h4 class="sf-h5">Filmmaking</h4><span class="sf-text--small sf-text-muted">70%</span></div>
+          <div class="skill-item__bar"><i style="width:70%"></i></div>
+        </div>
+        <div class="skill-item">
+          <div class="skill-item__label"><h4 class="sf-h5">Brand Design</h4><span class="sf-text--small sf-text-muted">68%</span></div>
+          <div class="skill-item__bar"><i style="width:68%"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-## Examples
-
-Here are a few examples of Alembic out in the wild being used in a variety of ways:
-
-- [bawejakunal.github.io](https://bawejakunal.github.io/)
-- [case2111.github.io](https://case2111.github.io/)
-- [karateca.org](https://www.karateca.org/)
-
-## Installation
-
-### Quick setup
-
-To give you a running start I've put together some starter kits that you can download, fork or even deploy immediately:
-
-- ⚗️🍨 Vanilla Jekyll starter kit  
-  [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/daviddarnes/alembic-kit){:style="background: none"}
-- ⚗️🌲 Forestry starter kit  
-  [![Deploy to Forestry](https://assets.forestry.io/import-to-forestry.svg)](https://app.forestry.io/quick-start?repo=daviddarnes/alembic-forestry-kit&engine=jekyll){:style="background: none"}  
-  [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/daviddarnes/alembic-forestry-kit){:style="background: none"}
-- ⚗️💠 Netlify CMS starter kit  
-  [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/daviddarnes/alembic-netlifycms-kit&stack=cms){:style="background: none"}
-
-- ⚗️:octocat: GitHub Pages with remote theme kit  
-  {% include button.html text="Download kit" link="https://github.com/daviddarnes/alembic-kit/archive/remote-theme.zip" color="#24292e" %}
-- ⚗️🚀 Stackbit starter kit  
-  [![Create with Stackbit](https://assets.stackbit.com/badge/create-with-stackbit.svg)](https://app.stackbit.com/create?theme=https://github.com/daviddarnes/alembic-stackbit-kit){:style="background: none"}
-
-### As a Jekyll theme
-
-1. Add `gem "alembic-jekyll-theme"` to your `Gemfile` to add the theme as a dependancy
-2. Run the command `bundle install` in the root of project to install the theme and its dependancies
-3. Add `theme: alembic-jekyll-theme` to your `_config.yml` file to set the site theme
-4. Run `bundle exec jekyll serve` to build and serve your site
-5. Done! Use the [configuration](#configuration) documentation and the example [`_config.yml`](https://github.com/daviddarnes/alembic/blob/master/_config.yml) file to set things like the navigation, contact form and social sharing buttons
-
-### As a GitHub Pages remote theme
-
-1. Add `gem "jekyll-remote-theme"` to your `Gemfile` to add the theme as a dependancy
-2. Run the command `bundle install` in the root of project to install the jekyll remote theme gem as a dependancy
-3. Add `jekyll-remote-theme` to the list of `plugins` in your `_config.yml` file
-4. Add `remote_theme: daviddarnes/alembic@main` to your `_config.yml` file to set the site theme
-5. Run `bundle exec jekyll serve` to build and serve your site
-6. Done! Use the [configuration](#configuration) documentation and the example [`_config.yml`](https://github.com/daviddarnes/alembic/blob/master/_config.yml) file to set things like the navigation, contact form and social sharing buttons
-
-### As a Boilerplate / Fork
-
-_(deprecated, not recommended)_
-
-1. [Fork the repo](https://github.com/daviddarnes/alembic#fork-destination-box)
-2. Replace the `Gemfile` with one stating all the gems used in your project
-3. Delete the following unnecessary files/folders: `.github`, `LICENSE`, `screenshot.png`, `CNAME` and `alembic-jekyll-theme.gemspec`
-4. Run the command `bundle install` in the root of project to install the jekyll remote theme gem as a dependancy
-5. Run `bundle exec jekyll serve` to build and serve your site
-6. Done! Use the [configuration](#configuration) documentation and the example [`_config.yml`](https://github.com/daviddarnes/alembic/blob/master/_config.yml) file to set things like the navigation, contact form and social sharing buttons
-
-## Customising
-
-When using Alembic as a theme means you can take advantage of the file overriding method. This allows you to overwrite any file in this theme with your own custom file, by matching the file name and path. The most common example of this would be if you want to add your own styles or change the core style settings.
-
-To add your own styles copy the [`styles.scss`](https://github.com/daviddarnes/alembic/blob/master/assets/styles.scss) into your own project with the same file path (`assets/styles.scss`). From there you can add your own styles, you can even optionally ignore the theme styles by removing the `@import "alembic";` line.
-
-If you're looking to set your own colours and fonts you can overwrite them by matching the variable names from the [`_settings.scss`](https://github.com/daviddarnes/alembic/blob/master/_sass/_settings.scss) file in your own `styles.scss`, make sure to state them before the `@import "alembic";` line so they take effect. The settings are a mixture of custom variables and settings from [Sassline](https://medium.com/@jakegiltsoff/sassline-v2-0-e424b2881e7e) - follow the link to find out how to configure the typographic settings.
+<!-- ======================================================= -->
+<!-- CONTACT SECTION                                         -->
+<!-- ======================================================= -->
+<section id="contact" class="sf-container sf-my-8">
+  <div class="sf-card sf-card--related">
+    <div class="sf-card__body sf-flex sf-justify-between sf-items-center sf-wrap" style="gap: var(--sf-4);">
+      <div>
+        <h3 class="sf-h3">Building something that needs story + systems?</h3>
+        <p class="sf-text--body sf-text-muted">Let’s craft it—clean dashboards, crisp films, and a narrative that lands.</p>
+      </div>
+      <div class="sf-flex sf-gap-2">
+        {% include button.html text="Let’s Collaborate" link="mailto:hello@imswarnil.com" variant="brand" %}
+      </div>
+    </div>
+  </div>
+</section>
