@@ -1,21 +1,126 @@
 /* ============================================================================
    COMPONENTS / BUTTONS
+   A flexible, SLDS-inspired button system.
    ============================================================================ */
-.button {
-  @include button-base;
 
-  // Primary Call-to-Action
-  &--primary {
-    background-color: $brand-primary;
-    color: $white;
-    &:hover { background-color: $brand-primary-dark; color: $white; }
+.sf-btn {
+  // --- Base Styles (Applied to all buttons) ---
+  --bg: var(--sf-brand);
+  --fg: #fff;
+  --bg-h: var(--sf-brand-2);
+  --border: var(--sf-brand);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sf-2);
+  
+  border: 1px solid var(--border);
+  border-radius: var(--sf-radius-md);
+  background-color: var(--bg);
+  color: var(--fg);
+  
+  font-family: var(--sf-font-body);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  
+  box-shadow: var(--sf-shadow-sm);
+  transition: background-color .15s ease, box-shadow .15s ease, color .15s ease, border-color .15s ease, transform .1s ease;
+
+  &:hover {
+    background-color: var(--bg-h);
+    text-decoration: none;
+    transform: translateY(-1px);
+    box-shadow: var(--sf-shadow-md);
   }
 
-  // Secondary, less prominent action
-  &--secondary {
-    background-color: transparent;
-    color: $brand-primary;
-    border-color: $gray-300;
-    &:hover { background-color: $brand-sky; border-color: $brand-primary; }
+  &:active {
+    transform: translateY(0);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,.15);
+  }
+
+  // --- Variants ---
+  &--neutral {
+    --bg: var(--sf-bg-2);
+    --fg: var(--sf-fg);
+    --bg-h: color-mix(in oklab, var(--sf-bg-2), var(--sf-line-2) 50%);
+    --border: var(--sf-line-1);
+  }
+
+  &--outline {
+    --bg: transparent;
+    --fg: var(--sf-brand);
+    --bg-h: color-mix(in oklab, var(--sf-brand), transparent 85%);
+    --border: var(--sf-brand);
+  }
+
+  &--destructive {
+    --bg: var(--sf-danger);
+    --fg: #fff;
+    --bg-h: color-mix(in oklab, var(--sf-danger), black 10%);
+    --border: var(--sf-danger);
+  }
+
+  &--ghost {
+    --bg: transparent;
+    --fg: var(--sf-fg);
+    --bg-h: color-mix(in oklab, var(--sf-bg-1), white 60%);
+    --border: transparent;
+    box-shadow: none;
+    &:hover {
+      box-shadow: none;
+      transform: none;
+    }
+  }
+
+  // --- Sizes ---
+  &--md { // Default size
+    padding: .55rem 1rem;
+    font-size: .95rem;
+    .ph-duotone { font-size: 1.1rem; }
+  }
+  
+  &--sm {
+    padding: .3rem .75rem;
+    font-size: .875rem;
+    border-radius: var(--sf-radius-sm);
+    .ph-duotone { font-size: 1rem; }
+  }
+
+  &--lg {
+    padding: .85rem 1.5rem;
+    font-size: 1.05rem;
+    .ph-duotone { font-size: 1.25rem; }
+  }
+
+  // --- Modifiers ---
+  &--full {
+    width: 100%;
+  }
+
+  // For buttons with an icon on the right
+  &--icon-right {
+    flex-direction: row-reverse;
+  }
+
+  // For buttons that are ONLY an icon (circular)
+  &--icon-only {
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border-radius: 50%;
+    
+    &.sf-btn--lg {
+      width: 3rem;
+      height: 3rem;
+    }
+    &.sf-btn--sm {
+      width: 2rem;
+      height: 2rem;
+    }
   }
 }

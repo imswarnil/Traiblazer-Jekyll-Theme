@@ -23,6 +23,16 @@ aside: true
 
 [A link](https://david.darn.es "A link")
 
+{% include button.html text="Get Started" link="/pricing/" %}
+
+{% include button.html text="View Docs" link="/docs/" variant="neutral" icon="book-open" icon_position="right" %}
+{% include button.html text="Delete Account" link="/settings/delete/" variant="outline" size="sm" %}
+{% include button.html text="Watch Demo" link="/demo/" variant="ghost" size="lg" icon="play-circle" %}
+<form>
+  <!-- form fields -->
+  {% include button.html text="Sign Up Now" is_submit=true full_width=true %}
+</form>
+{% include button.html link="/search/" variant="neutral" icon="magnifying-glass" %}
 Lorem ipsum dolor sit amet, consectetur adip* isicing elit, sed do eiusmod *tempor incididunt ut labore et dolore magna aliqua.
 
 Duis aute irure dolor in [A link](https://david.darn.es "A link") reprehenderit in voluptate velit esse cillum **bold text** dolore eu fugiat nulla pariatur. Excepteur span element sint occaecat cupidatat non proident, sunt _italicised text_ in culpa qui officia deserunt mollit anim id `some code` est laborum.
