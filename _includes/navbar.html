@@ -1,5 +1,5 @@
 <!-- ============================================================================
-_includes/header.html — ImSwarnil x Salesforce UI Kit (Jekyll Component)
+_includes/header.html — ImSwarnil x Salesforce UI Kit (Desktop & Mobile Nav)
 ============================================================================ -->
 
 <header class="sf-header">
@@ -8,10 +8,8 @@ _includes/header.html — ImSwarnil x Salesforce UI Kit (Jekyll Component)
 <!-- Left: Brand/Logo -->
 <a href="{{ '/' | relative_url }}" class="sf-brand">
  {% if site.logo %}
-   <!-- If you use an image logo, include it here. It's often better to style it directly. -->
    <img src="{{ site.logo | relative_url }}" alt="{{ site.title }}" class="sf-brand__image-logo" />
  {% else %}
-   <!-- Fallback to a styled div and text from _config.yml -->
    <div class="sf-brand__logo"></div>
    <div class="sf-brand__text">
      <div class="sf-h5 sf-mb-0">{{ site.title | default: "My Site" }}</div>
@@ -20,33 +18,42 @@ _includes/header.html — ImSwarnil x Salesforce UI Kit (Jekyll Component)
  {% endif %}
 </a>
 
+<!-- Center: Desktop Navigation -->
+<nav class="sf-nav--desktop" aria-label="Main navigation">
+ {% if site.navigation_header %}
+   {% for item in site.navigation_header %}
+     {% assign url = item.url | relative_url %}
+     <a href="{{ url }}" class="sf-nav--desktop__link {% if page.url == item.url %}is-active{% endif %}">
+       {{ item.title }}
+     </a>
+   {% endfor %}
+ {% endif %}
+</nav>
+
 <!-- Right: Action Buttons -->
 <div class="sf-header__actions">
- 
- <!-- Search Toggle -->
  <button class="sf-header__action-btn" aria-label="Open Search" data-toggle="search-panel">
    <i class="ph-duotone ph-magnifying-glass"></i>
  </button>
 
- <!-- Theme Switcher -->
  <button class="sf-header__action-btn sf-theme-switcher" aria-label="Toggle theme">
    <i class="ph-duotone ph-sun"></i>
    <i class="ph-duotone ph-moon"></i>
  </button>
  
- <!-- Animated Nav Toggle -->
+ <!-- Hamburger Toggle (Only visible on mobile) -->
  <button class="sf-nav-toggle" aria-label="Toggle navigation" data-toggle="nav-panel">
    <span></span>
    <span></span>
    <span></span>
  </button>
-
 </div>
 </div>
 </header>
 
 <!-- Search Panel (Modal) -->
 <div class="sf-search-panel" id="search-panel">
+<!-- (Content is the same as previous answer) -->
 <div class="sf-container">
 <form class="sf-search-panel__form" role="search" action="/search" method="get">
  <i class="ph-duotone ph-magnifying-glass" style="font-size: 1.5rem; color: var(--sf-muted);"></i>
@@ -58,20 +65,14 @@ _includes/header.html — ImSwarnil x Salesforce UI Kit (Jekyll Component)
 </div>
 </div>
 
-<!-- Full-screen Navigation Panel (Modal) -->
+<!-- Mobile Navigation Panel (Modal) -->
 <div class="sf-nav-panel" id="nav-panel">
 <div class="sf-nav-panel__backdrop" data-toggle="nav-panel"></div>
 <nav class="sf-nav-panel__content">
-
-<!-- This is where your Jekyll navigation logic is now cleanly integrated -->
 <ul class="sf-nav-panel__list">
  {% if site.navigation_header %}
    {% for item in site.navigation_header %}
-     {% if item.url contains '://' %}
-       {% assign url = item.url %}
-     {% else %}
-       {% assign url = item.url | relative_url %}
-     {% endif %}
+     {% assign url = item.url | relative_url %}
      <li>
        <a href="{{ url }}" class="sf-nav-panel__link {% if page.url == item.url %}is-active{% endif %}" data-toggle="nav-panel">
          {{ item.title }}
@@ -79,12 +80,16 @@ _includes/header.html — ImSwarnil x Salesforce UI Kit (Jekyll Component)
      </li>
    {% endfor %}
  {% endif %}
+ <!-- You could also add a prominent CTA button here for mobile -->
+ <li style="margin-top: var(--sf-4);">
+   {% include button.html text="Contact Sales" link="/contact/" variant="brand" size="lg" %}
+ </li>
 </ul>
-
 </nav>
 </div>
 
 <!-- Self-contained JavaScript for all header interactions -->
+<!-- (The JavaScript from the previous answer is exactly the same and will work perfectly here) -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -98,14 +103,11 @@ toggles.forEach(toggle => {
 
    if (targetPanel) {
      const isOpen = targetPanel.classList.toggle('is-open');
-     
      if (isNavPanel) {
        document.body.style.overflow = isOpen ? 'hidden' : '';
        document.querySelector('.sf-nav-toggle').classList.toggle('is-active', isOpen);
      }
-     
      if (targetId === 'search-panel' && isOpen) {
-       // Auto-focus the search input when the panel opens
        setTimeout(() => targetPanel.querySelector('input[type="search"]').focus(), 300);
      }
    }
@@ -115,15 +117,12 @@ toggles.forEach(toggle => {
 // --- Theme Switcher Logic ---
 const themeSwitcher = document.querySelector('.sf-theme-switcher');
 const htmlEl = document.documentElement;
-
 const setTheme = (theme) => {
  htmlEl.setAttribute('data-theme', theme);
  localStorage.setItem('theme', theme);
 };
-
 const savedTheme = localStorage.getItem('theme');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
 if (savedTheme) {
  setTheme(savedTheme);
 } else if (prefersDark) {
@@ -131,7 +130,6 @@ if (savedTheme) {
 } else {
  setTheme('light');
 }
-
 themeSwitcher.addEventListener('click', () => {
  const currentTheme = htmlEl.getAttribute('data-theme') || 'light';
  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
