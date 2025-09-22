@@ -1,0 +1,67 @@
+// _sass/_reset.scss
+// A modern reset that applies our theme's opinions and sensible defaults.
+// -------------------------------------------------------------------
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: $sfdc-font-family-base;
+  color: $sfdc-text-default;
+  background-color: $sfdc-background-primary;
+  line-height: $line-height-base;
+  min-height: 100vh;
+}
+
+// Remove default margins from common block elements
+h1, h2, h3, h4, h5, h6,
+p, blockquote, pre,
+dl, dd, ol, ul, figure {
+  margin: 0;
+}
+
+// Make images and media responsive by default
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// Remove default list styles
+ol, ul {
+  padding: 0;
+  list-style: none;
+}
+
+// Reset table defaults
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+// Ensure form elements inherit fonts for consistency
+button,
+input,
+optgroup,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}

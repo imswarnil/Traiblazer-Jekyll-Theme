@@ -1,12 +1,23 @@
 @charset "utf-8";
 
-// Import frameworks & theme styles
-@import
-  "normalize",
-  "settings",
-  "sassline-base/variables",
-  "sassline-base",
-  "syntax",
-  "flex",
-  "theme"
-;
+// _sass/alembic.scss
+// This is the main Sass file that imports all other partials.
+// The order of imports is critical for the cascade to work correctly.
+// -------------------------------------------------------------------
+
+// 1. Settings & Tools
+// Import variables first, as they are needed by all other files.
+@import 'variables';
+
+// 2. Base & Normalization
+// Import the third-party normalizer, then our custom reset file.
+@import 'normalize';
+@import 'reset';
+
+// 3. Theme & Components
+// Import the main theme file which contains all component and layout styles.
+@import 'theme';
+
+// 4. Custom Overrides
+// Import your custom styles last to ensure they have priority.
+@import 'custom';

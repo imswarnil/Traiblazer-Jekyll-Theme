@@ -1,326 +1,211 @@
-// _theme.scss
-// Main theme styles for the Salesforce Lightning Design System (SLDS) inspired theme.
-// -------------------------------------------------------------------
-// This file controls the primary layout, structure, and appearance of all
-// major site components like the header, footer, posts, forms, and buttons.
-// It uses the design tokens and mixins defined in our new base files.
+// _sass/_theme.scss
+// Main theme styles for components, layout, typography, and utilities.
 // -------------------------------------------------------------------
 
-
-// --- 1. Global Layout & Structure ---
-// These styles define the highest-level page structure.
-// -------------------------------------------------------------------
-
-body {
-  // Use Flexbox to create a "sticky footer" layout, ensuring the footer
-  // is at the bottom even on pages with little content.
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main {
-  // This is the main content area. It will grow to fill any available
-  // vertical space, pushing the footer down.
-  flex-grow: 1;
-  width: 100%;
-}
-
+// --- 1. Layout & Grid ---
+body { display: flex; flex-direction: column; }
+.main { flex-grow: 1; width: 100%; }
 .container {
-  // Our primary centered container for content.
   width: 90%;
   max-width: $container-max-width;
   margin-left: auto;
   margin-right: auto;
 }
 
-
-// --- 2. Site Header ---
-// The global header at the top of every page.
-// -------------------------------------------------------------------
-.header {
-  background-color: $header-background;
-  border-bottom: $sfdc-border-width solid $header-border-color;
-  padding: $spacing-small 0;
-  // A subtle shadow adds a sense of elevation, common in Lightning.
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
-.logo img {
-  // Set a max-height to keep the logo size consistent.
-  max-height: 2.5rem;
-  display: block;
-}
-
-.nav {
-  // Main navigation styles
-  ul {
-    display: flex;
-    align-items: center;
-    gap: $spacing-small;
-  }
-
-  a {
-    display: block;
-    color: $sfdc-text-default;
-    font-weight: $font-weight-bold;
-    padding: $spacing-x-small $spacing-small;
-    border-radius: $sfdc-border-radius;
-    transition: $sfdc-transition-base;
-
-    &:hover,
-    &:focus,
-    .item--current & { // Style for the current page link
-      background-color: rgba($sfdc-brand-blue, 0.05);
-      color: $sfdc-brand-accessible;
-      text-decoration: none;
-    }
-  }
-}
-
-
-// --- 3. Site Footer ---
-// The global footer at the bottom of every page.
-// -------------------------------------------------------------------
-.footer {
-  background-color: $footer-background;
-  color: $footer-text-color;
-  padding: $spacing-x-large $container-padding;
-  margin-top: $spacing-xx-large;
-
-  a {
-    color: $sfdc-text-inverse;
-    font-weight: $font-weight-bold;
-
-    &:hover,
-    &:focus {
-      color: $sfdc-text-link-inverse;
-      text-decoration: underline;
-    }
-  }
-
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap; // Allow items to wrap on smaller screens
-    gap: $spacing-medium;
-  }
-}
-
-
-// --- 4. Page & Post Structure ---
-// Defines the layout for content pages, posts, and the hero section.
-// -------------------------------------------------------------------
-
-// Feature / Hero Section
-.feature {
-  padding: $spacing-xx-large $container-padding;
-  text-align: center;
-  background-color: $sfdc-background-dark;
-  color: $sfdc-text-inverse;
-
-  h1, h2, h3 {
-    color: $sfdc-text-inverse;
-    margin-top: 0;
-  }
-}
-
-// The "Card" is the fundamental content container in SLDS.
-// We apply this style to posts, pages, and other content blocks.
-.card {
-  background-color: $sfdc-background-secondary;
-  border: $sfdc-border;
-  border-radius: $sfdc-border-radius;
-  box-shadow: $sfdc-box-shadow;
-  padding: $spacing-large;
-  margin-bottom: $spacing-large;
-
-  // Enhance the card with a subtle lift on hover.
+// --- 2. Typography ---
+a {
+  color: $sfdc-brand-accessible;
+  text-decoration: none;
   transition: $sfdc-transition-base;
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+  &:hover, &:focus {
+    color: $sfdc-brand-blue-dark;
+    text-decoration: underline;
   }
 }
 
-// Apply the card style to default Jekyll content types.
-.post, .page {
-  @extend .card;
+h1, h2, h3, h4, h5, h6 {
+  font-family: $sfdc-font-family-heading;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-heading;
+  color: $sfdc-text-heading;
+  margin: $spacing-large 0 $spacing-medium 0;
+}
+h1 { font-size: $font-size-h1; }
+h2 { font-size: $font-size-h2; }
+h3 { font-size: $font-size-h3; }
+h4 { font-size: $font-size-h4; }
+h5, h6 { font-size: $font-size-base; }
+
+p { margin-bottom: $spacing-medium; }
+ul, ol {
+  margin: 0 0 $spacing-medium $spacing-large;
+  padding-left: 0;
+  li { margin-bottom: $spacing-x-small; padding-left: $spacing-small; }
+}
+ul { list-style-type: disc; }
+ol { list-style-type: decimal; }
+
+blockquote {
+  margin: 0 0 $spacing-large 0;
+  padding: $spacing-small $spacing-medium;
+  border-left: 4px solid $sfdc-border-color;
+  font-style: italic;
+  color: $sfdc-text-weak;
+  p:last-child { margin-bottom: 0; }
 }
 
-// Content layout with a sidebar
-.content-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-x-large;
+hr {
+  border: 0;
+  border-top: $sfdc-border-width solid $sfdc-border-color-weak;
+  margin: $spacing-xx-large 0;
+}
 
-  @include breakpoint('large') {
-    flex-direction: row;
+table {
+  width: 100%;
+  margin-bottom: $spacing-large;
+  font-size: $font-size-small;
+  th, td {
+    border: $sfdc-border;
+    padding: $spacing-small $spacing-medium;
+    text-align: left;
+    vertical-align: top;
   }
-
-  .content {
-    flex: 1; // The main content area takes up available space.
+  thead th {
+    font-weight: $font-weight-bold;
+    background-color: $sfdc-code-background;
   }
+  tbody tr:nth-child(odd) { background-color: $sfdc-code-background; }
+}
 
-  .aside {
-    // The sidebar has a fixed width on larger screens.
-    @include breakpoint('large') {
-      width: 300px;
-      flex-shrink: 0;
+// --- 3. Header & Footer ---
+.header {
+  background-color: $sfdc-background-secondary;
+  border-bottom: $sfdc-border;
+  padding: $spacing-small $container-padding;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  .container { display: flex; justify-content: space-between; align-items: center; }
+}
+.logo img { max-height: 2.5rem; display: block; }
+.nav {
+  ul { display: flex; align-items: center; gap: $spacing-small; }
+  a {
+    display: block; color: $sfdc-text-default; font-weight: $font-weight-bold;
+    padding: $spacing-x-small $spacing-small; border-radius: $sfdc-border-radius;
+    transition: $sfdc-transition-base;
+    &:hover, &:focus, .item--current & {
+      background-color: rgba($sfdc-brand-blue, 0.05);
+      color: $sfdc-brand-accessible; text-decoration: none;
     }
   }
 }
+.footer {
+  background-color: $sfdc-background-dark; color: $sfdc-text-inverse;
+  padding: $spacing-x-large $container-padding; margin-top: $spacing-xx-large;
+  font-size: $font-size-small;
+  a { color: $sfdc-text-link-inverse; &:hover, &:focus { text-decoration: underline; } }
+}
 
+// --- 4. Content & Cards ---
+.card {
+  background-color: $sfdc-background-secondary; border: $sfdc-border;
+  border-radius: $sfdc-border-radius; box-shadow: $sfdc-box-shadow;
+  padding: $spacing-large; margin-bottom: $spacing-large;
+}
+.post, .page { @extend .card; }
 
 // --- 5. Components ---
-// Reusable UI components like buttons, forms, and lists.
-// -------------------------------------------------------------------
 
 // Buttons
 .btn {
-  display: inline-block;
-  font-weight: $font-weight-bold;
-  text-align: center;
-  vertical-align: middle;
-  cursor: pointer;
-  border: $sfdc-border-width solid transparent;
-  padding: $button-padding-y $button-padding-x;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  border-radius: $sfdc-border-radius;
-  transition: $sfdc-transition-base;
-  text-decoration: none; // Ensure buttons that are links don't get underlined.
-
+  display: inline-block; font-weight: $font-weight-bold; text-align: center;
+  cursor: pointer; border: $sfdc-border-width solid transparent;
+  padding: $spacing-small $spacing-medium; font-size: $font-size-base;
+  line-height: $line-height-base; border-radius: $sfdc-border-radius;
+  transition: $sfdc-transition-base; text-decoration: none;
   &:hover { text-decoration: none; }
-  &:focus {
-    outline: 0;
-    box-shadow: $sfdc-box-shadow-focus-ring;
-  }
-
-  // Primary Button (the default `.btn` style)
-  &, &.btn-primary {
-    color: $sfdc-text-inverse;
-    background-color: $sfdc-brand-blue;
-    border-color: $sfdc-brand-blue;
-    &:hover, &:focus {
-      background-color: $sfdc-brand-blue-dark;
-      border-color: $sfdc-brand-blue-dark;
-      color: $sfdc-text-inverse;
-    }
-  }
-
-  // Neutral / Secondary Button
-  &.btn-neutral {
-    color: $sfdc-text-default;
-    background-color: $sfdc-background-secondary;
-    border-color: $sfdc-border-color;
-    &:hover, &:focus {
-      background-color: $sfdc-background-primary;
-    }
+  &:focus { outline: 0; box-shadow: $sfdc-box-shadow-focus-ring; }
+}
+.btn-primary {
+  color: $sfdc-text-inverse; background-color: $sfdc-brand-blue;
+  border-color: $sfdc-brand-blue;
+  &:hover, &:focus {
+    background-color: $sfdc-brand-blue-dark;
+    border-color: $sfdc-brand-blue-dark; color: $sfdc-text-inverse;
   }
 }
-
-// We map the old `.button` class to our new `.btn` for compatibility.
-.button {
-  @extend .btn;
+.btn-neutral {
+  color: $sfdc-text-default; background-color: $sfdc-background-secondary;
+  border-color: $sfdc-border-color;
+  &:hover, &:focus { background-color: $sfdc-background-primary; }
+}
+.btn-destructive {
+  color: $sfdc-text-inverse; background-color: $sfdc-error;
+  border-color: $sfdc-error;
+  &:hover, &:focus { background-color: darken($sfdc-error, 10%); border-color: darken($sfdc-error, 10%); }
 }
 
 // Forms
-.form-group {
-  margin-bottom: $spacing-medium;
+label { display: block; font-weight: $font-weight-bold; margin-bottom: $spacing-x-small; }
+input[type="text"], input[type="email"], textarea, select {
+  display: block; width: 100%; padding: $spacing-small $spacing-medium;
+  font-size: $font-size-base; color: $sfdc-text-default;
+  background-color: $sfdc-background-secondary; border: $sfdc-border;
+  border-radius: $sfdc-border-radius; transition: $sfdc-transition-base;
+  &:focus { outline: 0; border-color: $sfdc-border-color-focus; box-shadow: $sfdc-box-shadow-focus-ring; }
 }
-
-label {
-  display: block;
-  font-weight: $font-weight-bold;
-  margin-bottom: $spacing-x-small;
-}
-
-input[type="text"],
-input[type="email"],
-input[type="search"],
-input[type="password"],
-textarea,
-select {
-  display: block;
-  width: 100%;
-  padding: $form-input-padding-y $form-input-padding-x;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  color: $sfdc-text-default;
-  background-color: $sfdc-background-secondary;
-  border: $sfdc-border;
-  border-radius: $sfdc-border-radius;
-  transition: $sfdc-transition-base;
-
-  &:focus {
-    outline: 0;
-    border-color: $sfdc-border-color-focus;
-    box-shadow: $sfdc-box-shadow-focus-ring;
-  }
-}
-
 textarea { resize: vertical; }
 
-// Post Listing
-.post-list {
-  // This is just a container, no specific styles needed.
+// Alerts
+.alert {
+  padding: $spacing-medium; margin-bottom: $spacing-medium;
+  border: $sfdc-border-width solid transparent; border-radius: $sfdc-border-radius;
+  border-left-width: 4px;
 }
+.alert-success { border-left-color: $sfdc-success; background-color: lighten($sfdc-success, 45%); }
+.alert-warning { border-left-color: $sfdc-warning; background-color: lighten($sfdc-warning, 35%); }
+.alert-error { border-left-color: $sfdc-error; background-color: lighten($sfdc-error, 40%); }
+.alert-info { border-left-color: $sfdc-info; background-color: lighten($sfdc-info, 40%); }
 
-.post-item {
-  // Each item in the list is a card.
-  @extend .card;
+// Badges
+.badge {
+  display: inline-block; padding: $spacing-xx-small $spacing-x-small;
+  font-size: $font-size-small; font-weight: $font-weight-bold;
+  line-height: 1; text-align: center; white-space: nowrap;
+  vertical-align: baseline; border-radius: $sfdc-border-radius-pill;
+  color: $sfdc-text-inverse; background-color: $sfdc-info;
 }
+.badge-primary { background-color: $sfdc-brand-blue; }
+.badge-success { background-color: $sfdc-success; }
+.badge-error { background-color: $sfdc-error; }
 
-// Pagination
-.pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: $spacing-x-large;
-  padding: $spacing-medium;
-  border-top: $sfdc-border;
-  font-size: $font-size-small;
-
-  .previous_page, .next_page {
-    @extend .btn;
-    @extend .btn-neutral;
+// Syntax Highlighting
+.highlight {
+  background-color: $sfdc-code-background; border: $sfdc-border-weak;
+  border-radius: $sfdc-border-radius; margin-bottom: $spacing-large;
+  pre {
+    margin: 0; padding: $spacing-medium; overflow-x: auto;
+    font-family: $sfdc-font-family-mono; font-size: $font-size-small;
+    line-height: 1.5; color: $sfdc-text-default;
   }
+  .c, .c1, .cm { color: $sfdc-info; font-style: italic; } // Comment
+  .k, .kc, .kd { color: #580d8c; } // Keyword
+  .s, .s1, .s2 { color: $sfdc-success; } // String
+  .nb, .nv, .nf { color: $sfdc-brand-accessible; } // Name.Builtin, Name.Variable, Name.Function
+  .mi, .m { color: #c96708; } // Literal.Number
 }
 
+// --- 6. Utilities ---
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.d-none { display: none; }
+.d-block { display: block; }
+.mb-0 { margin-bottom: 0 !important; }
+.mb-1 { margin-bottom: $spacing-x-small !important; }
+.mb-2 { margin-bottom: $spacing-small !important; }
+.mb-3 { margin-bottom: $spacing-medium !important; }
+.mb-4 { margin-bottom: $spacing-large !important; }
+.mt-4 { margin-top: $spacing-large !important; }
 
-// --- 6. Utilities & Media ---
-// Small helper classes and styles for media elements.
-// -------------------------------------------------------------------
-.figure {
-  margin: 0 0 $spacing-medium 0;
-}
-
-// Responsive video embeds
-.video {
-  position: relative;
-  padding-bottom: 56.25%; // 16:9 aspect ratio
-  height: 0;
-  overflow: hidden;
-  margin-bottom: $spacing-medium;
-
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
-
-// Text Selection Color
 ::selection {
   background-color: $sfdc-brand-blue;
   color: $sfdc-text-inverse;
