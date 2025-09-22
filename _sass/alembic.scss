@@ -1,471 +1,436 @@
 /* ============================================================================
-  theme.css — Salesforce-y (SLDS-like) UI Kit (no external deps)
-  Prefix: .sf-
-  Notes:
-  - Built with CSS variables so you can theme easily.
-  - Accessible focus rings, keyboard-friendly.
-  - Inspired by SLDS spacing, radii, shadows, color harmony.
-============================================================================ */
+   theme.scss — ImSwarnil x Salesforce-ish (Refactored)
+   All-in-one SCSS, updated to reflect the Salesforce Lightning Design System.
+   ============================================================================ */
 
-/* ---------------------------
-   0) TOKENS / THEME VARIABLES
----------------------------- */
-:root {
-  /* Brand */
-  --sf-brand: #0176d3;           /* SLDS-ish brand blue */
-  --sf-brand-2: #0b5cab;         /* darker hover */
-  --sf-accent: #009ed9;          /* your brand tweak */
-  --sf-link: #0176d3;
+/* --------------------------------
+   0) TOKENS / VARIABLES
+   -------------------------------- */
+// UPDATED: Using Salesforce's primary blue as the main brand color.
+$brand-primary: #0070d2;
+$brand-primary-dark: #005fb2;
+$brand-primary-light: #eaf3fa;
 
-  /* Greys */
-  --sf-ink: #0b1221;
-  --sf-fg: #2e2e3a;
-  --sf-fg-2: #3f4954;
-  --sf-fg-3: #5b6673;
-  --sf-muted: #8a96a3;
-  --sf-line-1: #cfd7e0;
-  --sf-line-2: #e6ebf1;
-  --sf-bg-1: #f4f6f9;            /* page bg tint */
-  --sf-bg-2: #ffffff;            /* surface */
+// REPLACED: Original grayscale with a cooler, Salesforce-inspired palette.
+$slds-gray-1:  #fff;
+$slds-gray-2:  #fafafa;
+$slds-gray-3:  #f3f3f3; // often used as the main page background
+$slds-gray-4:  #eaeaeb;
+$slds-gray-5:  #dddbda; // standard border color
+$slds-gray-7:  #c9c7c5;
+$slds-gray-8:  #999;
+$slds-gray-10: #514f4d;
+$slds-gray-11: #3e3e3c;
+$slds-gray-13: #080707;
 
-  /* Semantics */
-  --sf-success: #2e844a;
-  --sf-warning: #ffb75d;
-  --sf-danger:  #ba0517;
-  --sf-info:    #1b96ff;
+$white: #fff; // Kept for clarity
 
-  /* Effects */
-  --sf-radius-sm: .25rem;
-  --sf-radius-md: .375rem;
-  --sf-radius-lg: .5rem;
-  --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.06);
-  --sf-shadow-md: 0 4px 12px rgba(0,0,0,.08);
-  --sf-focus: 0 0 0 .14rem rgba(1,118,211,.9);
+// UPDATED: Status colors to match LDS more closely.
+$success: #04844b;
+$warning: #ffb75d;
+$danger:  #ea001e;
+$info:    #0070d2; // Info often uses the brand color
 
-  /* Typography */
-  --sf-font-body: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
-  --sf-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+// UPDATED: Switched to a sans-serif stack, the hallmark of the Salesforce UI.
+// For the authentic look, you would load the 'Salesforce Sans' font.
+$font-sans: 'Salesforce Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$font-mono: "Consolas", "Courier New", monospace;
 
-  /* Spacing scale */
-  --sf-0: 0;
-  --sf-1: .25rem;
-  --sf-2: .5rem;
-  --sf-3: .75rem;
-  --sf-4: 1rem;
-  --sf-5: 1.5rem;
-  --sf-6: 2rem;
-  --sf-8: 3rem;
+// UPDATED: Standardized radius, .25rem is the most common in LDS.
+$radius-sm: .125rem;
+$radius-md: .25rem;
+$radius-lg: .5rem;
+
+// UPDATED: Border and shadows to be more subtle and specific.
+$border: 1px solid $slds-gray-5;
+$shadow-sm: 0 1px 1px rgba($slds-gray-13, .05);
+$shadow-md: 0 2px 2px rgba($slds-gray-13, .10);
+
+$space-0: 0;
+$space-1: .25rem;
+$space-2: .5rem;
+$space-3: .75rem;
+$space-4: 1rem;
+$space-5: 1.5rem;
+$space-6: 2rem;
+$space-8: 3rem;
+
+$bp-sm: 40em;
+$bp-md: 50em;
+$bp-lg: 64em;
+$bp-xl: 100em;
+
+$focus-color: $brand-primary;
+
+/* --------------------------------
+   1) MIXINS & PLACEHOLDERS
+   -------------------------------- */
+@mixin focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 .125rem $brand-primary;
 }
 
-/* Optional Dark Mode — toggle <html data-theme="dark"> */
-:root[data-theme="dark"] {
-  --sf-bg-1: #0f172a;
-  --sf-bg-2: #121a2e;
-  --sf-fg:   #e5e7eb;
-  --sf-fg-2: #c8d0da;
-  --sf-fg-3: #9aa5b1;
-  --sf-muted:#9aa5b1;
-  --sf-line-1: #243045;
-  --sf-line-2: #1b2436;
-  --sf-link: #66b3ff;
-  --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.5);
-  --sf-shadow-md: 0 6px 24px rgba(0,0,0,.45);
+@mixin fluid-type($min, $max, $vw-min: 360px, $vw-max: 1440px) {
+  font-size: clamp($min, calc(#{$min} + (#{ $max - $min } * ((100vw - #{$vw-min}) / #{ $vw-max - $vw-min }))), $max);
 }
 
-/* ---------------------------
-   1) RESET / BASE
----------------------------- */
-*,
-*::before,
-*::after { box-sizing: border-box; }
+@mixin container($max: 1200px) {
+  width: 90%;
+  max-width: $max;
+  margin-inline: auto;
+}
 
+// UPDATED: Button base to match LDS style (background change on hover, not inset shadow).
+@mixin button-base {
+  display: inline-block;
+  padding: .5rem 1rem;
+  border: $border;
+  border-radius: $radius-md;
+  line-height: 1.5;
+  font-weight: 700;
+  font-family: $font-sans;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: background-color .1s, border-color .1s, color .1s, box-shadow .1s;
+
+  &:focus-visible { @include focus-ring; }
+}
+
+// UPDATED: Input base to match LDS style.
+@mixin input-base {
+  width: 100%;
+  border: $border;
+  border-radius: $radius-md;
+  background: $white;
+  padding: .5rem .75rem;
+  line-height: 1.5;
+  transition: border-color .1s, box-shadow .1s;
+  &:hover { border-color: $slds-gray-7; }
+  &:focus, &:focus-visible { border-color: $brand-primary; @include focus-ring; }
+}
+
+%code-bg {
+  background-color: $slds-gray-2;
+  font-family: $font-mono;
+  border: 1px solid $slds-gray-4;
+  border-radius: $radius-md;
+}
+
+/* --------------------------------
+   2) RESET (modernized)
+   -------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; }
-
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { text-size-adjust: 100%; }
 
 body {
   margin: 0;
-  font-family: var(--sf-font-body);
-  color: var(--sf-fg);
-  background: var(--sf-bg-1);
+  // NEW: The light gray background is key to the Salesforce app feel.
+  background: $slds-gray-3;
+  color: $slds-gray-11;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+img, svg, video, canvas, audio, iframe { display: block; max-width: 100%; height: auto; }
+
+// UPDATED: Simplified link style.
+a { color: $brand-primary; text-decoration: none; transition: color .1s; }
+a:hover, a:active, a:focus { color: $brand-primary-dark; text-decoration: underline; }
+:focus-visible { outline: none; @include focus-ring; }
+
+::selection { background: $brand-primary; color: $white; }
+
+/* --------------------------------
+   3) TYPOGRAPHY (replaces .typeset big block)
+   -------------------------------- */
+body {
+  font-family: $font-sans;
   line-height: 1.5;
+  @include fluid-type(1rem, 1.1rem);
 }
 
-img, svg, video, canvas { display: block; max-width: 100%; height: auto; }
-a { color: var(--sf-link); text-decoration: none; }
-a:hover { color: var(--sf-brand-2); }
-:focus-visible { outline: none; box-shadow: var(--sf-focus); border-radius: 2px; }
-::selection { background: var(--sf-ink); color: #fff; }
+.typeset {
+  p, ul, ol, dl {
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
 
-/* Fluid type scale */
-.sf-text--body   { font-size: clamp(0.98rem, 0.95rem + .2vw, 1.05rem); }
-.sf-text--small  { font-size: .875rem; color: var(--sf-muted); }
-.sf-text--large  { font-size: clamp(1.05rem, 1rem + .4vw, 1.25rem); }
+  // UPDATED: Removed fancy underline for a cleaner, app-like link style.
+  a {
+    font-weight: 600;
+  }
 
-/* Headings (Salesforce-y weight & spacing) */
-.sf-h1,.sf-h2,.sf-h3,.sf-h4,.sf-h5,.sf-h6 { margin: 0 0 var(--sf-3) 0; font-weight: 700; letter-spacing: .2px; }
-.sf-h1 { font-size: clamp(1.6rem, 1.2rem + 2vw, 2.25rem); line-height: 1.2; }
-.sf-h2 { font-size: clamp(1.4rem, 1.1rem + 1.5vw, 1.8rem); }
-.sf-h3 { font-size: clamp(1.2rem, 1.05rem + 1vw, 1.5rem); }
-.sf-h4 { font-size: 1.125rem; }
-.sf-h5 { font-size: 1rem; }
-.sf-h6 { font-size: .875rem; color: var(--sf-muted); }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $font-sans;
+    color: $slds-gray-13;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: .75rem;
+    line-height: 1.25;
+  }
 
-/* Links with gentle underline on hover (SLDS vibe) */
-.sf-link-underline { position: relative; }
-.sf-link-underline::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px;
-  background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .15s ease;
-}
-.sf-link-underline:hover::after { transform: scaleX(1); }
+  h1 { @include fluid-type(1.8rem, 2.25rem); }
+  h2 { @include fluid-type(1.5rem, 1.875rem); }
+  h3 { @include fluid-type(1.25rem, 1.5rem); }
+  h4 { @include fluid-type(1.1rem, 1.25rem); }
+  h5, h6 { @include fluid-type(1rem, 1.1rem); }
 
-/* ---------------------------
-   2) LAYOUT / GRID
----------------------------- */
-.sf-container { width: min(1200px, 92%); margin-inline: auto; }
+  strong { font-weight: 700; }
+  em, i { font-style: italic; }
 
-.sf-grid { display: grid; gap: var(--sf-4); }
-@media (min-width: 640px) { .sf-grid--2 { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 960px) { .sf-grid--3 { grid-template-columns: repeat(3, 1fr); } }
+  .caption { color: $slds-gray-8; font-size: .875rem; line-height: 1.5; margin-bottom: 1rem; }
 
-/* App shell bits */
-.sf-page { display: flex; flex-direction: column; min-height: 100%; }
-.sf-main { flex: 1 0 auto; }
-.sf-header, .sf-footer { flex: 0 0 auto; background: var(--sf-bg-2); }
-.sf-header { border-bottom: 1px solid var(--sf-line-2); }
-.sf-footer { border-top: 1px solid var(--sf-line-2); color: var(--sf-muted); }
+  // UPDATED: Blockquote styled more like an LDS 'scoped notification'.
+  blockquote {
+    border-left: 3px solid $slds-gray-5;
+    padding-left: 1.5rem;
+    margin-left: 0;
+    margin-bottom: 1.5rem;
+    color: $slds-gray-10;
+    p { margin-bottom: 0; }
+  }
 
-/* Page header component */
-.sf-page-header {
-  background: var(--sf-bg-2);
-  border-bottom: 1px solid var(--sf-line-2);
-  padding: var(--sf-4) 0;
-  box-shadow: var(--sf-shadow-sm);
-}
-.sf-page-header__title { display: flex; align-items: center; gap: var(--sf-3); }
-.sf-page-header__meta  { margin-top: var(--sf-2); color: var(--sf-muted); }
+  // UPDATED: HR is now a simple, clean line.
+  hr { border: 0; border-top: $border; margin-block: 2rem; }
 
-/* ---------------------------
-   3) SURFACES / CARDS
----------------------------- */
-.sf-card {
-  background: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-lg);
-  box-shadow: var(--sf-shadow-sm);
-  overflow: hidden;
-}
-.sf-card__header { padding: var(--sf-4); border-bottom: 1px solid var(--sf-line-2); font-weight: 600; }
-.sf-card__body   { padding: var(--sf-4); }
-.sf-card__footer { padding: var(--sf-4); border-top: 1px solid var(--sf-line-2); background: color-mix(in oklab, var(--sf-bg-2), var(--sf-bg-1) 30%); }
+  code { @extend %code-bg; font-size: .9rem; padding: .125rem .375rem; color: $slds-gray-11; border: 1px solid $slds-gray-4; }
+  pre  { @extend %code-bg; display: block; padding: 1rem; margin-bottom: 1.5rem; overflow-x: auto;
+         code { padding: 0; background: none; border: none; } }
 
-/* Tiles (compact card) */
-.sf-tile {
-  background: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-md);
-  padding: var(--sf-4);
-  box-shadow: var(--sf-shadow-sm);
+  // List refinements are mostly good, just minor tweaks.
+  ul, ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+  li > p { padding: 0; margin: 0; }
 }
 
-/* ---------------------------
-   4) BUTTONS
----------------------------- */
-.sf-btn {
-  --bg: var(--sf-brand);
-  --fg: #fff;
-  --bg-h: var(--sf-brand-2);
+/* --------------------------------
+   4) LAYOUT (header/footer/feature/main/aside)
+   -------------------------------- */
+.container { @include container(1200px); }
 
-  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
-  padding: .55rem 1rem;
-  border: 1px solid transparent;
-  border-radius: var(--sf-radius-md);
-  background: var(--bg);
-  color: var(--fg);
-  font-weight: 600;
-  line-height: 1.2;
-  cursor: pointer;
-  box-shadow: inset 0 0 0 2rem transparent, var(--sf-shadow-sm);
-  transition: background-color .12s ease, box-shadow .12s ease, color .12s ease, border-color .12s ease;
-}
-.sf-btn:hover { background: var(--bg-h); }
-.sf-btn:focus-visible { box-shadow: var(--sf-focus), inset 0 0 0 2rem rgba(255,255,255,0); }
+.header {
+  flex: 0 0 auto;
+  // NEW: A white header with a bottom border is a classic Salesforce pattern.
+  background: $white;
+  border-bottom: $border;
+  box-shadow: $shadow-sm;
 
-.sf-btn--neutral {
-  --bg: var(--sf-bg-2); --fg: var(--sf-fg); --bg-h: color-mix(in oklab, var(--sf-bg-2), var(--sf-line-2) 50%);
-  border-color: var(--sf-line-1);
-}
-.sf-btn--outline {
-  --bg: transparent; --fg: var(--sf-brand); --bg-h: color-mix(in oklab, var(--sf-brand), transparent 85%);
-  border-color: currentColor;
-}
-.sf-btn--success { --bg: var(--sf-success); --bg-h: color-mix(in oklab, var(--sf-success), black 10%); }
-.sf-btn--warning { --bg: var(--sf-warning); --fg: #3b2e12; --bg-h: color-mix(in oklab, var(--sf-warning), black 10%); }
-.sf-btn--destructive { --bg: var(--sf-danger); --bg-h: color-mix(in oklab, var(--sf-danger), black 10%); }
-.sf-btn--ghost { --bg: transparent; --fg: var(--sf-fg); border-color: transparent; }
-.sf-btn--icon { padding: .5rem; width: 2.25rem; height: 2.25rem; }
-
-/* Button groups */
-.sf-btn-group { display: inline-flex; align-items: stretch; border-radius: var(--sf-radius-md); overflow: hidden; border: 1px solid var(--sf-line-1); }
-.sf-btn-group > .sf-btn { border-radius: 0; border-inline: 1px solid var(--sf-line-1); }
-.sf-btn-group > .sf-btn:first-child { border-inline-start: 0; }
-.sf-btn-group > .sf-btn:last-child  { border-inline-end: 0; }
-
-/* ---------------------------
-   5) FORMS
----------------------------- */
-.sf-form__label { display: inline-block; margin-bottom: var(--sf-2); font-weight: 600; }
-.sf-input,
-.sf-select,
-.sf-textarea {
-  width: 100%;
-  background: var(--sf-bg-2);
-  color: var(--sf-fg);
-  border: 1px solid var(--sf-line-1);
-  border-radius: var(--sf-radius-sm);
-  padding: .6rem .9rem;
-  line-height: 1.3;
-  transition: border-color .12s, box-shadow .12s, background-color .12s;
-  box-shadow: var(--sf-shadow-sm);
-}
-.sf-input::placeholder { color: var(--sf-muted); }
-.sf-input:hover,
-.sf-select:hover,
-.sf-textarea:hover { border-color: var(--sf-fg-3); }
-.sf-input:focus-visible,
-.sf-select:focus-visible,
-.sf-textarea:focus-visible { border-color: var(--sf-brand); box-shadow: var(--sf-focus); }
-.sf-textarea { min-height: 120px; resize: vertical; }
-
-/* Checkbox & Radio */
-.sf-check {
-  display: inline-flex; align-items: center; gap: .6rem; cursor: pointer; user-select: none;
-}
-.sf-check__box, .sf-radio__dot {
-  width: 1.05rem; height: 1.05rem; border: 1px solid var(--sf-fg-3); border-radius: .2rem; background: var(--sf-bg-2); box-shadow: var(--sf-shadow-sm);
-  display: inline-grid; place-items: center; transition: border-color .12s, background .12s;
-}
-.sf-check input { position: absolute; opacity: 0; pointer-events: none; }
-.sf-check input:focus-visible + .sf-check__box { box-shadow: var(--sf-focus); }
-.sf-check input:checked + .sf-check__box { background: var(--sf-brand); border-color: var(--sf-brand); }
-.sf-check input:checked + .sf-check__box::after {
-  content: ""; width: .55rem; height: .55rem; border: 2px solid #fff; border-left: 0; border-top: 0; transform: rotate(45deg); margin-top: -2px;
+  .container { display: flex; justify-content: space-between; align-items: center; padding-block: .75rem; flex-wrap: wrap; }
+  .logo img { max-height: 2.5rem; } // LDS headers are more compact
+  .nav { text-align: right; }
 }
 
-/* Radio */
-.sf-radio { display: inline-flex; align-items: center; gap: .6rem; cursor: pointer; }
-.sf-radio__dot { border-radius: 999px; }
-.sf-radio input { position: absolute; opacity: 0; }
-.sf-radio input:focus-visible + .sf-radio__dot { box-shadow: var(--sf-focus); }
-.sf-radio input:checked + .sf-radio__dot { border-color: var(--sf-brand); }
-.sf-radio input:checked + .sf-radio__dot::after { content:""; width:.55rem; height:.55rem; background: var(--sf-brand); border-radius: 999px; }
-
-/* Field layout */
-.sf-field { margin-bottom: var(--sf-4); }
-.sf-field__help { margin-top: var(--sf-1); color: var(--sf-muted); font-size: .875rem; }
-
-/* ---------------------------
-   6) BADGES / PILLS / CHIPS
----------------------------- */
-.sf-badge {
-  display: inline-flex; align-items: center; gap: .4rem;
-  padding: .25rem .5rem; border-radius: 999px; font-weight: 600; font-size: .8rem;
-  background: var(--sf-bg-2); border: 1px solid var(--sf-line-1); color: var(--sf-fg);
-}
-.sf-badge--brand      { background: color-mix(in oklab, var(--sf-brand), white 85%); color: var(--sf-brand); border-color: color-mix(in oklab, var(--sf-brand), white 70%); }
-.sf-badge--success    { background: color-mix(in oklab, var(--sf-success), white 85%); color: var(--sf-success); border-color: color-mix(in oklab, var(--sf-success), white 70%); }
-.sf-badge--warning    { background: color-mix(in oklab, var(--sf-warning), white 85%); color: #4c3a17; border-color: color-mix(in oklab, var(--sf-warning), white 70%); }
-.sf-badge--destructive{ background: color-mix(in oklab, var(--sf-danger), white 85%); color: var(--sf-danger); border-color: color-mix(in oklab, var(--sf-danger), white 70%); }
-
-/* ---------------------------
-   7) ALERTS / TOASTS
----------------------------- */
-.sf-alert {
-  border: 1px solid var(--sf-line-1);
-  border-left-width: .35rem;
-  background: var(--sf-bg-2);
-  padding: .85rem 1rem;
-  border-radius: var(--sf-radius-md);
-  box-shadow: var(--sf-shadow-sm);
-  display: flex; gap: .75rem; align-items: flex-start;
-}
-.sf-alert--info       { border-left-color: var(--sf-info); }
-.sf-alert--success    { border-left-color: var(--sf-success); }
-.sf-alert--warning    { border-left-color: var(--sf-warning); }
-.sf-alert--destructive{ border-left-color: var(--sf-danger); }
-
-.sf-toast {
-  position: fixed; right: var(--sf-4); bottom: var(--sf-4);
-  background: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-1);
-  border-radius: var(--sf-radius-lg);
-  box-shadow: var(--sf-shadow-md);
-  padding: .85rem 1rem;
-  min-width: 260px;
-  z-index: 1000;
+.footer {
+  background: $slds-gray-11;
+  color: $slds-gray-5;
+  padding-block: 2rem;
+  a { color: $slds-gray-5; &:hover { color: $white; } }
 }
 
-/* ---------------------------
-   8) BREADCRUMBS
----------------------------- */
-.sf-breadcrumbs { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; color: var(--sf-muted); }
-.sf-breadcrumbs a { color: var(--sf-link); }
-.sf-breadcrumbs__sep { color: var(--sf-line-1); }
+// UPDATED: Re-styled as a lighter "welcome mat" or informational banner.
+.feature {
+  text-align: center;
+  background: $brand-primary-light;
+  padding-block: 3rem;
+  margin-bottom: $space-6;
 
-/* ---------------------------
-   9) TABS
----------------------------- */
-.sf-tabs { border-bottom: 1px solid var(--sf-line-2); display: flex; gap: .25rem; }
-.sf-tab {
-  position: relative; padding: .75rem 1rem; color: var(--sf-fg-3); font-weight: 600; cursor: pointer;
-}
-.sf-tab:hover { color: var(--sf-fg); }
-.sf-tab[aria-selected="true"] {
-  color: var(--sf-fg);
-}
-.sf-tab[aria-selected="true"]::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--sf-brand); border-radius: 2px 2px 0 0;
+  .container { max-width: 60%; }
 }
 
-/* ---------------------------
-   10) TABLES (Data table-ish)
----------------------------- */
-.sf-table {
-  width: 100%;
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-lg);
-  overflow: hidden;
-  background: var(--sf-bg-2);
-  box-shadow: var(--sf-shadow-sm);
-  border-collapse: separate;
-  border-spacing: 0;
+.main {
+  flex: 1 0 auto;
+  @media (min-width: $bp-sm) { display: flex; justify-content: center; }
 }
-.sf-table thead th {
-  background: var(--sf-bg-1);
-  color: var(--sf-fg-2);
+
+// NEW: This is the most important layout change. Content lives on a white "canvas".
+.content {
+  background: $white;
+  border-radius: $radius-md;
+  border: $border;
+  padding: $space-5;
+  margin-bottom: $space-6;
+  @media (min-width: $bp-sm) { width: 62%; }
+}
+
+.aside {
+  margin-top: $space-4;
+  @media (min-width: $bp-sm) {
+    max-width: 34%; margin-left: 4%; flex: 1 0 auto;
+    .section { position: sticky; top: $space-4; }
+  }
+  &--left {
+    @media (min-width: $bp-sm) { margin-left: 0; margin-right: 4%; order: -1; }
+  }
+}
+
+/* --------------------------------
+   5) NAV
+   -------------------------------- */
+.nav a { padding: .2rem .5rem; font-weight: 600; }
+.nav--social a { display: inline-block; line-height: 1; }
+.list--nav { overflow: hidden; }
+.item--nav { @media (min-width: $bp-sm) { margin-left: .4rem; display: inline-block; } }
+.item--current a { color: $slds-gray-11; font-weight: 700; cursor: default; &:hover { text-decoration: none; } }
+
+/* --------------------------------
+   6) BUTTONS
+   -------------------------------- */
+// UPDATED: Button styling to match LDS variants.
+.button, button, input[type="submit"] {
+  @include button-base;
+  color: $white;
+  background: $brand-primary;
+  border-color: $brand-primary;
+  &:hover { background: $brand-primary-dark; border-color: $brand-primary-dark; }
+}
+
+.button--neutral {
+  background: $white;
+  color: $slds-gray-11;
+  border-color: $slds-gray-5;
+  &:hover { background: $slds-gray-2; }
+}
+
+.button--outline {
+  background: transparent;
+  color: $brand-primary;
+  border-color: $brand-primary;
+  &:hover { background: $brand-primary-light; }
+}
+
+.button--destructive {
+  background: $danger;
+  color: $white;
+  border-color: $danger;
+  &:hover { background: darken($danger, 8%); border-color: darken($danger, 8%); }
+}
+.button--success {
+  background: $success;
+  color: $white;
+  border-color: $success;
+  &:hover { background: darken($success, 8%); border-color: darken($success, 8%); }
+}
+
+/* --------------------------------
+   7) FORMS
+   -------------------------------- */
+.form { position: relative; margin-bottom: 1rem; }
+
+// UPDATED: Labels now sit above inputs, a common UI pattern.
+label {
+  display: block;
   font-weight: 700;
-  text-align: left;
-  padding: .75rem 1rem;
-  border-bottom: 1px solid var(--sf-line-2);
+  font-size: .875rem;
+  margin-bottom: .5rem;
 }
-.sf-table tbody td {
-  padding: .75rem 1rem;
-  border-top: 1px solid var(--sf-line-2);
-}
-.sf-table tbody tr:hover { background: color-mix(in oklab, var(--sf-bg-1), white 60%); }
 
-/* Density controls */
-.sf-table--compact thead th, .sf-table--compact tbody td { padding: .5rem .75rem; }
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="color"],
+textarea,
+select { @include input-base; }
 
-/* ---------------------------
-   11) PAGINATION
----------------------------- */
-.sf-pagination { display: flex; gap: .25rem; align-items: center; color: var(--sf-muted); }
-.sf-page-btn {
-  min-width: 2rem; height: 2rem; display: inline-grid; place-items: center;
-  border-radius: var(--sf-radius-md); padding: 0 .5rem; border: 1px solid var(--sf-line-1); background: var(--sf-bg-2);
-}
-.sf-page-btn[aria-current="page"] { background: color-mix(in oklab, var(--sf-brand), white 85%); color: var(--sf-brand); border-color: color-mix(in oklab, var(--sf-brand), white 70%); }
+textarea { resize: vertical; min-height: 8rem; }
+select { appearance: none; background: $white url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e") right .75rem center/16px 12px no-repeat; }
 
-/* ---------------------------
-   12) MODAL
----------------------------- */
-.sf-modal {
-  position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 1100;
+.required { color: $danger; }
+
+/* --------------------------------
+   8) MEDIA / FIGURES / MAPS
+   -------------------------------- */
+.figure { margin-bottom: 1rem;
+  &--left  { float: left; padding-right: 1rem; }
+  &--right { float: right; padding-left: 1rem; }
+  &--center{ text-align: center; clear: both; }
 }
-.sf-modal[open] { display: flex; }
-.sf-modal__backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
-.sf-modal__dialog {
-  position: relative; z-index: 1;
-  width: min(640px, 92%);
-  background: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-lg);
-  box-shadow: var(--sf-shadow-md);
+.video, .map { position: relative; height: 0; padding-bottom: 56.25%; border-radius: $radius-md; overflow: hidden;
+               iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; } }
+.map { padding-bottom: 70%; }
+audio, video { width: 100%; }
+
+/* --------------------------------
+   9) TABLES
+   -------------------------------- */
+// UPDATED: Table styles to match the clean, bordered look of LDS.
+.typeset table {
+  width: 100%;
+  font-family: $font-sans;
+  font-feature-settings: 'liga','lnum','tnum','kern';
+  font-size: .9rem;
+  border: $border;
+  border-collapse: collapse;
+  border-radius: $radius-md;
   overflow: hidden;
-}
-.sf-modal__header, .sf-modal__footer { padding: var(--sf-4); border-bottom: 1px solid var(--sf-line-2); }
-.sf-modal__footer { border-top: 1px solid var(--sf-line-2); border-bottom: 0; display: flex; justify-content: flex-end; gap: .5rem; }
-.sf-modal__body { padding: var(--sf-4); }
 
-/* ---------------------------
-   13) AVATAR / MEDIA
----------------------------- */
-.sf-avatar { width: 2rem; height: 2rem; border-radius: 50%; background: var(--sf-line-2); display: inline-block; }
-.sf-avatar--lg { width: 3rem; height: 3rem; }
-
-/* ---------------------------
-   14) LISTS / DIVIDERS
----------------------------- */
-.sf-list { list-style: none; margin: 0; padding: 0; }
-.sf-list__item { padding: .75rem 0; border-bottom: 1px solid var(--sf-line-2); }
-.sf-list__item:last-child { border-bottom: 0; }
-.sf-divider { height: 1px; background: var(--sf-line-2); width: 100%; }
-
-/* ---------------------------
-   15) UTILITIES (spacing, flex, text, width)
----------------------------- */
-/* spacing (margin/padding y-axis) */
-.sf-my-0{margin-block:0}.sf-my-2{margin-block:var(--sf-2)}.sf-my-4{margin-block:var(--sf-4)}.sf-my-6{margin-block:var(--sf-6)}
-.sf-mb-0{margin-bottom:0}.sf-mb-1{margin-bottom:var(--sf-1)}.sf-mb-2{margin-bottom:var(--sf-2)}.sf-mb-4{margin-bottom:var(--sf-4)}
-.sf-pt-0{padding-top:0}.sf-pt-2{padding-top:var(--sf-2)}.sf-pt-4{padding-top:var(--sf-4)}.sf-p-4{padding:var(--sf-4)}
-.sf-gap-2{gap:var(--sf-2)}.sf-gap-4{gap:var(--sf-4)}
-
-.sf-flex { display:flex }.sf-inline-flex{display:inline-flex}
-.sf-center { align-items:center; justify-content:center }
-.sf-justify-between{justify-content:space-between}
-.sf-items-center{align-items:center}
-.sf-flex-col{flex-direction:column}
-.sf-wrap{flex-wrap:wrap}
-
-.sf-text-muted{color:var(--sf-muted)}
-.sf-text-right{text-align:right}
-.sf-text-center{text-align:center}
-.sf-ellipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-.sf-w-100{width:100%}
-.sf-max-w { max-width: 100%; }
-
-/* Hide-only visually (screen-reader available) */
-.sf-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-/* ---------------------------
-   16) PAGE EXAMPLES (header/nav/footer)
----------------------------- */
-.sf-header__bar {
-  display:flex; align-items:center; justify-content:space-between; gap: var(--sf-3);
-  padding-block: var(--sf-3);
-}
-.sf-brand { display:flex; align-items:center; gap: .75rem; }
-.sf-brand__logo { width: 36px; height: 36px; border-radius: 8px; background: color-mix(in oklab, var(--sf-brand), white 75%); }
-.sf-nav { display:flex; gap: var(--sf-2); align-items:center; }
-.sf-nav a { color: var(--sf-fg-2); padding: .5rem .6rem; border-radius: var(--sf-radius-sm); }
-.sf-nav a:hover, .sf-nav a:focus-visible { background: color-mix(in oklab, var(--sf-bg-1), white 60%); }
-
-/* ---------------------------
-   17) CODE BLOCKS
----------------------------- */
-.sf-code, pre.sf-code {
-  background: color-mix(in oklab, var(--sf-bg-2), black 2%);
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-md);
-  box-shadow: var(--sf-shadow-sm);
-  padding: .85rem 1rem;
-  font-family: var(--sf-font-mono);
-  font-size: .92rem;
-  overflow: auto;
+  th, td { padding: .75rem 1rem; text-align: left; border-bottom: $border; }
+  thead th {
+    font-weight: 700;
+    background: $slds-gray-2;
+    border-bottom: 2px solid $slds-gray-5;
+  }
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:hover { background-color: $slds-gray-2; }
 }
 
-/* ---------------------------
-   18) KANBAN-ish BOARD (bonus)
----------------------------- */
-.sf-board { display: grid; gap: var(--sf-4); grid-auto-flow: column; grid-auto-columns: 1fr; overflow-x: auto; padding-bottom: var(--sf-4); }
-.sf-column { background: var(--sf-bg-2); border: 1px solid var(--sf-line-2); border-radius: var(--sf-radius-lg); box-shadow: var(--sf-shadow-sm); padding: var(--sf-3); min-width: 280px; }
-.sf-card--ghost { border: 2px dashed var(--sf-line-1); background: transparent; }
+/* --------------------------------
+   10) PAGINATION
+   -------------------------------- */
+.nav--paginator { display: flex; justify-content: space-between; align-items: center; color: $slds-gray-8; }
+.pagination { min-width: 20%; }
 
-/* ---------------------------
-   19) ICON SLOT HELPERS
----------------------------- */
-.sf-icon { width: 1.1em; height: 1.1em; display: inline-block; fill: currentColor; vertical-align: -2px; }
+/* --------------------------------
+   11) UTILITIES
+   -------------------------------- */
+.small { font-size: .875rem; color: $slds-gray-8; }
+.icon { vertical-align: middle; width: 1em; height: 1em; fill: currentColor; }
+.mt-0{margin-top:0}.mb-0{margin-bottom:0}
+.mt-4{margin-top:1rem}.mb-4{margin-bottom:1rem}
+.pt-4{padding-top:1rem}.pb-4{padding-bottom:1rem}
+.hidden { display: none !important; }
+.sr-only { position: absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
 
-/* Done. Go ship it 🚀 */
+/* --------------------------------
+   12) ACCESSIBILITY STATES / FOCUS
+   -------------------------------- */
+// Consolidated for simplicity, the mixin handles the heavy lifting
+// This section is now largely covered by the mixins.
+
+/* --------------------------------
+   13) OPTIONAL DARK MODE (toggle via data-theme="dark" on <html>)
+   -------------------------------- */
+:root[data-theme="dark"] {
+  // NEW: Dark mode variables for a more modern palette
+  --bg-dark: #111827;
+  --bg-dark-card: #1f2937;
+  --fg-dark: #d1d5db;
+  --border-dark: #374151;
+  --muted-dark: #6b7280;
+
+  body { background: var(--bg-dark); color: var(--fg-dark); }
+  .header { background: var(--bg-dark-card); border-bottom-color: var(--border-dark); }
+  .content { background: var(--bg-dark-card); border-color: var(--border-dark); }
+  .feature { background: var(--bg-dark); }
+  .footer { background: #000; color: var(--muted-dark); a { color: var(--muted-dark); &:hover { color: $white; }} }
+
+  .typeset {
+    a { color: #60a5fa; &:hover { color: #93c5fd; } }
+    h1, h2, h3, h4, h5, h6 { color: #f9fafb; }
+    blockquote { border-left-color: var(--border-dark); color: var(--muted-dark); }
+    hr { border-top-color: var(--border-dark); }
+    code, pre { background-color: var(--bg-dark); border-color: var(--border-dark); color: var(--fg-dark); }
+    table { border-color: var(--border-dark); }
+    thead th { background: #111827; border-bottom-color: #4b5563; }
+    tbody td { border-bottom-color: var(--border-dark); }
+    tbody tr:hover { background-color: #374151; }
+  }
+
+  input, textarea, select {
+    background-color: var(--bg-dark-card);
+    border-color: var(--border-dark);
+    color: var(--fg-dark);
+    &:hover { border-color: var(--muted-dark); }
+  }
+}
