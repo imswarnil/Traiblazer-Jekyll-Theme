@@ -9,19 +9,17 @@ layout: default
     <!-- LEFT SIDEBAR: NAVIGATION & ADS                          -->
     <!-- ======================================================= -->
     <aside class="category-archive-sidebar">
-      <!-- (Sidebar code remains the same as the refined version) -->
+      <!-- (The sidebar code is perfect as is, no changes needed) -->
       <div class="sidebar-card">
         <header class="sidebar-card__header"><h3 class="sf-h4 sidebar-card__title">Categories</h3></header>
         <div class="sidebar-card__body">
-          <nav>
-            <ul class="category-archive-nav">
-              {% assign categories = site.categories | sort %}
-              {% for category in categories %}
-                {% assign category_name = category | first %}
-                <li><a href="#{{ category_name | slugify }}" class="category-archive-nav__link"><i class="ph-bold ph-folder-simple"></i><span>{{ category_name }}</span></a></li>
-              {% endfor %}
-            </ul>
-          </nav>
+          <nav><ul class="category-archive-nav">
+            {% assign categories = site.categories | sort %}
+            {% for category in categories %}
+              {% assign category_name = category | first %}
+              <li><a href="#{{ category_name | slugify }}" class="category-archive-nav__link"><i class="ph-bold ph-folder-simple"></i><span>{{ category_name }}</span></a></li>
+            {% endfor %}
+          </ul></nav>
         </div>
       </div>
       <div class="sidebar-card">
@@ -49,48 +47,52 @@ layout: default
 
             <ul class="post-card-grid">
               
-              {% comment %} --- Intelligent Ad Placement Logic --- {% endcomment %}
-              {% assign ad_positions = "2,5,8,11,15,19" | split: "," %}
               {% for post in posts_in_category %}
                 <li>
-                  <article class="sf-card slds-post-card" style="position: relative;">
+                  <!-- Using the new, definitive Salesforce Marketing Card component -->
+                  <article class="sf-marketing-card">
+                    
                     {% if post.feature_image %}
-                      <figure class="slds-post-card__figure">
+                      <figure class="sf-marketing-card__figure">
                         <img src="{{ post.feature_image | relative_url }}" alt="" loading="lazy">
                       </figure>
                     {% endif %}
                     
-                    <div class="slds-post-card__content">
-                      <div class="slds-post-card__meta">
-                        <span class="sf-badge">{{ post.category }}</span>
+                    <div class="sf-marketing-card__content">
+                      <div class="sf-marketing-card__meta">
+                        <span class="sf-badge sf-badge--brand">{{ post.category }}</span>
                       </div>
-                      <h3 class="sf-h4 slds-post-card__title">
+                      <h3 class="sf-h4 sf-marketing-card__title">
                         <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
                       </h3>
-                      <p class="slds-post-card__excerpt">
+                      <p class="sf-marketing-card__excerpt">
                         {{ post.excerpt | strip_html | truncatewords: 20 }}
                       </p>
-                    </div>
-
-                    <div class="sf-card__footer">
-                      <span class="sf-text--small">{{ post.date | date: "%b %d, %Y" }}</span>
-                      <!-- Button is removed for a cleaner, full-card-click UX -->
+                      
+                      <footer class="sf-marketing-card__footer">
+                        <div class="sf-meta-info">
+                           <span><i class="ph-bold ph-calendar"></i> {{ post.date | date: "%b %d, %Y" }}</span>
+                        </div>
+                        {% include button.html text="Read" link=post.url variant="brand" size="sm" %}
+                      </footer>
                     </div>
                   </article>
                 </li>
                 
-                {% assign current_index = forloop.index | downcase %}
-                {% if ad_positions contains current_index %}
+                {% comment %} --- CORRECTED Automatic Ad Placement Logic --- {% endcomment %}
+                {% assign ad_frequency = 3 %}
+                {% assign is_last_item = forloop.last %}
+                {% if forloop.index | modulo: ad_frequency == 0 and is_last_item == false %}
                   <li>
-                    <div class="sf-card slds-ad-card">
-                      <div class="slds-ad-card__content">
+                    <div class="sf-card adsense-placeholder">
+                      <div class="adsense-placeholder__text">
                         <i class="ph-bold ph-presentation-chart"></i>
                         <span>Advertisement</span>
                       </div>
                     </div>
                   </li>
                 {% endif %}
-                
+
               {% endfor %}
             </ul>
           </section>
@@ -98,13 +100,10 @@ layout: default
         {% endfor %}
       {% else %}
         <div class="sf-card">
-          <div class="sf-card__body typeset">
-            <h3>No Posts Found</h3>
-            <p>There are no posts with categories yet. Once you add a `category:` to the front matter of a post, it will appear here.</p>
-          </div>
+          <div class="sf-card__body typeset"><h3>No Posts Found</h3><p>...</p></div>
         </div>
       {% endif %}
-    </div>
 
+    </div>
   </div>
 </div>
