@@ -1,161 +1,160 @@
 /* ============================================================================
-   PAGES / CATEGORY (Final Polished Version)
+   PAGES / CATEGORY ARCHIVE (Definitive Version)
    ============================================================================ */
 
-// --- JS Filtering Helper ---
-.is-hidden {
-  display: none !important;
-}
-
 // --- Main Page Layout ---
-.category-layout {
+.category-archive-layout {
   display: grid;
   gap: var(--sf-6);
 
   @media (min-width: 960px) {
-    grid-template-columns: 1fr 280px;
+    // Left Sidebar | Main Content
+    grid-template-columns: 280px 1fr;
   }
 }
 
-// --- Main Post List ---
-.category-post-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--sf-6); // More space between cards
-}
-
-// --- Post Card with Image ---
-.post-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-lg);
-  box-shadow: var(--sf-shadow-sm);
-  overflow: hidden;
-  transition: transform .2s ease, box-shadow .2s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--sf-shadow-md);
+// --- Left Sidebar: Navigation & Ads ---
+.category-archive-sidebar {
+  @media (min-width: 960px) {
+    position: sticky;
+    top: calc(68px + var(--sf-6)); // Header height + offset
+    align-self: start;
+  }
+  
+  @media (max-width: 959px) {
+    order: -1; // Move sidebar to the top on mobile
+    margin-bottom: var(--sf-6);
   }
 
-  &__image-link {
-    display: block;
-    line-height: 0; // Removes whitespace below the image
-  }
-
-  &__image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover; // Ensures image covers the area without distortion
-    border-bottom: 1px solid var(--sf-line-2);
-  }
-
-  &__body {
-    padding: var(--sf-4);
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1; // Allows the footer to stick to the bottom
+  &__section {
+    margin-bottom: var(--sf-6);
   }
 
   &__title {
-    margin: 0 0 var(--sf-2) 0;
-    a {
-      text-decoration: none;
-      color: var(--sf-fg);
-      transition: color .15s ease;
-      &:hover { color: var(--sf-brand); }
-    }
-  }
-
-  &__meta {
-    font-size: .875rem;
-    color: var(--sf-muted);
-    margin-bottom: var(--sf-3);
-    display: flex;
-    align-items: center;
-    gap: var(--sf-3);
-    flex-wrap: wrap;
-
-    span {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--sf-1);
-    }
-  }
-
-  &__excerpt {
-    color: var(--sf-fg-2);
+    margin-top: 0;
     margin-bottom: var(--sf-4);
-    flex-grow: 1; // Pushes the footer down
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    padding-bottom: var(--sf-3);
+    border-bottom: 1px solid var(--sf-line-2);
   }
 }
 
-// --- AdSense Placeholder ---
-.adsense-placeholder {
+// --- Sidebar Category List ---
+.category-archive-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  &__item {
+    margin-bottom: var(--sf-1);
+  }
+
+  &__link {
+    display: block;
+    padding: var(--sf-2) var(--sf-3);
+    border-radius: var(--sf-radius-md);
+    font-weight: 600;
+    color: var(--sf-fg-2);
+    text-decoration: none;
+    transition: background-color .15s ease, color .15s ease;
+
+    &:hover {
+      background-color: color-mix(in oklab, var(--sf-bg-1), white 60%);
+      color: var(--sf-fg);
+    }
+  }
+}
+
+// --- Sidebar Ad Placeholder ---
+.sidebar-ad-placeholder {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 250px; // Standard ad height
+  min-height: 250px;
   border-radius: var(--sf-radius-lg);
   border: 1px dashed var(--sf-line-1);
   background: color-mix(in oklab, var(--sf-bg-1), white 60%);
   padding: var(--sf-4);
   text-align: center;
+  color: var(--sf-muted);
+  font-size: .875rem;
+
+  .ph-bold {
+    font-size: 2rem;
+    margin-bottom: var(--sf-2);
+  }
+}
+
+
+// --- Main Content: Post Groups ---
+.category-group {
+  margin-bottom: var(--sf-8); // Large spacing between category groups
+
+  &:last-of-type {
+    margin-bottom: 0;
+  }
+}
+
+.category-group__header {
+  margin-bottom: var(--sf-4);
+  padding-bottom: var(--sf-4);
+  border-bottom: 2px solid var(--sf-line-1);
+}
+
+// --- Post Card Grid (3 Columns) ---
+.post-card-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--sf-5);
+
+  // Default to 1 column on mobile
+  grid-template-columns: 1fr;
+
+  // 2 columns on small tablets
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
   
-  &__text {
-    color: var(--sf-muted);
-    font-size: .875rem;
+  // 3 columns on desktop
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 
-// --- Sticky Sidebar Index ---
-.category-index {
-  @media (min-width: 960px) {
-    position: sticky;
-    top: calc(68px + var(--sf-6));
-    align-self: start;
+// --- Post Card Styling (No changes needed, but included for completeness) ---
+.post-card {
+  display: flex; flex-direction: column; background: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2); border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-sm); overflow: hidden;
+  transition: transform .2s ease, box-shadow .2s ease;
+
+  &:hover { transform: translateY(-4px); box-shadow: var(--sf-shadow-md); }
+  &__image-link { display: block; line-height: 0; }
+  &__image {
+    width: 100%; height: 180px; // Slightly shorter for a 3-col grid
+    object-fit: cover; border-bottom: 1px solid var(--sf-line-2);
   }
-  
-  @media (max-width: 959px) {
-    order: -1; // Move the index to the top on mobile
-    margin-bottom: var(--sf-6);
+  &__body {
+    padding: var(--sf-4); display: flex; flex-direction: column; flex-grow: 1;
   }
-
-  &__title { margin-top: 0; }
-}
-
-.category-pill-list {
-  list-style: none; padding: 0; margin: 0;
-  display: flex; flex-wrap: wrap; gap: var(--sf-2);
-}
-
-.category-pill {
-  // Uses .sf-badge styles as a base
-  cursor: pointer;
-  user-select: none; // Makes it feel more like a button
-  transition: all .15s ease;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--sf-shadow-sm);
-    background-color: color-mix(in oklab, var(--sf-brand), white 80%);
-    border-color: color-mix(in oklab, var(--sf-brand), white 60%);
-    color: var(--sf-brand);
+  &__title {
+    margin: 0 0 var(--sf-2) 0;
+    a {
+      text-decoration: none; color: var(--sf-fg);
+      transition: color .15s ease;
+      &:hover { color: var(--sf-brand); }
+    }
   }
-
-  &.is-active {
-    background-color: var(--sf-brand);
-    border-color: var(--sf-brand);
-    color: #fff;
-    box-shadow: var(--sf-shadow-sm);
+  &__meta {
+    font-size: .875rem; color: var(--sf-muted); margin-bottom: var(--sf-3);
+    display: flex; align-items: center; gap: var(--sf-3); flex-wrap: wrap;
+    span { display: inline-flex; align-items: center; gap: var(--sf-1); }
+  }
+  &__excerpt {
+    color: var(--sf-fg-2); margin-bottom: var(--sf-4); flex-grow: 1;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
 }

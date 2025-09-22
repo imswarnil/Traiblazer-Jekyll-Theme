@@ -2,118 +2,101 @@
 layout: default
 ---
 
-
 <div class="sf-container" style="padding: var(--sf-8) 0;">
-  <div class="category-layout">
+  <div class="category-archive-layout">
+    <!-- ======================================================= -->
+    <!-- LEFT SIDEBAR: NAVIGATION & ADS                          -->
+    <!-- ======================================================= -->
+    <aside class="category-archive-sidebar">
+      
+      <div class="category-archive-sidebar__section">
+        <h3 class="sf-h3 category-archive-sidebar__title">Categories</h3>
+        <nav>
+          <ul class="category-archive-nav">
+            {% assign categories = site.categories | sort %}
+            {% for category in categories %}
+              {% assign category_name = category | first %}
+              <li class="category-archive-nav__item">
+                <a href="#{{ category_name | slugify }}" class="category-archive-nav__link">
+                  {{ category_name }}
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
 
-    <!-- Sticky Sidebar Column (Filter) -->
-    <aside class="category-index">
-      <h3 class="category-index__title sf-h3">Filter by Topic</h3>
-      <ul class="category-pill-list" id="category-filter-list">
-        <li>
-          <!-- "All" button is active by default -->
-          <button class="sf-badge category-pill is-active" data-category="all">All</button>
-        </li>
+      <div class="category-archive-sidebar__section">
+        <h3 class="sf-h3 category-archive-sidebar__title">Tags</h3>
+        <!-- You can add a similar list for site.tags here if you use them -->
+        <p class="sf-text--small sf-text-muted">Tag navigation coming soon.</p>
+      </div>
+
+      <div class="category-archive-sidebar__section">
+        <div class="sidebar-ad-placeholder">
+          <i class="ph-bold ph-presentation-chart"></i>
+          <span>Advertisement</span>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ======================================================= -->
+    <!-- RIGHT CONTENT: POSTS GROUPED BY CATEGORY                -->
+    <!-- ======================================================= -->
+    <div class="category-archive-content">
+      
+      {% if site.categories.size > 0 %}
         {% assign categories = site.categories | sort %}
         {% for category in categories %}
           {% assign category_name = category | first %}
-          <li>
-            <button class="sf-badge category-pill" data-category="{{ category_name | slugify }}">
-              {{ category_name }}
-            </button>
-          </li>
-        {% endfor %}
-      </ul>
-    </aside>
-
-    <!-- Main Content Column (All Posts) -->
-    <div class="category-content">
-      <ul class="category-post-list" id="post-list">
-        
-        {% assign posts = site.posts %}
-        {% for post in posts %}
           
-          <li class="category-post-item" data-category="{{ post.category | slugify }}">
-            <article class="sf-card post-card">
-              
-              {% if post.feature_image %}
-                <a href="{{ post.url | relative_url }}" class="post-card__image-link" aria-hidden="true" tabindex="-1">
-                  <img src="{{ post.feature_image | relative_url }}" alt="{{ post.title }}" class="post-card__image" loading="lazy">
-                </a>
-              {% endif %}
+          <section class="category-group" id="{{ category_name | slugify }}">
+            <header class="category-group__header">
+              <h2 class="sf-h2">{{ category_name }}</h2>
+            </header>
 
-              <div class="sf-card__body">
-                <h3 class="sf-h4 post-card__title">
-                  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                </h3>
-                
-                <div class="post-card__meta">
-                  <span><i class="ph-bold ph-calendar"></i> {{ post.date | date: "%b %d, %Y" }}</span>
-                </div>
-
-                <p class="post-card__excerpt">
-                  {{ post.excerpt | strip_html | truncatewords: 25 }}
-                </p>
-              </div>
-              
-              <div class="sf-card__footer">
-                 <a href="{{ post.url | relative_url }}" class="sf-btn sf-btn--outline sf-btn--sm">Read More <i class="ph-bold ph-arrow-right"></i></a>
-              </div>
-            </article>
-          </li>
-          
-          {% comment %} --- AdSense Placeholder Logic --- {% endcomment %}
-          {% assign ad_frequency = 3 %}
-          {% assign is_last_item = forloop.last %}
-          {% if forloop.index | modulo: ad_frequency == 0 and is_last_item == false %}
-            <li class="adsense-placeholder" data-category="all">
-              <div class="adsense-placeholder__text">
-                <i class="ph-bold ph-presentation-chart" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
-                Advertisement Placeholder
-              </div>
-            </li>
-          {% endif %}
+            <ul class="post-card-grid">
+              {% for post in site.categories[category_name] %}
+                <li>
+                  <article class="sf-card post-card">
+                    {% if post.feature_image %}
+                      <a href="{{ post.url | relative_url }}" class="post-card__image-link" aria-hidden="true" tabindex="-1">
+                        <img src="{{ post.feature_image | relative_url }}" alt="" class="post-card__image" loading="lazy">
+                      </a>
+                    {% endif %}
+                    <div class="sf-card__body">
+                      <h3 class="sf-h4 post-card__title">
+                        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                      </h3>
+                      <div class="post-card__meta">
+                        <span><i class="ph-bold ph-calendar"></i> {{ post.date | date: "%b %d, %Y" }}</span>
+                        <span><i class="ph-bold ph-clock"></i> {% include reading-time.html content=post.content %} read</span>
+                      </div>
+                      <p class="post-card__excerpt">
+                        {{ post.excerpt | strip_html | truncatewords: 20 }}
+                      </p>
+                    </div>
+                    <div class="sf-card__footer">
+                      <a href="{{ post.url | relative_url }}" class="sf-btn sf-btn--outline sf-btn--sm">Read More <i class="ph-bold ph-arrow-right"></i></a>
+                    </div>
+                  </article>
+                </li>
+              {% endfor %}
+            </ul>
+          </section>
 
         {% endfor %}
-      </ul>
+      {% else %}
+        <div class="sf-card">
+          <div class="sf-card__body typeset">
+            <h3>No Posts Found</h3>
+            <p>There are no posts with categories yet. Once you add a `category:` to the front matter of a post, it will appear here.</p>
+          </div>
+        </div>
+      {% endif %}
+
     </div>
 
   </div>
 </div>
-
-<!-- Self-Contained JavaScript for Live Filtering -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const filterList = document.getElementById('category-filter-list');
-    const postList = document.getElementById('post-list');
-    
-    if (!filterList || !postList) return;
-
-    const postItems = postList.querySelectorAll('.category-post-item, .adsense-placeholder');
-    const filterButtons = filterList.querySelectorAll('.category-pill');
-
-    filterList.addEventListener('click', (event) => {
-      const target = event.target;
-      if (!target.matches('.category-pill')) return;
-
-      const filterCategory = target.getAttribute('data-category');
-
-      // Update active state on buttons
-      filterButtons.forEach(btn => {
-        btn.classList.remove('is-active');
-      });
-      target.classList.add('is-active');
-
-      // Filter the posts
-      postItems.forEach(item => {
-        const itemCategory = item.getAttribute('data-category');
-        
-        if (filterCategory === 'all' || itemCategory === filterCategory) {
-          item.classList.remove('is-hidden');
-        } else {
-          item.classList.add('is-hidden');
-        }
-      });
-    });
-  });
-</script>
