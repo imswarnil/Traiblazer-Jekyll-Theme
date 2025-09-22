@@ -23,11 +23,7 @@ aside: true
 
 [A link](https://david.darn.es "A link")
 
-{% include button.html text="Get Started" link="/pricing/" %}
 
-{% include button.html text="View Docs" link="/docs/" variant="neutral" icon="book-open" icon_position="right" %}
-{% include button.html text="Delete Account" link="/settings/delete/" variant="outline" size="sm" %}
-{% include button.html text="Watch Demo" link="/demo/" variant="ghost" size="lg" icon="play-circle" %}
 
 Lorem ipsum dolor sit amet, consectetur adip* isicing elit, sed do eiusmod *tempor incididunt ut labore et dolore magna aliqua.
 
@@ -103,6 +99,11 @@ blockquote.innerHTML = bolden("Mr. Sullivan", blockquote.innerHTML)
 ### Button include
 
 {% include button.html text="A button" link="https://david.darn.es" %}
+
+{% include button.html text="Learn More" link="/about/" %}
+{% include button.html text="Confirm Deletion" link="#" variant="destructive" size="lg" icon="trash" %}
+{% include button.html link="/settings/" variant="neutral" icon="gear" %}
+{% include button.html link="/settings/" variant="neutral" icon="gear" %}
 
 {% include button.html text="A button with icon" link="https://twitter.com/daviddarnes" icon="twitter" %}
 
