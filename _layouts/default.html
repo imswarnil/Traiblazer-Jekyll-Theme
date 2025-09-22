@@ -97,34 +97,3 @@
 
 </html>
 
-
-<!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- ========================================================================
-       SEO TAGS (Using Jekyll SEO Tag Plugin is the best practice)
-       It handles titles, descriptions, canonical URLs, OG data, etc.
-       You can override any value in your page's front matter.
-       ======================================================================== -->
-  {% seo %}
-
-  <!-- Preconnect to Google Fonts for performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-  <!-- Main Stylesheet (compiled from SCSS) -->
-  <link rel="stylesheet" href="{{ "/css/style.css" | relative_url }}">
-  
-  <!-- Phosphor Icons (using the JS library for flexibility) -->
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
-  
-  <!-- Favicons and other custom head includes -->
-  {% if site.favicons or site.avatarurl %}{% include site-favicons.html %}{% endif %}
-  {% if site.google_analytics %}{% include site-analytics.html %}{% endif %}
-</head>
-
-
-</html>
