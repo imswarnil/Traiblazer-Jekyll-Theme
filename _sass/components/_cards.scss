@@ -1,0 +1,22 @@
+/* ============================================================================
+   COMPONENTS / CARDS
+   ============================================================================ */
+.card {
+  background: $white;
+  border-radius: $radius-lg;
+  border: $border;
+  padding: $space-6;
+  box-shadow: $shadow-md;
+  transition: transform .2s ease, box-shadow .2s ease;
+  height: 100%; // for equal height cards in a grid
+
+  &:hover {
+    transform: translateY(-8px);
+    box-shadow: $shadow-lg;
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,10 @@
+/* ============================================================================
+   BASE / BASE
+   ============================================================================ */
+body {
+  background: $white;
+  color: $gray-700;
+  font-family: $font-body;
+  line-height: 1.6;
+  font-size: clamp(1rem, 1.05vw, 1.125rem); // Fluid font size
+}

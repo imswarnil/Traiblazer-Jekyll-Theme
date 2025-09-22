@@ -1,0 +1,45 @@
+/* ============================================================================
+   ABSTRACTS / MIXINS
+   Reusable functions and helpers.
+   ============================================================================ */
+
+@mixin focus-ring($color: $focus-color) {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba($color, .7);
+}
+
+@mixin container($max: $bp-xl) {
+  width: 90%;
+  max-width: $max;
+  margin-inline: auto;
+}
+
+// NEW: A simple gradient mixin, essential for the marketing look
+@mixin gradient-background($direction, $start-color, $end-color) {
+  background-color: $start-color; // Fallback
+  background-image: linear-gradient($direction, $start-color, $end-color);
+}
+
+// UPDATED: Button base for a bolder marketing style
+@mixin button-base {
+  display: inline-block;
+  padding: .875rem 1.75rem;
+  border: 2px solid transparent;
+  border-radius: $radius-md;
+  font-family: $font-body;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.2;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, background-color .15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-md;
+  }
+  &:focus-visible {
+    @include focus-ring;
+  }
+}

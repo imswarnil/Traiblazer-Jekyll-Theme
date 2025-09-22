@@ -1,0 +1,47 @@
+/* ============================================================================
+   LAYOUT / SECTIONS
+   ============================================================================ */
+
+// A generic content section with lots of vertical space
+.section {
+  padding-block: $space-10;
+  
+  @media (min-width: $bp-md) {
+    padding-block: $space-12;
+  }
+
+  // Modifier for a tinted background
+  &--tinted {
+    background: $gray-100;
+  }
+
+  // Modifier to remove top/bottom padding
+  &--no-pad-top { padding-top: 0; }
+  &--no-pad-bottom { padding-bottom: 0; }
+}
+
+// The main hero banner at the top of the page
+.hero {
+  padding: $space-12 0;
+  text-align: center;
+  color: $white;
+  @include gradient-background(135deg, $brand-primary, $brand-secondary);
+
+  &__container {
+    @include container(800px); // Tighter container for centered text
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__title {
+    color: $white;
+    margin-top: 0;
+    max-width: 20ch;
+  }
+  
+  &__subtitle {
+    color: rgba($white, 0.9);
+    margin-bottom: $space-6;
+  }
+}
