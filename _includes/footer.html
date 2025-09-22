@@ -4,6 +4,25 @@
       <small class="small">&copy; {{ site.title }} {{ site.time | date: '%Y' }}</small>
     </div>
 
-    {% include nav-footer.html %}
-  </div>
+    {% if site.navigation_footer %}
+    <nav class="nav  nav--footer">
+      <ul class="list list--nav">
+        {% for item in site.navigation_footer %}
+    
+          {% if item.url contains '://' %}
+            {% assign url = item.url %}
+          {% else %}
+            {% assign url = item.url | relative_url %}
+          {% endif %}
+    
+          <li class="item  item--nav{% if item.url == page.url %}  item--current{% endif %}">
+            <a href="{{ url }}">{{ item.title }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+    {% else %}
+    <h1>something else</h1>
+    {% endif %}
+      </div>
 </footer>

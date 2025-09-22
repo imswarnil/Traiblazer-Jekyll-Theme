@@ -10,13 +10,7 @@
       <h3>About this site</h3>
       <p>{{ site.description }}</p>
       {% include nav-social.html %}
-    </section>
-
-  {% elsif page.layout == "categories" %}
-    <section class="section  section--category-index">
-      <h3>Index</h3>
-      {% include nav-categories.html %}
-    </section>
+    </section>  
 
   {% endif %}
 
