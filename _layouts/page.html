@@ -2,18 +2,61 @@
 layout: default
 ---
 
-<main class="main  container">
+<!-- ========================================================================
+     PAGE HEADER
+     Introduces the page with a title and optional subtitle.
+     Controlled by 'title' and 'subtitle' in front matter.
+     ======================================================================== -->
+<header class="sf-page-header">
+  <div class="sf-container">
+    <h1 class="sf-h1 sf-page-header__title">{{ page.title }}</h1>
+    {% if page.subtitle %}
+      <p class="sf-text--large sf-page-header__subtitle">{{ page.subtitle }}</p>
+    {% endif %}
+  </div>
+</header>
 
-  <article class="article  article--page  content  typeset">
+<!-- ========================================================================
+     MAIN PAGE CONTENT
+     Uses a two-column grid if an aside is present, otherwise centers the content.
+     ======================================================================== -->
+<div class="sf-container">
+  <div class="page-layout {% if page.aside != true %}page-layout--no-aside{% endif %}">
 
-    <h1>{{ page.title }}</h1>
+    <!-- Primary Content Wrapper -->
+    <div class="page-content-wrapper">
+      <div class="sf-card page-content-card">
+        <article class="sf-card__body typeset">
+          {{ content }}
+        </article>
+      </div>
+    </div>
 
-    {{ content }}
+    <!-- Optional Sidebar (Aside) -->
+    {% if page.aside == true %}
+      <aside class="page-aside">
+        
+        <!-- You can create a reusable sidebar include: _includes/site-aside.html -->
+        <div class="sidebar-card">
+          <header class="sidebar-card__header">
+            <h3 class="sf-h4 sidebar-card__title">On This Page</h3>
+          </header>
+          <div class="sidebar-card__body">
+            <p class="sf-text--small sf-text-muted">Navigation links or related content would appear here.</p>
+          </div>
+        </div>
 
-  </article>
+        <div class="sidebar-card">
+           <div class="sidebar-ad-placeholder">
+              <div class="sidebar-ad-placeholder__content">
+                <i class="ph-bold ph-presentation-chart"></i>
+                <span>Advertisement</span>
+              </div>
+            </div>
+        </div>
 
-  {% if page.aside == true %}{% include site-aside.html %}{% endif %}
+      </aside>
+    {% endif %}
 
-</main>
-
-{% include footer.html %}
+  </div>
+</div>

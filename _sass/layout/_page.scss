@@ -1,0 +1,76 @@
+/* ============================================================================
+   PAGES / PAGE
+   Styles for the default page layout.
+   ============================================================================ */
+
+// --- SLDS-Style Page Header ---
+// This component introduces the page content.
+.sf-page-header {
+  padding: var(--sf-6) 0;
+  border-bottom: 1px solid var(--sf-line-2);
+  background: var(--sf-bg-2); // Usually on a white background
+
+  &__title {
+    // Uses .sf-h1 styles
+    margin-bottom: var(--sf-2);
+  }
+
+  &__subtitle {
+    // Uses .sf-text--large styles
+    color: var(--sf-muted);
+    max-width: 65ch; // Constrain for readability
+  }
+}
+
+// --- Main Page Content Layout ---
+// This creates the two-column structure for content and an optional sidebar.
+.page-layout {
+  display: grid;
+  gap: var(--sf-6);
+  padding: var(--sf-8) 0; // Vertical spacing for the whole page
+
+  @media (min-width: 960px) {
+    // Main Content | Optional Sidebar
+    grid-template-columns: 1fr 280px;
+  }
+
+  // Modifier class for a single, centered column when no sidebar is present.
+  &--no-aside {
+    display: block; // Revert to a standard block layout
+    .page-content-wrapper {
+      max-width: 800px; // Center and constrain the content
+      margin: 0 auto;
+    }
+  }
+}
+
+// --- Main Content Card ---
+// The primary content of the page is wrapped in a clean, borderless card.
+.page-content-card {
+  // Use the .sf-card base, but with modifications for a content page
+  background: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: none; // Content cards are typically flat
+
+  // No hover effects for a static content card
+  &:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+
+// --- Optional Sidebar ---
+.page-aside {
+  @media (min-width: 960px) {
+    position: sticky;
+    top: calc(68px + var(--sf-6)); // Header height + offset
+    align-self: start;
+  }
+
+  // Use the sidebar-card component for consistency with the category page
+  .sidebar-card {
+    // (Styles are inherited from _category-archive.scss or a shared component file)
+  }
+}
