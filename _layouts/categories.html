@@ -71,7 +71,6 @@ layout: default
                       </h3>
                       <div class="post-card__meta">
                         <span><i class="ph-bold ph-calendar"></i> {{ post.date | date: "%b %d, %Y" }}</span>
-                        <span><i class="ph-bold ph-clock"></i> {% include reading-time.html content=post.content %} read</span>
                       </div>
                       <p class="post-card__excerpt">
                         {{ post.excerpt | strip_html | truncatewords: 20 }}
