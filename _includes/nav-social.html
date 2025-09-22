@@ -3,7 +3,6 @@
     {% if link[1] != blank %}
       {% assign id = link[0] | downcase %}
       <a href="{{ link[1] }}">
-        {% include icon.html id=id title=id %}
       </a>
     {% endif %}
   {% endfor %}
