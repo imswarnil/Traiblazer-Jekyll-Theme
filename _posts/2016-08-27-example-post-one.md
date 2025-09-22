@@ -1,6 +1,5 @@
 ---
 title: "What Is a Trailblazer in Salesforce? (The Human Engine Behind the Cloud)"
-slug: what-is-a-trailblazer-in-salesforce
 description: "A deep-dive explainer—with examples, analogies, and practical steps—on what 'Trailblazer' really means in the Salesforce ecosystem."
 date: 2025-09-23
 author: "ImSwarnil"
