@@ -1,13 +1,138 @@
-// Reset
-// ---------------------------------------
+// _reset.scss
+// A modern reset for the SLDS-themed Jekyll site.
+// -------------------------------------------------------------------
+// Instead of a traditional "hard reset" that removes all browser styles,
+// this file applies sensible defaults and modern best practices. It's
+// designed to work alongside a normalizer (like normalize.css) to
+// create a consistent and predictable foundation for the theme.
+// -------------------------------------------------------------------
 
-// Reset all the things
-* { box-sizing: border-box; }
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video { margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; }
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
-html, body { height: 100%; }
-a img { border: none; }
-blockquote { quotes: none; }
-blockquote:before, blockquote:after { content: ''; content: none; }
-table { border-collapse: collapse; border-spacing: 0; }
-caption, th, td { text-align: left; font-weight: normal; vertical-align: middle; }
+
+// --- 1. Universal Box-Sizing ---
+// This is the most critical rule in a modern reset. It changes the CSS box model
+// so that 'width' and 'height' properties include padding and border, but not
+// the margin. This makes layout calculations much more intuitive.
+// -------------------------------------------------------------------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+
+// --- 2. Root and Body Defaults ---
+// Set up the global environment for the entire site. This is where we
+// apply our core typography and background colors from the variables file.
+// -------------------------------------------------------------------
+html {
+  // Set a base font size for rem unit calculations (usually 16px).
+  font-size: 100%;
+  // Prevent font size adjustments on orientation change in iOS.
+  -webkit-text-size-adjust: 100%;
+  // Improve font rendering for a sharper, cleaner look.
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  // Enable smooth scrolling for anchor links.
+  scroll-behavior: smooth;
+}
+
+body {
+  // Remove the default 8px margin applied by most browsers.
+  margin: 0;
+  // Apply our base SLDS-themed styles from _variables.scss.
+  font-family: $sfdc-font-family-base;
+  color: $sfdc-text-default;
+  background-color: $sfdc-background-primary;
+  // Set a default line height. Specific elements will override this.
+  line-height: $line-height-base;
+  // Ensure the body takes up at least the full viewport height, allowing
+  // the footer to be pushed to the bottom on short pages.
+  min-height: 100vh;
+}
+
+
+// --- 3. Media Elements ---
+// Make images, videos, and other media elements responsive by default,
+// preventing them from overflowing their containers.
+// -------------------------------------------------------------------
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+  // Using 'display: block' removes the small space that sometimes
+  // appears below inline images.
+  display: block;
+}
+
+
+// --- 4. Simple Element Resets ---
+// A few targeted resets for common elements.
+// -------------------------------------------------------------------
+
+// Remove default list styles. We will add them back where needed.
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Remove default quotes from blockquotes, as we will style them with borders.
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+// Ensure tables have a consistent starting point.
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
+// --- 5. Form Element Normalization ---
+// Remove default browser styling on form elements to allow for
+// consistent custom styling across all platforms.
+// -------------------------------------------------------------------
+button,
+input,
+optgroup,
+select,
+textarea {
+  // Inherit the font from the parent element for consistency.
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
+button,
+select {
+  // Prevent inheritance of 'text-transform' in some browsers.
+  text-transform: none;
+}
+
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  // Corrects the inability to style clickable types in iOS and Safari.
+  -webkit-appearance: button;
+}
+
+// Remove the inner border and padding in Firefox.
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}

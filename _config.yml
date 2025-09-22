@@ -55,6 +55,7 @@ social: # jekyll-seo-tag > social overrides
 
 # 4. Jekyll settings
 sass:
+  quiet_deps: true
   style: compressed # Style compression
 permalink: pretty  # Permalink style (/YYYY/MM/DD/page-name/)
 excerpt_separator: <!-- more --> # Marks end of excerpt in posts

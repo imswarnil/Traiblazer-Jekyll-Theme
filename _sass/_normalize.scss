@@ -1,5 +1,14 @@
 /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
 
+// _normalize.scss
+// -------------------------------------------------------------------
+// This is a third-party library (Normalize.css) and should not be modified.
+// Its purpose is to make browsers render all elements more consistently
+// and in line with modern standards. It is included before our custom
+// reset and theme files to correct browser inconsistencies at the base level.
+// -------------------------------------------------------------------
+
+
 /**
  * 1. Change the default font family in all browsers (opinionated).
  * 2. Prevent adjustments of font size after orientation changes in IE and iOS.

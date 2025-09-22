@@ -1,363 +1,222 @@
-// Typography
-// ---------------------------------------
+// _typography.scss
+// Salesforce Lightning Design System (SLDS) Inspired Typography
+// -------------------------------------------------------------------
+// This file defines all the styles for text elements, from basic paragraphs
+// and links to complex tables and code blocks. It uses the simple, token-based
+// variables from `_variables.scss` and completely replaces the old theme's
+// complex baseline and modular scale system.
+// -------------------------------------------------------------------
 
-// Setting root sizes and base styles.
-html {
-  @include rootsize;
 
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-}
-
-// Site-wide base styles.
-body {
-  @include fontsize(zeta, all);
-
-  font-family: unquote(map-get($bodytype, font-family));
-  font-style: normal;
-  font-weight: map-get($bodytype, regular);
-  line-height: 2rem;
-}
-
-// Links.
+// --- 1. Links ---
+// Default styling for all anchor tags.
+// -------------------------------------------------------------------
 a {
-  color: $linkColour;
+  color: $sfdc-brand-accessible;
   text-decoration: none;
-  transition: color .1s, background-color .1s;
+  transition: $sfdc-transition-base;
 
-  &:hover, &:active, &:focus {
-    color: $hoverColour;
-    text-decoration: none;
+  &:hover,
+  &:focus {
+    color: $sfdc-brand-blue-dark;
+    text-decoration: underline;
+    // Provide a clear focus indicator for accessibility, but a simple
+    // underline is often sufficient for links.
+    outline: none;
   }
 }
 
-// Styles for typeset text.
+
+// --- 2. Headings ---
+// Consistent styling for all heading levels (h1-h6).
+// -------------------------------------------------------------------
+h1, h2, h3, h4, h5, h6 {
+  font-family: $sfdc-font-family-heading;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-heading;
+  color: $sfdc-text-heading;
+  // Use our spacing tokens for consistent vertical rhythm.
+  margin: $spacing-large 0 $spacing-medium 0;
+}
+
+// Apply specific font sizes from our variables.
+h1 { font-size: $font-size-h1; }
+h2 { font-size: $font-size-h2; }
+h3 { font-size: $font-size-h3; }
+h4 { font-size: $font-size-h4; }
+h5, h6 {
+  font-size: $font-size-base;
+  // Use a slightly lighter font weight for minor headings to differentiate them.
+  font-weight: $font-weight-bold;
+}
+
+
+// --- 3. Typeset Content Container ---
+// The `.typeset` class is a wrapper for long-form content like blog posts
+// or documentation pages. It ensures all child elements are beautifully styled.
+// -------------------------------------------------------------------
 .typeset {
 
-  // Nice underlines for text links.
-  p a, li a {
-    background-image: linear-gradient(to bottom,rgba(0, 0, 0, 0) 50%,$linkColour 50%);
-    background-position: 0 93%;
-    background-repeat: repeat-x;
-    background-size: 100% 0.15rem;
-    text-shadow: 0.1rem 0 $backgroundColour,
-                 0.15rem 0 $backgroundColour,
-                -0.1rem 0 $backgroundColour,
-                -0.15rem 0 $backgroundColour;
-
-    &:hover, &:active, &:focus {
-      background-image: linear-gradient(to bottom,rgba(0, 0, 0, 0) 50%,$hoverColour 50%);
-    }
-  }
-
-  // Paragraphs. OpenType ligatures and oldstyle figures enabled if available.
+  // Paragraphs
   p {
-    @include baseline($fontsize: zeta, $font: $bodytype, $lineheight: 2, $below: 2, $breakpoint: all);
-
-    font-feature-settings: 'kern', 'onum', 'liga';
+    margin-bottom: $spacing-medium;
   }
 
-  // Headings. OpenType ligatures, discretionary ligatures and lining figures enabled if available.
-  h1, h2, h3, h4, h5, h6 {
-    color: $headingColour;
-    font-family: unquote(map-get($headingtype, font-family));
-    font-feature-settings: 'dlig', 'liga', 'lnum', 'kern';
-    font-style: normal;
-    font-weight: map-get($headingtype, bold);
+  // Lead Paragraph: for a more impactful introduction.
+  .lead {
+    font-size: $font-size-large;
+    color: $sfdc-text-weak;
   }
 
-  // Heading level 1.
-  h1, .alpha {
-    @include sassline($fontsize: alpha, $font: $headingtype, $lineheight: 3, $below: 1, $breakpoint: all);
-  }
-
-  // Heading level 2.
-  h2, .beta {
-    @include sassline(beta, $headingtype, 3, 1, all);
-  }
-
-  // Heading level 3.
-  h3, .gamma {
-    @include sassline(gamma, $headingtype, 3, 1, all);
-  }
-
-  // Heading level 4.
-  h4, .delta {
-    @include sassline(delta, $headingtype, 2, 0, all);
-  }
-
-  // Heading level 5.
-  h5, .epsilon {
-    @include sassline(epsilon, $headingtype, 2, 0, all);
-  }
-
-  // Heading level 6.
-  h6, .zeta {
-    @include sassline(zeta, $headingtype, 2, 0, all);
-  }
-
-  // Lists.
+  // Lists (Unordered and Ordered)
   ul, ol {
-    @include baseline(zeta, $bodytype, 2, 2, all);
+    margin: 0 0 $spacing-medium $spacing-large;
+    padding-left: 0; // The margin-left handles the indentation.
 
-    li {
-      font-feature-settings: 'kern', 'onum', 'liga';
-      margin-left: 2rem;
-
-      @include breakpoint(break-1) {
-        margin-left: 0;
-      }
-
-      ol, ul {
-        padding-top: 1rem;
-        margin-bottom: 1rem;
-        margin-left: 2rem;
-      }
+    // Style nested lists with proper indentation.
+    ul, ol {
+      margin-top: $spacing-small;
+      margin-bottom: $spacing-small;
     }
   }
 
-  // Ordered lists.
+  ul {
+    list-style-type: disc;
+  }
+
   ol {
-    list-style-type: none;
-
-    li {
-      counter-increment: top-level;
-
-      &:before {
-        content: counter(top-level) '.';
-        font-feature-settings: 'lnum', 'tnum';
-        margin-left: -3rem;
-        position: absolute;
-        text-align: right;
-        width: 2em;
-      }
-
-      ul {
-
-        li {
-
-          &:before {
-            content: '';
-          }
-
-          ol {
-
-            li {
-              counter-increment: alt-level;
-
-              &:before {
-                content: counter(alt-level) '.';
-              }
-            }
-          }
-        }
-      }
-
-      ol {
-
-        li {
-          counter-increment: sub-level;
-
-          &:before {
-            content: counter(top-level) '.' counter(sub-level);
-          }
-
-          ul {
-
-            li {
-
-              &:before {
-                content: '';
-              }
-            }
-          }
-
-          ol {
-
-            li {
-              counter-increment: sub-sub-level;
-
-              &:before {
-                content: counter(top-level) '.' counter(sub-level) '.' counter(sub-sub-level);
-              }
-            }
-          }
-        }
-      }
-    }
+    list-style-type: decimal;
   }
 
-  // Definition lists.
+  li {
+    margin-bottom: $spacing-x-small;
+    padding-left: $spacing-small;
+  }
+
+  // Definition Lists
   dl {
-    @include baseline(zeta, $bodytype, 2, 2, all);
-
-    dt, dd {
-      font-feature-settings: 'kern', 'onum', 'liga';
-      margin-left: 2rem;
-
-      @include breakpoint(break-1) {
-        margin-left: 0;
-      }
-    }
-
-    dt {
-      font-weight: map-get($bodytype, bold);
-    }
-
-    dd + dt {
-      padding-top: 1rem;
-    }
+    margin-bottom: $spacing-medium;
   }
 
-  // Tables.
-  table {
-    @include sassline(eta, $headingtype, 2, 0, all);
-
-    font-family: unquote(map-get($headingtype, font-family));
-    font-feature-settings: 'liga', 'lnum', 'tnum', 'kern';
-    font-style: normal;
-    font-weight: map-get($headingtype, regular);
-    width: 100%;
-
-    thead {
-
-      th {
-        @include sassline(zeta, $headingtype, 2, 0, all);
-        padding-bottom: 1px;
-      }
-    }
+  dt {
+    font-weight: $font-weight-bold;
+    color: $sfdc-text-heading;
   }
 
-  // Bold.
-  b, strong, .bold {
-    font-weight: map-get($bodytype, bold);
+  dd {
+    margin-left: $spacing-large;
+    margin-bottom: $spacing-medium;
   }
 
-  // Italic.
-  em, i, .italic {
-    font-style: map-get($bodytype, italic);
-  }
-
-  // Caption and inline small text.
-  small, .caption {
-    @include fontsize(theta, all);
-
-    font-family: unquote(map-get($headingtype, font-family));
-    font-style: normal;
-    font-weight: map-get($headingtype, regular);
-  }
-
-  small {
-    line-height: 1rem;
-  }
-
-  .caption {
-    @include baseline(theta, $headingtype, 2, 2, all);
-
-    color: $captionColour;
-  }
-
-  // Nice spacing for captions.
-  h1 + .caption, .alpha + .caption, h2 + .caption, .beta + .caption, h3 + .caption, .gamma + .caption {
-    margin-top: -1rem;
-  }
-
-  .delta + .caption, .epsilon + .caption, .zeta + .caption {
-    margin-top: 0rem;
-  }
-
-  // Quotes.
+  // Blockquotes
   blockquote {
+    margin: 0 0 $spacing-large 0;
+    padding: $spacing-small $spacing-medium;
+    // The 4px left border is a classic SLDS pattern for callouts.
+    border-left: 4px solid $sfdc-border-color;
+    font-style: italic;
+    color: $sfdc-text-weak;
 
-    p {
-      border-left: 0.15rem solid $linkColour;
-      font-style: map-get($bodytype, italic);
-      padding-left: 1rem;
-
-      // Add spacing below blockquote paragraphs to align to baseline grid.
-      $get-scale: map-get($modular-scale, scale-0);
-      $get-size: map-get($get-scale, zeta);
-      $rootsize: nth($sizes, 1);
-      $baseline-shift: #{($get-size / 2 * ((2 * $rootsize / $get-size) - map-get($bodytype, cap-height))) / $rootsize + 0.00001};
-      $baseline-push: #{3 - (($get-size * ((2 * $rootsize / $get-size) - map-get($bodytype, cap-height))) / $rootsize + 0.00001)};
-
-      margin-bottom: #{$baseline-push}rem;
-      padding-bottom: #{$baseline-shift}rem;
-
-      @for $i from 2 through $breakpoints-limit {
-        $get-scale: map-get($modular-scale, scale-#{$i - 1});
-        $get-size: map-get($get-scale, zeta);
-        $rootsize: nth($sizes, $i);
-        $baseline-shift: #{($get-size / 2 * ((2 * $rootsize / $get-size) - map-get($bodytype, cap-height))) / $rootsize + 0.00001};
-        $baseline-push: #{3 - (($get-size * ((2 * $rootsize / $get-size) - map-get($bodytype, cap-height))) / $rootsize + 0.00001)};
-
-        @media screen and (min-width: nth($points, $i) / 16 * 1em ) {
-          margin-bottom: #{$baseline-push}rem;
-          padding-bottom: #{$baseline-shift}rem;
-        }
-      }
-    }
-
-    @include breakpoint(break-1) {
-      margin-left: -1rem;
+    // Ensure clean spacing inside the blockquote.
+    p:last-child {
+      margin-bottom: 0;
     }
   }
 
-  // Horizontal rule.
+  // Horizontal Rule
   hr {
-    background-image: linear-gradient(to bottom,rgba(0, 0, 0, 0) 50%,$captionColour 50%);
-    background-position: 0 50%;
-    background-repeat: repeat-x;
-    background-size: 100% 0.15rem;
     border: 0;
-    margin: 0;
-    padding-bottom: 3rem;
-    padding-top: 3rem;
+    border-top: $sfdc-border-width solid $sfdc-border-color-weak;
+    // Use large margins to create a strong visual break in the content.
+    margin: $spacing-xx-large 0;
   }
 
-  // Code block.
+  // Code (Inline and Block)
   code, pre {
-    background-color: $codeBackgroundColour;
-    font-family: unquote(map-get($monospacetype, font-family));
+    font-family: $sfdc-font-family-mono;
   }
 
-  pre {
-    display: block;
-    margin-bottom: 2rem;
-    padding: 1rem;
-    white-space: pre;
-    white-space: pre-wrap;
-    word-break: break-all;
-    word-wrap: break-word;
-  }
-
+  // Inline `code` styled like a small token or badge.
   code {
-    @include fontsize(theta, all);
-
-    line-height: 1rem;
+    background-color: $sfdc-code-background;
+    padding: $spacing-xx-small $spacing-x-small;
+    border-radius: $sfdc-border-radius;
+    font-size: $font-size-small;
+    border: $sfdc-border-width solid $sfdc-border-color-weak;
+    // Prevents text-shadow from being inherited from links.
+    text-shadow: none;
   }
 
-  // Letter space those capitals people, Jan Tschichold would be proud.
-  .upper {
-    font-kerning: normal;
-    letter-spacing: 0.1rem;
-    text-transform: uppercase;
+  // Code blocks are styled as distinct "cards".
+  pre {
+    background-color: $sfdc-code-background;
+    border: $sfdc-border-width solid $sfdc-border-color-weak;
+    border-radius: $sfdc-border-radius;
+    padding: $spacing-medium;
+    margin-bottom: $spacing-large;
+    overflow-x: auto;
+    white-space: pre;
+
+    // Reset the styling of the `code` tag *inside* a `pre` tag
+    // to avoid double-borders and double-backgrounds.
+    code {
+      background-color: transparent;
+      padding: 0;
+      border: none;
+      font-size: inherit; // Inherit the font size from the <pre> tag.
+      color: inherit;
+    }
   }
 
-  // Real small caps.
-  .small-caps {
-    font-feature-settings: 'smcp', 'kern';
-    font-kerning: normal;
-    letter-spacing: 0.1rem;
+  // Tables
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: $spacing-large;
+    font-size: $font-size-small; // Tables often contain dense data.
+
+    th, td {
+      border: $sfdc-border-width solid $sfdc-border-color;
+      padding: $spacing-small $spacing-medium;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    // Table Head
+    thead th {
+      font-weight: $font-weight-bold;
+      background-color: $sfdc-code-background;
+      vertical-align: bottom;
+    }
+
+    // Striped Rows for better readability
+    tbody tr:nth-child(odd) {
+      background-color: $sfdc-code-background;
+    }
   }
 
-  // Consistent height numbers with OpenType.
-  .lining-numerals {
-    font-feature-settings: 'lnum', 'kern';
+  // Bold and Italic
+  b, strong {
+    font-weight: $font-weight-bold;
   }
 
-  // Ascending and descending numbers with OpenType.
-  .oldstyle-numerals {
-    font-feature-settings: 'onum', 'kern';
+  em, i {
+    font-style: italic;
+  }
+
+  // Caption and small text utility
+  small, .caption {
+    display: block;
+    font-size: $font-size-small;
+    color: $sfdc-text-weak;
+    margin-top: $spacing-x-small;
+  }
+
+  // Add a negative margin to pull captions closer to the element above them.
+  h1 + .caption,
+  h2 + .caption,
+  h3 + .caption,
+  figure + .caption {
+    margin-top: calc(-1 * #{$spacing-medium} + #{$spacing-x-small});
   }
 }
