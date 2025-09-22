@@ -1,0 +1,39 @@
+/* ============================================================================
+   LAYOUTS / DEFAULT
+   Styles for the main page structure and hero section.
+   ============================================================================ */
+
+// --- Main Content Area ---
+// The .sf-main class provides the primary content canvas.
+// The top padding prevents content from hiding under the sticky header.
+.sf-main {
+  padding-top: 68px; // Matches the fixed height of the header
+}
+
+// --- Page Hero / Feature Section ---
+// This styles the feature section that appears at the top of many pages.
+.page-hero {
+  padding: var(--sf-8) 0;
+  text-align: center;
+  border-bottom: 1px solid var(--sf-line-2);
+
+  // Default background, can be tinted or have an image
+  background-color: var(--sf-bg-2);
+  background-size: cover;
+  background-position: center center;
+
+  // Modifier for a tinted background, like on collection pages
+  &--tinted {
+    background-color: var(--sf-bg-1);
+  }
+
+  // Constrain the text content for readability
+  .sf-container {
+    max-width: 800px; // Tighter container for hero text
+  }
+
+  // Improve typography within the hero
+  .sf-h1, .sf-h2 {
+    margin-top: 0;
+  }
+}
