@@ -1,20 +1,18 @@
 <!-- ============================================================================
-_includes/navbar.html — ImSwarnil x Salesforce UI Kit (Enhanced)
+_includes/navbar.html (Premium Animation Edition - Complete)
 ============================================================================ -->
 
 <header class="sf-header">
 <div class="sf-container sf-header__bar">
 
-<!-- Left: Brand -->
 <a href="{{ '/' | relative_url }}" class="sf-brand">
- <div class="sf-brand__logo"></div>
+ <img src="https://www.imswarnil.com/assets/images/swarnil-logo.png" alt="{{ site.title }} Logo" class="sf-brand__image-logo">
  <div class="sf-brand__text">
    <div class="sf-h5 sf-mb-0">{{ site.title }}</div>
-   <div class="sf-text--small">Filmmaker • Software Engineer </div>
+   <div class="sf-text--small">Filmmaker • Software Engineer</div>
  </div>
 </a>
 
-<!-- Center: Desktop Navigation -->
 <nav class="sf-nav--desktop" aria-label="Main navigation">
  {% for item in site.navigation_header %}
    <a href="{{ item.url | relative_url }}" class="sf-nav--desktop__link {% if page.url == item.url %}is-active{% endif %}">
@@ -24,7 +22,6 @@ _includes/navbar.html — ImSwarnil x Salesforce UI Kit (Enhanced)
  {% endfor %}
 </nav>
 
-<!-- Right: Actions -->
 <div class="sf-header__actions">
  <button class="sf-header__action-btn" aria-label="Open Search" data-toggle="search-panel">
    <i class="ph-bold ph-magnifying-glass"></i>
@@ -43,27 +40,27 @@ _includes/navbar.html — ImSwarnil x Salesforce UI Kit (Enhanced)
 </div>
 </header>
 
-<!-- Search Panel (Modal) with Integrated Live Search -->
+<!-- Search Panel (Modal) -->
 <div class="sf-search-panel" id="search-panel">
 <div class="sf-container">
-<div class="sf-search-panel__form-container">
- <div class="sf-search-panel__form">
-   <i class="ph-bold ph-magnifying-glass" style="font-size: 1.5rem; color: var(--sf-muted);"></i>
-   <input type="search" id="sf-search-input" class="sf-search-panel__input" placeholder="e.g. About us" autocomplete="off" />
-   <button type="button" class="sf-header__action-btn" aria-label="Close Search" data-toggle="search-panel">
-     <i class="ph-bold ph-x"></i>
-   </button>
- </div>
-</div>
-<div class="sf-search-panel__results-container" id="sf-search-results-container">
- <ul class="sf-search-results" id="sf-search-results-list">
-   <!-- JS will populate this -->
- </ul>
+<div class="sf-search-panel__form">
+ <i class="ph-bold ph-magnifying-glass" style="font-size: 1.5rem; color: var(--sf-muted);"></i>
+ <input type="search" id="sf-search-input" class="sf-search-panel__input" placeholder="Search..." autocomplete="off" />
+ <button type="button" class="sf-header__action-btn" aria-label="Close Search" data-toggle="search-panel">
+   <i class="ph-bold ph-x"></i>
+ </button>
 </div>
 </div>
 </div>
 
-<!-- Mobile Navigation Panel (Salesforce Modal Style) -->
+<!-- Search Results Container (Separate for better layout control) -->
+<div class="sf-search-results-wrapper" id="sf-search-results-wrapper">
+<ul class="sf-search-results" id="sf-search-results-list">
+   <!-- JS will populate this -->
+</ul>
+</div>
+
+<!-- Mobile Navigation Panel (Modal) -->
 <div class="sf-nav-panel" id="nav-panel">
 <div class="sf-nav-panel__backdrop" data-toggle="nav-panel"></div>
 <div class="sf-nav-panel__content">
@@ -91,29 +88,47 @@ _includes/navbar.html — ImSwarnil x Salesforce UI Kit (Enhanced)
 <!-- Self-contained JavaScript -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-// --- Panel Toggling ---
+const htmlEl = document.documentElement;
+
+// --- Panel Toggling with Click Point Animation ---
+const navPanel = document.getElementById('nav-panel');
+const navContent = navPanel ? navPanel.querySelector('.sf-nav-panel__content') : null;
+const searchPanel = document.getElementById('search-panel');
+const searchResultsWrapper = document.getElementById('sf-search-results-wrapper');
+
 document.querySelectorAll('[data-toggle]').forEach(toggle => {
- toggle.addEventListener('click', () => {
+ toggle.addEventListener('click', (event) => {
    const targetPanel = document.getElementById(toggle.getAttribute('data-toggle'));
    if (!targetPanel) return;
-   
+
+   if (targetPanel.id === 'nav-panel' && navContent) {
+     const clickX = event.clientX;
+     const clickY = event.clientY;
+     navContent.style.setProperty('--click-origin', `${clickX}px ${clickY}px`);
+   }
+
    const isOpen = targetPanel.classList.toggle('is-open');
+
    if (targetPanel.id === 'nav-panel') {
-     document.body.style.overflow = isOpen ? 'hidden' : '';
+     htmlEl.style.overflow = isOpen ? 'hidden' : '';
      document.querySelector('.sf-nav-toggle').classList.toggle('is-active', isOpen);
    }
-   if (targetPanel.id === 'search-panel' && isOpen) {
-     setTimeout(() => targetPanel.querySelector('input[type="search"]').focus(), 300);
+   if (targetPanel.id === 'search-panel') {
+       searchResultsWrapper.classList.toggle('is-active', isOpen);
+       if (isOpen) {
+           setTimeout(() => targetPanel.querySelector('input[type="search"]').focus(), 500);
+       }
    }
  });
 });
 
-// --- Theme Switching ---
+// --- Theme Switching with Body Class for Animation ---
 const themeSwitcher = document.querySelector('.sf-theme-switcher');
-const htmlEl = document.documentElement;
 const setTheme = theme => {
+ document.body.classList.add('theme-transitioning');
  htmlEl.setAttribute('data-theme', theme);
  localStorage.setItem('theme', theme);
+ setTimeout(() => document.body.classList.remove('theme-transitioning'), 500);
 };
 const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 setTheme(savedTheme);
@@ -150,6 +165,18 @@ searchInput.addEventListener('keyup', function() {
  } else {
    resultsList.innerHTML = `<div class="sf-search-panel__no-results">No results found for "${term}"</div>`;
  }
+});
+
+// UX Improvement: Clear search on close
+document.querySelectorAll('[data-toggle="search-panel"]').forEach(btn => {
+ btn.addEventListener('click', () => {
+   if (searchPanel && searchPanel.classList.contains('is-open')) {
+       setTimeout(() => {
+           searchInput.value = '';
+           resultsList.innerHTML = '';
+       }, 500);
+   }
+ });
 });
 });
 </script>
