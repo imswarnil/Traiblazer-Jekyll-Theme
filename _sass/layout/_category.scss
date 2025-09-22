@@ -1,5 +1,5 @@
 /* ============================================================================
-   PAGES / CATEGORY ARCHIVE (Refined Version)
+   PAGES / CATEGORY ARCHIVE (SLDS Definitive Edition)
    ============================================================================ */
 
 // --- Main Page Layout ---
@@ -12,93 +12,16 @@
   }
 }
 
-// --- Left Sidebar: Navigation & Ads ---
+// --- Left Sidebar: SLDS Card-based Navigation ---
 .category-archive-sidebar {
   @media (min-width: 960px) {
     position: sticky;
     top: calc(68px + var(--sf-6));
     align-self: start;
   }
-  
   @media (max-width: 959px) {
-    order: -1; // Move sidebar to the top on mobile
+    order: -1; // Move to top on mobile
     margin-bottom: var(--sf-6);
-  }
-}
-
-// NEW: Use a scoped card for sidebar sections for better visual grouping
-.sidebar-card {
-  background: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-lg);
-  margin-bottom: var(--sf-4);
-  
-  &__header {
-    padding: var(--sf-3) var(--sf-4);
-    border-bottom: 1px solid var(--sf-line-2);
-  }
-
-  &__title {
-    margin: 0;
-  }
-  
-  &__body {
-    padding: var(--sf-4);
-  }
-}
-
-// --- Sidebar Category Navigation ---
-.category-archive-nav {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--sf-1);
-
-  &__link {
-    display: flex; // For icon alignment
-    align-items: center;
-    gap: var(--sf-2);
-    padding: var(--sf-2) var(--sf-3);
-    border-radius: var(--sf-radius-md);
-    font-weight: 600;
-    color: var(--sf-fg-2);
-    text-decoration: none;
-    transition: background-color .15s ease, color .15s ease;
-    
-    .ph-bold {
-      font-size: 1.1rem;
-      transition: transform .2s ease;
-    }
-
-    &:hover {
-      background-color: color-mix(in oklab, var(--sf-bg-1), white 60%);
-      color: var(--sf-fg);
-      .ph-bold {
-        transform: translateX(2px);
-      }
-    }
-  }
-}
-
-// --- Sidebar Ad Placeholder ---
-.sidebar-ad-placeholder {
-  // Styles moved to the .sidebar-card for consistency
-  &__content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 250px;
-    text-align: center;
-    color: var(--sf-muted);
-    font-size: .875rem;
-
-    .ph-bold {
-      font-size: 2rem;
-      margin-bottom: var(--sf-2);
-    }
   }
 }
 
@@ -116,7 +39,6 @@
   padding-bottom: var(--sf-4);
   border-bottom: 2px solid var(--sf-line-1);
   
-  // NEW: Add a count of posts in the category
   &__count {
     font-size: 1rem;
     font-weight: 600;
@@ -124,19 +46,155 @@
   }
 }
 
-// --- Post Card Grid (Responsive 1-2-3 columns) ---
+// --- SLDS-Inspired Post Card Grid ---
 .post-card-grid {
   list-style: none; padding: 0; margin: 0;
   display: grid; gap: var(--sf-5);
   grid-template-columns: 1fr; // Mobile default
 
+  // Switch to 2 columns on tablets
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
+  
+  // 3 columns on desktop
   @media (min-width: 1200px) {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-// --- Post Card Styling (No changes needed) ---
-// The existing .post-card styles from _cards.scss are perfect and will be used.
+
+// =========================================================
+// THE DEFINITIVE SLDS-STYLE POST CARD
+// =========================================================
+.slds-post-card {
+  // Uses .sf-card as a base for border, radius, bg, etc.
+  // No hover transform, SLDS is more subtle. Focus is on clarity.
+  transition: border-color .2s ease, box-shadow .2s ease;
+
+  &:hover {
+    transform: none;
+    border-color: var(--sf-brand);
+    box-shadow: var(--sf-shadow-sm);
+  }
+
+  // SLDS cards often have no padding on the main body
+  .sf-card__body {
+    padding: 0;
+  }
+  
+  &__figure {
+    line-height: 0;
+    // --- The Key to Responsive 16:9 Images ---
+    aspect-ratio: 16 / 9;
+    overflow: hidden; // Ensure image corners are rounded
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform .3s ease-out;
+    }
+  }
+
+  // Zoom image on hover for a subtle micro-interaction
+  &:hover &__figure img {
+    transform: scale(1.05);
+  }
+
+  // The content area below the image
+  &__content {
+    padding: var(--sf-4);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  &__title {
+    margin: 0 0 var(--sf-2) 0;
+    // Make the entire card clickable via the title's link
+    a {
+      text-decoration: none;
+      color: var(--sf-fg);
+      
+      // The "stretched-link" trick
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1; // Sit above other content in the card
+      }
+    }
+  }
+
+  &__meta {
+    order: -1; // SLDS often puts meta info (like category) above the title
+    margin-bottom: var(--sf-2);
+  }
+
+  &__excerpt {
+    color: var(--sf-fg-2);
+    margin-bottom: var(--sf-4);
+    flex-grow: 1;
+    font-size: .9rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  // Footer with meta-info and actions
+  .sf-card__footer {
+    // Keep actions clickable despite the stretched link
+    .sf-btn {
+      position: relative;
+      z-index: 2;
+    }
+  }
+}
+
+// --- AdSense Placeholder Card (SLDS Style) ---
+.slds-ad-card {
+  // Use .sf-card base
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px; // A common ad height
+  border-style: dashed;
+  background: color-mix(in oklab, var(--sf-bg-1), white 60%);
+  
+  &:hover { // No hover effect for ads
+    transform: none;
+    box-shadow: var(--sf-shadow-sm);
+    border-color: var(--sf-line-2);
+  }
+  
+  &__content {
+    text-align: center; color: var(--sf-muted); font-size: .875rem;
+    .ph-bold { font-size: 2rem; margin-bottom: var(--sf-2); }
+  }
+}
+
+// Styles for the sidebar from the previous version remain perfect.
+// (Included here for completeness)
+.sidebar-card {
+  background: var(--sf-bg-2); border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg); margin-bottom: var(--sf-4);
+  &__header { padding: var(--sf-3) var(--sf-4); border-bottom: 1px solid var(--sf-line-2); }
+  &__title { margin: 0; }
+  &__body { padding: var(--sf-4); }
+}
+.category-archive-nav {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: var(--sf-1);
+  &__link {
+    display: flex; align-items: center; gap: var(--sf-2);
+    padding: var(--sf-2) var(--sf-3); border-radius: var(--sf-radius-md);
+    font-weight: 600; color: var(--sf-fg-2); text-decoration: none;
+    transition: background-color .15s ease, color .15s ease;
+    &:hover { background-color: color-mix(in oklab, var(--sf-bg-1), white 60%); color: var(--sf-fg); }
+  }
+}
