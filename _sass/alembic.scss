@@ -1,32 +1,30 @@
 /* ============================================================================
-   main.scss — ImSwarnil x Salesforce Marketing (Master Import File)
-   This file imports all other SCSS partials in the correct order.
+   main.scss — ImSwarnil x Salesforce UI Kit
+   Master import file for the entire theme.
    ============================================================================ */
 
-// 1. Abstracts (Variables, Mixins)
-// Must come first, as everything else depends on them.
+// 1. ABSTRACTS
+// Contains all variables, tokens, and functions. Must be imported first.
 @import 'abstracts/tokens';
+@import 'abstracts/variables';
 @import 'abstracts/mixins';
 
-// 2. Base Styles (Reset, global styles, typography)
-// Forms the foundation of the site's look.
+// 2. BASE
+// Contains global styles, resets, and typography.
 @import 'base/reset';
 @import 'base/base';
 @import 'base/typography';
 
-// 3. Layout (Major page structure elements)
-// Defines the canvas on which components are placed.
-@import 'layout/header';
-@import 'layout/footer';
+// 3. LAYOUT
+// Defines the grid and main page structure.
 @import 'layout/grid';
-@import 'layout/sections';
+@import 'layout/structure';
 
-// 4. Components (Reusable, modular UI elements)
-// The building blocks of your pages.
-@import 'components/buttons';
-@import 'components/cards';
-@import 'components/form';
+// 4. COMPONENTS
+// All UI components will be imported here as you build them.
+// e.g., @import 'components/buttons';
+// e.g., @import 'components/cards';
 
-// 5. Utilities (Helper classes)
-// Should come last to override other styles when needed.
-@import 'utils/helpers';
+// 5. UTILITIES
+// Helper classes, typically imported last.
+// e.g., @import 'utils/helpers';

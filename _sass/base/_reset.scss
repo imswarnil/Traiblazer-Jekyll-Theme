@@ -1,10 +1,28 @@
 /* ============================================================================
    BASE / RESET
+   Modern resets for cross-browser consistency.
    ============================================================================ */
-*, *::before, *::after { box-sizing: border-box; }
-html { text-size-adjust: 100%; -webkit-font-smoothing: antialiased; }
-body { margin: 0; }
-img, svg, video { display: block; max-width: 100%; height: auto; }
-a { color: $brand-primary; text-decoration: none; }
-a:hover { text-decoration: underline; color: $brand-primary-dark; }
-::selection { background: $brand-primary; color: $white; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}

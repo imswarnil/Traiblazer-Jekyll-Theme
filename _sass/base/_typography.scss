@@ -1,38 +1,43 @@
 /* ============================================================================
    BASE / TYPOGRAPHY
+   The foundational type scale and styles for all text content.
    ============================================================================ */
-h1, h2, h3, h4, h5, h6 {
-  font-family: $font-heading;
-  font-weight: 800;
-  color: $gray-900;
-  line-height: 1.2;
-  margin: $space-8 0 $space-4;
+
+/* Fluid type scale classes */
+.sf-text--body { font-size: clamp(0.98rem, 0.95rem + .2vw, 1.05rem); }
+.sf-text--small { font-size: .875rem; color: var(--sf-muted); }
+.sf-text--large { font-size: clamp(1.05rem, 1rem + .4vw, 1.25rem); }
+
+/* Headings (Salesforce-y weight & spacing) */
+.sf-h1,.sf-h2,.sf-h3,.sf-h4,.sf-h5,.sf-h6 {
+  margin: 0 0 var(--sf-3) 0;
+  font-weight: 700;
+  letter-spacing: .2px;
 }
 
-// UPDATED: Larger, more impactful heading sizes for marketing
-h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); }
-h2 { font-size: clamp(2rem, 4vw, 3rem); }
-h3 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
-h4 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+.sf-h1 { font-size: clamp(1.6rem, 1.2rem + 2vw, 2.25rem); line-height: 1.2; }
+.sf-h2 { font-size: clamp(1.4rem, 1.1rem + 1.5vw, 1.8rem); }
+.sf-h3 { font-size: clamp(1.2rem, 1.05rem + 1vw, 1.5rem); }
+.sf-h4 { font-size: 1.125rem; }
+.sf-h5 { font-size: 1rem; }
+.sf-h6 { font-size: .875rem; color: var(--sf-muted); }
 
-// NEW: A lead paragraph style for subheadings
-.lead {
-  font-size: clamp(1.125rem, 2vw, 1.375rem);
-  color: $gray-500;
-  max-width: 75ch; // For optimal reading length
-}
-
-// Styles for long-form content like blog posts
-.typeset {
-  p, ul, ol { margin-bottom: $space-5; }
-  strong { font-weight: 700; color: $gray-900; }
-  ul, ol { padding-left: $space-5; }
-  blockquote {
-    border-left: 3px solid $brand-secondary;
-    padding-left: $space-5;
-    margin-left: 0;
-    font-style: italic;
-    font-size: 1.2rem;
-    color: $gray-500;
+/* Links with gentle underline on hover (SLDS vibe) */
+.sf-link-underline {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .15s ease;
+  }
+  &:hover::after {
+    transform: scaleX(1);
   }
 }

@@ -1,10 +1,28 @@
 /* ============================================================================
    BASE / BASE
+   Global element styling for the entire document.
    ============================================================================ */
 body {
-  background: $white;
-  color: $gray-700;
-  font-family: $font-body;
-  line-height: 1.6;
-  font-size: clamp(1rem, 1.05vw, 1.125rem); // Fluid font size
+  margin: 0;
+  font-family: var(--sf-font-body);
+  color: var(--sf-fg);
+  background: var(--sf-bg-1);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--sf-link);
+  text-decoration: none;
+  &:hover {
+    color: var(--sf-brand-2);
+  }
+}
+
+:focus-visible {
+  @include focus-ring;
+}
+
+::selection {
+  background: var(--sf-ink);
+  color: #fff;
 }

@@ -1,0 +1,35 @@
+/* ============================================================================
+   LAYOUT / STRUCTURE
+   The main application shell and structural elements.
+   ============================================================================ */
+.sf-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.sf-main {
+  flex: 1 0 auto;
+}
+
+.sf-header,
+.sf-footer {
+  flex: 0 0 auto;
+  background: var(--sf-bg-2);
+}
+
+.sf-header {
+  border-bottom: 1px solid var(--sf-line-2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  // Add a subtle backdrop blur for a modern feel
+  background: color-mix(in srgb, var(--sf-bg-2) 80%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.sf-footer {
+  border-top: 1px solid var(--sf-line-2);
+  color: var(--sf-muted);
+}
