@@ -2,10 +2,16 @@
 layout: default
 ---
 
+{% comment %}
+============================================================================
+_layouts/page.html (Definitive Version)
+The standard layout for content pages like "About" or "Contact".
+============================================================================
+{% endcomment %}
+
 <!-- ========================================================================
      PAGE HEADER
-     Introduces the page with a title and optional subtitle.
-     Controlled by 'title' and 'subtitle' in front matter.
+     Controlled by 'title' and 'subtitle' in the page's front matter.
      ======================================================================== -->
 <header class="sf-page-header">
   <div class="sf-container">
@@ -17,13 +23,19 @@ layout: default
 </header>
 
 <!-- ========================================================================
-     MAIN PAGE CONTENT
-     Uses a two-column grid if an aside is present, otherwise centers the content.
+     MAIN PAGE WRAPPER
+     Applies top and bottom padding for the content area.
      ======================================================================== -->
-<div class="sf-container">
+<div class="sf-container" style="padding: var(--sf-8) 0;">
+
+  <!--
+    This layout container is smart:
+    - If `aside: true` is in front matter, it becomes a two-column grid.
+    - If not, the `--no-aside` class makes it a single, centered column.
+  -->
   <div class="page-layout {% if page.aside != true %}page-layout--no-aside{% endif %}">
 
-    <!-- Primary Content Wrapper -->
+    <!-- Primary Content Column -->
     <div class="page-content-wrapper">
       <div class="sf-card page-content-card">
         <article class="sf-card__body typeset">
@@ -36,12 +48,17 @@ layout: default
     {% if page.aside == true %}
       <aside class="page-aside">
         
-        <!-- You can create a reusable sidebar include: _includes/site-aside.html -->
+        {% comment %}
+          You can create a reusable sidebar include: `_includes/site-aside.html`
+          Or build the content directly here.
+        {% endcomment %}
+
         <div class="sidebar-card">
           <header class="sidebar-card__header">
             <h3 class="sf-h4 sidebar-card__title">On This Page</h3>
           </header>
           <div class="sidebar-card__body">
+            <!-- Example: Table of Contents can be generated here -->
             <p class="sf-text--small sf-text-muted">Navigation links or related content would appear here.</p>
           </div>
         </div>
