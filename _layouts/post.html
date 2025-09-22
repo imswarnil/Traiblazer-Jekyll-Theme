@@ -2,22 +2,113 @@
 layout: default
 ---
 
-<main class="main  container">
+<!-- ========================================================================
+     FULL-WIDTH HERO SECTION
+     Uses the 'feature_image' from the post's front matter.
+     ======================================================================== -->
+<section class="post-hero" {% if page.feature_image %} style="background-image: url('{{ page.feature_image | relative_url }}')"{% endif %}>
+  <div class="post-hero__content">
+    <h1 class="sf-h1 post-hero__title">{{ page.title }}</h1>
+    
+    <div class="post-hero__meta">
+      {% if page.author %}
+        <span><i class="ph-bold ph-user-circle"></i> {{ page.author }}</span>
+      {% endif %}
+      <span><i class="ph-bold ph-calendar"></i> {{ page.date | date: "%B %d, %Y" }}</span>
+    </div>
+  </div>
+</section>
 
-  <article class="article  article--post  content  typeset">
+<!-- ========================================================================
+     MAIN CONTENT & SIDEBAR
+     ======================================================================== -->
+<div class="sf-container" style="padding: var(--sf-8) 0;">
+  <div class="post-layout">
 
-    <h1>{{ page.title }}</h1>
-    {% include post-meta.html %}
-    {{ content }}
+    <!-- LEFT COLUMN: The main article content -->
+    <article class="post-content typeset">
+      {{ content }}
+    </article>
 
-    {% include nav-share.html %}
+    <!-- RIGHT COLUMN: Sticky sidebar with meta info and sharing -->
+    <aside class="post-sidebar">
 
-    {% include post-comments.html %}
+      <!-- Meta Info Card -->
+      <div class="sf-card post-meta-card">
+        <div class="sf-card__header">About this post</div>
+        <div class="sf-card__body" style="padding: var(--sf-2) var(--sf-4);">
+          <ul class="post-meta-list">
+            <li class="post-meta-list__item">
+              <i class="ph-bold ph-calendar-check"></i>
+              <div>
+                <strong>Published</strong>
+                <span>{{ page.date | date: "%B %d, %Y" }}</span>
+              </div>
+            </li>
+            {% if page.categories and page.categories.size > 0 %}
+            <li class="post-meta-list__item">
+              <i class="ph-bold ph-folder-simple"></i>
+              <div>
+                <strong>Category</strong>
+                <span>{{ page.categories | join: ", " }}</span>
+              </div>
+            </li>
+            {% endif %}
+            {% if page.author %}
+            <li class="post-meta-list__item">
+              <i class="ph-bold ph-user"></i>
+              <div>
+                <strong>Author</strong>
+                <span>{{ page.author }}</span>
+              </div>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
 
-  </article>
+      <!-- Share Card -->
+      <div class="sf-card post-share-card">
+        <div class="sf-card__header">Share this post</div>
+        <div class="sf-card__body post-share-card__body">
+          {% assign post_url = page.url | absolute_url | url_encode %}
+          {% assign post_title = page.title | url_encode %}
+          
+          <a href="https://twitter.com/intent/tweet?url={{ post_url }}&text={{ post_title }}" target="_blank" rel="noopener" class="sf-btn sf-btn--outline sf-btn--full">
+            <i class="ph-bold ph-twitter-logo"></i> Twitter
+          </a>
+          <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ post_url }}" target="_blank" rel="noopener" class="sf-btn sf-btn--outline sf-btn--full">
+            <i class="ph-bold ph-linkedin-logo"></i> LinkedIn
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u={{ post_url }}" target="_blank" rel="noopener" class="sf-btn sf-btn--outline sf-btn--full">
+            <i class="ph-bold ph-facebook-logo"></i> Facebook
+          </a>
+          <a href="mailto:?subject={{ post_title }}&body={{ post_url }}" class="sf-btn sf-btn--outline sf-btn--full">
+            <i class="ph-bold ph-envelope-simple"></i> Email
+          </a>
+        </div>
+      </div>
 
-  {% if page.aside == true %}{% include site-aside.html %}{% endif %}
+    </aside>
 
-</main>
+  </div>
 
-{% include footer.html %}
+  <!-- COMMENTS SECTION -->
+  <div class="post-comments-section">
+    <div class="post-content"> <!-- Reuse content class for consistent width -->
+      <header class="post-comments-section__header">
+        <h2 class="sf-h2">Comments</h2>
+      </header>
+      
+      <!-- Your comments include (e.g., Disqus, Giscus) goes here -->
+      {% comment %} {% include post-comments.html %} {% endcomment %}
+      <div class="sf-card">
+        <div class="sf-card__body sf-text-muted">
+          Comments are powered by a third-party service. Your `_includes/post-comments.html` embed code would appear here.
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+</div>

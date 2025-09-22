@@ -1,0 +1,149 @@
+/* ============================================================================
+   PAGES / POST
+   Styles for the single blog post layout.
+   ============================================================================ */
+
+// --- Post Hero Section ---
+.post-hero {
+  position: relative;
+  width: 100%;
+  min-height: 45vh;
+  max-height: 500px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: var(--sf-8) var(--sf-4);
+  color: #fff;
+  background-size: cover;
+  background-position: center center;
+
+  // Dark overlay for text readability
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(11, 18, 33, 0.8) 0%, rgba(11, 18, 33, 0.4) 100%);
+    z-index: 1;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+  }
+  
+  &__title {
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0,0,0,.5);
+  }
+
+  &__meta {
+    margin-top: var(--sf-4);
+    display: flex;
+    justify-content: center;
+    gap: var(--sf-4);
+    flex-wrap: wrap;
+    font-weight: 600;
+
+    span {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sf-2);
+      opacity: 0.9;
+    }
+  }
+}
+
+// --- Main Post Layout (Content + Sidebar) ---
+.post-layout {
+  display: grid;
+  gap: var(--sf-8);
+
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 320px;
+  }
+}
+
+// --- Main Article Content ---
+.post-content {
+  // Constrain width for optimal readability
+  max-width: 75ch;
+  
+  h1, h2, h3, h4, h5, h6 {
+    margin-top: 2em; // More vertical space for headings
+  }
+}
+
+// --- Post Sidebar ---
+.post-sidebar {
+  @media (min-width: 1024px) {
+    position: sticky;
+    top: calc(68px + var(--sf-6));
+    align-self: start;
+  }
+  
+  @media (max-width: 1023px) {
+    // On mobile, the sidebar becomes a section after the main content
+    margin-top: var(--sf-8);
+    padding-top: var(--sf-6);
+    border-top: 2px solid var(--sf-line-2);
+  }
+}
+
+// --- Sidebar Components ---
+.post-meta-card, .post-share-card {
+  margin-bottom: var(--sf-4);
+}
+
+.post-meta-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: .9rem;
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sf-3);
+    padding: var(--sf-3) 0;
+    border-bottom: 1px solid var(--sf-line-2);
+
+    &:last-child {
+      border-bottom: none;
+    }
+    
+    .ph-bold {
+      font-size: 1.25rem;
+      color: var(--sf-brand);
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    strong {
+      color: var(--sf-fg-2);
+      display: block;
+      font-weight: 600;
+    }
+    span {
+      color: var(--sf-muted);
+    }
+  }
+}
+
+.post-share-card__body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sf-2);
+}
+
+
+// --- Comments Section ---
+.post-comments-section {
+  margin-top: var(--sf-8);
+  padding-top: var(--sf-6);
+  border-top: 2px solid var(--sf-line-2);
+
+  &__header {
+    margin-bottom: var(--sf-4);
+  }
+}
