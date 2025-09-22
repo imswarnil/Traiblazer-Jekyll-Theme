@@ -1,40 +1,42 @@
+{% comment %}
+============================================================================
+_includes/button.html (Simplified)
+A clean, flexible button component.
 
-{% comment %} --- Set Defaults --- {% endcomment %}
-{% assign text = include.text | default: "Button" %}
-{% assign link = include.link | default: "#" %}
-{% assign variant = include.variant | default: "brand" %}
-{% assign size = include.size | default: "md" %}
+Usage:
+{% include button.html
+    text="Click Me"
+    link="/my-page/"
+    variant="brand" (brand, neutral, outline, destructive)
+    size="md" (sm, md, lg)
+    icon="arrow-right" (any Phosphor icon name)
+%}
+============================================================================
+{% endcomment %}
+
+{% comment %} --- Set Defaults & Parameters --- {% endcomment %}
+{% assign link = include.link | default: '#' %}
+{% assign text = include.text %}
 {% assign icon = include.icon %}
-{% assign icon_position = include.icon_position | default: "left" %}
-{% assign full_width = include.full_width | default: false %}
-{% assign is_submit = include.is_submit | default: false %}
+{% assign variant = include.variant | default: 'brand' %}
+{% assign size = include.size | default: 'md' %}
 
-{% comment %} --- Build CSS Classes --- {% endcomment %}
+{% comment %} --- Build CSS Class List --- {% endcomment %}
 {% assign class_list = "sf-btn" %}
 {% assign class_list = class_list | append: " sf-btn--" | append: variant %}
 {% if size != "md" %}{% assign class_list = class_list | append: " sf-btn--" | append: size %}{% endif %}
-{% if full_width == true %}{% assign class_list = class_list | append: " sf-btn--full" %}{% endif %}
-{% if icon and text == nil or text == "" %}{% assign class_list = class_list | append: " sf-btn--icon-only" %}{% endif %}
-{% if icon and icon_position == 'right' %}{% assign class_list = class_list | append: " sf-btn--icon-right" %}{% endif %}
 
-{% comment %} --- Build Icon Include --- {% endcomment %}
-{% capture icon_html %}
+{% comment %} --- Add icon-only class if no text is provided --- {% endcomment %}
+{% if icon and text == nil or text == "" %}
+    {% assign class_list = class_list | append: " sf-btn--icon-only" %}
+{% endif %}
+
+{% comment %} --- Render the Anchor Tag --- {% endcomment %}
+<a href="{{ link | relative_url }}" class="{{ class_list }}">
   {% if icon %}
     <i class="ph-duotone ph-{{ icon }}"></i>
   {% endif %}
-{% endcapture %}
-
-{% comment %} --- Render the correct element (a or button) --- {% endcomment %}
-{% if is_submit == true %}
-  <button type="submit" class="{{ class_list }}">
-    {% if icon and icon_position == 'left' %}{{ icon_html }}{% endif %}
-    {% if text %}<span class="sf-btn__text">{{ text }}</span>{% endif %}
-    {% if icon and icon_position == 'right' %}{{ icon_html }}{% endif %}
-  </button>
-{% else %}
-  <a href="{{ link | relative_url }}" class="{{ class_list }}">
-    {% if icon and icon_position == 'left' %}{{ icon_html }}{% endif %}
-    {% if text %}<span class="sf-btn__text">{{ text }}</span>{% endif %}
-    {% if icon and icon_position == 'right' %}{{ icon_html }}{% endif %}
-  </a>
-{% endif %}
+  {% if text %}
+    <span class="sf-btn__text">{{ text }}</span>
+  {% endif %}
+</a>
