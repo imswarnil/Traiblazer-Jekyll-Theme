@@ -1,21 +1,3 @@
-{% comment %}
-============================================================================
-_includes/button.html — ImSwarnil x Salesforce UI Kit
-A flexible button component.
-
-Usage:
-{% include button.html
-    text="Click Me"
-    link="/my-page/"
-    variant="brand" (brand, neutral, outline, destructive, ghost)
-    size="md" (sm, md, lg)
-    icon="magnifying-glass" (any Phosphor icon name, e.g., 'arrow-right')
-    icon_position="left" (left, right)
-    full_width=false (true, false)
-    is_submit=false (true, false - for forms)
-%}
-============================================================================
-{% endcomment %}
 
 {% comment %} --- Set Defaults --- {% endcomment %}
 {% assign text = include.text | default: "Button" %}
