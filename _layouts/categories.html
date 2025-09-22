@@ -3,77 +3,118 @@ layout: default
 ---
 
 
-<div class="sf-container" style="padding: var(--sf-6) 0;">
+<div class="sf-container" style="padding: var(--sf-8) 0;">
   <div class="category-layout">
 
-    <!-- Main Content Column -->
+    <!-- Sticky Sidebar Column (Filter) -->
+    <aside class="category-index">
+      <h3 class="category-index__title sf-h3">Filter by Topic</h3>
+      <ul class="category-pill-list" id="category-filter-list">
+        <li>
+          <!-- "All" button is active by default -->
+          <button class="sf-badge category-pill is-active" data-category="all">All</button>
+        </li>
+        {% assign categories = site.categories | sort %}
+        {% for category in categories %}
+          {% assign category_name = category | first %}
+          <li>
+            <button class="sf-badge category-pill" data-category="{{ category_name | slugify }}">
+              {{ category_name }}
+            </button>
+          </li>
+        {% endfor %}
+      </ul>
+    </aside>
+
+    <!-- Main Content Column (All Posts) -->
     <div class="category-content">
-      {% for category in site.categories %}
-        {% assign category_name = category | first %}
-        <section class="category-section" id="{{ category_name | slugify }}">
+      <ul class="category-post-list" id="post-list">
+        
+        {% assign posts = site.posts %}
+        {% for post in posts %}
           
-          <h2 class="sf-h2">{{ category_name }}</h2>
+          <li class="category-post-item" data-category="{{ post.category | slugify }}">
+            <article class="sf-card post-card">
+              
+              {% if post.feature_image %}
+                <a href="{{ post.url | relative_url }}" class="post-card__image-link" aria-hidden="true" tabindex="-1">
+                  <img src="{{ post.feature_image | relative_url }}" alt="{{ post.title }}" class="post-card__image" loading="lazy">
+                </a>
+              {% endif %}
 
-          <ul class="category-post-list">
-            {% for post in site.categories[category_name] %}
-              <li class="category-post-item">
+              <div class="sf-card__body">
+                <h3 class="sf-h4 post-card__title">
+                  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                </h3>
                 
-                <!-- Each post is now a self-contained card -->
-                <article class="sf-card post-card">
-                  <div class="sf-card__body">
-                    <h3 class="post-card__title">
-                      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                    </h3>
-                    
-                    <div class="post-card__meta">
-                      <!-- You can create a _includes/post-meta.html for this -->
-                      <span><i class="ph-bold ph-calendar"></i> {{ post.date | date: "%b %d, %Y" }}</span>
-                    </div>
+                <div class="post-card__meta">
+                  <span><i class="ph-bold ph-calendar"></i> {{ post.date | date: "%b %d, %Y" }}</span>
+                  <span><i class="ph-bold ph-clock"></i> {% include reading-time.html content=post.content %} read</span>
+                </div>
 
-                    <p class="post-card__excerpt">
-                      {{ post.excerpt | strip_html | truncatewords: 30 }}
-                    </p>
-                  </div>
-                  <div class="sf-card__footer">
-                    {% include button.html text="Read More" link=post.url variant="outline" size="sm" icon="arrow-right" %}
-                  </div>
-                </article>
-
-              </li>
-            {% endfor %}
-          </ul>
-
-        </section>
-      {% endfor %}
-      
-      {% comment %} Handle case where there are no posts {% endcomment %}
-      {% if site.categories.size == 0 %}
-        <div class="sf-card">
-          <div class="sf-card__body typeset">
-            <p>There are no posts here yet. Check back soon!</p>
-          </div>
-        </div>
-      {% endif %}
-    </div>
-
-    <!-- Sticky Sidebar Column -->
-    {% if site.categories.size > 0 %}
-      <aside class="category-index">
-        <h3 class="category-index__title sf-h3">Index</h3>
-        <ul class="category-pill-list">
-          {% for category in site.categories %}
-            {% assign category_name = category | first %}
-            <li>
-              <a href="#{{ category_name | slugify }}" class="sf-badge category-pill">
-                {{ category_name }}
-              </a>
+                <p class="post-card__excerpt">
+                  {{ post.excerpt | strip_html | truncatewords: 25 }}
+                </p>
+              </div>
+              
+              <div class="sf-card__footer">
+                 <a href="{{ post.url | relative_url }}" class="sf-btn sf-btn--outline sf-btn--sm">Read More <i class="ph-bold ph-arrow-right"></i></a>
+              </div>
+            </article>
+          </li>
+          
+          {% comment %} --- AdSense Placeholder Logic --- {% endcomment %}
+          {% assign ad_frequency = 3 %}
+          {% assign is_last_item = forloop.last %}
+          {% if forloop.index | modulo: ad_frequency == 0 and is_last_item == false %}
+            <li class="adsense-placeholder" data-category="all">
+              <div class="adsense-placeholder__text">
+                <i class="ph-bold ph-presentation-chart" style="font-size: 2rem; margin-bottom: 0.5rem; display: block;"></i>
+                Advertisement Placeholder
+              </div>
             </li>
-          {% endfor %}
-        </ul>
-      </aside>
-    {% endif %}
+          {% endif %}
+
+        {% endfor %}
+      </ul>
+    </div>
 
   </div>
 </div>
 
-{% include footer.html %}
+<!-- Self-Contained JavaScript for Live Filtering -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterList = document.getElementById('category-filter-list');
+    const postList = document.getElementById('post-list');
+    
+    if (!filterList || !postList) return;
+
+    const postItems = postList.querySelectorAll('.category-post-item, .adsense-placeholder');
+    const filterButtons = filterList.querySelectorAll('.category-pill');
+
+    filterList.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!target.matches('.category-pill')) return;
+
+      const filterCategory = target.getAttribute('data-category');
+
+      // Update active state on buttons
+      filterButtons.forEach(btn => {
+        btn.classList.remove('is-active');
+      });
+      target.classList.add('is-active');
+
+      // Filter the posts
+      postItems.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        
+        if (filterCategory === 'all' || itemCategory === filterCategory) {
+          item.classList.remove('is-hidden');
+        } else {
+          item.classList.add('is-hidden');
+        }
+      });
+    });
+  });
+</script>
