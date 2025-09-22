@@ -1,0 +1,131 @@
+/* ============================================================================
+   PAGES / CATEGORY
+   Styles for the category listing page.
+   ============================================================================ */
+
+// --- Main Page Layout ---
+// Creates the two-column structure for content and the aside index.
+.category-layout {
+  display: grid;
+  gap: var(--sf-6);
+
+  @media (min-width: 960px) {
+    grid-template-columns: 1fr 280px; // Main content and a fixed-width sidebar
+  }
+}
+
+// --- Category Section ---
+// Styles for each block of posts under a category heading.
+.category-section {
+  padding-bottom: var(--sf-6);
+  margin-bottom: var(--sf-6);
+  border-bottom: 1px solid var(--sf-line-2);
+
+  &:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+}
+
+// --- Post List & Individual Post Card ---
+.category-post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--sf-4);
+}
+
+.post-card {
+  // Inherits from the .sf-card component for a consistent base
+  // You can add overrides here if needed
+  &__title {
+    // Uses heading styles from the base theme
+    margin: 0 0 var(--sf-2) 0;
+    a {
+      text-decoration: none;
+      color: var(--sf-fg);
+      transition: color .15s ease;
+      &:hover {
+        color: var(--sf-brand);
+      }
+    }
+  }
+
+  &__meta {
+    font-size: var(--sf-text-small);
+    color: var(--sf-muted);
+    margin-bottom: var(--sf-3);
+    display: flex;
+    align-items: center;
+    gap: var(--sf-3);
+    flex-wrap: wrap;
+
+    span { // individual meta items
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sf-1);
+    }
+  }
+
+  &__excerpt {
+    color: var(--sf-fg-2);
+    // Truncate long excerpts nicely
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// --- Sticky Sidebar Index ---
+.category-index {
+  // Make the sidebar sticky on desktop
+  @media (min-width: 960px) {
+    position: sticky;
+    top: calc(68px + var(--sf-6)); // Header height + desired offset
+    align-self: start; // Prevents stretching
+  }
+  
+  // On mobile, it appears at the bottom of the content
+  @media (max-width: 959px) {
+    margin-top: var(--sf-6);
+    padding-top: var(--sf-6);
+    border-top: 1px solid var(--sf-line-2);
+  }
+
+  &__title {
+    // Uses heading styles from the base theme
+    margin-top: 0;
+  }
+}
+
+.category-pill-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sf-2);
+}
+
+.category-pill {
+  // Inherits from the .sf-badge component for a consistent look
+  text-decoration: none;
+  transition: all .15s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--sf-shadow-sm);
+    background-color: color-mix(in oklab, var(--sf-brand), white 80%);
+    border-color: color-mix(in oklab, var(--sf-brand), white 60%);
+    color: var(--sf-brand);
+  }
+
+  // Active state for the current category
+  &.is-active {
+    background-color: var(--sf-brand);
+    border-color: var(--sf-brand);
+    color: #fff;
+  }
+}

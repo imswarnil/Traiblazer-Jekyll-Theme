@@ -4,53 +4,79 @@ layout: default
 
 {% include navbar.html %}
 
-<main class="main  container">
 
-  <div class="content">
+<div class="sf-container" style="padding: var(--sf-6) 0;">
+  <div class="category-layout">
 
-    <article class="article  article--page  typeset">
+    <!-- Main Content Column -->
+    <div class="category-content">
+      {% for category in site.categories %}
+        {% assign category_name = category | first %}
+        <section class="category-section" id="{{ category_name | slugify }}">
+          
+          <h2 class="sf-h2">{{ category_name }}</h2>
 
-      <h1>{{ page.title }}</h1>
+          <ul class="category-post-list">
+            {% for post in site.categories[category_name] %}
+              <li class="category-post-item">
+                
+                <!-- Each post is now a self-contained card -->
+                <article class="sf-card post-card">
+                  <div class="sf-card__body">
+                    <h3 class="post-card__title">
+                      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                    </h3>
+                    
+                    <div class="post-card__meta">
+                      <!-- You can create a _includes/post-meta.html for this -->
+                      <span><i class="ph-bold ph-calendar"></i> {{ post.date | date: "%b %d, %Y" }}</span>
+                      <span><i class="ph-bold ph-clock"></i> {% include reading-time.html content=post.content %}</span>
+                    </div>
 
-      {{ content }}
+                    <p class="post-card__excerpt">
+                      {{ post.excerpt | strip_html | truncatewords: 30 }}
+                    </p>
+                  </div>
+                  <div class="sf-card__footer">
+                    {% include button.html text="Read More" link=post.url variant="outline" size="sm" icon="arrow-right" %}
+                  </div>
+                </article>
 
-    </article>
+              </li>
+            {% endfor %}
+          </ul>
 
-    {% for category in site.categories %}
-    {% assign category_name = category | first %}
-    <section class="section  typeset">
-      <h2 id="{{ category_name | slugify }}">{{ category_name }}</h2>
-      <ul class="list  list--posts">
-        {% for page in site.categories[category_name] %}
-          {% assign has_categories = true %}
-          <li class="item  item--post">
-            <article class="article  article--post  typeset">
-              <h3><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></h3>
-              {% include post-meta.html %}
-              {{ page.excerpt | truncatewords: 60 | markdownify }}
-            </article>
-          </li>
-        {% endfor %}
-      </ul>
-      {% unless forloop.last %}<hr/>{% endunless %}
-    </section>
-  {% endfor %}
-  
-  {% if has_categories != true %}
-    <section class="section  typeset">
-      <p>There are no categorised posts</p>
-    </section>
-  {% endif %}
-  
+        </section>
+      {% endfor %}
+      
+      {% comment %} Handle case where there are no posts {% endcomment %}
+      {% if site.categories.size == 0 %}
+        <div class="sf-card">
+          <div class="sf-card__body typeset">
+            <p>There are no posts here yet. Check back soon!</p>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Sticky Sidebar Column -->
+    {% if site.categories.size > 0 %}
+      <aside class="category-index">
+        <h3 class="category-index__title sf-h3">Index</h3>
+        <ul class="category-pill-list">
+          {% for category in site.categories %}
+            {% assign category_name = category | first %}
+            <li>
+              <a href="#{{ category_name | slugify }}" class="sf-badge category-pill">
+                {{ category_name }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </aside>
+    {% endif %}
+
   </div>
-
-  {% if page.aside == true %}
-  <section class="section  section--category-index">
-    <h3>Index</h3>
-    <span>Nav Categories here </span>
-   </section>
-  {% endif %}
-
-</main>
+</div>
 
 {% include footer.html %}
