@@ -50,14 +50,81 @@
     />
   </head>
 
-  <body class="layout-{{ page.layout }}{% if page.title %}  {{ page.title | slugify }}{% endif %}">
-    {% include site-icons.svg %}
+  <body class="sf-page layout-{{ page.layout | slugify }}">
 
-    {{ content }}
-
+    <!-- Include the new, self-contained navbar component -->
+    {% include navbar.html %}
+  
+    <!-- Main content wrapper -->
+    <main class="sf-main">
+  
+      <!-- ========================================================================
+           FEATURE / HERO SECTION
+           This logic is now part of the layout, not the header.
+           It creates a hero banner based on page front matter.
+           ======================================================================== -->
+      {% assign feature_text = page.feature_text %}
+      {% assign feature_image = page.feature_image %}
+      
+      {% comment %} Check for collection-level feature data as a fallback {% endcomment %}
+      {% if page.collectionpage %}
+        {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
+        {% assign feature_text = feature_text | default: collectiondata.feature_text %}
+        {% assign feature_image = feature_image | default: collectiondata.feature_image %}
+      {% endif %}
+      
+      {% if feature_text or feature_image %}
+        <section class="page-hero" {% if feature_image %} style="background-image: url('{{ feature_image | relative_url }}')"{% endif %}>
+          <div class="sf-container typeset">
+            {{ feature_text | markdownify }}
+          </div>
+        </section>
+      {% endif %}
+      <!-- ======================================================================== -->
+  
+      <!-- This is where the content from your Markdown files will be injected -->
+      {{ content }}
+  
+    </main>
+  
+    <!-- Include the new footer component -->
+    {% include footer.html %}
+  
+    <!-- Service Worker or other end-of-body includes -->
     {% if site.service_worker != false %}{% include site-sw.html %}{% endif %}
-
-    {% include site-before-end.html %}
+  
   </body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- ========================================================================
+       SEO TAGS (Using Jekyll SEO Tag Plugin is the best practice)
+       It handles titles, descriptions, canonical URLs, OG data, etc.
+       You can override any value in your page's front matter.
+       ======================================================================== -->
+  {% seo %}
+
+  <!-- Preconnect to Google Fonts for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- Main Stylesheet (compiled from SCSS) -->
+  <link rel="stylesheet" href="{{ "/css/style.css" | relative_url }}">
+  
+  <!-- Phosphor Icons (using the JS library for flexibility) -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  
+  <!-- Favicons and other custom head includes -->
+  {% if site.favicons or site.avatarurl %}{% include site-favicons.html %}{% endif %}
+  {% if site.google_analytics %}{% include site-analytics.html %}{% endif %}
+</head>
+
 
 </html>
