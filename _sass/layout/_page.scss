@@ -1,45 +1,49 @@
 /* ============================================================================
-   PAGES / PAGE (Definitive, Complete & Responsive Version)
+   PAGES / PAGE (Definitive Full-Width Column Layout)
    ============================================================================ */
 
 // --- SLDS-Style Page Header ---
-// This is the full-width banner that introduces the page content.
+// This component remains full-width and introduces the page.
 .sf-page-header {
   padding: var(--sf-6) 0;
   border-bottom: 1px solid var(--sf-line-2);
   background: var(--sf-bg-2);
-  
-  // This is a "belt-and-suspenders" fix. The main fix should be on .sf-page
-  // in _structure.scss, but this ensures this component never causes an issue.
-  overflow-x: hidden;
+  overflow-x: hidden; // Guarantees no overflow
 
-  &__title {
-    margin-bottom: var(--sf-2);
-  }
-
-  &__subtitle {
-    color: var(--sf-muted);
-    max-width: 65ch; // Constrain for readability
-  }
+  &__title { margin-bottom: var(--sf-2); }
+  &__subtitle { color: var(--sf-muted); max-width: 65ch; }
 }
 
-// --- Main Page Content Layout ---
-// This is the container for the primary content and the optional sidebar.
+// --- NEW: Full-Width Content Section ---
+// This is the new 100% width wrapper for the main content area.
+.page-content-section {
+  padding: var(--sf-8) 0; // Vertical spacing for the whole section
+}
+
+// --- Main Page Layout Grid (75% / 25%) ---
 .page-layout {
   display: grid;
   gap: var(--sf-6);
 
-  // On desktop, create the two-column layout
+  // On mobile, stack everything into a single column.
+  grid-template-columns: 1fr;
+
+  // On desktop, create the 75% / 25% split.
   @media (min-width: 960px) {
-    grid-template-columns: 1fr 280px; // Main Content | Sidebar
+    // We use a flexible unit (fr) and a fixed unit for the best results.
+    // This gives the main content the majority of the space while keeping
+    // the sidebar at a comfortable, readable width.
+    grid-template-columns: 1fr 300px;
   }
 
-  // Modifier for when no sidebar is present.
+  // --- Modifier for when no sidebar is present ---
   &--no-aside {
-    display: block; // Revert to a standard block layout
+    // When there's no sidebar, we don't need a grid.
+    display: block;
     
     .page-content-wrapper {
-      max-width: 800px; // A comfortable centered width for reading.
+      // Center the single content column for readability.
+      max-width: 800px;
       margin-inline: auto;
     }
   }
@@ -50,63 +54,32 @@
   background: var(--sf-bg-2);
   border: 1px solid var(--sf-line-2);
   border-radius: var(--sf-radius-lg);
-  box-shadow: none; // Content cards are flat, not floating
+  box-shadow: none;
 
-  &:hover { // Disable all hover effects
-    transform: none;
-    box-shadow: none;
-  }
-  .sf-card__body {
-    padding: var(--sf-5) var(--sf-6);
-  }
+  &:hover { transform: none; box-shadow: none; }
+  .sf-card__body { padding: var(--sf-5) var(--sf-6); }
 }
 
 // --- Optional Sidebar ---
 .page-aside {
   @media (min-width: 960px) {
     position: sticky;
-    top: calc(68px + var(--sf-6)); // Header height + desired offset
+    top: calc(68px + var(--sf-8));
     align-self: start;
   }
-
-  // On mobile, the sidebar stacks below the main content
-  @media (max-width: 959px) {
-    margin-top: var(--sf-6);
-    padding-top: var(--sf-6);
-    border-top: 1px solid var(--sf-line-2);
-  }
+  // On mobile, the grid automatically handles stacking, no extra rules needed.
 }
 
-// --- Table of Contents Styling (NEW) ---
+// --- Table of Contents Styling (No changes needed) ---
 .toc-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-
-  // Top-level list item
-  li {
-    margin-bottom: var(--sf-1);
-  }
-
+  list-style: none; padding: 0; margin: 0;
+  li { margin-bottom: var(--sf-1); }
   a {
-    display: block;
-    padding: var(--sf-2) var(--sf-3);
-    border-radius: var(--sf-radius-md);
-    font-weight: 600;
-    color: var(--sf-fg-2);
-    text-decoration: none;
+    display: block; padding: var(--sf-2) var(--sf-3);
+    border-radius: var(--sf-radius-md); font-weight: 600;
+    color: var(--sf-fg-2); text-decoration: none;
     transition: background-color .15s ease, color .15s ease;
-
-    &:hover {
-      background-color: color-mix(in oklab, var(--sf-bg-1), white 60%);
-      color: var(--sf-fg);
-    }
+    &:hover { background-color: color-mix(in oklab, var(--sf-bg-1), white 60%); color: var(--sf-fg); }
   }
-
-  // Nested list for sub-headings
-  ul {
-    list-style: none;
-    padding-left: var(--sf-4);
-    margin-top: var(--sf-2);
-  }
+  ul { list-style: none; padding-left: var(--sf-4); margin-top: var(--sf-2); }
 }

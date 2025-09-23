@@ -4,13 +4,12 @@ layout: default
 
 {% comment %}
 ============================================================================
-_layouts/page.html (Definitive, Complete & Responsive Version)
+_layouts/page.html (Definitive Full-Width Column Layout)
 ============================================================================
 {% endcomment %}
 
 <!-- ========================================================================
-     PAGE HEADER
-     Controlled by 'title' and 'subtitle' in the page's front matter.
+     PAGE HEADER (Full-width)
      ======================================================================== -->
 <header class="sf-page-header">
   <div class="sf-container">
@@ -22,55 +21,53 @@ _layouts/page.html (Definitive, Complete & Responsive Version)
 </header>
 
 <!-- ========================================================================
-     MAIN PAGE WRAPPER
-     Applies top and bottom padding for the content area.
+     MAIN PAGE CONTENT SECTION (Full-width)
      ======================================================================== -->
-<div class="sf-container" style="padding: var(--sf-8) 0;">
+<section class="page-content-section">
+  <!-- The container is now INSIDE the section to constrain the columns -->
+  <div class="sf-container">
+    
+    <!--
+      The layout grid now lives inside the container.
+      It intelligently handles single-column vs. two-column layouts.
+    -->
+    <div class="page-layout {% if page.aside != true %}page-layout--no-aside{% endif %}">
 
-  <!--
-    This layout container is smart:
-    - If `aside: true` is in front matter, it becomes a two-column grid.
-    - If not, the `--no-aside` class makes it a single, centered column.
-  -->
-  <div class="page-layout {% if page.aside != true %}page-layout--no-aside{% endif %}">
-
-    <!-- Primary Content Column -->
-    <div class="page-content-wrapper">
-      <div class="sf-card page-content-card">
-        <article class="sf-card__body typeset">
-          {{ content }}
-        </article>
+      <!-- Primary Content Column (approx 75%) -->
+      <div class="page-content-wrapper">
+        <div class="sf-card page-content-card">
+          <article class="sf-card__body typeset">
+            {{ content }}
+          </article>
+        </div>
       </div>
-    </div>
 
-    <!-- Optional Sidebar (Aside) -->
-    {% if page.aside == true %}
-      <aside class="page-aside">
-        
-        <div class="sidebar-card">
-          <header class="sidebar-card__header">
-            <h3 class="sf-h4 sidebar-card__title">On This Page</h3>
-          </header>
-          <div class="sidebar-card__body">
-            <!-- 
-              The Table of Contents is content, so it belongs in the body.
-              This uses the popular jekyll-toc plugin.
-            -->
-            {% include toc.html html=content class='toc-list' h_min=2 h_max=3 %}
-          </div>
-        </div>
-
-        <div class="sidebar-card">
-           <div class="sidebar-ad-placeholder">
-              <div class="sidebar-ad-placeholder__content">
-                <i class="ph-bold ph-presentation-chart"></i>
-                <span>Advertisement</span>
-              </div>
+      <!-- Optional Sidebar Column (approx 25%) -->
+      {% if page.aside == true %}
+        <aside class="page-aside">
+          
+          <div class="sidebar-card">
+            <header class="sidebar-card__header">
+              <h3 class="sf-h4 sidebar-card__title">On This Page</h3>
+            </header>
+            <div class="sidebar-card__body">
+              {% assign contentsTitle = page.toc_title | default: 'Contents' %}
+              {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title=contentsTitle %}
             </div>
-        </div>
+          </div>
 
-      </aside>
-    {% endif %}
+          <div class="sidebar-card">
+             <div class="sidebar-ad-placeholder">
+                <div class="sidebar-ad-placeholder__content">
+                  <i class="ph-bold ph-presentation-chart"></i>
+                  <span>Advertisement</span>
+                </div>
+              </div>
+          </div>
 
+        </aside>
+      {% endif %}
+
+    </div>
   </div>
-</div>
+</section>
