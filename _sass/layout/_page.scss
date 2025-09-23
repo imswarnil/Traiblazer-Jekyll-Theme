@@ -1,5 +1,5 @@
 /* ============================================================================
-   PAGES / PAGE (Definitive, Complete Version)
+   PAGES / PAGE (Definitive, Complete & Responsive Version)
    ============================================================================ */
 
 // --- SLDS-Style Page Header ---
@@ -9,7 +9,8 @@
   border-bottom: 1px solid var(--sf-line-2);
   background: var(--sf-bg-2);
   
-  // The definitive fix for horizontal scroll issues on full-width elements.
+  // This is a "belt-and-suspenders" fix. The main fix should be on .sf-page
+  // in _structure.scss, but this ensures this component never causes an issue.
   overflow-x: hidden;
 
   &__title {
@@ -26,13 +27,11 @@
 // This is the container for the primary content and the optional sidebar.
 .page-layout {
   display: grid;
-  // Use a variable for the gap for consistency.
-  --page-gap: var(--sf-6);
-  gap: var(--page-gap);
+  gap: var(--sf-6);
 
+  // On desktop, create the two-column layout
   @media (min-width: 960px) {
-    // Main Content | Optional Sidebar
-    grid-template-columns: 1fr 280px;
+    grid-template-columns: 1fr 280px; // Main Content | Sidebar
   }
 
   // Modifier for when no sidebar is present.
@@ -47,44 +46,67 @@
 }
 
 // --- Main Content Card ---
-// The article content is wrapped in a clean, borderless card.
 .page-content-card {
-  // Uses .sf-card as a base but with specific overrides.
   background: var(--sf-bg-2);
   border: 1px solid var(--sf-line-2);
   border-radius: var(--sf-radius-lg);
-  box-shadow: none; // Content cards are typically flat, not floating.
+  box-shadow: none; // Content cards are flat, not floating
 
-  // Disable all hover effects for a static content card.
-  &:hover {
+  &:hover { // Disable all hover effects
     transform: none;
     box-shadow: none;
-    border-color: var(--sf-line-2); // Ensure border doesn't change color
   }
-
-  // The .typeset class from _typography.scss will style the content inside.
   .sf-card__body {
-    padding: var(--sf-5) var(--sf-6); // Generous padding for content
+    padding: var(--sf-5) var(--sf-6);
   }
 }
-
 
 // --- Optional Sidebar ---
 .page-aside {
   @media (min-width: 960px) {
     position: sticky;
-    // Position it relative to the header and top padding of the container.
-    top: calc(68px + var(--sf-8));
+    top: calc(68px + var(--sf-6)); // Header height + desired offset
     align-self: start;
   }
 
-  // On mobile, add some space above it.
+  // On mobile, the sidebar stacks below the main content
   @media (max-width: 959px) {
     margin-top: var(--sf-6);
     padding-top: var(--sf-6);
     border-top: 1px solid var(--sf-line-2);
   }
+}
 
-  // We reuse the .sidebar-card component from the category page for consistency.
-  // No new styles are needed here if you have _category-archive.scss.
+// --- Table of Contents Styling (NEW) ---
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  // Top-level list item
+  li {
+    margin-bottom: var(--sf-1);
+  }
+
+  a {
+    display: block;
+    padding: var(--sf-2) var(--sf-3);
+    border-radius: var(--sf-radius-md);
+    font-weight: 600;
+    color: var(--sf-fg-2);
+    text-decoration: none;
+    transition: background-color .15s ease, color .15s ease;
+
+    &:hover {
+      background-color: color-mix(in oklab, var(--sf-bg-1), white 60%);
+      color: var(--sf-fg);
+    }
+  }
+
+  // Nested list for sub-headings
+  ul {
+    list-style: none;
+    padding-left: var(--sf-4);
+    margin-top: var(--sf-2);
+  }
 }

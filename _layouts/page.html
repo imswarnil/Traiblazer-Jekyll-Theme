@@ -4,8 +4,7 @@ layout: default
 
 {% comment %}
 ============================================================================
-_layouts/page.html (Definitive Version)
-The standard layout for content pages like "About" or "Contact".
+_layouts/page.html (Definitive, Complete & Responsive Version)
 ============================================================================
 {% endcomment %}
 
@@ -48,20 +47,16 @@ The standard layout for content pages like "About" or "Contact".
     {% if page.aside == true %}
       <aside class="page-aside">
         
-        {% comment %}
-          You can create a reusable sidebar include: `_includes/site-aside.html`
-          Or build the content directly here.
-        {% endcomment %}
-
         <div class="sidebar-card">
           <header class="sidebar-card__header">
             <h3 class="sf-h4 sidebar-card__title">On This Page</h3>
-            {% assign contentsTitle = page.toc_title | default: 'Contents' %}
-            {% include toc.html html=content class='menu-list' h_min=2 h_max=3 contents_title=contentsTitle %}
           </header>
           <div class="sidebar-card__body">
-            <!-- Example: Table of Contents can be generated here -->
-            <p class="sf-text--small sf-text-muted">Navigation links or related content would appear here.</p>
+            <!-- 
+              The Table of Contents is content, so it belongs in the body.
+              This uses the popular jekyll-toc plugin.
+            -->
+            {% include toc.html html=content class='toc-list' h_min=2 h_max=3 %}
           </div>
         </div>
 
