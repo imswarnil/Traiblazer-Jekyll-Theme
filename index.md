@@ -7,7 +7,7 @@ hero_title: "Creative chaos, engineered."
 hero_subtitle: "I build <strong>Salesforce CRM Analytics</strong> solutions by day and craft cinematic stories by night. I bring a unique blend of technical precision and creative vision to every project."
 hero_company: "Twilio"
 hero_location: "Bengaluru, India"
-hero_image: "/assets/images/profile.jpg" # IMPORTANT: Add your profile picture here
+hero_image: "/assets/Traiblazer-Profile.png" # IMPORTANT: Add your profile picture here
 hero_image_alt: "A professional headshot of Swarnil Singhai"
 ---
 
