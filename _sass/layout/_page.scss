@@ -1,76 +1,91 @@
 /* ============================================================================
-   PAGES / PAGE (Definitive Full-Width Column Layout)
+   LAYOUTS / PAGE LAYOUT (Definitive, Unconditional 2-Column)
    ============================================================================ */
 
-// --- SLDS-Style Page Header ---
-// This component remains full-width and introduces the page.
-.sf-page-header {
+// --- Full-Width Page Header ---
+.page-header {
   padding: var(--sf-6) 0;
   border-bottom: 1px solid var(--sf-line-2);
   background: var(--sf-bg-2);
   overflow-x: hidden; // Guarantees no overflow
 
-  &__title { margin-bottom: var(--sf-2); }
-  &__subtitle { color: var(--sf-muted); max-width: 65ch; }
+  &__title {
+    margin-bottom: var(--sf-2);
+  }
+  &__subtitle {
+    color: var(--sf-muted);
+    max-width: 65ch;
+  }
 }
 
-// --- NEW: Full-Width Content Section ---
-// This is the new 100% width wrapper for the main content area.
-.page-content-section {
-  padding: var(--sf-8) 0; // Vertical spacing for the whole section
+// --- Main Content Section (Full-width wrapper) ---
+.main-content-section {
+  padding: var(--sf-8) 0;
 }
 
-// --- Main Page Layout Grid (75% / 25%) ---
-.page-layout {
+// --- The Core Two-Column Grid ---
+// This is the container for the 75% content and 25% sidebar.
+.content-grid {
   display: grid;
   gap: var(--sf-6);
 
-  // On mobile, stack everything into a single column.
+  // Mobile: A single, clean column.
   grid-template-columns: 1fr;
 
-  // On desktop, create the 75% / 25% split.
+  // Desktop: The 75% / 25% split.
   @media (min-width: 960px) {
-    // We use a flexible unit (fr) and a fixed unit for the best results.
-    // This gives the main content the majority of the space while keeping
-    // the sidebar at a comfortable, readable width.
     grid-template-columns: 1fr 300px;
-  }
-
-  // --- Modifier for when no sidebar is present ---
-  &--no-aside {
-    // When there's no sidebar, we don't need a grid.
-    display: block;
-    
-    .page-content-wrapper {
-      // Center the single content column for readability.
-      max-width: 800px;
-      margin-inline: auto;
-    }
   }
 }
 
+
 // --- Main Content Card ---
-.page-content-card {
+// The primary content of the page lives in this clean card.
+.content-card {
   background: var(--sf-bg-2);
   border: 1px solid var(--sf-line-2);
   border-radius: var(--sf-radius-lg);
-  box-shadow: none;
-
+  // No hover effects or shadows for a clean, static content feel.
+  box-shadow: none; 
   &:hover { transform: none; box-shadow: none; }
-  .sf-card__body { padding: var(--sf-5) var(--sf-6); }
+
+  &__body {
+    padding: var(--sf-5) var(--sf-6);
+  }
 }
 
-// --- Optional Sidebar ---
-.page-aside {
+
+// --- Sidebar ---
+// Styles for the sidebar container itself.
+.content-sidebar {
   @media (min-width: 960px) {
     position: sticky;
     top: calc(68px + var(--sf-8));
     align-self: start;
   }
-  // On mobile, the grid automatically handles stacking, no extra rules needed.
 }
 
-// --- Table of Contents Styling (No changes needed) ---
+// --- Sidebar Card Component ---
+// Reusable card for sidebar content (TOC, Ads, etc.)
+.sidebar-card {
+  background: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  margin-bottom: var(--sf-4);
+
+  &__header {
+    padding: var(--sf-3) var(--sf-4);
+    border-bottom: 1px solid var(--sf-line-2);
+  }
+  &__title {
+    margin: 0;
+  }
+  &__body {
+    padding: var(--sf-4);
+  }
+}
+
+// --- Table of Contents List ---
 .toc-list {
   list-style: none; padding: 0; margin: 0;
   li { margin-bottom: var(--sf-1); }
@@ -82,4 +97,22 @@
     &:hover { background-color: color-mix(in oklab, var(--sf-bg-1), white 60%); color: var(--sf-fg); }
   }
   ul { list-style: none; padding-left: var(--sf-4); margin-top: var(--sf-2); }
+}
+
+// --- Square Ad Placeholder ---
+.sidebar-ad-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  // The key to a perfect square that scales
+  aspect-ratio: 1 / 1; 
+
+  border: 1px dashed var(--sf-line-1);
+  background: color-mix(in oklab, var(--sf-bg-1), white 60%);
+  color: var(--sf-muted);
+  font-size: .875rem;
+  text-align: center;
+  
+  .ph-bold { font-size: 2rem; margin-bottom: var(--sf-2); }
 }

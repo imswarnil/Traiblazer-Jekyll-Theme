@@ -4,18 +4,18 @@ layout: default
 
 {% comment %}
 ============================================================================
-_layouts/page.html (Definitive Full-Width Column Layout)
+_layouts/page.html (Definitive, Unconditional 2-Column Version)
 ============================================================================
 {% endcomment %}
 
 <!-- ========================================================================
      PAGE HEADER (Full-width)
      ======================================================================== -->
-<header class="sf-page-header">
+<header class="page-header">
   <div class="sf-container">
-    <h1 class="sf-h1 sf-page-header__title">{{ page.title }}</h1>
+    <h1 class="sf-h1 page-header__title">{{ page.title }}</h1>
     {% if page.subtitle %}
-      <p class="sf-text--large sf-page-header__subtitle">{{ page.subtitle }}</p>
+      <p class="sf-text--large page-header__subtitle">{{ page.subtitle }}</p>
     {% endif %}
   </div>
 </header>
@@ -23,50 +23,45 @@ _layouts/page.html (Definitive Full-Width Column Layout)
 <!-- ========================================================================
      MAIN PAGE CONTENT SECTION (Full-width)
      ======================================================================== -->
-<section class="page-content-section">
-  <!-- The container is now INSIDE the section to constrain the columns -->
+<section class="main-content-section">
   <div class="sf-container">
     
-    <!--
-      The layout grid now lives inside the container.
-      It intelligently handles single-column vs. two-column layouts.
-    -->
-    <div class="page-layout {% if page.aside != true %}page-layout--no-aside{% endif %}">
+    <!-- The Unconditional Two-Column Grid -->
+    <div class="content-grid">
 
       <!-- Primary Content Column (approx 75%) -->
-      <div class="page-content-wrapper">
-        <div class="sf-card page-content-card">
+      <main class="content-main">
+        <div class="sf-card content-card">
           <article class="sf-card__body typeset">
             {{ content }}
           </article>
         </div>
-      </div>
+      </main>
 
-      <!-- Optional Sidebar Column (approx 25%) -->
-      {% if page.aside == true %}
-        <aside class="page-aside">
-          
-          <div class="sidebar-card">
-            <header class="sidebar-card__header">
-              <h3 class="sf-h4 sidebar-card__title">On This Page</h3>
-            </header>
-            <div class="sidebar-card__body">
-              {% assign contentsTitle = page.toc_title | default: 'Contents' %}
-              {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title=contentsTitle %}
-            </div>
+      <!-- Sidebar Column (approx 25%) -->
+      <aside class="content-sidebar">
+        
+        <div class="sidebar-card">
+          <header class="sidebar-card__header">
+            <h3 class="sf-h4 sidebar-card__title">On This Page</h3>
+          </header>
+          <div class="sidebar-card__body">
+            {% include toc.html html=content class='toc-list' h_min=2 h_max=3 %}
           </div>
+        </div>
 
-          <div class="sidebar-card">
+        <div class="sidebar-card">
+          <div class="sidebar-card__body">
              <div class="sidebar-ad-placeholder">
-                <div class="sidebar-ad-placeholder__content">
+                <div> <!-- Extra div for easy centering -->
                   <i class="ph-bold ph-presentation-chart"></i>
                   <span>Advertisement</span>
                 </div>
               </div>
           </div>
+        </div>
 
-        </aside>
-      {% endif %}
+      </aside>
 
     </div>
   </div>
