@@ -1,103 +1,196 @@
 /* ============================================================================
-   PAGES / BLOG (Definitive, Pixel-Perfect Final Version)
+   PAGES / BLOG (Definitive, Self-Contained Final Version)
+   All styles for the blog archive layout, cards, and pagination.
+   Prefix: .blog-
    ============================================================================ */
 
-// --- The Core Page Grid (Main Content + Sidebar) ---
-// This single grid controls the entire page layout below the header.
-.blog-layout {
-  display: grid;
-  gap: var(--sf-6);
-  align-items: start; // Align items to the top of their grid cell
+// --- Page Header with 2-Column Ad Layout ---
+.blog-header {
+  padding: var(--sf-6) 0;
+  border-bottom: 1px solid var(--sf-line-2);
+  background: var(--sf-bg-2);
+  overflow-x: hidden;
+}
 
-  // Mobile: A single, clean column. Sidebar stacks below.
+.blog-header-grid {
+  display: grid;
+  align-items: center;
+  gap: var(--sf-6);
+  
+  // Mobile: Stack elements vertically
   grid-template-columns: 1fr;
 
-  // Desktop: The main content / sidebar split.
-  @media (min-width: 1024px) {
-    grid-template-columns: 1fr 320px;
+  // Desktop: 30% Text / 70% Ad Split
+  @media (min-width: 960px) {
+    grid-template-columns: minmax(0, .5fr) 1fr;
   }
 }
 
-// --- Main Content Column (Left) ---
-.blog-main-content {
-  // This is a container for the post grid and pagination
+.blog-header__text {
+  // Container for breadcrumbs, title, and subtitle
 }
 
-// --- Sidebar Column (Right) ---
-.blog-sidebar {
-  @media (min-width: 1024px) {
-    position: sticky;
-    top: calc(68px + var(--sf-6)); // Header height + desired offset
+.blog-breadcrumbs {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--sf-2); margin-bottom: var(--sf-4);
+  font-size: .875rem;
+
+  a { color: var(--sf-muted); transition: color .15s ease; &:hover { color: var(--sf-brand); } }
+  &__separator { color: var(--sf-line-1); }
+  &__current { font-weight: 600; color: var(--sf-fg); }
+}
+
+.blog-header__title {
+  // Uses .sf-h1 styles from base theme
+}
+.blog-header__subtitle {
+  // Uses .sf-text--large styles from base theme
+}
+
+.blog-header__ad {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%;
+  aspect-ratio: 728 / 90; // Desktop Leaderboard
+  border-radius: var(--sf-radius-lg);
+  border: 1px dashed var(--sf-line-1);
+  background: color-mix(in oklab, var(--sf-bg-1), white 60%);
+  color: var(--sf-muted); font-size: .875rem; text-align: center;
+  transition: border-color .2s ease;
+
+  &:hover { border-color: var(--sf-muted); }
+  
+  @media (max-width: 959px) {
+    aspect-ratio: 300 / 250; // Mobile Medium Rectangle
   }
 }
 
-// --- The Responsive Post Grid (1-2 Columns) ---
-// This grid now lives inside the main content column
-.post-grid {
+
+// --- Main Content Section ---
+.blog-content-section {
+  padding: var(--sf-8) 0;
+}
+
+
+// --- Responsive Post Grid (1-2-3 Columns) ---
+.blog-post-grid {
   list-style: none; padding: 0; margin: 0;
   display: grid;
   gap: var(--sf-6);
-  grid-template-columns: 1fr; // Mobile default
+  grid-template-columns: 1fr; // Mobile
 
   @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); // Tablet
+  }
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr); // Desktop
   }
 }
 
+
 // --- The Definitive SLDS Post Card ---
-.post-card {
-  // ... (The excellent card styles from the previous answer remain the same) ...
-  display: flex; flex-direction: column; background: var(--sf-bg-2);
-  border-radius: var(--sf-radius-lg); border: 1px solid var(--sf-line-2);
-  box-shadow: none; overflow: hidden; height: 100%;
+.blog-post-card {
+  display: flex; flex-direction: column;
+  background: var(--sf-bg-2);
+  border-radius: var(--sf-radius-lg);
+  border: 1px solid var(--sf-line-2);
+  box-shadow: none;
+  overflow: hidden;
+  height: 100%;
   transition: border-color 0.2s ease, transform 0.2s ease;
   position: relative;
-  &:hover { transform: translateY(-4px); border-color: var(--sf-brand); }
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--sf-brand);
+  }
+
   &__figure {
-    line-height: 0; aspect-ratio: 16 / 9; overflow: hidden;
-    background-color: var(--sf-bg-1); border-bottom: 1px solid var(--sf-line-2);
+    line-height: 0;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background-color: var(--sf-bg-1);
+    border-bottom: 1px solid var(--sf-line-2);
+
     img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform .4s ease-out, filter .4s ease-out;
+      transition: transform .4s ease-out;
     }
   }
-  &:hover &__figure img { transform: scale(1.05); filter: brightness(1.05); }
-  &__content {
-    padding: var(--sf-4); display: flex; flex-direction: column; flex-grow: 1;
+  &:hover &__figure img {
+    transform: scale(1.05);
   }
+
+  &__content {
+    padding: var(--sf-4);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
   &__title {
-    margin: 0 0 var(--sf-2) 0; font-size: 1.25rem; line-height: 1.3;
+    margin: 0 0 var(--sf-2) 0;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    
     a {
-      text-decoration: none; color: var(--sf-fg); transition: color .15s ease;
-      &::after {
+      text-decoration: none;
+      color: var(--sf-fg);
+      transition: color .15s ease;
+      &::after { // The "stretched-link" trick
         content: ''; position: absolute; top: 0; left: 0;
         right: 0; bottom: 0; z-index: 1;
       }
       &:hover { color: var(--sf-brand); }
     }
   }
+
   &__excerpt {
-    color: var(--sf-fg-2); font-size: .95rem; line-height: 1.6;
-    margin-bottom: var(--sf-4); flex-grow: 1; display: -webkit-box;
-    -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+    color: var(--sf-fg-2);
+    font-size: .95rem;
+    line-height: 1.6;
+    margin-bottom: var(--sf-4);
+    flex-grow: 1;
+    display: -webkit-box; -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical; overflow: hidden;
   }
+  
   &__footer {
-    display: flex; justify-content: space-between; align-items: flex-end;
-    position: relative; z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    position: relative; // Allow z-index to work
+    z-index: 2; // Sit above the stretched link
   }
 }
 
 // --- Rich Meta Details in Footer ---
-.post-card-meta {
-  // ... (The rich meta styles from the previous answer remain the same) ...
-  display: flex; align-items: center; gap: var(--sf-3);
+.blog-post-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--sf-3);
+
   &__author-avatar {
-    width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover;
-    border: 2px solid var(--sf-bg-2); box-shadow: 0 0 0 1px var(--sf-line-1);
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--sf-bg-2);
+    box-shadow: 0 0 0 1px var(--sf-line-1);
   }
-  &__text { font-size: .875rem; line-height: 1.3; }
-  &__author-name { font-weight: 600; color: var(--sf-fg); }
-  &__date { color: var(--sf-muted); }
+
+  &__text {
+    font-size: .875rem;
+    line-height: 1.3;
+  }
+
+  &__author-name {
+    font-weight: 600;
+    color: var(--sf-fg);
+  }
+
+  &__date {
+    color: var(--sf-muted);
+  }
 }
 
 
@@ -114,37 +207,8 @@
     font-size: .9rem;
     font-weight: 600;
     color: var(--sf-muted);
-  }
-}
-
-// --- Sidebar Ad Placeholder ---
-.sidebar-ad {
-  // A clean card-based container for the ad
-  &.sf-card {
-    padding: 0; // Remove default card padding
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    &:hover { transform: none; }
-  }
-
-  &__content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    // Standard IAB Leaderboard aspect ratio is ~728x90
-    aspect-ratio: 728 / 90; 
-    border-radius: var(--sf-radius-lg);
-    border: 1px dashed var(--sf-line-1);
-    background: color-mix(in oklab, var(--sf-bg-1), white 60%);
-    color: var(--sf-muted);
-    font-size: .875rem;
-    text-align: center;
-    transition: border-color .2s ease;
-
-    &:hover {
-      border-color: var(--sf-muted);
+    @media (max-width: 500px) {
+      display: none;
     }
   }
 }
