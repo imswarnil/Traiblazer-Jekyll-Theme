@@ -1,80 +1,46 @@
 /* ============================================================================
-   PAGES / BLOG (Definitive, Complete, Final Version)
-   All styles for the blog archive, cards, category cloud, and pagination.
+   PAGES / BLOG (Definitive, Self-Contained Final Version)
+   All styles for the blog archive, cards, breadcrumbs, and pagination.
    ============================================================================ */
 
-// --- Main Blog Layout (Content + Sidebar) ---
-.blog-layout {
-  display: grid;
-  gap: var(--sf-6);
-  align-items: start;
+// --- Page Header with Breadcrumbs ---
+.blog-header {
+  padding: var(--sf-6) 0;
+  border-bottom: 1px solid var(--sf-line-2);
+  background: var(--sf-bg-2);
+  overflow-x: hidden;
+}
 
-  // Mobile: Single column, sidebar stacks first
-  grid-template-columns: 1fr;
-  
-  // Desktop: Main content and a sidebar
-  @media (min-width: 960px) {
-    grid-template-columns: 1fr 300px;
+.blog-breadcrumbs {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: var(--sf-2); margin-bottom: var(--sf-4);
+  font-size: .875rem;
+
+  a { color: var(--sf-muted); transition: color .15s ease; &:hover { color: var(--sf-brand); } }
+  &__separator { color: var(--sf-line-1); }
+  &__current { font-weight: 600; color: var(--sf-fg); }
+}
+
+// --- Main Content Section ---
+.blog-content-section {
+  padding: var(--sf-8) 0;
+}
+
+// --- Featured Post Section ---
+.blog-featured-post {
+  margin-bottom: var(--sf-8);
+  .sf-marketing-card {
+    border-color: var(--sf-brand); // Highlight the featured card
+    @media (min-width: 960px) {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      &__figure { height: 100%; aspect-ratio: auto; }
+    }
   }
-}
-
-.blog-main-content {
-  // Container for post grid and pagination
-}
-
-.blog-sidebar {
-  @media (min-width: 960px) {
-    position: sticky;
-    top: calc(68px + var(--sf-6));
-  }
-  @media (max-width: 959px) {
-    order: -1; // Move sidebar to the top on mobile
-  }
-}
-
-// --- Category Cloud Widget ---
-.category-cloud-card {
-  // Uses .sidebar-card styles from your theme
-  margin-bottom: var(--sf-4);
-}
-.category-cloud-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sf-2);
-}
-.category-cloud-tag {
-  // Uses .sf-badge styles as a base
-  display: inline-flex;
-  align-items: baseline;
-  gap: .3rem;
-  text-decoration: none;
-  transition: all .15s ease;
-
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: var(--sf-shadow-sm);
-    background-color: color-mix(in oklab, var(--sf-brand), white 80%);
-    border-color: color-mix(in oklab, var(--sf-brand), white 60%);
-    color: var(--sf-brand);
-  }
-  
-  &__count {
-    font-size: .7rem;
-    font-weight: 400;
-    opacity: .7;
-  }
-}
-
-// --- Sidebar Ad Placeholder ---
-.sidebar-ad-placeholder {
-  // ... (Ad placeholder styles from previous answers are fine) ...
 }
 
 // --- Responsive Post Grid (1-2-3 Columns) ---
-.post-grid {
+.blog-post-grid {
   list-style: none; padding: 0; margin: 0;
   display: grid; gap: var(--sf-6);
   grid-template-columns: 1fr; // Mobile
@@ -83,20 +49,21 @@
 }
 
 // --- The Definitive SLDS Post Card ---
-.post-card {
+.blog-post-card {
   display: flex; flex-direction: column; background: var(--sf-bg-2);
   border-radius: var(--sf-radius-lg); border: 1px solid var(--sf-line-2);
   box-shadow: none; overflow: hidden; height: 100%;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   position: relative;
-  &:hover { transform: translateY(-4px); border-color: var(--sf-brand); }
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--sf-brand);
+    box-shadow: var(--sf-shadow-sm);
+  }
   &__figure {
     line-height: 0; aspect-ratio: 16 / 9; overflow: hidden;
     background-color: var(--sf-bg-1); border-bottom: 1px solid var(--sf-line-2);
-    img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform .4s ease-out;
-    }
+    img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease-out; }
   }
   &:hover &__figure img { transform: scale(1.05); }
   &__content { padding: var(--sf-4); display: flex; flex-direction: column; flex-grow: 1; }
@@ -104,10 +71,7 @@
     margin: 0 0 var(--sf-2) 0; font-size: 1.25rem; line-height: 1.3;
     a {
       text-decoration: none; color: var(--sf-fg); transition: color .15s ease;
-      &::after {
-        content: ''; position: absolute; top: 0; left: 0;
-        right: 0; bottom: 0; z-index: 1;
-      }
+      &::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
       &:hover { color: var(--sf-brand); }
     }
   }
@@ -120,7 +84,7 @@
 }
 
 // --- Rich Meta Details in Footer ---
-.post-card-meta {
+.blog-post-meta {
   display: flex; align-items: center; gap: var(--sf-3);
   &__author-avatar {
     width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover;
@@ -133,19 +97,11 @@
 
 // --- Themed SLDS Pagination ---
 .blog-pagination {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: var(--sf-8);
-  padding-top: var(--sf-6);
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: var(--sf-8); padding-top: var(--sf-6);
   border-top: 1px solid var(--sf-line-2);
-
   &__text {
-    font-size: .9rem;
-    font-weight: 600;
-    color: var(--sf-muted);
-    @media (max-width: 500px) {
-      display: none;
-    }
+    font-size: .9rem; font-weight: 600; color: var(--sf-muted);
+    @media (max-width: 500px) { display: none; }
   }
 }
