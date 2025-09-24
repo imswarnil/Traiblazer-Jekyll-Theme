@@ -2,33 +2,40 @@
 layout: default
 ---
 
-{% include navbar.html %}
 
-<main class="main  container">
-
-  <div class="content">
-
-    <article class="article  article--page  typeset">
-
-      {% if paginator.posts %}
-        {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
-        <h1>{{ collectiondata.title }}</h1>
-        {{ collectiondata.description | markdownify }}
-
-      {% else %}
-        <h1>{{ page.title }}</h1>
-        {{ content }}
-        
-      {% endif %}
-
-    </article>
-
-    {% include post-list.html %}
-
+<!-- Page Header to introduce the blog -->
+<header class="sf-page-header">
+  <div class="sf-container">
+    <h1 class="sf-h1 sf-page-header__title">{{ page.title }}</h1>
+    {% if page.subtitle %}
+      <p class="sf-text--large sf-page-header__subtitle">{{ page.subtitle }}</p>
+    {% endif %}
   </div>
+</header>
 
-  {% if page.aside == true %}{% include site-aside.html %}{% endif %}
+<!-- Main content section -->
+<div class="sf-container" style="padding: var(--sf-8) 0;">
+  
+  {% if paginator.posts.size > 0 %}
+    <!-- The responsive grid of post cards -->
+    <ul class="post-grid">
+      {% for post in paginator.posts %}
+        <li>
+          {% include post-card.html post=post %}
+        </li>
+      {% endfor %}
+    </ul>
+    
+    <!-- The pagination controls -->
+    {% include post-pagination.html %}
 
-</main>
+  {% else %}
+    <div class="sf-card">
+      <div class="sf-card__body typeset">
+        <h3>No Posts Found</h3>
+        <p>There are no posts here yet. Check back soon!</p>
+      </div>
+    </div>
+  {% endif %}
 
-{% include footer.html %}
+</div>
