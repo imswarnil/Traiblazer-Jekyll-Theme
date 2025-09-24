@@ -1,5 +1,5 @@
 /* ============================================================================
-   LAYOUTS / PAGE LAYOUT (Definitive, Unconditional 2-Column)
+   PAGES / PAGE (Definitive, Bulletproof Layout - Final Version)
    ============================================================================ */
 
 // --- Full-Width Page Header ---
@@ -9,110 +9,93 @@
   background: var(--sf-bg-2);
   overflow-x: hidden; // Guarantees no overflow
 
-  &__title {
-    margin-bottom: var(--sf-2);
-  }
-  &__subtitle {
-    color: var(--sf-muted);
-    max-width: 65ch;
-  }
+  &__title { margin-bottom: var(--sf-2); }
+  &__subtitle { color: var(--sf-muted); max-width: 65ch; }
 }
 
-// --- Main Content Section (Full-width wrapper) ---
-.main-content-section {
-  padding: var(--sf-8) 0;
-}
 
-// --- The Core Two-Column Grid ---
-// This is the container for the 75% content and 25% sidebar.
-.content-grid {
+// --- THE BULLETPROOF PAGE GRID ---
+// This single grid controls the entire page layout below the header.
+.page-grid {
   display: grid;
-  gap: var(--sf-6);
+  // Create a 3-column layout: [gutter] [main content] [sidebar] [gutter]
+  // This is the key to perfect alignment and no overflow.
+  grid-template-columns: minmax(var(--sf-4), 1fr) minmax(0, 800px) minmax(0, 300px) minmax(var(--sf-4), 1fr);
+  gap: 0 var(--sf-6); // Only create a gap between columns
+  padding: var(--sf-8) 0; // Vertical spacing for the content area
 
-  // Mobile: A single, clean column.
-  grid-template-columns: 1fr;
-
-  // Desktop: The 75% / 25% split.
-  @media (min-width: 960px) {
-    grid-template-columns: 1fr 300px;
+  // On mobile, collapse to a single content column with simple padding.
+  @media (max-width: 959px) {
+    grid-template-columns: 1fr;
+    padding: var(--sf-4) var(--sf-4);
+    gap: var(--sf-6) 0; // Only create a gap between rows
   }
 }
 
+// --- Main Content Column ---
+// This element now sits directly inside the .page-grid
+.page-main-content {
+  grid-column: 2 / 3; // Place this in the second (main content) column.
+  
+  @media (max-width: 959px) {
+    grid-column: 1 / 2; // Take up the full width on mobile
+    order: 2; // Ensure content comes after sidebar on mobile
+  }
+}
 
-// --- Main Content Card ---
-// The primary content of the page lives in this clean card.
+// The card that holds the article content
 .content-card {
   background: var(--sf-bg-2);
   border: 1px solid var(--sf-line-2);
   border-radius: var(--sf-radius-lg);
-  // No hover effects or shadows for a clean, static content feel.
-  box-shadow: none; 
-  &:hover { transform: none; box-shadow: none; }
+  box-shadow: none;
 
   &__body {
     padding: var(--sf-5) var(--sf-6);
   }
 }
 
+// --- Sidebar Column ---
+// This element also sits directly inside the .page-grid
+.page-sidebar {
+  grid-column: 3 / 4; // Place this in the third (sidebar) column.
 
-// --- Sidebar ---
-// Styles for the sidebar container itself.
-.content-sidebar {
-  @media (min-width: 960px) {
-    position: sticky;
-    top: calc(68px + var(--sf-8));
-    align-self: start;
+  // Make it sticky within its grid column
+  position: sticky;
+  top: calc(68px + var(--sf-8));
+  align-self: start;
+  
+  @media (max-width: 959px) {
+    grid-column: 1 / 2; // Take up the full width on mobile
+    order: 1; // Place the sidebar BEFORE the content on mobile
+    position: static; // Disable sticky positioning on mobile
   }
 }
 
-// --- Sidebar Card Component ---
-// Reusable card for sidebar content (TOC, Ads, etc.)
+// Sidebar Card Component
 .sidebar-card {
   background: var(--sf-bg-2);
   border: 1px solid var(--sf-line-2);
   border-radius: var(--sf-radius-lg);
   margin-bottom: var(--sf-4);
 
-  &__header {
-    padding: var(--sf-3) var(--sf-4);
-    border-bottom: 1px solid var(--sf-line-2);
-  }
-  &__title {
-    margin: 0;
-  }
-  &__body {
-    padding: var(--sf-4);
-  }
+  &__header { padding: var(--sf-3) var(--sf-4); border-bottom: 1px solid var(--sf-line-2); }
+  &__title { margin: 0; }
+  &__body { padding: var(--sf-4); }
 }
 
-// --- Table of Contents List ---
-.toc-list {
-  list-style: none; padding: 0; margin: 0;
-  li { margin-bottom: var(--sf-1); }
-  a {
-    display: block; padding: var(--sf-2) var(--sf-3);
-    border-radius: var(--sf-radius-md); font-weight: 600;
-    color: var(--sf-fg-2); text-decoration: none;
-    transition: background-color .15s ease, color .15s ease;
-    &:hover { background-color: color-mix(in oklab, var(--sf-bg-1), white 60%); color: var(--sf-fg); }
-  }
-  ul { list-style: none; padding-left: var(--sf-4); margin-top: var(--sf-2); }
-}
-
-// --- Square Ad Placeholder ---
+// Square Ad Placeholder
 .sidebar-ad-placeholder {
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  // The key to a perfect square that scales
-  aspect-ratio: 1 / 1; 
-
+  aspect-ratio: 1 / 1;
   border: 1px dashed var(--sf-line-1);
   background: color-mix(in oklab, var(--sf-bg-1), white 60%);
   color: var(--sf-muted);
   font-size: .875rem;
   text-align: center;
-  
+  border-radius: var(--sf-radius-lg); // Match card radius
+
   .ph-bold { font-size: 2rem; margin-bottom: var(--sf-2); }
 }

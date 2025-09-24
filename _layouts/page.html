@@ -4,7 +4,7 @@ layout: default
 
 {% comment %}
 ============================================================================
-_layouts/page.html (Definitive, Unconditional 2-Column Version)
+_layouts/page.html (Definitive, Bulletproof Layout - Final Version)
 ============================================================================
 {% endcomment %}
 
@@ -21,48 +21,39 @@ _layouts/page.html (Definitive, Unconditional 2-Column Version)
 </header>
 
 <!-- ========================================================================
-     MAIN PAGE CONTENT SECTION (Full-width)
+     MAIN PAGE GRID
+     This single grid controls the entire layout. No nested containers.
      ======================================================================== -->
-<section class="main-content-section">
-  <div class="sf-container">
-    
-    <!-- The Unconditional Two-Column Grid -->
-    <div class="content-grid">
+<div class="page-grid">
 
-      <!-- Primary Content Column (approx 75%) -->
-      <main class="content-main">
-        <div class="sf-card content-card">
-          <article class="sf-card__body typeset">
-            {{ content }}
-          </article>
-        </div>
-      </main>
-
-      <!-- Sidebar Column (approx 25%) -->
-      <aside class="content-sidebar">
-        
-        <div class="sidebar-card">
-          <header class="sidebar-card__header">
-            <h3 class="sf-h4 sidebar-card__title">On This Page</h3>
-          </header>
-          <div class="sidebar-card__body">
-            {% include toc.html html=content class='toc-list' h_min=2 h_max=3 %}
-          </div>
-        </div>
-
-        <div class="sidebar-card">
-          <div class="sidebar-card__body">
-             <div class="sidebar-ad-placeholder">
-                <div> <!-- Extra div for easy centering -->
-                  <i class="ph-bold ph-presentation-chart"></i>
-                  <span>Advertisement</span>
-                </div>
-              </div>
-          </div>
-        </div>
-
-      </aside>
-
+  <!-- Primary Content Column -->
+  <main class="page-main-content">
+    <div class="content-card">
+      <article class="content-card__body typeset">
+        {{ content }}
+      </article>
     </div>
-  </div>
-</section>
+  </main>
+
+  <!-- Sidebar Column -->
+  <aside class="page-sidebar">
+    
+    <div class="sidebar-card">
+      <header class="sidebar-card__header">
+        <h3 class="sf-h4 sidebar-card__title">Quick Links</h3>
+      </header>
+      <div class="sidebar-card__body">
+        <p class="sf-text--small sf-text-muted">Related content or navigation can go here.</p>
+      </div>
+    </div>
+
+    <div class="sidebar-ad-placeholder">
+      <div> <!-- Extra div for easy centering -->
+        <i class="ph-bold ph-presentation-chart"></i>
+        <span>Advertisement</span>
+      </div>
+    </div>
+
+  </aside>
+
+</div>
