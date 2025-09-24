@@ -4,7 +4,7 @@ layout: default
 
 {% comment %}
 ============================================================================
-_layouts/blog.html (Definitive, Salesforce App UI "Content Hub" Edition)
+_layouts/blog.html (Definitive, Complete, Final Version)
 ============================================================================
 {% endcomment %}
 
@@ -24,6 +24,11 @@ _layouts/blog.html (Definitive, Salesforce App UI "Content Hub" Edition)
      ======================================================================== -->
 <header class="sf-page-header">
   <div class="sf-container">
+    <nav class="blog-breadcrumbs" aria-label="Breadcrumb">
+      <a href="{{ '/' | relative_url }}">Home</a>
+      <span class="blog-breadcrumbs__separator">/</span>
+      <span class="blog-breadcrumbs__current" aria-current="page">{{ archive_title }}</span>
+    </nav>
     <h1 class="sf-h1 sf-page-header__title">{{ archive_title }}</h1>
     {% if archive_subtitle %}
       <div class="sf-text--large sf-page-header__subtitle typeset">
@@ -35,148 +40,132 @@ _layouts/blog.html (Definitive, Salesforce App UI "Content Hub" Edition)
 
 
 <!-- ========================================================================
-     MAIN CONTENT HUB
+     MAIN CONTENT & SIDEBAR
      ======================================================================== -->
-<div class="sf-container blog-layout">
-  
-  {% comment %} --- Get all posts and find the featured one --- {% endcomment %}
-  {% assign all_posts = paginator.posts | default: site.posts %}
-  {% assign featured_post = all_posts | where: "featured", true | first %}
-  
-  <!-- 1. Featured Post (only shows if a post has `featured: true`) -->
-  {% if featured_post %}
-  <section class="blog-featured-post">
-    <h2 class="sf-h3" style="margin-bottom: var(--sf-4);">Featured Post</h2>
-    {% comment %} Using the marketing card for the featured post {% endcomment %}
-    <article class="sf-marketing-card">
-        <a href="{{ featured_post.url | relative_url }}" class="sf-marketing-card__figure" aria-hidden="true" tabindex="-1">
-            <img src="{{ featured_post.feature_image | relative_url }}" alt="" loading="lazy">
-        </a>
-        <div class="sf-marketing-card__content">
-            <div class="sf-marketing-card__meta">
-                {% if featured_post.categories.size > 0 %}<span class="sf-badge sf-badge--brand">{{ featured_post.categories | first }}</span>{% endif %}
-            </div>
-            <h3 class="sf-h3 sf-marketing-card__title">
-                <a href="{{ featured_post.url | relative_url }}">{{ featured_post.title }}</a>
-            </h3>
-            <p class="sf-marketing-card__excerpt">{{ featured_post.excerpt | strip_html | truncatewords: 40 }}</p>
-            <footer class="sf-marketing-card__footer">
-                 {% include button.html text="Read Featured Story" link=featured_post.url variant="brand" size="md" icon="arrow-right" icon_position="right" %}
-            </footer>
-        </div>
-    </article>
-  </section>
-  {% endif %}
+<div class="sf-container" style="padding: var(--sf-8) 0;">
+  <div class="blog-layout">
 
-  <!-- 2. View & Filter Controls -->
-  <div class="blog-controls">
-    <div class="blog-view-toggle sf-btn-group">
-      <button class="sf-btn is-active" data-view="grid" aria-label="Grid View">
-        <i class="ph-bold ph-grid-four"></i>
-      </button>
-      <button class="sf-btn" data-view="list" aria-label="List View">
-        <i class="ph-bold ph-list"></i>
-      </button>
-    </div>
-    <select class="sf-select blog-filter-select" aria-label="Filter by category">
-      <option value="all">All Categories</option>
-      {% assign categories = site.categories | sort %}
-      {% for category in categories %}
-        {% assign category_name = category | first %}
-        <option value="{{ category_name | slugify }}">{{ category_name }}</option>
-      {% endfor %}
-    </select>
-  </div>
-
-  <!-- 3. The Post Grid -->
-  {% if all_posts.size > 0 %}
-    <ul class="blog-post-grid" id="blog-post-list">
-      {% for post in all_posts %}
-        {% if post.featured != true %} {# Don't show the featured post twice #}
-          <li data-category="{{ post.categories | first | slugify | default: 'uncategorized' }}">
-            <article class="blog-post-card">
-              {% if post.feature_image %}
-                <a href="{{ post.url | relative_url }}" class="blog-post-card__figure" aria-hidden="true" tabindex="-1">
-                  <img src="{{ post.feature_image | relative_url }}" alt="">
-                </a>
-              {% endif %}
-              <div class="blog-post-card__content">
-                <h2 class="sf-h4 blog-post-card__title">
-                  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                </h2>
-                <p class="blog-post-card__excerpt">{{ post.excerpt | strip_html | truncatewords: 25 }}</p>
-                <footer class="blog-post-card__footer">
-                  <div class="blog-post-meta">
-                    {% assign author = site.authors[post.author] | default: site.authors.default %}
-                    {% if author.avatar %}<img src="{{ author.avatar | relative_url }}" alt="" class="blog-post-meta__author-avatar">{% endif %}
-                    <div class="blog-post-meta__text">
-                      <div class="blog-post-meta__author-name">{{ author.name | default: "Site Author" }}</div>
-                      <div class="blog-post-meta__date">{{ post.date | date: "%b %d, %Y" }}</div>
+    <!-- ======================================================= -->
+    <!-- MAIN CONTENT COLUMN                                     -->
+    <!-- ======================================================= -->
+    <main class="blog-main-content">
+      
+      {% if paginator.posts.size > 0 %}
+        <!-- The responsive 1-2-3 column post grid -->
+        <ul class="post-grid">
+          {% for post in paginator.posts %}
+            <li>
+              <!-- =========================================== -->
+              <!-- START: Post Card HTML (Built directly here) -->
+              <!-- =========================================== -->
+              <article class="post-card">
+                {% if post.feature_image %}
+                  <a href="{{ post.url | relative_url }}" class="post-card__figure" aria-hidden="true" tabindex="-1">
+                    <img src="{{ post.feature_image | relative_url }}" alt="" loading="lazy">
+                  </a>
+                {% endif %}
+                <div class="post-card__content">
+                  <h2 class="sf-h3 post-card__title">
+                    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                  </h2>
+                  <p class="post-card__excerpt">
+                    {{ post.excerpt | strip_html | truncatewords: 30 }}
+                  </p>
+                  <footer class="post-card__footer">
+                    <div class="post-card-meta">
+                      {% assign author = site.authors[post.author] | default: site.authors.default %}
+                      {% if author.avatar %}
+                        <img src="{{ author.avatar | relative_url }}" alt="Photo of {{ author.name }}" class="post-card-meta__author-avatar">
+                      {% endif %}
+                      <div class="post-card-meta__text">
+                        <div class="post-card-meta__author-name">{{ author.name | default: "Site Author" }}</div>
+                        <div class="post-card-meta__date">{{ post.date | date: "%b %d, %Y" }}</div>
+                      </div>
                     </div>
-                  </div>
-                </footer>
-              </div>
-            </article>
-          </li>
+                  </footer>
+                </div>
+              </article>
+              <!-- ========================================= -->
+              <!-- END: Post Card HTML                       -->
+              <!-- ========================================= -->
+            </li>
+          {% endfor %}
+        </ul>
+        
+        <!-- =============================================== -->
+        <!-- START: Pagination HTML (Built directly here)    -->
+        <!-- =============================================== -->
+        {% if paginator.total_pages > 1 %}
+        <nav class="blog-pagination" role="navigation" aria-label="Pagination">
+          {% if paginator.previous_page %}
+            <a href="{{ paginator.previous_page_path | relative_url }}" class="sf-btn sf-btn--neutral">
+              <i class="ph-bold ph-arrow-left"></i>
+              <span>Newer</span>
+            </a>
+          {% else %}
+            <span></span> <!-- Empty span for flexbox alignment -->
+          {% endif %}
+
+          <span class="blog-pagination__text">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+
+          {% if paginator.next_page %}
+            <a href="{{ paginator.next_page_path | relative_url }}" class="sf-btn sf-btn--neutral">
+              <span>Older</span>
+              <i class="ph-bold ph-arrow-right"></i>
+            </a>
+          {% else %}
+            <span></span> <!-- Empty span for flexbox alignment -->
+          {% endif %}
+        </nav>
         {% endif %}
-      {% endfor %}
-    </ul>
+        <!-- ============================================= -->
+        <!-- END: Pagination HTML                          -->
+        <!-- ============================================= -->
 
-    <!-- 4. Pagination -->
-    {% if paginator %}
-      {% include post-pagination.html %}
-    {% endif %}
+      {% else %}
+        <div class="sf-card"><div class="sf-card__body typeset"><h3>No Posts Found</h3></div></div>
+      {% endif %}
 
-  {% else %}
-    <!-- 5. Empty State -->
-    <div class="blog-empty-state">
-      <i class="ph-bold ph-files"></i>
-      <h3 class="sf-h3">No Posts Found</h3>
-      <p>It looks like there are no articles here yet. Please check back later for new content!</p>
-    </div>
-  {% endif %}
+    </main>
+
+    <!-- ======================================================= -->
+    <!-- SIDEBAR COLUMN                                          -->
+    <!-- ======================================================= -->
+    <aside class="blog-sidebar">
+      
+      <!-- Category Cloud Widget -->
+      <div class="sidebar-card">
+        <header class="sidebar-card__header">
+          <h3 class="sf-h4 sidebar-card__title">Topics</h3>
+        </header>
+        <div class="sidebar-card__body">
+          <ul class="category-cloud-list">
+            {% assign categories = site.categories | sort %}
+            {% for category in categories %}
+              {% assign category_name = category | first %}
+              {% assign post_count = site.categories[category_name].size %}
+              <li>
+                <a href="/categories/#{{ category_name | slugify }}" class="sf-badge category-cloud-tag">
+                  <span>{{ category_name }}</span>
+                  <span class="category-cloud-tag__count">{{ post_count }}</span>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Ad Placeholder -->
+      <div class="sidebar-card">
+        <div class="sidebar-ad-placeholder">
+          <div>
+            <i class="ph-bold ph-presentation-chart"></i>
+            <span>Advertisement</span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
 </div>
-
-
-<!-- Self-Contained JavaScript for Interactivity -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const postList = document.getElementById('blog-post-list');
-    const viewToggles = document.querySelectorAll('[data-view]');
-    const categoryFilter = document.querySelector('.blog-filter-select');
-
-    if (!postList) return;
-    const allPosts = postList.querySelectorAll('li');
-
-    // --- View Toggler Logic ---
-    viewToggles.forEach(toggle => {
-      toggle.addEventListener('click', () => {
-        const view = toggle.getAttribute('data-view');
-        viewToggles.forEach(t => t.classList.remove('is-active'));
-        toggle.classList.add('is-active');
-        
-        if (view === 'list') {
-          postList.classList.add('view-list');
-        } else {
-          postList.classList.remove('view-list');
-        }
-      });
-    });
-
-    // --- Category Filter Logic ---
-    if (categoryFilter) {
-      categoryFilter.addEventListener('change', () => {
-        const selectedCategory = categoryFilter.value;
-        
-        allPosts.forEach(post => {
-          const postCategory = post.getAttribute('data-category');
-          if (selectedCategory === 'all' || selectedCategory === postCategory) {
-            post.style.display = 'block';
-          } else {
-            post.style.display = 'none';
-          }
-        });
-      });
-    }
-  });
-</script>
