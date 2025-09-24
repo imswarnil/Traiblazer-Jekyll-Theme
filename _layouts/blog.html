@@ -2,38 +2,128 @@
 layout: default
 ---
 
+{% comment %}
+============================================================================
+_layouts/blog.html (Definitive, Self-Contained Version)
+============================================================================
+{% endcomment %}
 
-<!-- Page Header to introduce the blog -->
+{% comment %} --- Get collection title and description from _config.yml --- {% endcomment %}
+{% if page.collectionpage %}
+  {% assign collectiondata = site.collections | where: "label", page.collectionpage | first %}
+  {% assign archive_title = collectiondata.title %}
+  {% assign archive_subtitle = collectiondata.description %}
+{% else %}
+  {% assign archive_title = page.title %}
+  {% assign archive_subtitle = page.excerpt %}
+{% endif %}
+
+
+<!-- ========================================================================
+     PAGE HEADER
+     ======================================================================== -->
 <header class="sf-page-header">
   <div class="sf-container">
-    <h1 class="sf-h1 sf-page-header__title">{{ page.title }}</h1>
-    {% if page.subtitle %}
-      <p class="sf-text--large sf-page-header__subtitle">{{ page.subtitle }}</p>
+    <h1 class="sf-h1 sf-page-header__title">{{ archive_title }}</h1>
+    {% if archive_subtitle %}
+      <div class="sf-text--large sf-page-header__subtitle typeset">
+        {{ archive_subtitle | markdownify }}
+      </div>
     {% endif %}
   </div>
 </header>
 
-<!-- Main content section -->
+
+<!-- ========================================================================
+     MAIN CONTENT SECTION
+     ======================================================================== -->
 <div class="sf-container" style="padding: var(--sf-8) 0;">
-  
+
   {% if paginator.posts.size > 0 %}
-    <!-- The responsive grid of post cards -->
+    <!-- The responsive post grid -->
     <ul class="post-grid">
       {% for post in paginator.posts %}
         <li>
-          {% include post-card.html post=post %}
+          <!-- =========================================== -->
+          <!-- START: Post Card HTML (Built directly here) -->
+          <!-- =========================================== -->
+          <article class="post-card">
+            
+            {% if post.feature_image %}
+              <a href="{{ post.url | relative_url }}" class="post-card__figure" aria-hidden="true" tabindex="-1">
+                <img src="{{ post.feature_image | relative_url }}" alt="" loading="lazy">
+              </a>
+            {% else %}
+              <div class="post-card__figure"></div>
+            {% endif %}
+            
+            <div class="post-card__content">
+              <div class="post-card__meta">
+                {% if post.categories.size > 0 %}
+                  <span class="sf-badge sf-badge--brand">{{ post.categories | first }}</span>
+                {% endif %}
+              </div>
+              <h3 class="sf-h4 post-card__title">
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              </h3>
+              <p class="post-card__excerpt">
+                {{ post.excerpt | strip_html | truncatewords: 30 }}
+              </p>
+              
+              <footer class="post-card__footer">
+                <div class="sf-meta-info">
+                   <i class="ph-bold ph-calendar"></i>
+                   <span>{{ post.date | date: "%b %d, %Y" }}</span>
+                </div>
+                <!-- The CTA button -->
+                <a href="{{ post.url | relative_url }}" class="sf-btn sf-btn--brand sf-btn--sm">Read</a>
+              </footer>
+            </div>
+          </article>
+          <!-- ========================================= -->
+          <!-- END: Post Card HTML                       -->
+          <!-- ========================================= -->
         </li>
       {% endfor %}
     </ul>
     
-    <!-- The pagination controls -->
-    {% include post-pagination.html %}
+    <!-- =============================================== -->
+    <!-- START: Pagination HTML (Built directly here)    -->
+    <!-- =============================================== -->
+    {% if paginator.total_pages > 1 %}
+    <nav class="blog-pagination" role="navigation" aria-label="Pagination">
+      
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}" class="sf-btn sf-btn--neutral">
+          <i class="ph-bold ph-arrow-left"></i>
+          <span>Newer Posts</span>
+        </a>
+      {% else %}
+        <span></span> <!-- Empty span for alignment -->
+      {% endif %}
+
+      <span class="blog-pagination__text">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}" class="sf-btn sf-btn--neutral">
+          <span>Older Posts</span>
+          <i class="ph-bold ph-arrow-right"></i>
+        </a>
+      {% else %}
+        <span></span> <!-- Empty span for alignment -->
+      {% endif %}
+      
+    </nav>
+    {% endif %}
+    <!-- ============================================= -->
+    <!-- END: Pagination HTML                          -->
+    <!-- ============================================= -->
 
   {% else %}
     <div class="sf-card">
       <div class="sf-card__body typeset">
         <h3>No Posts Found</h3>
-        <p>There are no posts here yet. Check back soon!</p>
+        <p>There are no posts in this collection yet. Check back soon!</p>
       </div>
     </div>
   {% endif %}

@@ -25,13 +25,14 @@
 @import 'layout/posts';
 @import 'layout/page';
 @import 'layout/home';
+@import 'components/blog';
 
 // 4. COMPONENTS
 // All UI components will be imported here as you build them.
 // e.g., @import 'components/buttons';
 // e.g., @import 'components/cards';
 @import 'components/hero';
-@import 'components/post-cards'; // <-- ADD THIS NEW LINE
+ // <-- ADD THIS NEW LINE
 
 
 // 5. UTILITIES
