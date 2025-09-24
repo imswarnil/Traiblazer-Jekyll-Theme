@@ -1,93 +1,72 @@
 /* ============================================================================
-   PAGES / BLOG (Definitive, Final SEO-Rich Version)
+   PAGES / BLOG (Definitive, Pixel-Perfect Final Version)
    ============================================================================ */
 
-// --- Breadcrumb Navigation ---
-.blog-breadcrumbs {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--sf-2);
-  margin-bottom: var(--sf-1);
-  font-size: .875rem;
+// --- The Core Page Grid (Main Content + Sidebar) ---
+// This single grid controls the entire page layout below the header.
+.blog-layout {
+  display: grid;
+  gap: var(--sf-6);
+  align-items: start; // Align items to the top of their grid cell
 
-  a {
-    color: var(--sf-muted);
-    transition: color .15s ease;
-    &:hover { color: var(--sf-brand); }
-  }
-  
-  &__separator {
-    color: var(--sf-line-1);
-  }
-  
-  &__current {
-    font-weight: 600;
-    color: var(--sf-fg);
+  // Mobile: A single, clean column. Sidebar stacks below.
+  grid-template-columns: 1fr;
+
+  // Desktop: The main content / sidebar split.
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 320px;
   }
 }
 
-// --- The Responsive Post Grid (1-2-3 Columns) ---
+// --- Main Content Column (Left) ---
+.blog-main-content {
+  // This is a container for the post grid and pagination
+}
+
+// --- Sidebar Column (Right) ---
+.blog-sidebar {
+  @media (min-width: 1024px) {
+    position: sticky;
+    top: calc(68px + var(--sf-6)); // Header height + desired offset
+  }
+}
+
+// --- The Responsive Post Grid (1-2 Columns) ---
+// This grid now lives inside the main content column
 .post-grid {
   list-style: none; padding: 0; margin: 0;
   display: grid;
   gap: var(--sf-6);
+  grid-template-columns: 1fr; // Mobile default
 
-  // Mobile First: 1 card per row
-  grid-template-columns: 1fr;
-
-  // Tablet: 2 cards per row
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  // Desktop: 3 cards per row
-  @media (min-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
-
-// --- The Definitive Salesforce Marketing Style Post Card ---
+// --- The Definitive SLDS Post Card ---
 .post-card {
-  display: flex; flex-direction: column;
-  background: var(--sf-bg-2); border-radius: var(--sf-radius-lg);
-  border: 1px solid var(--sf-line-2); // Use a subtle border for definition
-  box-shadow: none; // SLDS marketing often uses borders over heavy shadows
-  overflow: hidden; height: 100%;
+  // ... (The excellent card styles from the previous answer remain the same) ...
+  display: flex; flex-direction: column; background: var(--sf-bg-2);
+  border-radius: var(--sf-radius-lg); border: 1px solid var(--sf-line-2);
+  box-shadow: none; overflow: hidden; height: 100%;
   transition: border-color 0.2s ease, transform 0.2s ease;
   position: relative;
-
-  &:hover {
-    transform: translateY(-4px);
-    border-color: var(--sf-brand);
-  }
-
+  &:hover { transform: translateY(-4px); border-color: var(--sf-brand); }
   &__figure {
-    line-height: 0; aspect-ratio: 16 / 9;
-    overflow: hidden; background-color: var(--sf-bg-1);
-    border-bottom: 1px solid var(--sf-line-2);
-
+    line-height: 0; aspect-ratio: 16 / 9; overflow: hidden;
+    background-color: var(--sf-bg-1); border-bottom: 1px solid var(--sf-line-2);
     img {
       width: 100%; height: 100%; object-fit: cover;
       transition: transform .4s ease-out, filter .4s ease-out;
     }
   }
-
-  &:hover &__figure img {
-    transform: scale(1.05);
-    filter: brightness(1.05);
-  }
-
+  &:hover &__figure img { transform: scale(1.05); filter: brightness(1.05); }
   &__content {
-    padding: var(--sf-4); display: flex;
-    flex-direction: column; flex-grow: 1;
+    padding: var(--sf-4); display: flex; flex-direction: column; flex-grow: 1;
   }
-
   &__title {
-    margin: 0 0 var(--sf-2) 0;
-    font-size: 1.25rem; line-height: 1.3;
-    
+    margin: 0 0 var(--sf-2) 0; font-size: 1.25rem; line-height: 1.3;
     a {
       text-decoration: none; color: var(--sf-fg); transition: color .15s ease;
       &::after {
@@ -97,59 +76,75 @@
       &:hover { color: var(--sf-brand); }
     }
   }
-
   &__excerpt {
-    color: var(--sf-fg-2); font-size: .95rem;
-    line-height: 1.6; margin-bottom: var(--sf-4); flex-grow: 1;
-    display: -webkit-box; -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical; overflow: hidden;
+    color: var(--sf-fg-2); font-size: .95rem; line-height: 1.6;
+    margin-bottom: var(--sf-4); flex-grow: 1; display: -webkit-box;
+    -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
   }
-  
   &__footer {
     display: flex; justify-content: space-between; align-items: flex-end;
     position: relative; z-index: 2;
   }
 }
 
-// --- NEW: Rich Meta Details in Footer ---
+// --- Rich Meta Details in Footer ---
 .post-card-meta {
-  display: flex;
-  align-items: center;
-  gap: var(--sf-3);
-
+  // ... (The rich meta styles from the previous answer remain the same) ...
+  display: flex; align-items: center; gap: var(--sf-3);
   &__author-avatar {
-    width: 2.5rem; // 40px
-    height: 2.5rem;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--sf-bg-2);
-    box-shadow: 0 0 0 1px var(--sf-line-1);
+    width: 2.5rem; height: 2.5rem; border-radius: 50%; object-fit: cover;
+    border: 2px solid var(--sf-bg-2); box-shadow: 0 0 0 1px var(--sf-line-1);
   }
-
-  &__text {
-    font-size: .875rem;
-    line-height: 1.3;
-  }
-
-  &__author-name {
-    font-weight: 600;
-    color: var(--sf-fg);
-  }
-
-  &__date {
-    color: var(--sf-muted);
-  }
+  &__text { font-size: .875rem; line-height: 1.3; }
+  &__author-name { font-weight: 600; color: var(--sf-fg); }
+  &__date { color: var(--sf-muted); }
 }
+
 
 // --- Themed SLDS Pagination ---
 .blog-pagination {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-top: var(--sf-8); padding-top: var(--sf-6);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--sf-8);
+  padding-top: var(--sf-6);
   border-top: 1px solid var(--sf-line-2);
 
   &__text {
     font-size: .9rem;
     font-weight: 600;
     color: var(--sf-muted);
+  }
+}
+
+// --- Sidebar Ad Placeholder ---
+.sidebar-ad {
+  // A clean card-based container for the ad
+  &.sf-card {
+    padding: 0; // Remove default card padding
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    &:hover { transform: none; }
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    // Standard IAB Leaderboard aspect ratio is ~728x90
+    aspect-ratio: 728 / 90; 
+    border-radius: var(--sf-radius-lg);
+    border: 1px dashed var(--sf-line-1);
+    background: color-mix(in oklab, var(--sf-bg-1), white 60%);
+    color: var(--sf-muted);
+    font-size: .875rem;
+    text-align: center;
+    transition: border-color .2s ease;
+
+    &:hover {
+      border-color: var(--sf-muted);
+    }
   }
 }

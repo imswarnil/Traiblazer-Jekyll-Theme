@@ -4,7 +4,7 @@ layout: default
 
 {% comment %}
 ============================================================================
-_layouts/blog.html (Definitive, Final SEO-Rich Version)
+_layouts/blog.html (Definitive, Pixel-Perfect Final Version)
 ============================================================================
 {% endcomment %}
 
@@ -25,14 +25,12 @@ _layouts/blog.html (Definitive, Final SEO-Rich Version)
 <header class="sf-page-header">
   <div class="sf-container">
 
-    <!-- Breadcrumb Navigation -->
     <nav class="blog-breadcrumbs" aria-label="Breadcrumb">
       <a href="{{ '/' | relative_url }}">Home</a>
       <span class="blog-breadcrumbs__separator">/</span>
       <span class="blog-breadcrumbs__current" aria-current="page">{{ archive_title }}</span>
     </nav>
     
-    <!-- Use h1 for SEO, but style it like h2 for visual hierarchy -->
     <h1 class="sf-h1 sf-page-header__title">{{ archive_title }}</h1>
     
     {% if archive_subtitle %}
@@ -45,108 +43,103 @@ _layouts/blog.html (Definitive, Final SEO-Rich Version)
 
 
 <!-- ========================================================================
-     MAIN CONTENT SECTION
+     MAIN CONTENT & SIDEBAR GRID
      ======================================================================== -->
 <div class="sf-container" style="padding: var(--sf-8) 0;">
+  <div class="blog-layout">
 
-  {% if paginator.posts.size > 0 %}
-    <!-- The responsive 1-2-3 column post grid -->
-    <ul class="post-grid">
-      {% for post in paginator.posts %}
-        <li>
-          <!-- =========================================== -->
-          <!-- START: Post Card with Rich Meta Details     -->
-          <!-- =========================================== -->
-          <article class="post-card">
-            
-            {% if post.feature_image %}
-              <a href="{{ post.url | relative_url }}" class="post-card__figure" aria-hidden="true" tabindex="-1">
-                <img src="{{ post.feature_image | relative_url }}" alt="" loading="lazy">
-              </a>
-            {% endif %}
-            
-            <div class="post-card__content">
-              <div class="post-card__meta">
-                {% if post.categories.size > 0 %}
-                  <a href="/category/{{ post.categories | first | slugify }}" class="sf-badge sf-badge--brand">{{ post.categories | first }}</a>
+    <!-- Primary Content Column -->
+    <main class="blog-main-content">
+      
+      {% if paginator.posts.size > 0 %}
+        <!-- The responsive 1-2 column post grid -->
+        <ul class="post-grid">
+          {% for post in paginator.posts %}
+            <li>
+              <!-- =========================================== -->
+              <!-- START: Post Card with Rich Meta Details     -->
+              <!-- =========================================== -->
+              <article class="post-card">
+                {% if post.feature_image %}
+                  <a href="{{ post.url | relative_url }}" class="post-card__figure" aria-hidden="true" tabindex="-1">
+                    <img src="{{ post.feature_image | relative_url }}" alt="" loading="lazy">
+                  </a>
                 {% endif %}
-              </div>
-              <h2 class="sf-h3 post-card__title">
-                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-              </h2>
-              <p class="post-card__excerpt">
-                {{ post.excerpt | strip_html | truncatewords: 30 }}
-              </p>
-              
-              <footer class="post-card__footer">
-                <!-- Rich Author & Meta Details -->
-                <div class="post-card-meta">
-                  {% assign author = site.authors[post.author] %}
-                  {% if author %}
-                    <img src="{{ author.avatar | relative_url }}" alt="Photo of {{ author.name }}" class="post-card-meta__author-avatar">
-                    <div class="post-card-meta__text">
-                      <div class="post-card-meta__author-name">{{ author.name }}</div>
-                      <div class="post-card-meta__date">{{ post.date | date: "%b %d, %Y" }}</div>
+                <div class="post-card__content">
+                  <h2 class="sf-h3 post-card__title">
+                    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                  </h2>
+                  <p class="post-card__excerpt">
+                    {{ post.excerpt | strip_html | truncatewords: 30 }}
+                  </p>
+                  <footer class="post-card__footer">
+                    <div class="post-card-meta">
+                      {% assign author = site.authors[post.author] %}
+                      {% if author %}
+                        <img src="{{ author.avatar | relative_url }}" alt="Photo of {{ author.name }}" class="post-card-meta__author-avatar">
+                        <div class="post-card-meta__text">
+                          <div class="post-card-meta__author-name">{{ author.name }}</div>
+                          <div class="post-card-meta__date">{{ post.date | date: "%b %d, %Y" }}</div>
+                        </div>
+                      {% else %}
+                        <div class="post-card-meta__text">
+                          <div class="post-card-meta__date">{{ post.date | date: "%b %d, %Y" }}</div>
+                        </div>
+                      {% endif %}
                     </div>
-                  {% else %}
-                    <div class="post-card-meta__text">
-                      <div class="post-card-meta__date">{{ post.date | date: "%b %d, %Y" }}</div>
-                    </div>
-                  {% endif %}
+                  </footer>
                 </div>
-                <!-- The CTA button is now an icon-only button for a cleaner look -->
-                <a href="{{ post.url | relative_url }}" class="sf-btn sf-btn--neutral sf-btn--icon-only" aria-label="Read more about {{ post.title }}">
-                  <i class="ph-bold ph-arrow-right"></i>
-                </a>
-              </footer>
-            </div>
-          </article>
-          <!-- ========================================= -->
-          <!-- END: Post Card HTML                       -->
-          <!-- ========================================= -->
-        </li>
-      {% endfor %}
-    </ul>
-    
-    <!-- =============================================== -->
-    <!-- START: SLDS-Style Pagination Buttons          -->
-    <!-- =============================================== -->
-    {% if paginator.total_pages > 1 %}
-    <nav class="blog-pagination" role="navigation" aria-label="Pagination">
-      
-      {% if paginator.previous_page %}
-        <a href="{{ paginator.previous_page_path | relative_url }}" class="sf-btn sf-btn--neutral">
-          <i class="ph-bold ph-arrow-left"></i>
-          <span>Newer</span>
-        </a>
+              </article>
+              <!-- ========================================= -->
+              <!-- END: Post Card                          -->
+              <!-- ========================================= -->
+            </li>
+          {% endfor %}
+        </ul>
+        
+        <!-- =============================================== -->
+        <!-- START: SLDS-Style Pagination Buttons          -->
+        <!-- =============================================== -->
+        {% if paginator.total_pages > 1 %}
+        <nav class="blog-pagination" role="navigation" aria-label="Pagination">
+          {% if paginator.previous_page %}
+            <a href="{{ paginator.previous_page_path | relative_url }}" class="sf-btn sf-btn--neutral">
+              <i class="ph-bold ph-arrow-left"></i><span>Newer</span>
+            </a>
+          {% else %}
+            <span></span>
+          {% endif %}
+          <span class="blog-pagination__text">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+          {% if paginator.next_page %}
+            <a href="{{ paginator.next_page_path | relative_url }}" class="sf-btn sf-btn--neutral">
+              <span>Older</span><i class="ph-bold ph-arrow-right"></i>
+            </a>
+          {% else %}
+            <span></span>
+          {% endif %}
+        </nav>
+        {% endif %}
+        <!-- ============================================= -->
+        <!-- END: Pagination                             -->
+        <!-- ============================================= -->
+
       {% else %}
-        <span></span>
+        <div class="sf-card"><div class="sf-card__body typeset"><h3>No Posts Found</h3></div></div>
       {% endif %}
 
-      <span class="blog-pagination__text">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
+    </main>
 
-      {% if paginator.next_page %}
-        <a href="{{ paginator.next_page_path | relative_url }}" class="sf-btn sf-btn--neutral">
-          <span>Older</span>
-          <i class="ph-bold ph-arrow-right"></i>
-        </a>
-      {% else %}
-        <span></span>
-      {% endif %}
+    <!-- Sidebar Column -->
+    <aside class="blog-sidebar">
       
-    </nav>
-    {% endif %}
-    <!-- ============================================= -->
-    <!-- END: Pagination HTML                          -->
-    <!-- ============================================= -->
-
-  {% else %}
-    <div class="sf-card">
-      <div class="sf-card__body typeset">
-        <h3>No Posts Found</h3>
-        <p>There are no posts in this collection yet. Check back soon!</p>
+      <!-- Leaderboard Ad Placeholder -->
+      <div class="sidebar-ad sf-card">
+        <div class="sidebar-ad__content">
+          <span>Leaderboard Ad (728x90)</span>
+        </div>
       </div>
-    </div>
-  {% endif %}
 
+    </aside>
+
+  </div>
 </div>
