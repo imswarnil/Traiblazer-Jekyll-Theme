@@ -4,56 +4,61 @@ layout: default
 
 {% comment %}
 ============================================================================
-_layouts/page.html (Definitive, Bulletproof Layout - Final Version)
+_layouts/page.html (Definitive, Unified Grid Layout - Final Version)
 ============================================================================
 {% endcomment %}
 
 <!-- ========================================================================
-     PAGE HEADER (Full-width)
+     PAGE HEADER
+     Now uses the same grid as the body for perfect alignment.
      ======================================================================== -->
 <header class="page-header">
-  <div class="sf-container">
-    <h1 class="sf-h1 page-header__title">{{ page.title }}</h1>
-    {% if page.subtitle %}
-      <p class="sf-text--large page-header__subtitle">{{ page.subtitle }}</p>
-    {% endif %}
+  <div class="page-grid-container">
+    <div class="page-header__content">
+      <h1 class="sf-h1 page-header__title">{{ page.title }}</h1>
+      {% if page.subtitle %}
+        <p class="sf-text--large page-header__subtitle">{{ page.subtitle }}</p>
+      {% endif %}
+    </div>
   </div>
 </header>
 
 <!-- ========================================================================
-     MAIN PAGE GRID
-     This single grid controls the entire layout. No nested containers.
+     MAIN PAGE CONTENT
+     Also uses the page-grid-container for perfect alignment.
      ======================================================================== -->
-<div class="page-grid">
+<div class="page-body">
+  <div class="page-grid-container">
 
-  <!-- Primary Content Column -->
-  <main class="page-main-content">
-    <div class="content-card">
-      <article class="content-card__body typeset">
-        {{ content }}
-      </article>
-    </div>
-  </main>
-
-  <!-- Sidebar Column -->
-  <aside class="page-sidebar">
-    
-    <div class="sidebar-card">
-      <header class="sidebar-card__header">
-        <h3 class="sf-h4 sidebar-card__title">Quick Links</h3>
-      </header>
-      <div class="sidebar-card__body">
-        <p class="sf-text--small sf-text-muted">Related content or navigation can go here.</p>
+    <!-- Primary Content Column -->
+    <main class="page-main-content">
+      <div class="content-card">
+        <article class="content-card__body typeset">
+          {{ content }}
+        </article>
       </div>
-    </div>
+    </main>
 
-    <div class="sidebar-ad-placeholder">
-      <div> <!-- Extra div for easy centering -->
-        <i class="ph-bold ph-presentation-chart"></i>
-        <span>Advertisement</span>
+    <!-- Sidebar Column -->
+    <aside class="page-sidebar">
+      
+      <div class="sidebar-card">
+        <header class="sidebar-card__header">
+          <h3 class="sf-h4 sidebar-card__title">Quick Links</h3>
+        </header>
+        <div class="sidebar-card__body">
+          <p class="sf-text--small sf-text-muted">Related content or navigation can go here.</p>
+        </div>
       </div>
-    </div>
 
-  </aside>
+      <div class="sidebar-ad-placeholder">
+        <div> <!-- Extra div for easy centering -->
+          <i class="ph-bold ph-presentation-chart"></i>
+          <span>Advertisement</span>
+        </div>
+      </div>
 
+    </aside>
+
+  </div>
 </div>

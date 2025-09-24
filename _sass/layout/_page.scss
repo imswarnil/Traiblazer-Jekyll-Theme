@@ -1,101 +1,88 @@
 /* ============================================================================
-   PAGES / PAGE (Definitive, Bulletproof Layout - Final Version)
+   PAGES / PAGE (Definitive, Unified Grid Layout)
    ============================================================================ */
 
-// --- Full-Width Page Header ---
+// --- The Core Page Grid System ---
+// This single grid class will be used by BOTH the header and the main body.
+.page-grid-container {
+  display: grid;
+  // [gutter] [main content] [sidebar] [gutter]
+  // This robust structure guarantees perfect alignment and no overflow.
+  grid-template-columns: minmax(var(--sf-4), 1fr) minmax(0, 800px) minmax(0, 300px) minmax(var(--sf-4), 1fr);
+  gap: 0 var(--sf-6); // Column gap only
+
+  // On mobile, collapse to a single content column with simple padding.
+  @media (max-width: 959px) {
+    grid-template-columns: 1fr;
+    padding: 0 var(--sf-4); // Horizontal padding for mobile
+    gap: var(--sf-6) 0; // Row gap only
+  }
+}
+
+
+// --- Page Header Styling ---
 .page-header {
   padding: var(--sf-6) 0;
   border-bottom: 1px solid var(--sf-line-2);
   background: var(--sf-bg-2);
-  overflow-x: hidden; // Guarantees no overflow
+  
+  // The content of the header will now live in the main content column.
+  &__content {
+    grid-column: 2 / 3;
+    @media (max-width: 959px) { grid-column: 1 / 2; }
+  }
 
   &__title { margin-bottom: var(--sf-2); }
   &__subtitle { color: var(--sf-muted); max-width: 65ch; }
 }
 
 
-// --- THE BULLETPROOF PAGE GRID ---
-// This single grid controls the entire page layout below the header.
-.page-grid {
-  display: grid;
-  // Create a 3-column layout: [gutter] [main content] [sidebar] [gutter]
-  // This is the key to perfect alignment and no overflow.
-  grid-template-columns: minmax(var(--sf-4), 1fr) minmax(0, 800px) minmax(0, 300px) minmax(var(--sf-4), 1fr);
-  gap: 0 var(--sf-6); // Only create a gap between columns
-  padding: var(--sf-8) 0; // Vertical spacing for the content area
-
-  // On mobile, collapse to a single content column with simple padding.
-  @media (max-width: 959px) {
-    grid-template-columns: 1fr;
-    padding: var(--sf-4) var(--sf-4);
-    gap: var(--sf-6) 0; // Only create a gap between rows
-  }
+// --- Main Page Content Section ---
+.page-body {
+  padding: var(--sf-8) 0;
 }
 
-// --- Main Content Column ---
-// This element now sits directly inside the .page-grid
+
+// --- Main Content & Sidebar Columns ---
 .page-main-content {
-  grid-column: 2 / 3; // Place this in the second (main content) column.
-  
+  grid-column: 2 / 3;
   @media (max-width: 959px) {
-    grid-column: 1 / 2; // Take up the full width on mobile
-    order: 2; // Ensure content comes after sidebar on mobile
+    grid-column: 1 / 2;
+    order: 2; // Content below sidebar on mobile
   }
 }
 
-// The card that holds the article content
-.content-card {
-  background: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-lg);
-  box-shadow: none;
-
-  &__body {
-    padding: var(--sf-5) var(--sf-6);
-  }
-}
-
-// --- Sidebar Column ---
-// This element also sits directly inside the .page-grid
 .page-sidebar {
-  grid-column: 3 / 4; // Place this in the third (sidebar) column.
-
-  // Make it sticky within its grid column
+  grid-column: 3 / 4;
   position: sticky;
   top: calc(68px + var(--sf-8));
   align-self: start;
-  
+
   @media (max-width: 959px) {
-    grid-column: 1 / 2; // Take up the full width on mobile
-    order: 1; // Place the sidebar BEFORE the content on mobile
-    position: static; // Disable sticky positioning on mobile
+    grid-column: 1 / 2;
+    order: 1; // Sidebar above content on mobile
+    position: static;
   }
 }
 
-// Sidebar Card Component
+// --- Card Components (No changes needed) ---
+.content-card {
+  background: var(--sf-bg-2); border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg); box-shadow: none;
+  &__body { padding: var(--sf-5) var(--sf-6); }
+}
 .sidebar-card {
-  background: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-lg);
-  margin-bottom: var(--sf-4);
-
+  background: var(--sf-bg-2); border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg); margin-bottom: var(--sf-4);
   &__header { padding: var(--sf-3) var(--sf-4); border-bottom: 1px solid var(--sf-line-2); }
   &__title { margin: 0; }
   &__body { padding: var(--sf-4); }
 }
-
-// Square Ad Placeholder
 .sidebar-ad-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1 / 1;
-  border: 1px dashed var(--sf-line-1);
+  display: flex; align-items: center; justify-content: center;
+  aspect-ratio: 1 / 1; border: 1px dashed var(--sf-line-1);
   background: color-mix(in oklab, var(--sf-bg-1), white 60%);
-  color: var(--sf-muted);
-  font-size: .875rem;
-  text-align: center;
-  border-radius: var(--sf-radius-lg); // Match card radius
-
+  color: var(--sf-muted); font-size: .875rem; text-align: center;
+  border-radius: var(--sf-radius-lg);
   .ph-bold { font-size: 2rem; margin-bottom: var(--sf-2); }
 }
