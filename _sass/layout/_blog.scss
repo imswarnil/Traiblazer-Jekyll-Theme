@@ -1,135 +1,150 @@
 /* ============================================================================
-   PAGES / BLOG (Definitive, Self-Contained Archive)
-   All styles for the blog layout, post cards, and pagination.
+   PAGES / BLOG (Definitive, Final SEO-Rich Version)
    ============================================================================ */
 
-// --- The Responsive Post Grid ---
-// This is the container for all the post cards.
-.post-grid {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--sf-6);
+// --- Breadcrumb Navigation ---
+.blog-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sf-2);
+  margin-bottom: var(--sf-1);
+  font-size: .875rem;
 
-  // Mobile First: 1 card per row by default.
-  grid-template-columns: 1fr;
-
-  // Tablet & Desktop: 2 cards per row.
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+  a {
+    color: var(--sf-muted);
+    transition: color .15s ease;
+    &:hover { color: var(--sf-brand); }
+  }
+  
+  &__separator {
+    color: var(--sf-line-1);
+  }
+  
+  &__current {
+    font-weight: 600;
+    color: var(--sf-fg);
   }
 }
 
-// =========================================================
-// THE DEFINITIVE SALESFORCE MARKETING STYLE POST CARD
-// Styles are scoped within this file.
-// =========================================================
-.post-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--sf-bg-2); // Pure white background
-  border-radius: var(--sf-radius-lg); // Softer, 1rem radius
-  border: none; // No border, relies on shadow
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,.07), 0 2px 4px -2px rgba(0,0,0,.07);
-  overflow: hidden;
-  height: 100%; // Ensures cards in a row are the same height
-  transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
-              box-shadow 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  position: relative; // For the stretched link
+// --- The Responsive Post Grid (1-2-3 Columns) ---
+.post-grid {
+  list-style: none; padding: 0; margin: 0;
+  display: grid;
+  gap: var(--sf-6);
 
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1);
+  // Mobile First: 1 card per row
+  grid-template-columns: 1fr;
+
+  // Tablet: 2 cards per row
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  // --- Image Section ---
+  // Desktop: 3 cards per row
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+// --- The Definitive Salesforce Marketing Style Post Card ---
+.post-card {
+  display: flex; flex-direction: column;
+  background: var(--sf-bg-2); border-radius: var(--sf-radius-lg);
+  border: 1px solid var(--sf-line-2); // Use a subtle border for definition
+  box-shadow: none; // SLDS marketing often uses borders over heavy shadows
+  overflow: hidden; height: 100%;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--sf-brand);
+  }
+
   &__figure {
-    line-height: 0;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    background-color: var(--sf-bg-1); // Fallback color
+    line-height: 0; aspect-ratio: 16 / 9;
+    overflow: hidden; background-color: var(--sf-bg-1);
+    border-bottom: 1px solid var(--sf-line-2);
 
     img {
       width: 100%; height: 100%; object-fit: cover;
-      transition: transform .4s ease-out;
+      transition: transform .4s ease-out, filter .4s ease-out;
     }
   }
 
   &:hover &__figure img {
     transform: scale(1.05);
+    filter: brightness(1.05);
   }
 
-  // --- Content Section ---
   &__content {
-    padding: var(--sf-4);
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    // The characteristic light blue background
-    background: color-mix(in srgb, var(--sf-brand), transparent 95%);
-  }
-
-  &__meta {
-    order: -1; // Badge comes first
-    margin-bottom: var(--sf-3);
+    padding: var(--sf-4); display: flex;
+    flex-direction: column; flex-grow: 1;
   }
 
   &__title {
     margin: 0 0 var(--sf-2) 0;
-    font-size: 1.25rem;
-    line-height: 1.3;
+    font-size: 1.25rem; line-height: 1.3;
     
     a {
-      text-decoration: none;
-      color: var(--sf-fg);
-      transition: color .15s ease;
-      // The "stretched-link" trick to make the whole card clickable
+      text-decoration: none; color: var(--sf-fg); transition: color .15s ease;
       &::after {
-        content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
+        content: ''; position: absolute; top: 0; left: 0;
+        right: 0; bottom: 0; z-index: 1;
       }
       &:hover { color: var(--sf-brand); }
     }
   }
 
   &__excerpt {
-    color: var(--sf-fg-2);
-    font-size: .95rem;
-    line-height: 1.6;
-    margin-bottom: var(--sf-4);
-    flex-grow: 1; // Pushes footer down
-    
-    display: -webkit-box;
-    -webkit-line-clamp: 3; // Truncate after 3 lines
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    color: var(--sf-fg-2); font-size: .95rem;
+    line-height: 1.6; margin-bottom: var(--sf-4); flex-grow: 1;
+    display: -webkit-box; -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical; overflow: hidden;
   }
   
-  // --- Footer ---
   &__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 2; // Sit above the stretched link so the button is clickable
-    
-    .sf-meta-info {
-      font-size: .875rem;
-      color: var(--sf-muted);
-      display: inline-flex;
-      align-items: center;
-      gap: var(--sf-2);
-    }
+    display: flex; justify-content: space-between; align-items: flex-end;
+    position: relative; z-index: 2;
   }
 }
 
-// --- Pagination Styling ---
-.blog-pagination {
+// --- NEW: Rich Meta Details in Footer ---
+.post-card-meta {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: var(--sf-8);
-  padding-top: var(--sf-6);
+  gap: var(--sf-3);
+
+  &__author-avatar {
+    width: 2.5rem; // 40px
+    height: 2.5rem;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--sf-bg-2);
+    box-shadow: 0 0 0 1px var(--sf-line-1);
+  }
+
+  &__text {
+    font-size: .875rem;
+    line-height: 1.3;
+  }
+
+  &__author-name {
+    font-weight: 600;
+    color: var(--sf-fg);
+  }
+
+  &__date {
+    color: var(--sf-muted);
+  }
+}
+
+// --- Themed SLDS Pagination ---
+.blog-pagination {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: var(--sf-8); padding-top: var(--sf-6);
   border-top: 1px solid var(--sf-line-2);
 
   &__text {
