@@ -1,209 +1,178 @@
 /* ============================================================================
-   PAGES / RESUME (Definitive, Salesforce-Inspired Edition)
+   PAGES / RESUME (Definitive, Full-Fledged Portfolio Edition)
    ============================================================================ */
+
+// --- Resume Page Header (in the main layout) ---
+.resume-header {
+  padding: var(--sf-6) 0;
+  border-bottom: 1px solid var(--sf-line-2);
+  background: var(--sf-bg-2);
+  
+  &__grid {
+    display: grid;
+    align-items: center;
+    gap: var(--sf-4) var(--sf-6);
+    grid-template-columns: auto 1fr; // Avatar | Text content
+    
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr; // Stack on mobile
+      text-align: center;
+    }
+  }
+
+  &__avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid var(--sf-bg-2);
+    box-shadow: var(--sf-shadow-sm), 0 0 0 1px var(--sf-line-1);
+    
+    @media (max-width: 768px) {
+      margin-inline: auto;
+    }
+  }
+
+  &__title {
+    margin: 0;
+  }
+  
+  &__subtitle {
+    margin: var(--sf-1) 0 var(--sf-4) 0;
+    color: var(--sf-muted);
+  }
+  
+  &__contact-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sf-2) var(--sf-4);
+    font-size: .9rem;
+    font-weight: 500;
+    
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sf-2);
+      color: var(--sf-fg-2);
+      text-decoration: none;
+      &:hover { color: var(--sf-brand); }
+    }
+  }
+}
 
 // --- Main Resume Layout Grid ---
 .resume-layout {
   display: grid;
   gap: var(--sf-6);
+  grid-template-columns: 1fr; // Mobile
 
-  // Mobile: Single column
-  grid-template-columns: 1fr;
-
-  // Desktop: 30% Sidebar / 70% Main Content
-  @media (min-width: 960px) {
-    grid-template-columns: 300px 1fr;
+  @media (min-width: 1024px) {
+    grid-template-columns: 1fr 320px; // Main Content | Right Sidebar
   }
 }
 
-// --- Left Sidebar ---
-.resume-sidebar {
-  @media (min-width: 960px) {
-    position: sticky;
-    top: calc(68px + var(--sf-6));
-    align-self: start;
-  }
-}
-
-.resume-profile-card {
-  text-align: center;
-  
-  &__avatar {
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    margin-inline: auto;
-    margin-bottom: var(--sf-4);
-    border: 4px solid var(--sf-bg-2);
-    box-shadow: var(--sf-shadow-md), 0 0 0 1px var(--sf-line-1);
-  }
-  
-  &__name {
-    margin: 0;
-  }
-  
-  &__title {
-    margin-top: var(--sf-1);
-    color: var(--sf-muted);
-  }
-
-  &__actions {
-    margin-top: var(--sf-4);
-    display: flex;
-    justify-content: center;
-    gap: var(--sf-2);
-  }
-}
-
-.resume-contact-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  
-  &__item {
-    display: flex;
-    align-items: center;
-    gap: var(--sf-3);
-    padding: var(--sf-3) 0;
-    font-size: .9rem;
-    font-weight: 500;
-    
-    .ph-bold {
-      font-size: 1.25rem;
-      color: var(--sf-brand);
-      flex-shrink: 0;
-    }
-    
-    a {
-      color: var(--sf-fg);
-      text-decoration: none;
-      &:hover {
-        color: var(--sf-brand);
-      }
-    }
-  }
-}
-
-// --- Main Content Area ---
-.resume-main {
-  // Container for all the sections like Experience, Education, etc.
-}
-
+// --- Resume Section Styling ---
 .resume-section {
-  margin-bottom: var(--sf-6);
-
-  &__title {
-    display: flex;
-    align-items: center;
-    gap: var(--sf-3);
-    padding-bottom: var(--sf-3);
-    margin-bottom: var(--sf-4);
-    border-bottom: 2px solid var(--sf-line-1);
-    
-    .ph-bold {
-      font-size: 1.5rem;
-      color: var(--sf-brand);
-    }
+  // Use .sf-card for consistent wrapper style
+}
+.resume-section__title {
+  display: flex;
+  align-items: center;
+  gap: var(--sf-3);
+  .ph-bold {
+    font-size: 1.5rem;
+    color: var(--sf-brand);
   }
 }
 
 // --- Experience & Education Timeline ---
 .resume-timeline {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  
+  list-style: none; padding: 0; margin: 0; position: relative;
   &::before { // The vertical line
-    content: '';
-    position: absolute;
-    left: 12px; top: 12px; bottom: 12px;
-    width: 2px;
-    background: var(--sf-line-2);
+    content: ''; position: absolute; left: 12px; top: 12px; bottom: 12px;
+    width: 2px; background: var(--sf-line-2);
   }
 }
-
-.resume-timeline__item {
-  position: relative;
-  padding-left: var(--sf-6);
-  padding-bottom: var(--sf-5);
-
+.resume-timeline-item {
+  position: relative; padding-left: var(--sf-6); padding-bottom: var(--sf-5);
   &:last-child { padding-bottom: 0; }
-  
-  &::before { // The dot on the line
-    content: '';
-    position: absolute;
-    left: 8px; top: 8px;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--sf-brand);
-    box-shadow: 0 0 0 4px var(--sf-bg-2);
-    border: 1px solid var(--sf-line-1);
+  &::before { // The dot
+    content: ''; position: absolute; left: 8px; top: 8px; width: 10px; height: 10px;
+    border-radius: 50%; background: var(--sf-brand);
+    box-shadow: 0 0 0 4px var(--sf-bg-2); border: 1px solid var(--sf-line-1);
   }
-  
-  &__header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: var(--sf-2);
-  }
-  
-  &__title {
-    margin: 0;
-  }
-  
-  &__meta {
-    font-size: .9rem;
-    font-weight: 500;
-    color: var(--sf-muted);
-  }
-
-  &__subtitle {
-    font-weight: 600;
-    margin-top: var(--sf-1);
-  }
-
-  &__description {
-    margin-top: var(--sf-3);
-    font-size: .95rem;
-    color: var(--sf-fg-2);
-
-    ul {
-      padding-left: var(--sf-4);
-      margin-top: var(--sf-2);
-    }
-  }
+  &__header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--sf-2); }
+  &__title { margin: 0; }
+  &__meta { font-size: .9rem; font-weight: 500; color: var(--sf-muted); }
+  &__subtitle { font-weight: 600; margin-top: var(--sf-1); }
+  &__description { margin-top: var(--sf-3); font-size: .95rem; color: var(--sf-fg-2); ul { padding-left: var(--sf-4); margin-top: var(--sf-2); } }
 }
 
 // --- Skills Section ---
 .skills-grid {
-  display: grid;
-  gap: var(--sf-4);
-  grid-template-columns: 1fr;
-
-  @media (min-width: 500px) {
-    grid-template-columns: repeat(2, 1fr);
+  display: grid; gap: var(--sf-4); grid-template-columns: 1fr;
+  @media (min-width: 500px) { grid-template-columns: repeat(2, 1fr); }
+}
+.skill-item {
+  &__label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--sf-2); font-weight: 600; }
+  &__bar {
+    height: 8px; background: var(--sf-line-2); border-radius: 999px; overflow: hidden;
+    > i { display: block; height: 100%; background: var(--sf-brand); }
   }
 }
 
-.skill-item {
-  &__label {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: var(--sf-2);
-    font-weight: 600;
+// --- Certifications & Trailhead Section ---
+.cert-grid, .badge-grid {
+  display: grid; gap: var(--sf-4); grid-template-columns: 1fr;
+  @media (min-width: 500px) { grid-template-columns: repeat(2, 1fr); }
+}
+.cert-card, .trailhead-card {
+  display: flex; align-items: center; gap: var(--sf-4); text-decoration: none;
+  // Use .sf-tile styles
+  background: var(--sf-bg-2); border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-md); padding: var(--sf-4); box-shadow: var(--sf-shadow-sm);
+  transition: all .2s ease;
+  &:hover { transform: translateY(-2px); box-shadow: var(--sf-shadow-md); border-color: var(--sf-brand); }
+  &__icon {
+    font-size: 2.5rem; color: var(--sf-brand); flex-shrink: 0;
   }
-  &__bar {
-    height: 8px;
-    background: var(--sf-line-2);
-    border-radius: 999px;
-    overflow: hidden;
-    > i {
-      display: block;
-      height: 100%;
-      background: var(--sf-brand);
-    }
+  &__title { font-weight: 600; color: var(--sf-fg); }
+  &__meta { font-size: .8rem; color: var(--sf-muted); }
+}
+
+.trailhead-stats {
+  text-align: center;
+  &__rank {
+    font-size: 1.5rem; font-weight: 700; color: var(--sf-brand);
+    margin-bottom: var(--sf-1);
+  }
+  &__meta {
+    font-size: .8rem; color: var(--sf-muted);
+  }
+}
+
+// --- Print Styles ---
+@media print {
+  body {
+    background: #fff;
+    --sf-bg-1: #fff;
+    --sf-bg-2: #fff;
+    --sf-fg: #000;
+  }
+  .sf-header, .sf-footer, .sf-page-header, .resume-sidebar {
+    display: none;
+  }
+  .resume-layout {
+    grid-template-columns: 1fr;
+  }
+  .sf-card {
+    box-shadow: none;
+    border: 1px solid #ddd;
+  }
+  a {
+    color: #000; text-decoration: none;
   }
 }

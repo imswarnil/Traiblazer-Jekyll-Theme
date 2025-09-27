@@ -1,6 +1,7 @@
 ---
 layout: resume
 title: "Resume"
+
 # --- PERSONAL DETAILS ---
 name: "Swarnil Singhai"
 title: "Filmmaker • Software Engineer • Storyteller"

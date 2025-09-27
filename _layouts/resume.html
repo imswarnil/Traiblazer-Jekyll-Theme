@@ -1,143 +1,42 @@
 ---
 layout: default
 ---
-
-<!-- The page header is not used in this design, as the resume itself has a header. -->
+<header class="sf-page-header resume-header">
+  <div class="sf-container">
+    <div class="resume-header__grid">
+      <img src="{{ page.avatar | relative_url }}" alt="Profile photo of {{ page.name }}" class="resume-header__avatar">
+      <div class="resume-header__text">
+        <h1 class="sf-h1 resume-header__title">{{ page.name }}</h1>
+        <h2 class="sf-h3 resume-header__subtitle">{{ page.title }}</h2>
+        <div class="resume-header__contact-list">
+          <a href="mailto:{{ page.contact.email }}"><i class="ph-bold ph-envelope-simple"></i> {{ page.contact.email }}</a>
+          <a href="tel:{{ page.contact.phone }}"><i class="ph-bold ph-phone"></i> {{ page.contact.phone }}</a>
+          <a href="{{ page.contact.website }}" target="_blank" rel="noopener"><i class="ph-bold ph-globe"></i> {{ page.contact.website | remove: 'https://' }}</a>
+          <a href="{{ page.contact.linkedin }}" target="_blank" rel="noopener"><i class="ph-bold ph-linkedin-logo"></i> LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
 <div class="sf-container" style="padding: var(--sf-8) 0;">
   <div class="resume-layout">
     
-    <!-- ============================================= -->
-    <!-- LEFT SIDEBAR: PROFILE & CONTACT               -->
-    <!-- ============================================= -->
-    <aside class="resume-sidebar">
-      <div class="sf-card resume-profile-card">
-        <div class="sf-card__body">
-          <img src="{{ page.avatar | relative_url }}" alt="Profile photo of {{ page.name }}" class="resume-profile-card__avatar">
-          <h1 class="sf-h2 resume-profile-card__name">{{ page.name }}</h1>
-          <h2 class="sf-h4 resume-profile-card__title">{{ page.title }}</h2>
-
-          <div class="resume-profile-card__actions">
-            <a href="{{ page.pdf_url | relative_url }}" class="sf-btn sf-btn--brand" download>
-              <i class="ph-bold ph-download-simple"></i>
-              <span>Download PDF</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      
-      <div class="sf-card" style="margin-top: var(--sf-4);">
-        <div class="sf-card__header"><h3 class="sf-h4">Contact & Links</h3></div>
-        <div class="sf-card__body">
-          <ul class="resume-contact-list">
-            <li class="resume-contact-list__item">
-              <i class="ph-bold ph-envelope-simple"></i>
-              <a href="mailto:{{ page.contact.email }}">{{ page.contact.email }}</a>
-            </li>
-            <li class="resume-contact-list__item">
-              <i class="ph-bold ph-phone"></i>
-              <a href="tel:{{ page.contact.phone }}">{{ page.contact.phone }}</a>
-            </li>
-            <li class="resume-contact-list__item">
-              <i class="ph-bold ph-globe"></i>
-              <a href="{{ page.contact.website }}" target="_blank" rel="noopener">{{ page.contact.website | remove: 'https://' }}</a>
-            </li>
-            <li class="resume-contact-list__item">
-              <i class="ph-bold ph-linkedin-logo"></i>
-              <a href="{{ page.contact.linkedin }}" target="_blank" rel="noopener">LinkedIn Profile</a>
-            </li>
-            <li class="resume-contact-list__item">
-              <i class="ph-bold ph-github-logo"></i>
-              <a href="{{ page.contact.github }}" target="_blank" rel="noopener">GitHub Portfolio</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </aside>
-
-    <!-- ============================================= -->
-    <!-- MAIN CONTENT: EXPERIENCE, SKILLS, ETC.        -->
-    <!-- ============================================= -->
+    <!-- Main Content Column (Left on Desktop) -->
     <main class="resume-main">
-      
-      <!-- Summary Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body typeset">
-          <h2 class="sf-h3 resume-section__title">
-            <i class="ph-bold ph-user-circle"></i>
-            <span>Professional Summary</span>
-          </h2>
-          {{ page.summary | markdownify }}
-        </div>
-      </section>
-
-      <!-- Experience Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body">
-          <h2 class="sf-h3 resume-section__title">
-            <i class="ph-bold ph-briefcase"></i>
-            <span>Work Experience</span>
-          </h2>
-          <ul class="resume-timeline">
-            {% for item in page.experience %}
-            <li class="resume-timeline__item">
-              <div class="resume-timeline__item__header">
-                <h3 class="sf-h4 resume-timeline__item__title">{{ item.role }}</h3>
-                <span class="resume-timeline__item__meta">{{ item.dates }}</span>
-              </div>
-              <p class="resume-timeline__item__subtitle">{{ item.company }} • {{ item.location }}</p>
-              <div class="resume-timeline__item__description typeset">
-                {{ item.description | markdownify }}
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </section>
-
-      <!-- Skills Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body">
-          <h2 class="sf-h3 resume-section__title">
-            <i class="ph-bold ph-chart-bar"></i>
-            <span>Skills</span>
-          </h2>
-          <div class="skills-grid">
-            {% for skill in page.skills %}
-            <div class="skill-item">
-              <div class="skill-item__label">
-                <span>{{ skill.name }}</span>
-                <span class="sf-text--small">{{ skill.level }}%</span>
-              </div>
-              <div class="skill-item__bar"><i style="width: {{ skill.level }}%;"></i></div>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      </section>
-
-      <!-- Education Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body">
-          <h2 class="sf-h3 resume-section__title">
-            <i class="ph-bold ph-graduation-cap"></i>
-            <span>Education</span>
-          </h2>
-          <ul class="resume-timeline">
-            {% for item in page.education %}
-            <li class="resume-timeline__item">
-              <div class="resume-timeline__item__header">
-                <h3 class="sf-h4 resume-timeline__item__title">{{ item.degree }}</h3>
-                <span class="resume-timeline__item__meta">{{ item.year }}</span>
-              </div>
-              <p class="resume-timeline__item__subtitle">{{ item.institution }}</p>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </section>
-
+      {% include resume/summary.html content=page.summary %}
+      {% include resume/experience.html items=page.experience %}
+      {% include resume/projects.html items=page.projects %}
+      {% include resume/education.html items=page.education %}
     </main>
+
+    <!-- Sidebar Column (Right on Desktop) -->
+    <aside class="resume-sidebar">
+      {% include resume/skills.html items=page.skills %}
+      {% include resume/certifications.html items=page.certifications %}
+      {% include resume/trailhead.html stats=page.trailhead %}
+      {% include resume/achievements.html items=page.achievements %}
+    </aside>
 
   </div>
 </div>
