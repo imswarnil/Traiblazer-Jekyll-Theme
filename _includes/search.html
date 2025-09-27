@@ -1,18 +1,89 @@
-<div class="page-search-layout">
+---
+layout: default
+title: Search
+subtitle: "Find articles, projects, and pages across the entire site."
+---
 
-  <!-- The Search Form -->
-  <form class="page-search-form" action="" role="search" onsubmit="return false;">
-    <label for="search-input" class="sf-sr-only">Search term:</label>
-    <i class="ph-bold ph-magnifying-glass page-search-form__icon"></i>
-    <input class="page-search-input" id="search-input" type="search" name="search" placeholder="e.g. Alembic or Salesforce" autocomplete="off" />
-  </form>
+{% comment %}
+============================================================================
+search.html (Definitive, "Super Best" Edition)
+============================================================================
+{% endcomment %}
 
-  <!-- The Results List -->
-  <ul class="page-search-results" id="results-list">
-      <!-- Live search results will be injected here by JavaScript -->
-  </ul>
+<!-- ========================================================================
+     DYNAMIC PAGE HEADER
+     ======================================================================== -->
+<header class="sf-page-header">
+  <div class="sf-container">
+    <div class="search-header-grid">
+      <div class="search-header__text">
+        <h1 class="sf-h1 sf-page-header__title">{{ page.title }}</h1>
+        <p class="sf-text--large sf-page-header__subtitle">{{ page.subtitle }}</p>
+      </div>
+      <div class="trending-topics">
+        <h2 class="trending-topics__title">Trending Topics:</h2>
+        <div class="trending-topics__list">
+          <!-- These would ideally come from site data, but are hardcoded for the demo -->
+          <a href="#" class="sf-badge sf-badge--brand" data-search-term="Salesforce">Salesforce</a>
+          <a href="#" class="sf-badge" data-search-term="LWC">LWC</a>
+          <a href="#" class="sf-badge" data-search-term="Filmmaking">Filmmaking</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
+
+<!-- ========================================================================
+     MAIN SEARCH LAYOUT
+     ======================================================================== -->
+<div class="sf-container" style="padding: var(--sf-8) 0;">
+  <div class="search-layout">
+
+    <!-- Primary Content Column (Left) -->
+    <main class="search-main">
+      <form class="search-input-wrapper" action="" role="search" onsubmit="return false;">
+        <label for="search-input" class="sf-sr-only">Search term:</label>
+        <i class="ph-bold ph-magnifying-glass page-search-form__icon"></i>
+        <input class="page-search-input" id="search-input" type="search" name="search" placeholder="Search for anything..." autocomplete="off" />
+      </form>
+      <ul class="search-results-list" id="results-list">
+        <!-- Live search results are injected here -->
+      </ul>
+    </main>
+
+    <!-- Sidebar Column (Right) -->
+    <aside class="search-sidebar">
+      
+      <!-- Filter Widget -->
+      <div class="sidebar-card">
+        <header class="sidebar-card__header">
+          <h3 class="sf-h4 sidebar-card__title">Filter by Type</h3>
+        </header>
+        <div class="sidebar-card__body">
+          <ul class="sf-list" id="type-filter-list">
+            <li class="sf-list__item"><label class="sf-check"><input type="radio" name="typeFilter" value="all" checked> <span class="sf-check__box"></span> <span>All Results</span></label></li>
+            <li class="sf-list__item"><label class="sf-check"><input type="radio" name="typeFilter" value="post"> <span class="sf-check__box"></span> <span>Blog Posts</span></label></li>
+            <li class="sf-list__item"><label class="sf-check"><input type="radio" name="typeFilter" value="page"> <span class="sf-check__box"></span> <span>Pages</span></label></li>
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Instant Answer Widget -->
+      <div class="sidebar-card" id="instant-answer-card" style="display: none;">
+        <header class="sidebar-card__header">
+          <h3 class="sf-h4 sidebar-card__title">Instant Answer</h3>
+        </header>
+        <div class="sidebar-card__body instant-answer-card__body">
+          <p class="instant-answer-card__text" id="instant-answer-text"></p>
+          <a href="#" class="instant-answer-card__source" id="instant-answer-source"></a>
+        </div>
+      </div>
+
+    </aside>
+  </div>
 </div>
+
 
 <!-- Self-Contained JavaScript -->
 <script type="text/javascript" src="{{ "/assets/scripts/fetch.js" | relative_url }}"></script>
@@ -21,69 +92,98 @@
     const endpoint = '{{ "/assets/search.json" | relative_url }}';
     const pages = [];
 
-    fetch(endpoint)
-      .then(blob => blob.json())
-      .then(data => pages.push(...data))
-      .catch(err => console.error("Error fetching search data:", err));
+    const searchInput = document.getElementById('search-input');
+    const resultsList = document.getElementById('results-list');
+    const typeFilters = document.querySelectorAll('input[name="typeFilter"]');
+    const trendingLinks = document.querySelectorAll('[data-search-term]');
+    
+    const instantAnswerCard = document.getElementById('instant-answer-card');
+    const instantAnswerText = document.getElementById('instant-answer-text');
+    const instantAnswerSource = document.getElementById('instant-answer-source');
 
-    function findResults(termToMatch, pages) {
-      if (!termToMatch) return [];
-      return pages.filter(item => {
-        const regex = new RegExp(termToMatch, 'gi');
-        return item.title.match(regex) || item.content.match(regex);
-      });
-    }
+    fetch(endpoint).then(blob => blob.json()).then(data => pages.push(...data));
 
-    function displayResults() {
-      const resultsArray = findResults(this.value, pages);
-      const searchTerm = this.value;
+    const performSearch = () => {
+      const searchTerm = searchInput.value.trim();
+      const selectedType = document.querySelector('input[name="typeFilter"]:checked').value;
 
-      if (searchTerm.trim() === '') {
-        resultsList.innerHTML = ''; // Clear results if input is empty
+      if (searchTerm === '') {
+        resultsList.innerHTML = '';
+        instantAnswerCard.style.display = 'none';
         return;
       }
+      
+      const regex = new RegExp(searchTerm, 'gi');
+      
+      let allResults = pages.filter(item => {
+        return item.title.match(regex) || item.content.match(regex);
+      });
 
-      if (resultsArray.length === 0) {
-        // Display the "No Results" state
-        resultsList.innerHTML = `
-          <div class="page-search-no-results">
-            <i class="ph-bold ph-files"></i>
-            <h3 class="sf-h3">No Results Found</h3>
-            <p>Sorry, we couldn't find anything matching "${searchTerm}". Try a different search term.</p>
-          </div>`;
-      } else {
-        // Display the result cards
-        const html = resultsArray.map(item => {
-          // Use a default excerpt if the real one is missing
-          const excerpt = item.excerpt ? item.excerpt.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...' : 'No description available.';
-          return `
-            <li>
-              <a href="${item.url}" class="page-search-result-card">
-                <div class="sf-card__body">
-                  <h4 class="sf-h4 page-search-result-card__title">${item.title}</h4>
-                  <p class="page-search-result-card__excerpt">${excerpt}</p>
-                </div>
-              </a>
-            </li>`;
-        }).join('');
-        resultsList.innerHTML = html;
+      let filteredResults = allResults;
+      if (selectedType !== 'all') {
+        filteredResults = allResults.filter(item => {
+          return selectedType === 'post' ? item.url.includes('/blog/') : !item.url.includes('/blog/');
+        });
       }
-    }
+      
+      displayResults(filteredResults, searchTerm);
+      findInstantAnswer(allResults, regex);
+    };
+    
+    const displayResults = (resultsArray, searchTerm) => {
+      if (resultsArray.length === 0) {
+        resultsList.innerHTML = `<div class="page-search-no-results">...</div>`; // Same as before
+        return;
+      }
+      const highlight = (text, term) => text.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`);
+      
+      resultsList.innerHTML = resultsArray.map(item => {
+        const isPost = item.url.includes('/blog/');
+        const icon = isPost ? 'ph-newspaper' : 'ph-file-text';
+        const excerpt = item.excerpt ? highlight(item.excerpt.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...', searchTerm) : 'No description available.';
+        const urlType = isPost ? "Blog Post" : "Page";
+        
+        return `
+          <li>
+            <a href="${item.url}" class="search-result-card">
+              <div class="search-result-card__body">
+                <header class="search-result-card__header">
+                  <i class="ph-bold ${icon} search-result-card__icon"></i>
+                  <h2 class="sf-h4 search-result-card__title">${highlight(item.title, searchTerm)}</h2>
+                </header>
+                <p class="search-result-card__excerpt">${excerpt}</p>
+              </div>
+              <footer class="search-result-card__footer">${urlType} • ${item.url}</footer>
+            </a>
+          </li>`;
+      }).join('');
+    };
+    
+    const findInstantAnswer = (results, regex) => {
+        for (const item of results) {
+            const match = item.content.match(new RegExp(`[^.?!]*${regex.source}[^.?!]*[.?!]`, 'i'));
+            if (match) {
+                instantAnswerText.innerHTML = match[0].replace(regex, (m) => `<mark>${m}</mark>`);
+                instantAnswerSource.textContent = `Source: ${item.title}`;
+                instantAnswerSource.href = item.url;
+                instantAnswerCard.style.display = 'block';
+                return;
+            }
+        }
+        instantAnswerCard.style.display = 'none';
+    };
 
-    const field = document.getElementById('search-input');
-    const resultsList = document.getElementById('results-list');
+    searchInput.addEventListener('keyup', performSearch);
+    typeFilters.forEach(filter => filter.addEventListener('change', performSearch));
+    trendingLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        searchInput.value = link.getAttribute('data-search-term');
+        performSearch();
+        searchInput.focus();
+      });
+    });
 
-    if (field && resultsList) {
-      field.addEventListener('keyup', displayResults);
-      field.closest('form').addEventListener('submit', event => event.preventDefault());
-    }
+    searchInput.closest('form').addEventListener('submit', e => e.preventDefault());
   });
 </script>
-
-<noscript>
-  <div class="sf-card">
-    <div class="sf-card__body typeset">
-      <p>Please enable JavaScript to use the search form.</p>
-    </div>
-  </div>
-</noscript>
