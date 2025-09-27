@@ -1,0 +1,127 @@
+/* ============================================================================
+   PAGES / SEARCH (Definitive, Self-Contained Version)
+   Prefix: .page-search-
+   ============================================================================ */
+
+// --- Main Search Page Layout ---
+.page-search-layout {
+  // Constrain the content to a comfortable reading width and center it.
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+
+// --- The Search Form Wrapper ---
+.page-search-form {
+  position: relative; // Anchor for the search icon
+  margin-bottom: var(--sf-6);
+}
+
+// Search icon placed inside the input field
+.page-search-form__icon {
+  position: absolute;
+  top: 50%;
+  left: var(--sf-4);
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: var(--sf-muted);
+  pointer-events: none; // Allows clicks to pass through to the input
+}
+
+
+// --- The Search Input Field ---
+.page-search-input {
+  // Inherit from the base .sf-input but make it more prominent
+  width: 100%;
+  background: var(--sf-bg-2);
+  color: var(--sf-fg);
+  border: 1px solid var(--sf-line-1);
+  border-radius: var(--sf-radius-lg); // Softer radius
+  
+  // Make it larger for a dedicated search page
+  padding: var(--sf-4) var(--sf-4) var(--sf-4) calc(var(--sf-4) * 3); // Large padding, especially on the left for the icon
+  font-size: 1.25rem;
+  
+  transition: border-color .15s, box-shadow .15s;
+  box-shadow: var(--sf-shadow-sm);
+
+  &::placeholder {
+    color: var(--sf-muted);
+  }
+  &:hover {
+    border-color: var(--sf-muted);
+  }
+  &:focus, &:focus-visible {
+    border-color: var(--sf-brand);
+    box-shadow: var(--sf-focus), var(--sf-shadow-sm);
+    outline: none;
+  }
+}
+
+
+// --- Search Results Container ---
+.page-search-results {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--sf-4); // Spacing between result cards
+}
+
+// --- Individual Search Result Card ---
+.page-search-result-card {
+  // Use the base .sf-card for consistency
+  display: block; // Make the whole card a clickable link
+  text-decoration: none;
+  background: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sf-shadow-md);
+    border-color: var(--sf-brand);
+  }
+
+  &__title {
+    color: var(--sf-fg);
+    transition: color .15s ease;
+  }
+  &:hover &__title {
+    color: var(--sf-brand);
+  }
+
+  &__excerpt {
+    color: var(--sf-fg-2);
+    font-size: .95rem;
+    margin-top: var(--sf-2);
+    // Truncate long excerpts
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+
+// --- "No Results Found" State ---
+.page-search-no-results {
+  text-align: center;
+  padding: var(--sf-8) var(--sf-4);
+  background: var(--sf-bg-2);
+  border: 1px dashed var(--sf-line-1);
+  border-radius: var(--sf-radius-lg);
+  color: var(--sf-muted);
+
+  .ph-bold {
+    font-size: 3rem;
+    color: var(--sf-brand);
+    margin-bottom: var(--sf-4);
+  }
+  .sf-h3 {
+    color: var(--sf-fg);
+    margin-bottom: var(--sf-2);
+  }
+}
