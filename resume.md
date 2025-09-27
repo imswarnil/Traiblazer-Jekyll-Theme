@@ -2,92 +2,80 @@
 layout: resume
 title: "Resume"
 
-# --- HEADER DETAILS ---
-name: "Swarnil Singhai"
-title: "Filmmaker • Software Engineer • Storyteller"
-avatar: "/assets/images/profile.jpg"
-pdf_url: "/assets/Swarnil_Singhai_Resume.pdf"
+# --- HERO DETAILS ---
+name: "Christian Torres"
+title: "Technical Consultant | Salesforce Expert | nCino Integration"
+initials: "CT"
 contact:
-  email: "hello@imswarnil.com"
-  phone: "+91 12345 67890"
-  website: "https://imswarnil.com"
-  linkedin: "https://linkedin.com/in/imswarnil"
+  phone: "1 (234) 555-1234"
+  email: "help@enhancv.com"
+  linkedin: "https://linkedin.com/in/your-profile"
+  website: "https://your-portfolio.com"
 
 # --- MAIN CONTENT (LEFT COLUMN) ---
 summary: |
-  A highly motivated and results-oriented Software Engineer with 9+ years of experience specializing in Salesforce CRM Analytics and custom application development. Proven ability to translate complex business requirements into elegant, scalable solutions that drive user adoption and business value. I bring a unique blend of technical precision and creative vision to every project, ensuring outcomes are not only functional but also engaging.
+  Technical Consultant with over 3 years of experience in Salesforce and nCino platform implementation. Proficient in Apex, JavaScript, and XML, achieving a 20% increase in integration efficiency. Strong analytical skills and dedication to customer success in cloud banking.
 
 experience:
-  - role: "Software Engineer, CRM Analytics"
-    company: "Twilio"
-    location: "Bengaluru, India"
-    dates: "2022 – Present"
-    description: |
-      - Designed and shipped multiple AI-powered LWC widgets for Account Planning, including win-probability analysis and next-best-action recommendations.
-      - Developed and maintained a suite of CRM Analytics dashboards to track credit memo exposure and AE revenue insights, providing critical data to the sales organization.
-      - Led UX polish initiatives across several internal LWC applications, resulting in a 20% increase in user satisfaction scores.
-  - role: "Full-stack Engineer"
-    company: "Various Startups"
+  - role: "Technical Consultant"
+    company: "FinancialForce"
     location: "Remote"
-    dates: "2019 – 2022"
+    dates: "03/2022 – Present"
     description: |
-      - Built and maintained internal data applications, REST APIs, and analytics platforms for B2B SaaS companies.
-      - Mentored junior developers on best practices for CI/CD, unit testing, and system design.
-  - role: "Creator & Filmmaker"
-    company: "ImSwarnil on YouTube"
-    location: "Bengaluru, India"
-    dates: "2017 – Present"
+      - Led Salesforce integration projects achieving a 30% reduction in deployment time through optimized workflows.
+      - Collaborated directly with financial institutions to design and implement 15+ bespoke Salesforce solutions.
+      - Designed and executed test plans for Salesforce updates, reducing system errors by 25%.
+  - role: "Salesforce Developer"
+    company: "Appirio"
+    location: "Denver, CO"
+    dates: "01/2020 – 02/2022"
     description: |
-      - Grew a YouTube channel to 17,000+ subscribers by creating engaging content documenting technology, filmmaking, and personal growth stories.
-
-projects:
-  - title: "Account Plan AI Widgets"
-    link: "#"
-    meta: ["LWC", "Apex", "CRM Analytics"]
-    description: "Built AI-powered insights (win-probability, next best action) directly into AE workflows to accelerate sales cycles."
-  - title: "Namaste Salesforce E-Learning"
-    link: "#"
-    meta: ["Ghost", "Stripe", "LMS"]
-    description: "Developed a subscription-based learning platform for Indian freshers, focusing on job-ready projects in Admin, Dev, and Analytics."
+      - Implemented Salesforce and nCino customizations that enhanced process efficiency by +20%.
+      - Developed complex Visualforce pages and custom controllers, handling over 1,000 transactions per day with zero downtime.
+  - role: "Salesforce Administrator"
+    company: "Slalom Consulting"
+    location: "Seattle, WA"
+    dates: "01/2017 – 12/2019"
+    description: |
+      - Managed user access and permissions for 300+ Salesforce users, maintaining data privacy and compliance.
+      - Customized Salesforce dashboards and reports, enabling data-driven decision-making resulting in 5% revenue increase.
 
 education:
-  - degree: "Bachelor of Computer Applications"
-    institution: "Prestige Institute of Management"
-    year: "2017"
+  - degree: "Bachelor of Science in Information Systems"
+    institution: "University of Illinois at Chicago"
+    year: "2014 – 2018"
 
 # --- SIDEBAR (RIGHT COLUMN) ---
+projects:
+  - title: "Custom Salesforce Reporting Tool"
+    link: "https://github.com/christiantorres/reporting-tool"
+    description: "Developed an open-source Salesforce reporting tool, increasing report generation efficiency by 35%."
+  - title: "Banking Data Integration Framework"
+    link: "https://github.com/christiantorres/data-framework"
+    description: "Created a framework for banking data integration on Salesforce, enhancing data accuracy by 30%."
+
 skills:
-  - name: "CRM Analytics (SAQL, Einstein)"
-    level: 90
-  - name: "Apex & LWC"
-    level: 85
-  - name: "UX & Design Systems"
-    level: 80
-  - name: "Node.js & JavaScript"
-    level: 75
-  - name: "Filmmaking & Editing"
-    level: 70
+  - name: "Core Technologies"
+    size: "wide" # Spans 2 columns
+    keywords: "Salesforce, Apex, JavaScript, TypeScript, XML, ETL Platforms, nCino"
+  - name: "Methodologies"
+    keywords: "Agile, Scrum, CI/CD"
+  - name: "Tools"
+    keywords: "Git, Jira, VS Code"
 
 certifications:
-  - title: "Salesforce Administrator"
-    meta: "Credential ID: XXXX-ADMIN"
+  - title: "Salesforce Platform Developer I"
     link: "#"
-  - title: "Platform App Builder"
-    meta: "Credential ID: XXXX-APPB"
+    description: "Salesforce certification course for advanced development skills and Salesforce solutions."
+  - title: "Integration Architecture Designer"
     link: "#"
-  - title: "Tableau CRM Consultant"
-    meta: "Credential ID: XXXX-TCRM"
-    link: "#"
-
-trailhead:
-  rank: "Ranger"
-  badges: "150+"
-  points: "100,000+"
-  link: "https://trailblazer.me/id/your-id"
+    description: "Trailhead certification focused on designing scalable integration solutions with Salesforce."
 
 achievements:
-  - title: "Twilio Tweek Week Winner"
-    meta: "Project: AE Insights Dashboard"
-  - title: "YouTube Silver Play Button"
-    meta: "Awarded for 100,000+ subscribers"
+  - title: "Integration Efficiency Award"
+    description: "Recognized for achieving a 20% increase in integration efficiency through innovative solutions."
+  - title: "Customer Satisfaction Excellence"
+    description: "Boosted customer satisfaction scores by 40% through personalized client consultations."
+  - title: "System Error Reduction"
+    description: "Reduced system errors by 25% by executing comprehensive test plans."
 ---

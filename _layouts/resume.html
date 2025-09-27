@@ -8,26 +8,25 @@ _layouts/resume.html (Definitive, "All-in-One" Final Version)
 {% endcomment %}
 
 <!-- ========================================================================
-     RESUME HEADER
+     RESUME HERO
      ======================================================================== -->
-<header class="sf-page-header resume-header">
+<header class="resume-hero">
   <div class="sf-container">
-    <div class="resume-header__grid">
-      <img src="{{ page.avatar | relative_url }}" alt="Profile photo of {{ page.name }}" class="resume-header__avatar">
-      <div class="resume-header__text">
-        <h1 class="sf-h1 resume-header__title">{{ page.name }}</h1>
-        <h2 class="sf-h3 resume-header__subtitle">{{ page.title }}</h2>
-        <div class="resume-header__contact-list">
-          <a href="mailto:{{ page.contact.email }}"><i class="ph-bold ph-envelope-simple"></i> {{ page.contact.email }}</a>
-          <a href="{{ page.contact.linkedin }}" target="_blank" rel="noopener"><i class="ph-bold ph-linkedin-logo"></i> LinkedIn</a>
-          <a href="{{ page.contact.website }}" target="_blank" rel="noopener"><i class="ph-bold ph-globe"></i> Website</a>
-          <a href="{{ page.pdf_url | relative_url }}" class="sf-btn sf-btn--brand sf-btn--sm" download><i class="ph-bold ph-download-simple"></i> Download PDF</a>
+    <div class="resume-hero__grid">
+      <div class="resume-hero__text">
+        <h1 class="resume-hero__name">{{ page.name }}</h1>
+        <h2 class="resume-hero__title">{{ page.title }}</h2>
+        <div class="resume-hero__contact-list">
+          <a href="tel:{{ page.contact.phone }}"><i class="ph-bold ph-phone"></i> <span>{{ page.contact.phone }}</span></a>
+          <a href="mailto:{{ page.contact.email }}"><i class="ph-bold ph-envelope-simple"></i> <span>{{ page.contact.email }}</span></a>
+          <a href="{{ page.contact.linkedin }}" target="_blank" rel="noopener"><i class="ph-bold ph-linkedin-logo"></i> <span>LinkedIn</span></a>
+          <a href="{{ page.contact.website }}" target="_blank" rel="noopener"><i class="ph-bold ph-globe"></i> <span>{{ page.contact.website | remove: 'https://' }}</span></a>
         </div>
       </div>
+      <div class="resume-hero__initials">{{ page.initials }}</div>
     </div>
   </div>
 </header>
-
 
 <!-- ========================================================================
      MAIN RESUME CONTENT & SIDEBAR
@@ -40,68 +39,42 @@ _layouts/resume.html (Definitive, "All-in-One" Final Version)
     <!-- ======================================================= -->
     <main class="resume-main">
       <!-- Summary Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body typeset">
-          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-user-circle"></i> <span>Professional Summary</span></h2>
-          {{ page.summary | markdownify }}
-        </div>
+      <section class="resume-section">
+        <h2 class="sf-h2 resume-section__title"><i class="ph-bold ph-user"></i><span>Summary</span></h2>
+        <div class="typeset">{{ page.summary | markdownify }}</div>
       </section>
 
       <!-- Experience Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body">
-          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-briefcase"></i> <span>Work Experience</span></h2>
-          <ul class="resume-timeline">
-            {% for item in page.experience %}
-            <li class="resume-timeline-item">
-              <div class="resume-timeline-item__header">
-                <h3 class="sf-h4 resume-timeline-item__title">{{ item.role }}</h3>
-                <span class="resume-timeline-item__meta">{{ item.dates }}</span>
-              </div>
-              <p class="resume-timeline-item__subtitle">{{ item.company }} • {{ item.location }}</p>
-              <div class="resume-timeline-item__description typeset">{{ item.description | markdownify }}</div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </section>
-
-      <!-- Projects Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body">
-          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-rocket-launch"></i> <span>Featured Projects</span></h2>
-          <div class="sf-grid" style="gap: var(--sf-4);">
-          {% for item in page.projects %}
-            <article class="sf-card sf-card--related project-card">
-              <header class="sf-card__header">
-                <h3 class="sf-h4"><a href="{{item.link}}" target="_blank" rel="noopener">{{item.title}}</a></h3>
-              </header>
-              <div class="sf-card__body">{{item.description}}</div>
-              <footer class="sf-card__footer project-card__meta">
-                {% for tech in item.meta %}<span class="sf-badge">{{tech}}</span>{% endfor %}
-              </footer>
-            </article>
+      <section class="resume-section">
+        <h2 class="sf-h2 resume-section__title"><i class="ph-bold ph-briefcase"></i><span>Experience</span></h2>
+        <ul class="resume-timeline">
+          {% for item in page.experience %}
+          <li class="resume-timeline-item">
+            <div class="resume-timeline-item__header">
+              <h3 class="sf-h3 resume-timeline-item__title">{{ item.role }}</h3>
+              <span class="resume-timeline-item__meta"><i class="ph-bold ph-calendar"></i>{{ item.dates }}</span>
+            </div>
+            <p class="resume-timeline-item__subtitle">{{ item.company }} • <i class="ph-bold ph-map-pin"></i> {{ item.location }}</p>
+            <div class="resume-timeline-item__description typeset">{{ item.description | markdownify }}</div>
+          </li>
           {% endfor %}
-          </div>
-        </div>
+        </ul>
       </section>
 
       <!-- Education Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body">
-          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-graduation-cap"></i> <span>Education</span></h2>
-          <ul class="resume-timeline">
-            {% for item in page.education %}
-            <li class="resume-timeline-item">
-              <div class="resume-timeline-item__header">
-                <h3 class="sf-h4 resume-timeline-item__title">{{ item.degree }}</h3>
-                <span class="resume-timeline-item__meta">{{ item.year }}</span>
-              </div>
-              <p class="resume-timeline-item__subtitle">{{ item.institution }}</p>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
+      <section class="resume-section">
+        <h2 class="sf-h2 resume-section__title"><i class="ph-bold ph-graduation-cap"></i><span>Education</span></h2>
+        <ul class="resume-timeline">
+          {% for item in page.education %}
+          <li class="resume-timeline-item">
+            <div class="resume-timeline-item__header">
+              <h3 class="sf-h3 resume-timeline-item__title">{{ item.degree }}</h3>
+              <span class="resume-timeline-item__meta">{{ item.year }}</span>
+            </div>
+            <p class="resume-timeline-item__subtitle">{{ item.institution }}</p>
+          </li>
+          {% endfor %}
+        </ul>
       </section>
     </main>
 
@@ -109,66 +82,67 @@ _layouts/resume.html (Definitive, "All-in-One" Final Version)
     <!-- SIDEBAR COLUMN (Right on Desktop)                       -->
     <!-- ======================================================= -->
     <aside class="resume-sidebar">
-      <!-- Skills Section -->
-      <section class="sf-card resume-section">
-        <header class="sf-card__header"><h3 class="sf-h4">Core Skills</h3></header>
-        <div class="sf-card__body">
-          <div class="skills-grid">
-          {% for skill in page.skills %}
-            <div class="skill-item">
-              <div class="skill-item__label"><span>{{ skill.name }}</span><span class="sf-text--small">{{ skill.level }}%</span></div>
-              <div class="skill-item__bar"><i style="width: {{ skill.level }}%;"></i></div>
-            </div>
-          {% endfor %}
+      <!-- Projects Section -->
+      <section class="resume-section">
+        <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-rocket-launch"></i><span>Projects</span></h2>
+        <ul class="project-list">
+        {% for item in page.projects %}
+          <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="project-item__link">
+            <h4 class="sf-h4 project-item__title">{{ item.title }}</h4>
+            <p class="project-item__description">{{ item.description }}</p>
+            <p class="project-item__url"><i class="ph-bold ph-link"></i> {{ item.link | remove: 'https://' }}</p>
+          </a></li>
+        {% endfor %}
+        </ul>
+      </section>
+      
+      <!-- Skills Section (Bento Grid) -->
+      <section class="resume-section">
+        <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-wrench"></i><span>Skills</span></h2>
+        <div class="bento-grid">
+        {% for skill in page.skills %}
+          <div class="bento-item {% if skill.size %}bento-item--{{ skill.size }}{% endif %}">
+            <h4 class="sf-h4 bento-item__title">{{ skill.name }}</h4>
+            <p class="bento-item__content">{{ skill.keywords }}</p>
           </div>
+        {% endfor %}
         </div>
       </section>
 
       <!-- Certifications Section -->
-      <section class="sf-card resume-section">
-        <header class="sf-card__header"><h3 class="sf-h4">Certifications</h3></header>
-        <div class="sf-card__body">
-          <ul class="cert-list">
-          {% for item in page.certifications %}
-            <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="cert-card">
-              <i class="ph-bold ph-seal-check cert-card__icon"></i>
-              <div><h4 class="sf-h5 cert-card__title">{{item.title}}</h4><p class="cert-card__meta">{{item.meta}}</p></div>
-            </a></li>
-          {% endfor %}
-          </ul>
-        </div>
-      </section>
-      
-      <!-- Trailhead Section -->
-      <section class="sf-card resume-section trailhead-profile-card">
-        <div class="sf-card__body">
-          <a href="{{ page.trailhead.link }}" target="_blank" rel="noopener">
-            <img src="https://res.cloudinary.com/hy4kyit2a/image/upload/v1715421294/trailblazer-pfp-pfp_rangers_22_4_22_12-24-pm-removebg-preview.png" alt="Trailhead Ranger Rank" class="trailhead-profile-card__rank-icon">
-            <div class="trailhead-profile-card__rank">{{ page.trailhead.rank }}</div>
-            <div class="trailhead-profile-card__stats">
-              <span><strong>{{ page.trailhead.badges }}</strong> Badges</span>
-              <span>•</span>
-              <span><strong>{{ page.trailhead.points }}</strong> Points</span>
+      <section class="resume-section">
+        <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-seal-check"></i><span>Training / Courses</span></h2>
+        <ul class="cert-list">
+        {% for item in page.certifications %}
+          <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="cert-item__link">
+            <div class="cert-item">
+              <i class="ph-bold ph-book-open"></i>
+              <div>
+                <h4 class="sf-h5 cert-item__title">{{ item.title }}</h4>
+                <p class="cert-item__description">{{ item.description }}</p>
+              </div>
             </div>
-            <span class="sf-btn sf-btn--neutral sf-btn--sm">View Trailblazer Profile</span>
-          </a>
-        </div>
+          </a></li>
+        {% endfor %}
+        </ul>
       </section>
 
       <!-- Achievements Section -->
-      <section class="sf-card resume-section">
-        <header class="sf-card__header"><h3 class="sf-h4">Achievements</h3></header>
-        <div class="sf-card__body">
-          <ul class="achievement-list">
-          {% for item in page.achievements %}
-            <li><div class="achievement-card">
-              <i class="ph-bold ph-trophy achievement-card__icon"></i>
-              <div><h4 class="sf-h5 achievement-card__title">{{item.title}}</h4><p class="achievement-card__meta">{{item.meta}}</p></div>
-            </div></li>
-          {% endfor %}
-          </ul>
-        </div>
+      <section class="resume-section">
+        <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-trophy"></i><span>Key Achievements</span></h2>
+        <ul class="achievement-list">
+        {% for item in page.achievements %}
+          <li><div class="achievement-item">
+            <i class="ph-bold ph-star"></i>
+            <div>
+              <h4 class="sf-h5 achievement-item__title">{{ item.title }}</h4>
+              <p class="achievement-item__description">{{ item.description }}</p>
+            </div>
+          </div></li>
+        {% endfor %}
+        </ul>
       </section>
+
     </aside>
 
   </div>
