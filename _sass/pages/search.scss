@@ -1,16 +1,16 @@
 /* ============================================================================
-   PAGES / SEARCH (Definitive, "Super Best" Edition)
+   PAGES / SEARCH (Definitive, Bulletproof Final Version)
    ============================================================================ */
 
 // --- Dynamic Page Header ---
 .search-header-grid {
   display: grid;
-  align-items: end; // Align to the bottom for a clean look
+  align-items: end;
   gap: var(--sf-4) var(--sf-6);
-  grid-template-columns: 1fr; // Mobile
+  grid-template-columns: 1fr;
 
   @media (min-width: 768px) {
-    grid-template-columns: 1fr auto; // Desktop
+    grid-template-columns: 1fr auto;
   }
 }
 
@@ -28,67 +28,83 @@
   }
 }
 
-// --- Main Search Page Layout (2-Column) ---
+// --- Main Search Page Layout ---
 .search-layout {
   display: grid;
   gap: var(--sf-6);
   align-items: start;
-  grid-template-columns: 1fr; // Mobile
+  grid-template-columns: 1fr;
 
   @media (min-width: 960px) {
-    grid-template-columns: 1fr 300px; // Desktop
+    grid-template-columns: 1fr 300px;
   }
 }
 
-// --- Main Search Column (Left) ---
+// --- Main Search Column ---
 .search-main {
-  // Container for the input and results
+  // Container for input and results
 }
 
 .search-input-wrapper {
   position: relative;
-  margin-bottom: var(--sf-4);
+  margin-bottom: var(--sf-6);
+
+  // Search icon inside the input
+  .ph-bold {
+    position: absolute;
+    top: 50%;
+    left: var(--sf-4);
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: var(--sf-muted);
+    pointer-events: none;
+  }
 }
-// (Input and Icon styles from before are perfect)
+
+// Use the existing .sf-input component for perfect styling
+.page-search-input.sf-input {
+  padding-left: calc(var(--sf-4) + 2rem); // Make space for the icon
+  font-size: 1.25rem; // Larger font for search
+  padding-block: var(--sf-3);
+  border-radius: var(--sf-radius-lg);
+}
+
 
 // --- Search Results List ---
 .search-results-list {
-  list-style: none; padding: 0; margin: 0;
-  display: grid; gap: var(--sf-4);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--sf-4);
 }
 
 // --- The Definitive, Redesigned Result Card ---
 .search-result-card {
-  display: block; text-decoration: none;
-  background: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-lg);
-  box-shadow: none;
+  display: block;
+  text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-
-  &:hover {
+  
+  // Use the .sf-card base for perfect consistency
+  &.sf-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--sf-shadow-sm);
+    box-shadow: var(--sf-shadow-md);
     border-color: var(--sf-brand);
-  }
-
-  &__body {
-    padding: var(--sf-4);
   }
 
   &__header {
     display: flex;
     align-items: flex-start;
     gap: var(--sf-3);
-    margin-bottom: var(--sf-3);
+    margin-bottom: var(--sf-2);
   }
-
+  
   &__icon {
     font-size: 1.5rem;
     color: var(--sf-brand);
     margin-top: 2px;
   }
-
+  
   &__title {
     margin: 0;
     color: var(--sf-fg);
@@ -103,10 +119,11 @@
     font-size: .9rem;
     line-height: 1.6;
     padding-left: calc(1.5rem + var(--sf-3)); // Indent to align with title
-    display: -webkit-box; -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical; overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
     
-    // Highlight the search term in the excerpt
     mark {
       background: color-mix(in srgb, var(--sf-warning), transparent 60%);
       color: var(--sf-fg);
@@ -116,42 +133,28 @@
   }
 
   &__footer {
-    padding: var(--sf-3) var(--sf-4);
-    border-top: 1px solid var(--sf-line-2);
-    background: color-mix(in oklab, var(--sf-bg-1), white 60%);
+    // Uses .sf-card__footer for consistency
     font-size: .8rem;
-    color: var(--sf-muted);
   }
 }
 
-// --- Search Sidebar (Right) ---
+// --- Search Sidebar ---
 .search-sidebar {
   @media (min-width: 960px) {
-    position: sticky; top: calc(68px + var(--sf-8));
+    position: sticky;
+    top: calc(68px + var(--sf-8));
   }
   @media (max-width: 959px) {
-    order: -1; // Move sidebar to top on mobile
+    order: -1;
   }
 }
 
 // --- Instant Answer Widget ---
 .instant-answer-card {
-  border-left: 3px solid var(--sf-brand);
-  animation: fadeIn .5s ease-out;
-
-  &__body {
-    position: relative;
-    padding-left: calc(var(--sf-4) + 1.5rem); // Extra padding for quote
-    
-    &::before { // The quotation mark
-      content: '“';
-      position: absolute;
-      left: var(--sf-4);
-      top: var(--sf-4);
-      font-size: 3rem;
-      line-height: 1;
-      color: var(--sf-line-1);
-    }
+  // Use a modified .sf-alert for this
+  &.sf-alert--info {
+    display: none; // Hidden by default
+    animation: fadeIn .5s ease-out;
   }
 
   &__text {
@@ -164,4 +167,16 @@
     margin-top: var(--sf-3);
     font-weight: 600;
   }
+}
+
+// --- "No Results" State ---
+.search-no-results {
+  // Use an .sf-tile for this
+  text-align: center;
+  padding: var(--sf-8) var(--sf-4);
+  border-style: dashed;
+  
+  .ph-bold { font-size: 3rem; color: var(--sf-brand); margin-bottom: var(--sf-4); }
+  .sf-h3 { color: var(--sf-fg); margin-bottom: var(--sf-2); }
+  p { max-width: 50ch; margin-inline: auto; color: var(--sf-muted); }
 }
