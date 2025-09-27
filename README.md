@@ -246,10 +246,10 @@ Available options:
 
 Use the `email` option in the `/_config.yml` to change to the desired email.
 
-### `site-search.html`
+### `search.html`
 Adds a search form to the page.
 
-Example usage: `{% include site-search.html %}`
+Example usage: `{% include search.html %}`
 
 This include has no options. This include will add a block of javascript to the page and javascript reference in order for the search field to work correctly.
 
