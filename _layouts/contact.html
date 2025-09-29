@@ -26,6 +26,8 @@ _layouts/contact.html (Definitive, "Masterpiece" All-in-One Edition)
     <!-- ============================================= -->
     <!-- Primary Content Column (Left)                 -->
     <!-- ============================================= -->
+    <!-- Example usage in a contact.html layout -->
+
     <main class="contact-main-content">
       <section class="sf-card contact-section">
         <div class="sf-card__header">
@@ -35,26 +37,59 @@ _layouts/contact.html (Definitive, "Masterpiece" All-in-One Edition)
           </h2>
         </div>
         <div class="sf-card__body">
-          <form class="contact-form-grid" action="{{ page.formspree_url }}" method="POST">
+          
+          <!-- The Form -->
+          <form class="contact-form-grid" action="YOUR_FORMSPREE_URL" method="POST">
+            
+            <!-- First Name -->
             <div class="sf-field">
-              <label for="first-name" class="sf-form__label">First Name</label>
+              <label for="first-name" class="sf-form__label">First Name<span class="sf-required">*</span></label>
               <input type="text" id="first-name" name="first-name" class="sf-input" required>
             </div>
+            
+            <!-- Last Name -->
             <div class="sf-field">
-              <label for="last-name" class="sf-form__label">Last Name</label>
+              <label for="last-name" class="sf-form__label">Last Name<span class="sf-required">*</span></label>
               <input type="text" id="last-name" name="last-name" class="sf-input" required>
             </div>
+            
+            <!-- Email Address -->
             <div class="sf-field sf-field--full-width">
-              <label for="email" class="sf-form__label">Email Address</label>
+              <label for="email" class="sf-form__label">Email Address<span class="sf-required">*</span></label>
               <input type="email" id="email" name="email" class="sf-input" required>
+              <p class="sf-field__help">We'll never share your email with anyone else.</p>
             </div>
+            
+            <!-- Subject (Select Dropdown) -->
             <div class="sf-field sf-field--full-width">
-              <label for="message" class="sf-form__label">Your Message</label>
+              <label for="subject" class="sf-form__label">Subject</label>
+              <select id="subject" name="subject" class="sf-select">
+                <option>Project Inquiry</option>
+                <option>Collaboration</option>
+                <option>General Question</option>
+              </select>
+            </div>
+            
+            <!-- Message -->
+            <div class="sf-field sf-field--full-width">
+              <label for="message" class="sf-form__label">Your Message<span class="sf-required">*</span></label>
               <textarea id="message" name="message" class="sf-textarea" rows="6" required></textarea>
             </div>
+            
+            <!-- Checkbox -->
+            <div class="sf-field sf-field--full-width">
+               <label class="sf-check">
+                <input type="checkbox" name="subscribe">
+                <span class="sf-check__box"></span>
+                <span class="sf-text--small">Sign up for my monthly newsletter</span>
+              </label>
+            </div>
+    
+            <!-- Submit Button -->
             <div class="sf-field sf-field--full-width" style="text-align: right;">
               <button type="submit" class="sf-btn sf-btn--brand sf-btn--lg">Submit</button>
             </div>
+            
           </form>
         </div>
       </section>
