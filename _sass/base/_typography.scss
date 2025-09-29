@@ -1,27 +1,23 @@
 /* ============================================================================
-TYPOGRAPHY
-============================================================================ */
-:root { --sf-head-weight: 700; --sf-body-weight: 400; }
+   BASE / TYPOGRAPHY
+   The foundational type scale and styles for all text content.
+   ============================================================================ */
 
-.slds-text-heading_large  { @include text(var(--sf-text-3xl), 700, var(--sf-leading-tight), var(--sf-tracking-tight)); color: var(--sf-ink); }
-.slds-text-heading_medium { @include text(var(--sf-text-2xl), 700, var(--sf-leading-tight), var(--sf-tracking-tight)); color: var(--sf-ink); }
-.slds-text-heading_small  { @include text(var(--sf-text-xl), 700, var(--sf-leading-tight), var(--sf-tracking-tight)); color: var(--sf-ink); }
+// --- Headings ---
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 var(--sfdc-spacing-3) 0;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
 
-.slds-text-title_caps { text-transform: uppercase; letter-spacing: .12em; font-weight: 600; font-size: var(--sf-text-xs); color: var(--sf-muted); }
-.slds-text-body_regular { @include text(var(--sf-text-base), var(--sf-body-weight), var(--sf-leading-relaxed)); }
-.slds-text-body_small   { @include text(var(--sf-text-sm), var(--sf-body-weight), var(--sf-leading-normal)); }
-.slds-text-body_weak    { color: var(--sf-muted); }
+h1 { font-size: clamp(1.6rem, 1.2rem + 2vw, 2.25rem); line-height: 1.2; }
+h2 { font-size: clamp(1.4rem, 1.1rem + 1.5vw, 1.8rem); }
+h3 { font-size: clamp(1.2rem, 1.05rem + 1vw, 1.5rem); }
+h4 { font-size: 1.125rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: .875rem; color: var(--sfdc-text-muted); }
 
-.slds-link { color: var(--sf-link); @include interactive(color); &:hover { text-decoration: underline; } @include focus-visible; }
-
-/* Prose block */
-.slds-prose {
-  color: var(--sf-fg);
-  max-width: var(--sf-measure);
-  > * + * { margin-top: var(--sf-4); }
-  h1, h2, h3 { margin-top: var(--sf-8); }
-  h4, h5, h6 { margin-top: var(--sf-6); }
-  code { font-family: var(--sf-font-mono); background: var(--sf-bg-1); padding: .15em .35em; border-radius: var(--sf-radius-sm); }
-  pre { padding: var(--sf-4); border-radius: var(--sf-radius-lg); background: var(--sf-bg-2); @include elevation(sm); overflow:auto; }
-  blockquote { margin: var(--sf-5) 0; padding: var(--sf-4); border-left: 3px solid var(--sf-brand); background: var(--sf-bg-2); }
+// --- Paragraph ---
+p {
+  line-height: 1.6;
 }

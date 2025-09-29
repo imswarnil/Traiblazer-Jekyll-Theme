@@ -1,50 +1,30 @@
 /* ============================================================================
-GRID & CONTAINERS (SLDS-style + CSS Grid utilities)
-============================================================================ */
-
-/* Containers */
-.slds-container        { @include container(md); }
-.slds-container_small  { @include container(sm); }
-.slds-container_medium { @include container(md); }
-.slds-container_large  { @include container(lg); }
-.slds-container_x-large{ @include container(xl); }
-.slds-container_2x-large{ @include container(2xl); }
-
-/* Flex grid (SLDS-like) */
-.slds-grid { display:flex; flex-wrap:nowrap; align-items:stretch; }
-.slds-grid_vertical { flex-direction: column; }
-.slds-wrap { flex-wrap: wrap; }
-
-/* Gutters */
-.slds-gutters { margin-inline: calc(#{$grid-gutter} * -0.5); }
-.slds-gutters > .slds-col { padding-inline: calc(#{$grid-gutter} * 0.5); }
-
-/* Columns (1..12) */
-.slds-col { flex: 1 1 0; min-width: 0; }
-@for $i from 1 through $grid-columns {
-  .slds-col_#{$i}-of-#{$grid-columns} { flex: 0 0 auto; width: percentage($i / $grid-columns); }
+   LAYOUT / GRID
+   The responsive container and grid system.
+   ============================================================================ */
+.sfdc-container {
+  width: min(1200px, 92%);
+  margin-inline: auto;
 }
 
-/* Responsive column sizing */
-@include breakpoint(sm) {
-  @for $i from 1 through $grid-columns {
-    .slds-small-size_#{$i}-of-#{$grid-columns} { flex: 0 0 auto; width: percentage($i / $grid-columns); }
-  }
-}
-@include breakpoint(md) {
-  @for $i from 1 through $grid-columns {
-    .slds-medium-size_#{$i}-of-#{$grid-columns} { flex: 0 0 auto; width: percentage($i / $grid-columns); }
-  }
-}
-@include breakpoint(lg) {
-  @for $i from 1 through $grid-columns {
-    .slds-large-size_#{$i}-of-#{$grid-columns} { flex: 0 0 auto; width: percentage($i / $grid-columns); }
-  }
+.sfdc-grid {
+  display: grid;
+  gap: var(--sfdc-spacing-4);
 }
 
-/* CSS Grid utilities */
-.slds-grid-css { @include grid(var(--sf-grid-columns), var(--sf-grid-gap)); }
-@for $i from 1 through $grid-columns {
-  .slds-grid-cols-#{$i} { grid-template-columns: repeat(#{$i}, minmax(0,1fr)); }
-  .slds-col-span-#{$i}  { @include grid-col-span($i); }
+// Mobile-first grid columns
+// These apply from the smallest screen size up.
+.sfdc-grid--cols-1 { grid-template-columns: 1fr; }
+.sfdc-grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+.sfdc-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+
+// Responsive overrides using our scalable mixin
+@include sfdc-respond-from(md) {
+  .sfdc-grid--cols-2-md { grid-template-columns: repeat(2, 1fr); }
+  .sfdc-grid--cols-3-md { grid-template-columns: repeat(3, 1fr); }
+}
+
+@include sfdc-respond-from(lg) {
+  .sfdc-grid--cols-3-lg { grid-template-columns: repeat(3, 1fr); }
+  .sfdc-grid--cols-4-lg { grid-template-columns: repeat(4, 1fr); }
 }

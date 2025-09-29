@@ -1,56 +1,141 @@
 /* ============================================================================
-NAVBAR (responsive; class-based)
-Toggle open state by adding/removing .is-open on .slds-navbar
-============================================================================ */
-.slds-navbar {
-  position: sticky; top: 0; z-index: var(--sf-z-sticky);
-  background: var(--sf-nav-bg); border-bottom: 1px solid var(--sf-nav-border);
-  backdrop-filter: blur(10px) saturate(1.2); @include elevation(sm);
-}
+   COMPONENT / NAVBAR
+   Complete, self-contained SCSS for the entire header component.
+   ============================================================================ */
 
-/* Layout wrappers (no HTML provided; these are BEM-style hooks) */
-.slds-navbar__bar {
-  display:flex; align-items:center; justify-content:space-between;
-  min-height: var(--sf-nav-height); padding-inline: var(--sf-4);
-}
-.slds-navbar__brand { font-weight: 700; color: var(--sf-ink); }
-.slds-navbar__toggle {
-  @include button-reset; width: 2.25rem; height: 2.25rem; border-radius: var(--sf-radius-md); position: relative;
-  @include interactive(background-color);
-  &::before, &::after, span {
-    content:""; position:absolute; left:20%; right:20%; height:2px; background: var(--sf-fg);
-    transition: transform .15s cubic-bezier(.2,0,0,1), opacity .15s;
+.sfdc-header {
+  padding-block: var(--sfdc-spacing-2);
+  // --- Enhanced sticky header with blur effect ---
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: color-mix(in srgb, var(--sfdc-bg-hard) 80%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--sfdc-border-hard);
+
+  &__bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--sfdc-spacing-4);
   }
-  &::before { top: 35%; } &::after { top: 65%; } span { top: 50%; transform: translateY(-50%); }
-}
-.slds-navbar__inner {
-  display:none; /* collapsed mobile */
-  padding: 0 var(--sf-4) var(--sf-3);
-  @include grid(1, var(--sf-3));
-}
-.slds-navbar__menu { @include cluster(var(--sf-3), center, flex-start, wrap); }
-.slds-navbar__item {
-  display:inline-flex; align-items:center; min-height: calc(var(--sf-control-md) - 2px);
-  padding: 0 var(--sf-3); border-radius: var(--sf-radius-md); color: var(--sf-fg-2);
-  @include interactive(background-color);
-  &:hover { background: var(--sf-bg-1); }
-  &.is-active { color: var(--sf-ink); background: color-mix(in srgb, var(--sf-brand) 12%, transparent); }
-}
-.slds-navbar__actions { @include cluster(var(--sf-3)); }
 
-/* Open state */
-.slds-navbar.is-open .slds-navbar__inner { display:grid; }
-.slds-navbar.is-open .slds-navbar__toggle {
-  &::before { transform: translateY(6px) rotate(45deg); }
-  &::after  { transform: translateY(-6px) rotate(-45deg); }
-  span { opacity: 0; }
-}
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sfdc-spacing-1);
+  }
 
-/* Desktop */
-@include breakpoint(md) {
-  .slds-navbar__toggle { display:none; }
-  .slds-navbar__inner {
-    display:grid; grid-template-columns: auto 1fr auto; align-items:center;
-    gap: var(--sf-5); min-height: var(--sf-nav-height); padding: 0 var(--sf-4);
+  &__action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: transparent;
+    border: none;
+    border-radius: var(--sfdc-radius-md);
+    color: var(--sfdc-text-subtle);
+    cursor: pointer;
+    transition: $sfdc-transition-base;
+
+    &:hover {
+      background: color-mix(in oklab, var(--sfdc-bg-soft), white 60%);
+      color: var(--sfdc-text-body);
+    }
+    .ph-bold { font-size: 1.5rem; }
   }
 }
+
+.sfdc-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sfdc-spacing-3);
+  text-decoration: none;
+  color: inherit;
+  flex-shrink: 0;
+
+  &__logo {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  &__title {
+    margin: 0;
+  }
+}
+
+// --- Desktop Navigation ---
+.sfdc-nav--desktop {
+  display: none; // Hidden by default (mobile-first)
+  align-items: center;
+  gap: var(--sfdc-spacing-1);
+  margin-inline: auto;
+
+  // Show only on medium screens and up
+  @include sfdc-respond-from(md) {
+    display: flex;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sfdc-spacing-2);
+    padding: var(--sfdc-spacing-2) var(--sfdc-spacing-3);
+    border-radius: var(--sfdc-radius-md);
+    font-weight: 600;
+    color: var(--sfdc-text-subtle);
+    transition: $sfdc-transition-base;
+
+    .ph-bold { font-size: 1.1rem; }
+
+    &:hover,
+    &.is-active {
+      color: var(--sfdc-brand);
+    }
+    &:hover {
+      background: color-mix(in oklab, var(--sfdc-bg-soft), white 60%);
+    }
+    &.is-active {
+      font-weight: 700;
+    }
+  }
+}
+
+// --- Mobile Navigation Toggle (Hamburger) ---
+.sfdc-nav-toggle {
+  display: block; // Visible by default (mobile-first)
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  @include sfdc-respond-from(md) {
+    display: none; // Hide on medium screens and up
+  }
+
+  span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 60%;
+    left: 20%;
+    background: var(--sfdc-text-body);
+    border-radius: 3px;
+    transition: all .25s ease-in-out;
+    &:nth-child(1) { top: 25%; }
+    &:nth-child(2) { top: 48%; }
+    &:nth-child(3) { top: 71%; }
+  }
+
+  &.is-active span {
+    &:nth-child(1) { top: 48%; transform: rotate(135deg); }
+    &:nth-child(2) { opacity: 0; left: -60%; }
+    &:nth-child(3) { top: 48%; transform: rotate(-135deg); }
+  }
+}
+
+// ... other navbar components like search and mobile panel would follow a similar BEM structure ...
