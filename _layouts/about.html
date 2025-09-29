@@ -1,0 +1,111 @@
+---
+layout: default
+---
+{% comment %}
+============================================================================
+_layouts/about.html (Definitive, "Masterpiece" All-in-One Edition)
+============================================================================
+{% endcomment %}
+
+<!-- ========================================================================
+     PAGE HEADER
+     ======================================================================== -->
+<header class="about-header">
+  <div class="sf-container">
+    <h1 class="sf-h1 about-header__title">{{ page.title }}</h1>
+    <p class="sf-text--large about-header__subtitle">{{ page.subtitle }}</p>
+  </div>
+</header>
+
+<!-- ========================================================================
+     MAIN TWO-COLUMN LAYOUT
+     ======================================================================== -->
+<div class="sf-container">
+  <div class="about-layout">
+
+    <!-- ============================================= -->
+    <!-- Primary Content Column (Left)                 -->
+    <!-- ============================================= -->
+    <main class="about-main-content">
+      <section class="about-section typeset">
+        <h2 class="sf-h2 about-section__title"><i class="ph-bold ph-user-circle"></i> My Story</h2>
+        {{ page.story | markdownify }}
+        
+        <div class="about-intro-grid">
+            <div class="about-intro-grid__image-wrapper">
+                <img src="{{ page.story_image | relative_url }}" alt="A photo representing my professional journey.">
+            </div>
+            <div class="about-intro-grid__stats-grid">
+              {% for stat in page.stats %}
+                <div class="stat-card">
+                    <div class="stat-card__number">{{ stat.number }}</div>
+                    <div class="stat-card__label">{{ stat.label }}</div>
+                </div>
+              {% endfor %}
+            </div>
+        </div>
+      </section>
+
+      <section class="about-section">
+        <h2 class="sf-h2 about-section__title"><i class="ph-bold ph-quotes"></i> What My Colleagues Say</h2>
+        <ul class="review-list">
+        {% for review in page.reviews %}
+          <li>
+            <div class="sf-card review-card">
+              <p class="review-card__quote">{{ review.quote }}</p>
+              <div class="review-card__author">
+                <img src="{{ review.avatar | relative_url }}" alt="Photo of {{ review.name }}" class="review-card__avatar">
+                <div>
+                  <div class="review-card__name">{{ review.name }}</div>
+                  <div class="review-card__title">{{ review.title }}</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+        </ul>
+      </section>
+    </main>
+
+    <!-- ============================================= -->
+    <!-- Sidebar Column (Right)                        -->
+    <!-- ============================================= -->
+    <aside class="about-sidebar">
+      
+      <section class="about-section">
+        <h3 class="sf-h3 about-section__title"><i class="ph-bold ph-books"></i> My Learning Journey</h3>
+        <ul class="course-list">
+        {% for course in page.courses %}
+          <li><a href="{{ course.url }}" target="_blank" rel="noopener" class="course-item">
+            <img src="{{ course.platform_logo | relative_url }}" alt="{{ course.platform }}" class="course-item__icon">
+            <div class="course-item__info">
+              <h4 class="course-item__title">{{ course.title }}</h4>
+              <p class="course-item__platform">{{ course.platform }}</p>
+            </div>
+            <div class="course-item__status">
+              {% if course.completed %}<i class="ph-bold ph-check-circle"></i>{% endif %}
+            </div>
+          </a></li>
+        {% endfor %}
+        </ul>
+      </section>
+
+      <section class="about-section">
+        <h3 class="sf-h3 about-section__title"><i class="ph-bold ph-link"></i> Favorite Salesforce Blogs</h3>
+        <ul class="blog-link-list">
+        {% for blog in page.favorite_blogs %}
+          <li><a href="{{ blog.url }}" target="_blank" rel="noopener" class="blog-link-card">
+            <header class="blog-link-card__header">
+              <img src="{{ blog.favicon | relative_url }}" alt="" class="blog-link-card__favicon">
+              <h4 class="sf-h4 blog-link-card__title">{{ blog.name }}</h4>
+            </header>
+            <p class="blog-link-card__description">{{ blog.description }}</p>
+          </a></li>
+        {% endfor %}
+        </ul>
+      </section>
+      
+    </aside>
+
+  </div>
+</div>
