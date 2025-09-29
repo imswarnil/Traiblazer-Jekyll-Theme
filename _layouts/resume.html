@@ -49,7 +49,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
       <!-- Experience Section -->
       <section class="sf-card resume-section">
         <div class="sf-card__body">
-          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-briefcase"></i><span>Experience</span></h2>
+          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-briefcase"></i><span>Work Experience</span></h2>
           <ul class="resume-timeline">
             {% for item in page.experience %}
             <li class="resume-timeline-item">
@@ -139,15 +139,14 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
           <ul class="cert-list">
           {% for item in page.certifications %}
             <li>
-              <a href="{{ item.verify_link }}" target="_blank" rel="noopener" class="cert-item__link">
-                <div class="cert-item">
-                  <i class="ph-bold {{ item.icon | default: 'ph-book-open' }} cert-item__icon"></i>
-                  <div class="cert-item__content">
-                    <h4 class="sf-h5 cert-item__title">{{ item.title }}</h4>
-                    <p class="cert-item__meta">ID: {{ item.id }}</p>
-                  </div>
+              <div class="cert-item">
+                <i class="ph-bold {{ item.icon | default: 'ph-book-open' }} cert-item__icon"></i>
+                <div class="cert-item__content">
+                  <h4 class="sf-h5 cert-item__title">{{ item.title }}</h4>
+                  <p class="cert-item__meta">ID: {{ item.id }}</p>
+                  <a href="{{ item.verify_link }}" class="cert-item__link" target="_blank" rel="noopener">Verify Credential</a>
                 </div>
-              </a>
+              </div>
             </li>
           {% endfor %}
           </ul>
@@ -203,7 +202,6 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          // Stagger timeline item animations
           if (entry.target.matches('.resume-timeline')) {
             const items = entry.target.querySelectorAll('.resume-timeline-item');
             items.forEach((item, index) => {

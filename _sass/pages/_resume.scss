@@ -20,7 +20,8 @@
     background-image:
       linear-gradient(rgba(207, 215, 224, 0.2) 1px, transparent 1px),
       linear-gradient(to right, rgba(207, 215, 224, 0.2) 1px, transparent 1px);
-    background-size: 40px 40px; z-index: 1;
+    background-size: 40px 40px;
+    z-index: 1;
   }
   [data-theme="dark"] &::before {
     background-image:
@@ -84,7 +85,6 @@
 // --- General Section Styling with Scroll Animation ---
 .resume-section {
   // Sections are now wrapped in .sf-card by default in the HTML
-  margin-bottom: var(--sf-6);
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -159,7 +159,7 @@
 
 // --- Projects Section ---
 .project-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sf-5); }
-.project-card {
+.project-card { // GitHub-style card
   display: block; text-decoration: none; color: inherit;
   background: var(--sf-bg-2); border: 1px solid var(--sf-line-2);
   border-radius: var(--sf-radius-md); padding: var(--sf-4);
@@ -205,7 +205,7 @@
   &__title { font-weight: 600; color: var(--sf-fg); margin:0; }
   &__meta { font-size: .8rem; color: var(--sf-muted); }
   &__link {
-    font-size: .8rem; font-weight: 600;
+    font-size: .8rem; font-weight: 600; display: inline-block; margin-top: var(--sf-1);
   }
 }
 
