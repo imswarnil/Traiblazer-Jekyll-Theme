@@ -1,50 +1,70 @@
 /* ============================================================================
-ABSTRACTS / VARIABLES (extensions)
-SCSS-only variables for logic/loops/media queries. Not emitted in output CSS.
-============================================================================ */
+   ABSTRACTS / VARIABLES
+   SCSS-only variables used for logic, loops, and media queries.
+   These are not compiled into the final CSS.
+   ============================================================================ */
 
-/* Breakpoints (add xs & xl to your existing sm/md/lg) */
-$bp-xs: 30em;  // 480px
-$bp-sm: 40em;  // 640px  (you already have)
-$bp-md: 60em;  // 960px  (you already have)
-$bp-lg: 75em;  // 1200px (you already have)
-$bp-xl: 90em;  // 1440px
+// --- Breakpoints Map (UPGRADED) ---
+// Storing breakpoints in a map is a modern best practice. It allows us to
+// create a single, powerful mixin to handle all responsive logic, rather
+// than a chain of if/else statements.
+$sfdc-breakpoints: (
+  "sm": 40em,  // 640px
+  "md": 60em,  // 960px
+  "lg": 75em   // 1200px
+) !default;
 
-/* Grid & layout */
-$grid-columns: 12;
-$grid-gutter: 1rem;
-$container-sizes: (
-  sm: 40rem,
-  md: 48rem,
-  lg: 64rem,
-  xl: 80rem,
-  2xl: 96rem
-);
-$container-padding: 1rem;
 
-/* Layering (z-index scale) */
-$z-stack: (
-  base: 0,
-  dropdown: 900,
-  sticky: 1000,
-  fixed: 1030,
-  modal: 1100,
-  popover: 1200,
-  tooltip: 1300,
-  toast: 1400
-);
+// --- Color Palette Map (NEW) ---
+// Centralizes all project colors. This allows functions and mixins to
+// retrieve colors by name, which is crucial for generating component variants
+// (e.g., primary button, danger badge) automatically.
+$sfdc-colors: (
+  "brand": #0176d3,
+  "brand-darker": #0b5cab,
+  "accent": #009ed9,
+  "success": #2e844a,
+  "warning": #ffb75d,
+  "danger": #ba0517,
+  "info": #1b96ff,
+  "white": #ffffff,
+  "black": #0b1221
+) !default;
 
-/* Motion & easing */
-$durations: (100: .10s, 150: .15s, 200: .20s, 300: .30s, 500: .50s);
-$easings: (
-  standard: cubic-bezier(.2, 0, 0, 1),
-  decel:    cubic-bezier(0, 0, .2, 1),
-  accel:    cubic-bezier(.4, 0, 1, 1)
-);
 
-/* Controls & icons */
-$control-heights: (sm: 2rem, md: 2.5rem, lg: 3rem);
-$icon-sizes: (sm: 1rem, md: 1.25rem, lg: 1.5rem);
+// --- Spacing Scale Map (NEW) ---
+// Defines the spacing scale used for margins, padding, and gaps.
+// A map is essential for programmatically generating utility classes later.
+$sfdc-spacing: (
+  "0": 0,
+  "1": .25rem,
+  "2": .5rem,
+  "3": .75rem,
+  "4": 1rem,
+  "5": 1.5rem,
+  "6": 2rem,
+  "8": 3rem
+) !default;
 
-/* Aspect ratios */
-$ratios: (square: 1/1, video: 16/9, photo: 4/3, ultrawide: 21/9);
+
+// --- Z-Index Layers (NEW) ---
+// Manages the stacking order (`z-index`) for the entire application.
+// This prevents "z-index wars" by establishing a clear, named hierarchy
+// for components like navbars, modals, and tooltips.
+$sfdc-z-layers: (
+  "below":           -1,
+  "default":         1,
+  "content":         10,
+  "sticky-header":   1020,
+  "modal-backdrop":  2040,
+  "modal":           2050,
+  "popover":         3000,
+  "tooltip":         4000
+) !default;
+
+
+// --- Transitions (NEW) ---
+// Standardizes animation timing for a consistent feel across all components.
+$sfdc-transition-duration: 0.15s !default;
+$sfdc-transition-timing: ease !default;
+$sfdc-transition-base: all $sfdc-transition-duration $sfdc-transition-timing !default;

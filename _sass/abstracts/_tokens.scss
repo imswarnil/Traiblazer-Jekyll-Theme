@@ -1,115 +1,62 @@
+/* ============================================================================
+   ABSTRACTS / TOKENS
+   Core design system variables available globally as CSS custom properties.
+   This is the single source of truth for color, spacing, fonts, and shadows.
+   ============================================================================ */
+
 :root {
-    /* =========================================================================
-    TOKENS / EXTENSIONS
-    ========================================================================= */
-  
-    /* Brand states */
-    --sf-brand-hover: #0163b5;
-    --sf-brand-active: #014a8a;
-  
-    /* Shadows & radii (add a larger shadow and radii) */
-    --sf-radius-xl: .75rem;
-    --sf-radius-pill: 9999px;
-    --sf-radius-circle: 50%;
-    --sf-shadow-lg: 0 12px 28px rgba(0,0,0,.12);
-  
-    /* Overlay/backdrop */
-    --sf-backdrop: rgba(3, 12, 33, .55);
-  
-    /* Motion */
-    --sf-dur-100: 100ms;
-    --sf-dur-150: 150ms;
-    --sf-dur-200: 200ms;
-    --sf-dur-300: 300ms;
-    --sf-dur-500: 500ms;
-    --sf-ease-standard: cubic-bezier(.2, 0, 0, 1);
-    --sf-ease-decel:    cubic-bezier(0, 0, .2, 1);
-    --sf-ease-accel:    cubic-bezier(.4, 0, 1, 1);
-  
-    /* Typography scale (fluid-ish via clamp) */
-    --sf-text-xs: clamp(.75rem, .71rem + .2vw, .8125rem);
-    --sf-text-sm: clamp(.875rem, .84rem + .2vw, .9375rem);
-    --sf-text-base: 1rem;
-    --sf-text-lg: clamp(1.125rem, 1.04rem + .4vw, 1.25rem);
-    --sf-text-xl: clamp(1.25rem, 1.1rem + .8vw, 1.5rem);
-    --sf-text-2xl: clamp(1.5rem, 1.2rem + 1.6vw, 1.875rem);
-    --sf-text-3xl: clamp(1.875rem, 1.4rem + 2.6vw, 2.25rem);
-    --sf-leading-tight: 1.25;
-    --sf-leading-normal: 1.5;
-    --sf-leading-relaxed: 1.7;
-    --sf-tracking-tight: -0.005em;
-    --sf-tracking-wide:  0.02em;
-    --sf-measure: 65ch; /* ideal readable width */
-  
-    /* Spacing scale (fill gaps between existing steps) */
-    --sf-7: 2.5rem;
-    --sf-9: 3.5rem;
-    --sf-10: 4rem;
-    --sf-12: 6rem;
-  
-    /* Grid & container tokens */
-    --sf-grid-columns: 12;
-    --sf-grid-gap: var(--sf-4);
-    --sf-container-padding: var(--sf-4);
-    --sf-container-sm: 40rem;
-    --sf-container-md: 48rem;
-    --sf-container-lg: 64rem;
-    --sf-container-xl: 80rem;
-    --sf-container-2xl: 96rem;
-  
-    /* Layering tokens (runtime access to z-index “tiers”) */
-    --sf-z-dropdown: 900;
-    --sf-z-sticky: 1000;
-    --sf-z-fixed: 1030;
-    --sf-z-modal: 1100;
-    --sf-z-popover: 1200;
-    --sf-z-tooltip: 1300;
-    --sf-z-toast: 1400;
-  
-    /* Form controls */
-    --sf-control-sm: 2rem;
-    --sf-control-md: 2.5rem;
-    --sf-control-lg: 3rem;
-    --sf-control-bg: var(--sf-bg-2);
-    --sf-control-border: var(--sf-line-1);
-    --sf-control-radius: var(--sf-radius-md);
-    --sf-control-pad-x: var(--sf-3);
-    --sf-control-pad-y: calc((var(--sf-control-md) - 1em) / 2);
-    --sf-control-placeholder: var(--sf-muted);
-    --sf-control-disabled-bg: var(--sf-bg-1);
-    --sf-control-disabled-fg: var(--sf-fg-3);
-  
-    /* Buttons (primary as example; extend similarly for secondary/neutral) */
-    --sf-btn-primary-bg: var(--sf-brand);
-    --sf-btn-primary-text: #fff;
-    --sf-btn-primary-hover-bg: var(--sf-brand-hover);
-    --sf-btn-primary-active-bg: var(--sf-brand-active);
-    --sf-btn-radius: var(--sf-radius-md);
-    --sf-btn-shadow: var(--sf-shadow-sm);
-  
-    /* Icons */
-    --sf-icon-sm: 1rem;
-    --sf-icon-md: 1.25rem;
-    --sf-icon-lg: 1.5rem;
-    --sf-icon-stroke: 1.5;
-  
-    /* Stepper & timeline seeds */
-    --sf-step-size: 1.25rem;
-    --sf-step-gap: var(--sf-4);
-    --sf-timeline-stroke: 2px;
-  
-    /* Media */
-    --sf-media-radius: var(--sf-radius-lg);
-    --sf-media-shadow: var(--sf-shadow-md);
-  }
-  
-  :root[data-theme="dark"] {
-    /* Dark tweaks for states & surfaces */
-    --sf-backdrop: rgba(0, 0, 0, .6);
-    --sf-control-bg: #121a2e;
-    --sf-control-border: #243045;
-    --sf-control-placeholder: #9aa5b1;
-    --sf-btn-primary-hover-bg: #1a6fd1; /* slightly brighter in dark */
-    --sf-btn-primary-active-bg: #155aa8;
-  }
-  
+  /* Brand */
+  --sfdc-brand: #0176d3;
+  --sfdc-brand-darker: #0b5cab;
+  --sfdc-accent: #009ed9;
+  --sfdc-link: #0176d3;
+
+  /* Text & Greys */
+  --sfdc-ink: #0b1221;
+  --sfdc-text-body: #2e2e3a;
+  --sfdc-text-subtle: #3f4954;
+  --sfdc-text-muted: #8a96a3;
+
+  /* Surfaces & Lines */
+  --sfdc-border-soft: #cfd7e0;
+  --sfdc-border-hard: #e6ebf1;
+  --sfdc-bg-soft: #f4f6f9;
+  --sfdc-bg-hard: #ffffff;
+
+  /* Semantics */
+  --sfdc-success: #2e844a;
+  --sfdc-warning: #ffb75d;
+  --sfdc-danger:  #ba0517;
+  --sfdc-info:    #1b96ff;
+
+  /* Effects */
+  --sfdc-radius-sm: .25rem;
+  --sfdc-radius-md: .375rem;
+  --sfdc-radius-lg: .5rem;
+  --sfdc-shadow-sm: 0 1px 2px rgba(0,0,0,.06);
+  --sfdc-shadow-md: 0 4px 12px rgba(0,0,0,.08);
+  --sfdc-focus: 0 0 0 .14rem rgba(1,118,211,.9);
+
+  /* Typography */
+  --sfdc-font-body: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --sfdc-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Spacing scale */
+  --sfdc-spacing-0: 0; --sfdc-spacing-1: .25rem; --sfdc-spacing-2: .5rem;
+  --sfdc-spacing-3: .75rem; --sfdc-spacing-4: 1rem; --sfdc-spacing-5: 1.5rem;
+  --sfdc-spacing-6: 2rem; --sfdc-spacing-8: 3rem;
+}
+
+/* Dark Mode Theme Definition */
+:root[data-theme="dark"] {
+  --sfdc-bg-soft: #0f172a;
+  --sfdc-bg-hard: #121a2e;
+  --sfdc-text-body: #e5e7eb;
+  --sfdc-text-subtle: #c8d0da;
+  --sfdc-text-muted: #9aa5b1;
+  --sfdc-border-soft: #243045;
+  --sfdc-border-hard: #1b2436;
+  --sfdc-link: #66b3ff;
+  --sfdc-shadow-sm: 0 1px 2px rgba(0,0,0,.5);
+  --sfdc-shadow-md: 0 6px 24px rgba(0,0,0,.45);
+}
