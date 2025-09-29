@@ -3,7 +3,7 @@ layout: default
 ---
 {% comment %}
 ============================================================================
-_layouts/resume.html (Definitive, "All-in-One" Final Version)
+_layouts/resume.html (Definitive, Bulletproof 2-Column Final Version)
 ============================================================================
 {% endcomment %}
 
@@ -28,25 +28,26 @@ _layouts/resume.html (Definitive, "All-in-One" Final Version)
   </div>
 </header>
 
+
 <!-- ========================================================================
-     MAIN RESUME CONTENT & SIDEBAR
+     MAIN TWO-COLUMN RESUME BODY
      ======================================================================== -->
 <div class="sf-container" style="padding: var(--sf-8) 0;">
-  <div class="resume-layout">
+  <div class="resume-grid">
     
     <!-- ======================================================= -->
-    <!-- MAIN CONTENT COLUMN (Left on Desktop)                   -->
+    <!-- LEFT COLUMN: SUMMARY, EXPERIENCE, EDUCATION             -->
     <!-- ======================================================= -->
     <main class="resume-main">
       <!-- Summary Section -->
       <section class="resume-section">
-        <h2 class="sf-h2 resume-section__title"><i class="ph-bold ph-user"></i><span>Summary</span></h2>
+        <h2 class="sf-h2 resume-section__title"><span>Summary</span></h2>
         <div class="typeset">{{ page.summary | markdownify }}</div>
       </section>
 
       <!-- Experience Section -->
       <section class="resume-section">
-        <h2 class="sf-h2 resume-section__title"><i class="ph-bold ph-briefcase"></i><span>Experience</span></h2>
+        <h2 class="sf-h2 resume-section__title"><span>Experience</span></h2>
         <ul class="resume-timeline">
           {% for item in page.experience %}
           <li class="resume-timeline-item">
@@ -60,10 +61,10 @@ _layouts/resume.html (Definitive, "All-in-One" Final Version)
           {% endfor %}
         </ul>
       </section>
-
+      
       <!-- Education Section -->
       <section class="resume-section">
-        <h2 class="sf-h2 resume-section__title"><i class="ph-bold ph-graduation-cap"></i><span>Education</span></h2>
+        <h2 class="sf-h2 resume-section__title"><span>Education</span></h2>
         <ul class="resume-timeline">
           {% for item in page.education %}
           <li class="resume-timeline-item">
@@ -79,12 +80,12 @@ _layouts/resume.html (Definitive, "All-in-One" Final Version)
     </main>
 
     <!-- ======================================================= -->
-    <!-- SIDEBAR COLUMN (Right on Desktop)                       -->
+    <!-- RIGHT COLUMN: PROJECTS, SKILLS, CERTS, ACHIEVEMENTS     -->
     <!-- ======================================================= -->
     <aside class="resume-sidebar">
       <!-- Projects Section -->
       <section class="resume-section">
-        <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-rocket-launch"></i><span>Projects</span></h2>
+        <h3 class="sf-h3 resume-section__title"><span>Projects</span></h3>
         <ul class="project-list">
         {% for item in page.projects %}
           <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="project-item__link">
@@ -95,46 +96,15 @@ _layouts/resume.html (Definitive, "All-in-One" Final Version)
         {% endfor %}
         </ul>
       </section>
-      
-      <!-- Skills Section (Bento Grid) -->
-      <section class="resume-section">
-        <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-wrench"></i><span>Skills</span></h2>
-        <div class="bento-grid">
-        {% for skill in page.skills %}
-          <div class="bento-item {% if skill.size %}bento-item--{{ skill.size }}{% endif %}">
-            <h4 class="sf-h4 bento-item__title">{{ skill.name }}</h4>
-            <p class="bento-item__content">{{ skill.keywords }}</p>
-          </div>
-        {% endfor %}
-        </div>
-      </section>
 
-      <!-- Certifications Section -->
+      <!-- Key Achievements Section -->
       <section class="resume-section">
-        <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-seal-check"></i><span>Training / Courses</span></h2>
-        <ul class="cert-list">
-        {% for item in page.certifications %}
-          <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="cert-item__link">
-            <div class="cert-item">
-              <i class="ph-bold ph-book-open"></i>
-              <div>
-                <h4 class="sf-h5 cert-item__title">{{ item.title }}</h4>
-                <p class="cert-item__description">{{ item.description }}</p>
-              </div>
-            </div>
-          </a></li>
-        {% endfor %}
-        </ul>
-      </section>
-
-      <!-- Achievements Section -->
-      <section class="resume-section">
-        <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-trophy"></i><span>Key Achievements</span></h2>
+        <h3 class="sf-h3 resume-section__title"><span>Key Achievements</span></h3>
         <ul class="achievement-list">
         {% for item in page.achievements %}
           <li><div class="achievement-item">
-            <i class="ph-bold ph-star"></i>
-            <div>
+            <i class="ph-bold ph-trophy achievement-item__icon"></i>
+            <div class="achievement-item__content">
               <h4 class="sf-h5 achievement-item__title">{{ item.title }}</h4>
               <p class="achievement-item__description">{{ item.description }}</p>
             </div>
@@ -142,7 +112,37 @@ _layouts/resume.html (Definitive, "All-in-One" Final Version)
         {% endfor %}
         </ul>
       </section>
+      
+      <!-- Skills Section -->
+      <section class="resume-section">
+        <h3 class="sf-h3 resume-section__title"><span>Skills</span></h3>
+        <ul class="skill-list">
+        {% for item in page.skills %}
+          <li><div class="skill-item">
+            <i class="ph-bold ph-check-circle skill-item__icon"></i>
+            <div class="skill-item__content">
+              <h4 class="sf-h5 skill-item__title">{{ item.title }}</h4>
+            </div>
+          </div></li>
+        {% endfor %}
+        </ul>
+      </section>
 
+      <!-- Training & Courses Section -->
+      <section class="resume-section">
+        <h3 class="sf-h3 resume-section__title"><span>Training / Courses</span></h3>
+        <ul class="cert-list">
+        {% for item in page.certifications %}
+          <li><div class="cert-item">
+            <i class="ph-bold ph-book-open cert-item__icon"></i>
+            <div class="cert-item__content">
+              <h4 class="sf-h5 cert-item__title">{{ item.title }}</h4>
+              <p class="cert-item__description">{{ item.description }}</p>
+            </div>
+          </div></li>
+        {% endfor %}
+        </ul>
+      </section>
     </aside>
 
   </div>

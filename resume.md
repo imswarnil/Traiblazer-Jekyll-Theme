@@ -22,7 +22,7 @@ experience:
     location: "Remote"
     dates: "03/2022 – Present"
     description: |
-      - Led Salesforce integration projects achieving a 30% reduction in deployment time through optimized workflows.
+      - Led Salesforce integration projects achieving a 30% reduction in deployment time.
       - Collaborated directly with financial institutions to design and implement 15+ bespoke Salesforce solutions.
       - Designed and executed test plans for Salesforce updates, reducing system errors by 25%.
   - role: "Salesforce Developer"
@@ -30,15 +30,15 @@ experience:
     location: "Denver, CO"
     dates: "01/2020 – 02/2022"
     description: |
-      - Implemented Salesforce and nCino customizations that enhanced process efficiency by +20%.
-      - Developed complex Visualforce pages and custom controllers, handling over 1,000 transactions per day with zero downtime.
+      - Implemented Salesforce and nCino customizations that enhanced process efficiency by over 20%.
+      - Developed complex Visualforce pages and custom controllers, handling 1,000+ transactions per day.
   - role: "Salesforce Administrator"
     company: "Slalom Consulting"
     location: "Seattle, WA"
     dates: "01/2017 – 12/2019"
     description: |
-      - Managed user access and permissions for 300+ Salesforce users, maintaining data privacy and compliance.
-      - Customized Salesforce dashboards and reports, enabling data-driven decision-making resulting in 5% revenue increase.
+      - Managed user access and permissions for 300+ Salesforce users.
+      - Customized dashboards and reports, enabling data-driven decision-making.
 
 education:
   - degree: "Bachelor of Science in Information Systems"
@@ -54,23 +54,6 @@ projects:
     link: "https://github.com/christiantorres/data-framework"
     description: "Created a framework for banking data integration on Salesforce, enhancing data accuracy by 30%."
 
-skills:
-  - name: "Core Technologies"
-    size: "wide" # Spans 2 columns
-    keywords: "Salesforce, Apex, JavaScript, TypeScript, XML, ETL Platforms, nCino"
-  - name: "Methodologies"
-    keywords: "Agile, Scrum, CI/CD"
-  - name: "Tools"
-    keywords: "Git, Jira, VS Code"
-
-certifications:
-  - title: "Salesforce Platform Developer I"
-    link: "#"
-    description: "Salesforce certification course for advanced development skills and Salesforce solutions."
-  - title: "Integration Architecture Designer"
-    link: "#"
-    description: "Trailhead certification focused on designing scalable integration solutions with Salesforce."
-
 achievements:
   - title: "Integration Efficiency Award"
     description: "Recognized for achieving a 20% increase in integration efficiency through innovative solutions."
@@ -78,4 +61,13 @@ achievements:
     description: "Boosted customer satisfaction scores by 40% through personalized client consultations."
   - title: "System Error Reduction"
     description: "Reduced system errors by 25% by executing comprehensive test plans."
+
+skills:
+  - title: "Salesforce, Apex, JavaScript, TypeScript, XML, ETL Platforms"
+
+certifications:
+  - title: "Salesforce Platform Developer I"
+    description: "Advanced development skills and Salesforce solutions."
+  - title: "Integration Architecture Designer"
+    description: "Designing scalable integration solutions with Salesforce."
 ---
