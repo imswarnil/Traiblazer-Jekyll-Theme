@@ -1,14 +1,26 @@
 /* ============================================================================
-   COMPONENTS / POST.SCSS (V2 - Professional Layout)
-   Styles for the enhanced, multi-column, ad-ready blog post template.
+   COMPONENTS / POST.SCSS (V2 - Professional Edition)
    ============================================================================ */
 
-/* --- 1. Header Hero --- */
+// --- Keyframe Animations ---
+@keyframes slideInFromLeft {
+  from { transform: translateX(-100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ============================================================================
+   1. HEADER HERO
+   ============================================================================ */
 .post-header-hero {
   background-color: var(--sf-bg-1);
   border-bottom: 1px solid var(--sf-line-2);
   padding: var(--sf-6) 0;
-  margin-bottom: var(--sf-8);
+  margin-bottom: var(--sf-4);
+  animation: fadeIn 0.5s ease-out;
 }
 
 .breadcrumb {
@@ -18,6 +30,7 @@
   a {
     color: var(--sf-fg-2);
     text-decoration: none;
+    transition: color 0.2s ease;
     &:hover { color: var(--sf-brand); }
   }
   span { color: var(--sf-muted); }
@@ -33,7 +46,7 @@
 }
 
 .post-meta-main {
-  @include cluster(var(--sf-5));
+  @include cluster(var(--sf-5), center, flex-start, wrap);
   color: var(--sf-fg-2);
   margin-bottom: var(--sf-6);
   span, time { @include cluster(var(--sf-2), center); }
@@ -48,82 +61,167 @@
     object-fit: cover;
     border-radius: var(--sf-radius-lg);
     border: 1px solid var(--sf-line-2);
+    box-shadow: var(--sf-shadow-sm);
   }
 }
 
-/* --- 2. Main Grid Layout --- */
+/* ============================================================================
+   2. MAIN GRID & SIDEBARS
+   ============================================================================ */
+#sticky-sidebar-trigger {
+  position: absolute;
+  top: 0;
+  height: 1px;
+}
+
 .post-grid-container {
   display: grid;
   padding-inline: var(--sf-container-padding);
   margin-inline: auto;
-  
-  // Mobile: Single column
   grid-template-columns: minmax(0, 1fr);
   gap: var(--sf-8);
   
-  // Tablet: Content + Right Sidebar
   @include breakpoint(lg) {
-    grid-template-columns: minmax(0, 1fr) 300px; // A wider sidebar
+    grid-template-columns: minmax(0, 1fr) 320px;
     gap: var(--sf-8);
   }
 
-  // Wide Desktop: Left Ad + Content + Right Sidebar
   @include breakpoint(xl) {
     max-width: 1600px;
-    grid-template-columns: 1fr minmax(auto, var(--sf-container-lg)) 1fr;
+    grid-template-columns: 1fr minmax(auto, 80ch) 1fr; // Content width based on readability
     gap: var(--sf-6);
   }
 }
 
-/* --- 3. Main Content Column --- */
-.post-content-main {
-  // On wide screens, this is the center column
-  @include breakpoint(xl) {
-    grid-column: 2 / 3;
-  }
-}
-
-.post-body.typeset {
-  // Typography styles can be reused from your previous post.scss
-  // Or defined here for more control.
-  font-size: 1.125rem;
-  color: var(--sf-fg);
-  line-height: var(--sf-leading-relaxed);
-  h2 { margin-top: var(--sf-10); }
-  // ... (add other typography rules like blockquotes, lists, code blocks)
-}
-
-/* --- 4. Sidebar Columns (Left & Right) --- */
 .post-sidebar-left,
 .post-sidebar-right {
-  display: none; // Hidden on mobile/tablet
+  display: none;
 
   @include breakpoint(lg) {
-    // Show right sidebar on large screens
     &.post-sidebar-right {
       display: flex;
       flex-direction: column;
       gap: var(--sf-6);
+    }
+  }
+
+  @include breakpoint(xl) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-6);
+  }
+}
+
+// Sticky Behavior via JS
+body.sidebars-sticky {
+  .post-sidebar-left, .post-sidebar-right {
+    .ad-placeholder--skyscraper, .sf-card {
       position: sticky;
       top: calc(var(--sf-nav-height) + var(--sf-4));
       align-self: start;
     }
   }
+}
 
+/* ============================================================================
+   3. MAIN CONTENT & TYPOGRAPHY
+   ============================================================================ */
+.post-content-main {
   @include breakpoint(xl) {
-    // Show both sidebars on extra-large screens
-    display: flex;
-    flex-direction: column;
-    gap: var(--sf-6);
-    position: sticky;
-    top: calc(var(--sf-nav-height) + var(--sf-4));
-    align-self: start;
+    grid-column: 2 / 3;
   }
 }
 
-/* --- 5. New Components --- */
+// The `.typeset` class provides rich styling for generated markdown content.
+.post-body.typeset {
+  font-size: 1.125rem;
+  color: var(--sf-fg);
+  line-height: var(--sf-leading-relaxed);
 
-// Social Share Strip
+  > *:first-child { margin-top: 0; }
+  
+  p, ul, ol, blockquote, .ad-placeholder, pre { margin-bottom: var(--sf-5); }
+  
+  h2, h3, h4, h5, h6 { 
+    margin: var(--sf-10) 0 var(--sf-4) 0;
+    line-height: var(--sf-leading-tight);
+    font-weight: 700;
+    color: var(--sf-fg);
+  }
+  h2 { font-size: var(--sf-text-2xl); border-bottom: 1px solid var(--sf-line-2); padding-bottom: var(--sf-2); }
+  h3 { font-size: var(--sf-text-xl); }
+  h4 { font-size: var(--sf-text-lg); }
+  
+  a {
+    color: var(--sf-link);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--sf-brand) 30%, transparent);
+    text-underline-offset: 3px;
+    transition: all .2s ease;
+    &:hover {
+      background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent);
+      text-decoration-color: var(--sf-brand);
+    }
+  }
+
+  ul, ol { padding-left: var(--sf-5); }
+  li { margin-bottom: var(--sf-2); }
+  li::marker { color: var(--sf-brand); font-weight: 600; }
+  
+  blockquote {
+    border-left: 4px solid var(--sf-brand);
+    padding-left: var(--sf-5);
+    margin-left: 0;
+    font-style: italic;
+    color: var(--sf-fg-2);
+    p { margin-bottom: 0; }
+  }
+
+  pre {
+    background-color: var(--sf-bg-1);
+    border: 1px solid var(--sf-line-2);
+    border-radius: var(--sf-radius-md);
+    padding: var(--sf-4);
+    overflow-x: auto;
+    font-size: var(--sf-text-sm);
+  }
+  code {
+    font-family: var(--sf-font-mono);
+    background-color: var(--sf-bg-1);
+    border: 1px solid var(--sf-line-2);
+    padding: .1em .3em;
+    border-radius: var(--sf-radius-sm);
+    font-size: 0.9em;
+  }
+  pre > code { padding: 0; background: none; border: none; }
+
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--sf-line-2);
+    margin: var(--sf-8) 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--sf-5);
+    border: 1px solid var(--sf-line-2);
+  }
+  th, td {
+    border: 1px solid var(--sf-line-2);
+    padding: var(--sf-3) var(--sf-4);
+    text-align: left;
+  }
+  thead {
+    background-color: var(--sf-bg-1);
+    font-weight: 600;
+  }
+}
+
+/* ============================================================================
+   4. POST COMPONENTS (SHARE, BIO, COMMENTS)
+   ============================================================================ */
 .post-share-strip {
   @include cluster(var(--sf-2), center);
   border-block: 1px solid var(--sf-line-2);
@@ -131,7 +229,6 @@
   margin-bottom: var(--sf-8);
 
   &--footer { margin-top: var(--sf-8); margin-bottom: 0; }
-
   &__label { font-weight: 600; color: var(--sf-fg-2); margin-right: var(--sf-3); }
 
   .share-btn {
@@ -141,9 +238,8 @@
     border-radius: 50%;
     color: var(--sf-fg-3);
     transition: all .2s ease;
-
     &:hover {
-      transform: scale(1.1);
+      transform: translateY(-2px) scale(1.1);
       &.twitter { color: #1DA1F2; background-color: rgba(#1DA1F2, 0.1); }
       &.linkedin { color: #0A66C2; background-color: rgba(#0A66C2, 0.1); }
       &.facebook { color: #1877F2; background-color: rgba(#1877F2, 0.1); }
@@ -152,21 +248,56 @@
   }
 }
 
-// Table of Contents
+.post-author-bio {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--sf-5);
+  align-items: center;
+  background-color: var(--sf-bg-1);
+  padding: var(--sf-6);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  margin-block: var(--sf-10);
+  &__avatar { width: 80px; height: 80px; border-radius: 50%; }
+  h4 { margin: 0 0 var(--sf-2) 0; font-size: var(--sf-text-lg); }
+  p { margin: 0; color: var(--sf-fg-2); font-size: 1rem; }
+}
+
+.post-comments {
+  margin-top: var(--sf-10);
+}
+
+/* ============================================================================
+   5. SIDEBAR WIDGETS (TOC, COFFEE)
+   ============================================================================ */
 .toc-card {
   padding: var(--sf-4);
-  .card-header { padding: 0 0 var(--sf-3) 0; } // Assuming .card-header exists from toc.html include
+  max-height: calc(100vh - var(--sf-nav-height) - 200px); // Prevent long TOC from pushing page
+  overflow-y: auto;
+  
+  .card-header { // Assuming toc.html uses this
+    padding: 0 0 var(--sf-3) 0;
+    font-weight: 600;
+  }
   .toc-list {
     list-style: none; padding: 0; margin: 0;
     a {
-      display: block; padding: var(--sf-2); text-decoration: none; border-radius: var(--sf-radius-sm);
-      color: var(--sf-fg-2); font-size: var(--sf-text-sm);
+      display: block; padding: var(--sf-2) var(--sf-3); text-decoration: none; border-radius: var(--sf-radius-sm);
+      color: var(--sf-fg-2); font-size: var(--sf-text-sm); border-left: 2px solid transparent;
+      transition: all .2s ease;
       &:hover { background-color: var(--sf-bg-1); color: var(--sf-brand); }
     }
   }
 }
 
-// "Buy Me a Coffee" & Sponsor Cards
+// Mobile TOC (JS moved)
+#toc-mobile-target .toc-card {
+  background-color: var(--sf-bg-1);
+  border: 1px solid var(--sf-line-2);
+  margin-bottom: var(--sf-8);
+  padding: var(--sf-5);
+}
+
 .coffee-card, .sponsor-card {
   display: flex;
   flex-direction: column;
@@ -174,6 +305,7 @@
   gap: var(--sf-3);
   padding: var(--sf-5);
   background-color: var(--sf-bg-1);
+  border: 1px solid var(--sf-line-2);
 
   i { font-size: 2.5rem; color: var(--sf-brand); }
   strong { font-size: var(--sf-text-lg); }
@@ -181,32 +313,63 @@
   .sf-btn { margin-top: var(--sf-2); }
 }
 
-// Author Bio
-.post-author-bio {
-  // Re-use styles from home.scss or define here
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--sf-5);
-  align-items: center;
-  background-color: var(--sf-bg-1);
-  padding: var(--sf-6);
+/* ============================================================================
+   6. MOBILE-ONLY ADS & UI
+   ============================================================================ */
+.mobile-bottom-float {
+  position: fixed;
+  bottom: 0;
+  left: 0; right: 0;
+  z-index: var(--sf-z-fixed);
+  box-shadow: 0 -4px 12px rgba(0,0,0,.1);
+  transform: translateY(100%);
+  animation: slideInFromBottom 0.5s ease-out 1s forwards;
+
+  @include breakpoint(md) { display: none; }
+}
+
+@keyframes slideInFromBottom {
+  to { transform: translateY(0); }
+}
+
+.slide-in-ad {
+  position: fixed;
+  bottom: var(--sf-4);
+  left: var(--sf-4);
+  z-index: var(--sf-z-modal);
+  width: min(320px, calc(100vw - (2 * var(--sf-4))));
+  background-color: var(--sf-bg-2);
   border-radius: var(--sf-radius-lg);
-  margin-block: var(--sf-10);
-  &__avatar { width: 80px; height: 80px; border-radius: 50%; }
-  h4 { margin: 0 0 var(--sf-2) 0; font-size: var(--sf-text-lg); }
-  p { margin: 0; color: var(--sf-fg-2); }
+  box-shadow: var(--sf-shadow-lg);
+  transform: translateX(-120%);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  
+  &.is-visible { transform: translateX(0); }
+
+  @include breakpoint(md) { display: none; }
+
+  &__header {
+    @include cluster(var(--sf-2), center, space-between);
+    padding: var(--sf-2) var(--sf-4);
+    border-bottom: 1px solid var(--sf-line-2);
+    span { font-size: var(--sf-text-xs); color: var(--sf-muted); font-weight: 500; }
+  }
+  &__close {
+    @include button-reset;
+    @include center;
+    cursor: pointer;
+    color: var(--sf-muted);
+    font-size: 1.2rem;
+    padding: var(--sf-1);
+    &:hover { color: var(--sf-fg); }
+  }
 }
 
-// Comments
-.post-comments {
-  margin-top: var(--sf-10);
-}
-
-/* --- 6. AD PLACEHOLDERS --- */
+/* ============================================================================
+   7. AD PLACEHOLDERS
+   ============================================================================ */
 .ad-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include center;
   background-color: var(--sf-bg-1);
   border: 1px dashed var(--sf-line-1);
   border-radius: var(--sf-radius-md);
@@ -218,6 +381,13 @@
   &--skyscraper {
     min-height: 600px;
     max-width: 160px;
-    margin-inline: auto; // Centers the ad in the flexible 1fr column
+    margin-inline: auto;
   }
+  &--slide-in, &--mobile-banner {
+    border: none;
+    border-radius: 0;
+    background-color: var(--sf-bg-2);
+  }
+  &--mobile-banner { min-height: 50px; }
+  &--slide-in { min-height: 250px; border-radius: 0 0 var(--sf-radius-lg) var(--sf-radius-lg); }
 }
