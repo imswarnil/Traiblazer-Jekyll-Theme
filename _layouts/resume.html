@@ -28,6 +28,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
   </div>
 </header>
 
+
 <!-- ========================================================================
      MAIN TWO-COLUMN RESUME BODY
      ======================================================================== -->
@@ -35,7 +36,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
   <div class="resume-grid">
     
     <!-- ======================================================= -->
-    <!-- LEFT COLUMN: SUMMARY, EXPERIENCE, EDUCATION             -->
+    <!-- LEFT COLUMN: SUMMARY, EXPERIENCE, EDUCATION, PROJECTS   -->
     <!-- ======================================================= -->
     <main class="resume-main">
       <!-- Summary Section -->
@@ -60,7 +61,27 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
           {% endfor %}
         </ul>
       </section>
-      
+
+      <!-- Projects Section -->
+      <section class="resume-section">
+        <h2 class="sf-h2 resume-section__title"><span>Projects</span></h2>
+        <ul class="project-list">
+        {% for item in page.projects %}
+          <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="project-card">
+            <div class="project-card__header">
+              <i class="ph-bold ph-github-logo"></i>
+              <h4 class="sf-h4 project-card__title">{{ item.title }}</h4>
+            </div>
+            <p class="project-card__description">{{ item.description }}</p>
+            <footer class="project-card__footer">
+              <span class="project-card__meta-item"><i class="ph-bold ph-star"></i> {{ item.stars }}</span>
+              <span class="project-card__meta-item"><i class="ph-bold ph-git-fork"></i> {{ item.forks }}</span>
+            </footer>
+          </a></li>
+        {% endfor %}
+        </ul>
+      </section>
+
       <!-- Education Section -->
       <section class="resume-section">
         <h2 class="sf-h2 resume-section__title"><span>Education</span></h2>
@@ -69,9 +90,9 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
           <li class="resume-timeline-item">
             <div class="resume-timeline-item__header">
               <h3 class="sf-h3 resume-timeline-item__title">{{ item.degree }}</h3>
-              <span class="resume-timeline-item__meta">{{ item.year }}</span>
+              <span class="resume-timeline-item__meta">{{ item.dates }}</span>
             </div>
-            <p class="resume-timeline-item__subtitle">{{ item.institution }}</p>
+            <p class="resume-timeline-item__subtitle"><i class="ph-bold ph-buildings"></i> {{ item.institution }}</p>
           </li>
           {% endfor %}
         </ul>
@@ -79,39 +100,9 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
     </main>
 
     <!-- ======================================================= -->
-    <!-- RIGHT COLUMN: PROJECTS, SKILLS, CERTS, ACHIEVEMENTS     -->
+    <!-- RIGHT COLUMN: SKILLS, CERTS, ACHIEVEMENTS, TRAILHEAD    -->
     <!-- ======================================================= -->
     <aside class="resume-sidebar">
-      <!-- Projects Section -->
-      <section class="resume-section">
-        <h3 class="sf-h3 resume-section__title"><span>Projects</span></h3>
-        <ul class="project-list">
-        {% for item in page.projects %}
-          <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="project-item__link">
-            <h4 class="sf-h4 project-item__title">{{ item.title }}</h4>
-            <p class="project-item__description">{{ item.description }}</p>
-            <p class="project-item__url"><i class="ph-bold ph-link"></i> {{ item.link | remove: 'https://' }}</p>
-          </a></li>
-        {% endfor %}
-        </ul>
-      </section>
-
-      <!-- Key Achievements Section -->
-      <section class="resume-section">
-        <h3 class="sf-h3 resume-section__title"><span>Key Achievements</span></h3>
-        <ul class="achievement-list">
-        {% for item in page.achievements %}
-          <li><div class="achievement-item">
-            <i class="ph-bold ph-trophy achievement-item__icon"></i>
-            <div class="achievement-item__content">
-              <h4 class="sf-h5 achievement-item__title">{{ item.title }}</h4>
-              <p class="achievement-item__description">{{ item.description }}</p>
-            </div>
-          </div></li>
-        {% endfor %}
-        </ul>
-      </section>
-      
       <!-- Skills Section (Bento Grid) -->
       <section class="resume-section">
         <h3 class="sf-h3 resume-section__title"><span>Skills</span></h3>
@@ -125,39 +116,44 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         </div>
       </section>
 
-      <!-- Training & Courses Section -->
+      <!-- Certifications Section -->
       <section class="resume-section">
-        <h3 class="sf-h3 resume-section__title"><span>Training / Courses</span></h3>
+        <h3 class="sf-h3 resume-section__title"><span>Certifications</span></h3>
         <ul class="cert-list">
-        {% for item in page.certifications %}
-          <li><div class="cert-item">
-            <i class="ph-bold ph-book-open cert-item__icon"></i>
-            <div class="cert-item__content">
-              <h4 class="sf-h5 cert-item__title">{{ item.title }}</h4>
-              <p class="cert-item__description">{{ item.description }}</p>
+        {% for cert in page.certifications %}
+          <li>
+            <article class="cert-card">
+              <div class="cert-card__bg"></div>
+              <div class="cert-card__content">
+                <img class="cert-card__logo" src="https://i.imgur.com/K51g2v1.png" alt="Salesforce Logo">
+                <p class="cert-card__label">CERTIFIED</p>
+                <h4 class="sf-h3 cert-card__title">{{ cert.title }}</h4>
+                <img class="cert-card__badge" src="{{ cert.badge_url }}" alt="{{ cert.title }} Badge">
+              </div>
+              <footer class="cert-card__footer">
+                <span>ID: {{ cert.id }}</span>
+                <a href="{{ cert.verify_link }}" target="_blank" rel="noopener">Verify</a>
+              </footer>
+            </article>
+          </li>
+        {% endfor %}
+        </ul>
+      </section>
+      
+      <!-- Achievements Section -->
+      <section class="resume-section">
+        <h3 class="sf-h3 resume-section__title"><span>Key Achievements</span></h3>
+        <ul class="achievement-list">
+        {% for item in page.achievements %}
+          <li><div class="achievement-item">
+            <i class="ph-bold ph-trophy achievement-item__icon"></i>
+            <div class="achievement-item__content">
+              <h4 class="sf-h5 achievement-item__title">{{ item.title }}</h4>
+              <p class="achievement-item__description">{{ item.description }}</p>
             </div>
           </div></li>
         {% endfor %}
         </ul>
-      </section>
-
-      <!-- Trailhead Section -->
-      <section class="resume-section">
-        <h3 class="sf-h3 resume-section__title"><span>Trailhead</span></h3>
-        <div class="sf-card trailhead-profile-card">
-          <div class="sf-card__body">
-            <a href="{{ page.trailhead.link }}" target="_blank" rel="noopener">
-              <img src="https://res.cloudinary.com/hy4kyit2a/image/upload/v1715421294/trailblazer-pfp-pfp_rangers_22_4_22_12-24-pm-removebg-preview.png" alt="Trailhead Ranger Rank" class="trailhead-profile-card__rank-icon">
-              <div class="trailhead-profile-card__rank">{{ page.trailhead.rank }}</div>
-              <div class="trailhead-profile-card__stats">
-                <span><strong>{{ page.trailhead.badges }}</strong> Badges</span>
-                <span>•</span>
-                <span><strong>{{ page.trailhead.points }}</strong> Points</span>
-              </div>
-              <span class="sf-btn sf-btn--neutral sf-btn--sm">View Trailblazer Profile</span>
-            </a>
-          </div>
-        </div>
       </section>
     </aside>
 
@@ -177,51 +173,50 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
-  document.getElementById('download-pdf-btn').addEventListener('click', function () {
-    const btn = this;
-    btn.innerHTML = '<i class="ph-bold ph-spinner"></i> <span>Generating...</span>';
-    btn.disabled = true;
+  document.addEventListener('DOMContentLoaded', () => {
+    // --- Scroll-activated Animations ---
+    const animatedItems = document.querySelectorAll('.resume-section, .resume-timeline-item');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    animatedItems.forEach(item => observer.observe(item));
 
-    // Use html2canvas to capture the entire body. We exclude the button itself.
-    html2canvas(document.body, {
-      scale: 2, // Higher scale for better quality
-      onclone: (document) => {
-        // In the cloned document, hide the button so it's not in the PDF
-        document.getElementById('download-pdf-btn').style.display = 'none';
-      }
-    }).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const { jsPDF } = window.jspdf;
-      
-      // Calculate dimensions for A4 page
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const canvasWidth = canvas.width;
-      const canvasHeight = canvas.height;
-      const ratio = canvasWidth / canvasHeight;
-      const imgWidth = pdfWidth;
-      const imgHeight = imgWidth / ratio;
-      
-      let heightLeft = imgHeight;
-      let position = 0;
-      
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
-      
-      // Add new pages if content is longer than one page
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-      }
-      
-      pdf.save('{{ page.name | slugify }}-resume.pdf');
-      
-      // Reset button state
-      btn.innerHTML = '<i class="ph-bold ph-file-pdf"></i> <span>Generate & Download PDF</span>';
-      btn.disabled = false;
+    // --- PDF Generation ---
+    document.getElementById('download-pdf-btn').addEventListener('click', function () {
+      const btn = this;
+      btn.innerHTML = '<i class="ph-bold ph-spinner"></i> <span>Generating...</span>';
+      btn.disabled = true;
+      html2canvas(document.body, {
+        scale: 2,
+        onclone: (doc) => { doc.getElementById('download-pdf-btn').style.display = 'none'; }
+      }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasWidth / canvasHeight;
+        const imgHeight = pdfWidth / ratio;
+        let heightLeft = imgHeight;
+        let position = 0;
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+        heightLeft -= pdf.internal.pageSize.getHeight();
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+          heightLeft -= pdf.internal.pageSize.getHeight();
+        }
+        pdf.save('{{ page.name | slugify }}-resume.pdf');
+        btn.innerHTML = '<i class="ph-bold ph-file-pdf"></i> <span>Generate & Download PDF</span>';
+        btn.disabled = false;
+      });
     });
   });
 </script>

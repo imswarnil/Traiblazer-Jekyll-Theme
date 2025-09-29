@@ -34,17 +34,27 @@ experience:
       - Developed and maintained robust Visualforce pages and custom Apex controllers, handling over 1,000 financial transactions per day with zero downtime.
 
 education:
-  - degree: "Bachelor of Science in Information Systems"
-    institution: "University of Illinois at Chicago"
-    year: "2014 – 2018"
+  - degree: "Bachelor of Technology in Computer Science"
+    institution: "Illinois Institute of Technology"
+    dates: "2014 – 2018"
+  - degree: "Higher Secondary Certificate (12th Grade)"
+    institution: "Denver Public School"
+    dates: "2012 – 2014"
+  - degree: "Secondary School Certificate (10th Grade)"
+    institution: "St. Paul's School"
+    dates: "2012"
 
 # --- SIDEBAR (RIGHT COLUMN) ---
 projects:
   - title: "Custom Salesforce Reporting Tool"
     link: "https://github.com/christiantorres/reporting-tool"
-    description: "Architected and developed an open-source Salesforce reporting tool that increased report generation efficiency by 35% through asynchronous processing."
+    stars: "1.2k"
+    forks: "340"
+    description: "Architected and developed an open-source Salesforce reporting tool that increased report generation efficiency by 35% through asynchronous Apex processing."
   - title: "Banking Data Integration Framework"
     link: "https://github.com/christiantorres/data-framework"
+    stars: "850"
+    forks: "120"
     description: "Created a reusable framework for banking data integration on Salesforce, enhancing data accuracy by 30% and providing a scalable foundation for future projects."
 
 achievements:
@@ -63,10 +73,18 @@ skills:
     keywords: "Git, Jira, VS Code"
 
 certifications:
-  - title: "Salesforce Platform Developer I"
-    description: "Demonstrates advanced programmatic capabilities on the Force.com platform."
-  - title: "Integration Architecture Designer"
-    description: "Validates expertise in designing scalable, secure integration solutions with Salesforce."
+  - title: "AI Associate"
+    name_on_cert: "Christian Torres"
+    issue_date: "September 07, 2023"
+    id: "3648198"
+    verify_link: "https://s.force.co/verifycerts"
+    badge_url: "https://i.imgur.com/your-ai-associate-badge.png" # URL to the blue hex badge
+  - title: "Tableau Data Analyst"
+    name_on_cert: "Christian Torres"
+    issue_date: "June 15, 2022"
+    id: "3112845"
+    verify_link: "https://s.force.co/verifycerts"
+    badge_url: "https://i.imgur.com/your-tableau-badge.png" # URL to the Tableau badge
 
 trailhead:
   rank: "Ranger"
