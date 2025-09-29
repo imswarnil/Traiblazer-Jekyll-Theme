@@ -31,6 +31,13 @@ experience:
     description: |
       - Implemented complex Salesforce and nCino customizations that enhanced business process efficiency by over 20%.
       - Developed robust Visualforce pages and custom Apex controllers, handling 1,000+ financial transactions per day.
+  - role: "Salesforce Administrator"
+    company: "Slalom Consulting"
+    location: "Seattle, WA"
+    dates: "01/2017 – 12/2019"
+    description: |
+      - Managed user access and permissions for 300+ Salesforce users.
+      - Customized dashboards and reports, enabling data-driven decision-making.
 
 projects:
   - title: "Custom Salesforce Reporting Tool"
@@ -51,19 +58,21 @@ education:
   - degree: "Higher Secondary Certificate (12th Grade)"
     institution: "Denver Public School"
     dates: "2012 – 2014"
+  - degree: "Secondary School Certificate (10th Grade)"
+    institution: "St. Paul's School"
+    dates: "2012"
 
 # --- SIDEBAR (RIGHT COLUMN) ---
 skills:
-  - name: "Core Technologies"
-    size: "wide"
-    keywords: "Salesforce Platform, Apex, JavaScript, TypeScript, XML, SOQL, LWC, Visualforce, ETL Platforms, nCino"
+  - title: "Core Technologies"
     icon: "ph-code"
-  - name: "Methodologies"
-    keywords: "Agile, Scrum, CI/CD"
+    keywords: "Salesforce Platform, Apex, JavaScript, TypeScript, XML, SOQL, LWC, Visualforce, ETL Platforms, nCino"
+  - title: "Methodologies"
     icon: "ph-arrows-clockwise"
-  - name: "Tools"
-    keywords: "Git, Jira, VS Code"
+    keywords: "Agile, Scrum, CI/CD, Test-Driven Development"
+  - title: "Tools & Ecosystem"
     icon: "ph-wrench"
+    keywords: "Git, Jira, VS Code, nCino, FinancialForce"
 
 certifications:
   - title: "AI Associate"
@@ -80,10 +89,4 @@ achievements:
     description: "Recognized at FinancialForce for achieving a 20% increase in integration efficiency."
   - title: "Customer Satisfaction Excellence"
     description: "Boosted customer satisfaction scores by 40% at Appirio through personalized consultations."
-
-trailhead:
-  rank: "Ranger"
-  badges: "150+"
-  points: "100,000+"
-  link: "https://trailblazer.me/id/your-id"
 ---

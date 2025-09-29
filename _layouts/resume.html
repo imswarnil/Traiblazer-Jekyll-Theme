@@ -40,13 +40,13 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
     <main class="resume-main">
       <!-- Summary Section -->
       <section class="resume-section">
-        <h2 class="sf-h2 resume-section__title"><span>Summary</span></h2>
+        <h2 class="sf-h2 resume-section__title"><i class="ph-bold ph-user"></i><span>Summary</span></h2>
         <div class="typeset">{{ page.summary | markdownify }}</div>
       </section>
 
       <!-- Experience Section -->
       <section class="resume-section">
-        <h2 class="sf-h2 resume-section__title"><span>Experience</span></h2>
+        <h2 class="sf-h2 resume-section__title"><i class="ph-bold ph-briefcase"></i><span>Experience</span></h2>
         <ul class="resume-timeline">
           {% for item in page.experience %}
           <li class="resume-timeline-item">
@@ -63,7 +63,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
 
       <!-- Projects Section -->
       <section class="resume-section">
-        <h2 class="sf-h2 resume-section__title"><span>Projects</span></h2>
+        <h2 class="sf-h2 resume-section__title"><i class="ph-bold ph-rocket-launch"></i><span>Projects</span></h2>
         <ul class="project-list">
         {% for item in page.projects %}
           <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="project-card">
@@ -83,7 +83,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
       
       <!-- Education Section -->
       <section class="resume-section">
-        <h2 class="sf-h2 resume-section__title"><span>Education</span></h2>
+        <h2 class="sf-h2 resume-section__title"><i class="ph-bold ph-graduation-cap"></i><span>Education</span></h2>
         <ul class="resume-timeline">
           {% for item in page.education %}
           <li class="resume-timeline-item">
@@ -99,12 +99,12 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
     </main>
 
     <!-- ======================================================= -->
-    <!-- RIGHT COLUMN: SKILLS, CERTS, ACHIEVEMENTS               -->
+    <!-- RIGHT COLUMN: SKILLS, CERTS, ACHIEVEMENTS, TRAILHEAD    -->
     <!-- ======================================================= -->
     <aside class="resume-sidebar">
       <!-- Skills Section -->
       <section class="resume-section">
-        <h3 class="sf-h3 resume-section__title"><span>Skills</span></h3>
+        <h3 class="sf-h3 resume-section__title"><i class="ph-bold ph-wrench"></i><span>Skills</span></h3>
         <ul class="skill-list">
         {% for item in page.skills %}
           <li><div class="skill-item">
@@ -120,7 +120,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
 
       <!-- Certifications Section -->
       <section class="resume-section">
-        <h3 class="sf-h3 resume-section__title"><span>Certifications</span></h3>
+        <h3 class="sf-h3 resume-section__title"><i class="ph-bold ph-seal-check"></i><span>Certifications</span></h3>
         <ul class="cert-list">
         {% for cert in page.certifications %}
           <li>
@@ -163,127 +163,25 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
   </div>
 </div>
 
-<!-- Button to trigger PDF generation/download -->
-<div style="text-align: center; padding-bottom: var(--sf-8);">
-  <button id="download-pdf-btn" class="sf-btn sf-btn--brand sf-btn--lg">
-    <i class="ph-bold ph-file-pdf"></i>
-    <span>Generate & Download PDF</span>
-  </button>
-</div>
-
-<!-- PDF Generation Modal -->
-<div id="pdf-progress-modal">
-    <div class="sf-card">
-        <div class="sf-card__body">
-            <i class="ph-bold ph-spinner"></i>
-            <p class="progress-text" id="pdf-progress-text">Generating PDF...</p>
-        </div>
-    </div>
-</div>
-
-
-<!-- PDF Generation Libraries and Script -->
-<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
+<!-- JavaScript for scroll animations -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // --- Scroll-activated Animations ---
-    const animatedItems = document.querySelectorAll('.resume-section, .resume-timeline-item');
+    const animatedItems = document.querySelectorAll('.resume-section, .resume-timeline');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
+          // Stagger timeline item animations
           if (entry.target.matches('.resume-timeline')) {
             const items = entry.target.querySelectorAll('.resume-timeline-item');
             items.forEach((item, index) => {
               item.style.transitionDelay = `${index * 150}ms`;
             });
           }
+          observer.unobserve(entry.target);
         }
       });
     }, { threshold: 0.1 });
     animatedItems.forEach(item => observer.observe(item));
-
-    // --- PDF Generation ---
-    const downloadBtn = document.getElementById('download-pdf-btn');
-    const progressModal = document.getElementById('pdf-progress-modal');
-    const progressText = document.getElementById('pdf-progress-text');
-
-    downloadBtn.addEventListener('click', async () => {
-      progressModal.style.display = 'grid';
-      progressText.textContent = 'Step 1 of 2: Capturing page...';
-
-      // Use a timeout to allow the browser to render the modal before the heavy task
-      setTimeout(async () => {
-        try {
-          const canvas = await html2canvas(document.body, {
-            scale: 2,
-            logging: false,
-            useCORS: true,
-            onclone: (doc) => {
-              doc.getElementById('download-pdf-btn').style.display = 'none';
-              doc.getElementById('pdf-progress-modal').style.display = 'none';
-            }
-          });
-          
-          progressText.textContent = 'Step 2 of 2: Building PDF...';
-
-          const imgData = canvas.toDataURL('image/png');
-          const { PDFDocument } = PDFLib;
-          const pdfDoc = await PDFDocument.create();
-          const pngImage = await pdfDoc.embedPng(imgData);
-          
-          const a4_width_pt = 595.28;
-          const a4_height_pt = 841.89;
-          
-          const pngDims = pngImage.scale(1);
-          const aspectRatio = pngDims.width / pngDims.height;
-          
-          let imgWidth = a4_width_pt;
-          let imgHeight = imgWidth / aspectRatio;
-          
-          let remainingHeight = pngDims.height;
-          let y_offset = 0;
-
-          while (remainingHeight > 0) {
-            const page = pdfDoc.addPage([a4_width_pt, a4_height_pt]);
-            const pageHeightInImagePixels = (a4_height_pt / imgHeight) * pngDims.height;
-            
-            page.drawImage(pngImage, {
-              x: 0,
-              y: page.getHeight() - imgHeight, // Draw from top
-              width: imgWidth,
-              height: imgHeight,
-              clip: {
-                x: 0,
-                y: y_offset,
-                width: pngDims.width,
-                height: Math.min(pageHeightInImagePixels, remainingHeight)
-              }
-            });
-            
-            remainingHeight -= pageHeightInImagePixels;
-            y_offset += pageHeightInImagePixels;
-          }
-          
-          const pdfBytes = await pdfDoc.save();
-          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-          const link = document.createElement('a');
-          link.href = URL.createObjectURL(blob);
-          link.download = '{{ page.name | slugify }}-resume.pdf';
-          link.click();
-
-        } catch (error) {
-          console.error("PDF Generation Failed:", error);
-          progressText.textContent = 'Error! Please try again.';
-        } finally {
-          setTimeout(() => {
-            progressModal.style.display = 'none';
-          }, 1000);
-        }
-      }, 100);
-    });
   });
 </script>
