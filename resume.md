@@ -32,13 +32,6 @@ experience:
     description: |
       - Implemented Salesforce and nCino customizations that enhanced process efficiency by over 20%.
       - Developed complex Visualforce pages and custom controllers, handling 1,000+ transactions per day.
-  - role: "Salesforce Administrator"
-    company: "Slalom Consulting"
-    location: "Seattle, WA"
-    dates: "01/2017 – 12/2019"
-    description: |
-      - Managed user access and permissions for 300+ Salesforce users.
-      - Customized dashboards and reports, enabling data-driven decision-making.
 
 education:
   - degree: "Bachelor of Science in Information Systems"
@@ -59,20 +52,25 @@ achievements:
     description: "Recognized for achieving a 20% increase in integration efficiency through innovative solutions."
   - title: "Customer Satisfaction Excellence"
     description: "Boosted customer satisfaction scores by 40% through personalized client consultations."
-  - title: "System Error Reduction"
-    description: "Reduced system errors by 25% by executing comprehensive test plans."
 
 skills:
-  - title: "Core Platforms & Languages"
-    description: "Salesforce, Apex, JavaScript, TypeScript, XML, ETL Platforms"
-  - title: "Methodologies"
-    description: "Agile, Scrum, CI/CD, Test-Driven Development"
-  - title: "Tools & Ecosystem"
-    description: "Git, Jira, VS Code, nCino, FinancialForce"
+  - name: "Core Technologies"
+    size: "wide" # Spans 2 columns in the bento grid
+    keywords: "Salesforce, Apex, JavaScript, TypeScript, XML, ETL Platforms, nCino"
+  - name: "Methodologies"
+    keywords: "Agile, Scrum, CI/CD"
+  - name: "Tools"
+    keywords: "Git, Jira, VS Code"
 
 certifications:
   - title: "Salesforce Platform Developer I"
     description: "Advanced development skills and Salesforce solutions."
   - title: "Integration Architecture Designer"
     description: "Designing scalable integration solutions with Salesforce."
+
+trailhead:
+  rank: "Ranger"
+  badges: "150+"
+  points: "100,000+"
+  link: "https://trailblazer.me/id/your-id"
 ---

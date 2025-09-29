@@ -3,7 +3,7 @@ layout: default
 ---
 {% comment %}
 ============================================================================
-_layouts/resume.html (Definitive, Bulletproof 2-Column Final Version)
+_layouts/resume.html (Definitive, "All-in-One" Full-Fledged Final Version)
 ============================================================================
 {% endcomment %}
 
@@ -27,6 +27,7 @@ _layouts/resume.html (Definitive, Bulletproof 2-Column Final Version)
     </div>
   </div>
 </header>
+
 
 <!-- ========================================================================
      MAIN TWO-COLUMN RESUME BODY
@@ -112,20 +113,17 @@ _layouts/resume.html (Definitive, Bulletproof 2-Column Final Version)
         </ul>
       </section>
       
-      <!-- Skills Section -->
+      <!-- Skills Section (Bento Grid) -->
       <section class="resume-section">
         <h3 class="sf-h3 resume-section__title"><span>Skills</span></h3>
-        <ul class="skill-list">
-        {% for item in page.skills %}
-          <li><div class="skill-item">
-            <i class="ph-bold ph-check-circle skill-item__icon"></i>
-            <div class="skill-item__content">
-              <h4 class="sf-h5 skill-item__title">{{ item.title }}</h4>
-              <p class="skill-item__description">{{ item.description }}</p>
-            </div>
-          </div></li>
+        <div class="bento-grid">
+        {% for skill in page.skills %}
+          <div class="bento-item {% if skill.size %}bento-item--{{ skill.size }}{% endif %}">
+            <h4 class="sf-h4 bento-item__title">{{ skill.name }}</h4>
+            <p class="bento-item__content">{{ skill.keywords }}</p>
+          </div>
         {% endfor %}
-        </ul>
+        </div>
       </section>
 
       <!-- Training & Courses Section -->
@@ -142,6 +140,25 @@ _layouts/resume.html (Definitive, Bulletproof 2-Column Final Version)
           </div></li>
         {% endfor %}
         </ul>
+      </section>
+      
+      <!-- Trailhead Section -->
+      <section class="resume-section">
+        <h3 class="sf-h3 resume-section__title"><span>Trailhead</span></h3>
+        <div class="sf-card trailhead-profile-card">
+          <div class="sf-card__body">
+            <a href="{{ page.trailhead.link }}" target="_blank" rel="noopener">
+              <img src="https://res.cloudinary.com/hy4kyit2a/image/upload/v1715421294/trailblazer-pfp-pfp_rangers_22_4_22_12-24-pm-removebg-preview.png" alt="Trailhead Ranger Rank" class="trailhead-profile-card__rank-icon">
+              <div class="trailhead-profile-card__rank">{{ page.trailhead.rank }}</div>
+              <div class="trailhead-profile-card__stats">
+                <span><strong>{{ page.trailhead.badges }}</strong> Badges</span>
+                <span>•</span>
+                <span><strong>{{ page.trailhead.points }}</strong> Points</span>
+              </div>
+              <span class="sf-btn sf-btn--neutral sf-btn--sm">View Trailblazer Profile</span>
+            </a>
+          </div>
+        </div>
       </section>
     </aside>
 
