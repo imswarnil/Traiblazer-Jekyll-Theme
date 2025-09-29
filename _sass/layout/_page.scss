@@ -1,88 +1,127 @@
 /* ============================================================================
-   PAGES / PAGE (Definitive, Unified Grid Layout)
+   COMPONENTS / PAGE.SCSS
+   Styles for the default static page layout.
    ============================================================================ */
 
-// --- The Core Page Grid System ---
-// This single grid class will be used by BOTH the header and the main body.
-.page-grid-container {
-  display: grid;
-  // [gutter] [main content] [sidebar] [gutter]
-  // This robust structure guarantees perfect alignment and no overflow.
-  grid-template-columns: minmax(var(--sf-4), 1fr) minmax(0, 800px) minmax(0, 300px) minmax(var(--sf-4), 1fr);
-  gap: 0 var(--sf-6); // Column gap only
-
-  // On mobile, collapse to a single content column with simple padding.
-  @media (max-width: 959px) {
-    grid-template-columns: 1fr;
-    padding: 0 var(--sf-4); // Horizontal padding for mobile
-    gap: var(--sf-6) 0; // Row gap only
-  }
-}
-
-
-// --- Page Header Styling ---
+/* --- 1. Page Header --- */
 .page-header {
-  padding: var(--sf-6) 0;
+  padding-block: var(--sf-8);
+  background-color: var(--sf-bg-1);
   border-bottom: 1px solid var(--sf-line-2);
-  background: var(--sf-bg-2);
-  
-  // The content of the header will now live in the main content column.
-  &__content {
-    grid-column: 2 / 3;
-    @media (max-width: 959px) { grid-column: 1 / 2; }
+  text-align: center;
+
+  .sf-h1 {
+    margin-bottom: var(--sf-3);
   }
-
-  &__title { margin-bottom: var(--sf-2); }
-  &__subtitle { color: var(--sf-muted); max-width: 65ch; }
-}
-
-
-// --- Main Page Content Section ---
-.page-body {
-  padding: var(--sf-8) 0;
-}
-
-
-// --- Main Content & Sidebar Columns ---
-.page-main-content {
-  grid-column: 2 / 3;
-  @media (max-width: 959px) {
-    grid-column: 1 / 2;
-    order: 2; // Content below sidebar on mobile
+  .sf-text--large {
+    color: var(--sf-fg-2);
+    max-width: var(--sf-measure);
+    margin-inline: auto; // Center the subtitle
   }
 }
 
+/* --- 2. Main Page Body & Grid --- */
+.page-body-section {
+  padding-block: var(--sf-8);
+}
+
+// The main content card that holds the article
+.page-content-card {
+  // Solves the "content coming out" issue by ensuring images and other
+  // wide elements are contained within the card's boundaries.
+  .typeset {
+    overflow-wrap: break-word; // Break long words/URLs
+    
+    img, video, iframe {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--sf-radius-md);
+    }
+  }
+}
+
+/* --- 3. Page Sidebar --- */
 .page-sidebar {
-  grid-column: 3 / 4;
-  position: sticky;
-  top: calc(68px + var(--sf-8));
-  align-self: start;
-
-  @media (max-width: 959px) {
-    grid-column: 1 / 2;
-    order: 1; // Sidebar above content on mobile
-    position: static;
+  // On mobile, when the sidebar stacks, add some space above it.
+  margin-top: var(--sf-8);
+  
+  @include breakpoint(lg) {
+    // On desktop, remove the mobile margin and apply sticky positioning.
+    margin-top: 0;
+    position: sticky;
+    top: calc(var(--sf-nav-height) + var(--sf-4));
+    align-self: start; // Crucial for sticky positioning within a flex/grid row
+    
+    // Create a vertical rhythm for sidebar widgets
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-6);
   }
 }
 
-// --- Card Components (No changes needed) ---
-.content-card {
-  background: var(--sf-bg-2); border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-lg); box-shadow: none;
-  &__body { padding: var(--sf-5) var(--sf-6); }
+/* --- 4. Sidebar Widgets --- */
+
+// Table of Contents Card
+// It will reuse the `.toc-card` styles from `_post.scss` for consistency.
+// We add a check here in case _post.scss isn't imported.
+.toc-card {
+  padding: var(--sf-4);
+  .toc-list {
+    list-style: none; padding: 0; margin: 0;
+    a {
+      display: block; padding: var(--sf-2) var(--sf-3); text-decoration: none; border-radius: var(--sf-radius-sm);
+      color: var(--sf-fg-2); font-size: var(--sf-text-sm);
+      &:hover { background-color: var(--sf-bg-1); color: var(--sf-brand); }
+    }
+  }
+  // Hide the TOC card if the list is empty (JS from toc.html handles this)
+  &:empty {
+    display: none;
+  }
 }
-.sidebar-card {
-  background: var(--sf-bg-2); border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-lg); margin-bottom: var(--sf-4);
-  &__header { padding: var(--sf-3) var(--sf-4); border-bottom: 1px solid var(--sf-line-2); }
-  &__title { margin: 0; }
-  &__body { padding: var(--sf-4); }
+
+// Quick Links Card
+.quick-links-card {
+  // Basic card styles are inherited. We just style the list inside.
+  .quick-links-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-2);
+
+    a {
+      display: block;
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--sf-fg-2);
+      padding: var(--sf-2) var(--sf-3);
+      border-radius: var(--sf-radius-sm);
+      transition: all .2s ease;
+
+      &:hover {
+        background-color: var(--sf-bg-1);
+        color: var(--sf-brand);
+        transform: translateX(4px);
+      }
+    }
+  }
 }
-.sidebar-ad-placeholder {
-  display: flex; align-items: center; justify-content: center;
-  aspect-ratio: 1 / 1; border: 1px dashed var(--sf-line-1);
-  background: color-mix(in oklab, var(--sf-bg-1), white 60%);
-  color: var(--sf-muted); font-size: .875rem; text-align: center;
+
+
+/* --- 5. Ad Placeholders --- */
+// Inherits from a global .ad-placeholder class if it exists.
+// Defining it here ensures it works regardless.
+.ad-placeholder--sidebar-ad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 250px;
+  background-color: var(--sf-bg-1);
+  border: 1px dashed var(--sf-line-1);
   border-radius: var(--sf-radius-lg);
-  .ph-bold { font-size: 2rem; margin-bottom: var(--sf-2); }
+  color: var(--sf-muted);
+  font-size: var(--sf-text-sm);
 }

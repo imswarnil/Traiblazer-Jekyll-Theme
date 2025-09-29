@@ -4,61 +4,82 @@ layout: default
 
 {% comment %}
 ============================================================================
-_layouts/page.html (Definitive, Unified Grid Layout - Final Version)
+_layouts/page.html (V2 - Professional Edition)
+- Fixes layout overflow using the project's sf-row grid system.
+- Adds optional, sticky Table of Contents via `toc: true` front matter.
+- Adds a sticky sidebar ad placeholder.
+- Incorporates SEO-friendly breadcrumbs with schema.org microdata.
 ============================================================================
 {% endcomment %}
 
 <!-- ========================================================================
      PAGE HEADER
-     Now uses the same grid as the body for perfect alignment.
      ======================================================================== -->
 <header class="page-header">
-  <div class="page-grid-container">
-    <div class="page-header__content">
-      <h1 class="sf-h1 page-header__title">{{ page.title }}</h1>
-      {% if page.subtitle %}
-        <p class="sf-text--large page-header__subtitle">{{ page.subtitle }}</p>
-      {% endif %}
-    </div>
+  <div class="sf-container">
+    <nav class="breadcrumb" aria-label="Breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+      <div itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display:inline;">
+        <a href="{{ '/' | relative_url }}" itemprop="item"><span itemprop="name">Home</span></a>
+        <meta itemprop="position" content="1" />
+      </div>
+      <i class="ph-bold ph-caret-right"></i>
+      <div itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display:inline;">
+        <span itemprop="name">{{ page.title }}</span>
+        <meta itemprop="position" content="2" />
+      </div>
+    </nav>
+    <h1 class="sf-h1">{{ page.title }}</h1>
+    {% if page.subtitle %}
+      <p class="sf-text--large">{{ page.subtitle }}</p>
+    {% endif %}
   </div>
 </header>
 
 <!-- ========================================================================
-     MAIN PAGE CONTENT
-     Also uses the page-grid-container for perfect alignment.
+     MAIN PAGE BODY & GRID
      ======================================================================== -->
-<div class="page-body">
-  <div class="page-grid-container">
+<div class="page-body-section">
+  <div class="sf-container">
+    <div class="sf-row">
 
-    <!-- Primary Content Column -->
-    <main class="page-main-content">
-      <div class="content-card">
-        <article class="content-card__body typeset">
-          {{ content }}
-        </article>
-      </div>
-    </main>
-
-    <!-- Sidebar Column -->
-    <aside class="page-sidebar">
-      
-      <div class="sidebar-card">
-        <header class="sidebar-card__header">
-          <h3 class="sf-h4 sidebar-card__title">Quick Links</h3>
-        </header>
-        <div class="sidebar-card__body">
-          <p class="sf-text--small sf-text-muted">Related content or navigation can go here.</p>
+      <!-- Primary Content Column -->
+      <main class="sf-col-12 sf-col-lg-8">
+        <div class="sf-card page-content-card">
+          <article class="sf-card__body typeset">
+            {{ content }}
+          </article>
         </div>
-      </div>
+      </main>
 
-      <div class="sidebar-ad-placeholder">
-        <div> <!-- Extra div for easy centering -->
-          <i class="ph-bold ph-presentation-chart"></i>
-          <span>Advertisement</span>
+      <!-- Sidebar Column -->
+      <aside class="sf-col-12 sf-col-lg-4 page-sidebar">
+        
+        <!-- TABLE OF CONTENTS (Only appears if `toc: true` is in page front matter) -->
+        {% if page.toc %}
+        <div class="sf-card toc-card">
+          {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
         </div>
-      </div>
+        {% endif %}
 
-    </aside>
+        <!-- SIDEBAR AD -->
+        <div class="ad-placeholder ad-placeholder--sidebar-ad">
+          <span>Sidebar Ad<br>300x250</span>
+        </div>
+        
+        <!-- Example Sidebar Widget -->
+        <div class="sf-card quick-links-card">
+            <div class="sf-card__header">Quick Links</div>
+            <div class="sf-card__body">
+                <ul class="quick-links-list">
+                    <li><a href="/about/">About Me</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/blog/">My Blog</a></li>
+                </ul>
+            </div>
+        </div>
 
+      </aside>
+
+    </div>
   </div>
 </div>
