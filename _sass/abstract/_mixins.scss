@@ -4,12 +4,10 @@
    ============================================================================ */
 
 // Applies the standard, accessible focus ring style.
-// This mixin is compatible with your _base.scss file.
 @mixin focus-ring {
   outline: none;
   box-shadow: var(--sf-focus);
-  // Using the custom property from _tokens.scss
-  border-radius: var(--sf-radius-sm);
+  border-radius: 2px;
 }
 
 // Generates a responsive media query block.
@@ -22,19 +20,4 @@
   } @else if $point == lg {
     @media (min-width: $bp-lg) { @content; }
   }
-}
-
-// --- NEW SCALABLE MIXINS FOR FUTURE COMPONENTS ---
-
-// A helper for handling hover and focus states together.
-@mixin on-hover-focus {
-  &:hover,
-  &:focus-visible {
-    @content;
-  }
-}
-
-// Applies the standard framework transition.
-@mixin standard-transition {
-  transition: all $sf-transition-duration $sf-transition-timing;
 }

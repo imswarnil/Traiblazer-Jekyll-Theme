@@ -3,15 +3,6 @@
    SCSS-only variables used for logic, loops, and media queries.
    These are not compiled into the final CSS.
    ============================================================================ */
-
-// --- Breakpoints ---
-// Using your original names for compatibility with your mixin.
 $bp-sm: 40em;  // 640px
 $bp-md: 60em;  // 960px
 $bp-lg: 75em;  // 1200px
-
-// --- Animation & Transitions (THE FIX) ---
-// These variables are now defined here, ensuring they are available when
-// _base.scss is imported.
-$sf-transition-duration: 0.15s !default;
-$sf-transition-timing: ease !default;

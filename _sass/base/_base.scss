@@ -4,27 +4,25 @@
    ============================================================================ */
 body {
   margin: 0;
-  font-family: var(--sfdc-font-body);
-  color: var(--sfdc-text-body);
-  background: var(--sfdc-bg-soft);
+  font-family: var(--sf-font-body);
+  color: var(--sf-fg);
+  background: var(--sf-bg-1);
   line-height: 1.5;
-  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 a {
-  color: var(--sfdc-link);
+  color: var(--sf-link);
   text-decoration: none;
   &:hover {
-    color: var(--sfdc-brand-darker);
+    color: var(--sf-brand-2);
   }
 }
 
 :focus-visible {
-  // This will now work because _mixins.scss is imported first.
-  @include sfdc-focus-ring;
+  @include focus-ring;
 }
 
 ::selection {
-  background: var(--sfdc-ink);
-  color: var(--sfdc-bg-hard);
+  background: var(--sf-ink);
+  color: #fff;
 }
