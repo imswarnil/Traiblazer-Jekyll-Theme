@@ -6,22 +6,22 @@
 @keyframes text-focus-in { 0% { filter: blur(12px); opacity: 0; } 100% { filter: blur(0px); opacity: 1; } }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pulse-glow { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--sf-brand), transparent 70%); } 70% { box-shadow: 0 0 0 10px color-mix(in oklab, var(--sf-brand), transparent 100%); } 100% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--sf-brand), transparent 100%); } }
+@keyframes icon-draw { from { stroke-dashoffset: 50; } to { stroke-dashoffset: 0; } }
 
-// --- Full-Width Resume Hero ---
-.resume-hero {
-  padding: var(--sf-8) 0;
+// --- Full-Width Resume Header ---
+.resume-header {
+  padding: var(--sf-6) 0 var(--sf-8) 0;
   background: var(--sf-bg-2);
   position: relative;
   overflow: hidden;
-  border-bottom: 1px solid var(--sf-line-2);
 
+  // Subtle geometric background pattern from the inspiration
   &::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     background-image:
       linear-gradient(rgba(207, 215, 224, 0.2) 1px, transparent 1px),
       linear-gradient(to right, rgba(207, 215, 224, 0.2) 1px, transparent 1px);
-    background-size: 40px 40px;
-    z-index: 1;
+    background-size: 40px 40px; z-index: 1;
   }
   [data-theme="dark"] &::before {
     background-image:
@@ -34,7 +34,7 @@
     gap: var(--sf-4) var(--sf-6); grid-template-columns: 1fr auto;
     @media (max-width: 768px) {
       grid-template-columns: 1fr; text-align: center; justify-items: center;
-      .resume-hero__initials { order: -1; margin-bottom: var(--sf-4); }
+      .resume-header__initials { order: -1; margin-bottom: var(--sf-4); }
     }
   }
 
@@ -84,6 +84,7 @@
 
 // --- General Section Styling with Scroll Animation ---
 .resume-section {
+  // Sections are now wrapped in .sf-card by default in the HTML
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -102,6 +103,10 @@
   .ph-bold {
     font-size: 1.5rem;
     color: var(--sf-brand);
+    // Icon Draw Animation
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: icon-draw 1s ease-out forwards;
   }
 }
 
@@ -137,7 +142,7 @@
     width: 48px; height: 48px;
     border-radius: var(--sf-radius-lg);
     background: var(--sf-bg-2);
-    border: 1px solid var(--sf-line-1);
+    border: 1px solid var(--sf-line-2);
     box-shadow: var(--sf-shadow-sm);
     display: grid; place-items: center;
     transform: scale(0);
@@ -175,8 +180,7 @@
   &__header {
     display: flex; align-items: center; gap: var(--sf-2);
     margin-bottom: var(--sf-2);
-    img { width: 20px; height: 20px; border-radius: 4px; }
-    .ph-bold { font-size: 1.25rem; }
+    img, .ph-bold { width: 20px; height: 20px; border-radius: 4px; }
   }
   &__title { font-weight: 600; font-size: 1.1rem; }
   &__description { font-size: .9rem; color: var(--sf-fg-2); margin-bottom: var(--sf-3); }

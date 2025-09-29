@@ -107,6 +107,29 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         </div>
       </section>
 
+      <!-- Projects Section -->
+      <section class="sf-card resume-section">
+        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-rocket-launch"></i><span>Projects</span></h3></div>
+        <div class="sf-card__body">
+          <ul class="project-list">
+          {% for item in page.projects %}
+            <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="project-card">
+              <header class="project-card__header">
+                <i class="ph-bold ph-github-logo"></i>
+                <h4 class="sf-h5 project-card__title">{{ item.title }}</h4>
+              </header>
+              <p class="project-card__description">{{ item.description }}</p>
+              <footer class="project-card__footer">
+                <span class="project-card__meta-item"><i class="ph-bold ph-star"></i> {{ item.stars }}</span>
+                <span class="project-card__meta-item"><i class="ph-bold ph-git-fork"></i> {{ item.forks }}</span>
+                <span class="project-card__meta-item"><span style="color: {{ item.language_color }};">●</span> {{ item.language }}</span>
+              </footer>
+            </a></li>
+          {% endfor %}
+          </ul>
+        </div>
+      </section>
+      
       <!-- Education Section -->
       <section class="sf-card resume-section">
         <div class="sf-card__body">
@@ -134,32 +157,9 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
     </main>
 
     <!-- ======================================================= -->
-    <!-- RIGHT COLUMN: SKILLS, PROJECTS, CERTS, ACHIEVEMENTS     -->
+    <!-- RIGHT COLUMN: SKILLS, CERTS, ACHIEVEMENTS, INTERESTS    -->
     <!-- ======================================================= -->
     <aside class="resume-sidebar">
-      <!-- Projects Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-rocket-launch"></i><span>Projects</span></h3></div>
-        <div class="sf-card__body">
-          <ul class="project-list">
-          {% for item in page.projects %}
-            <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="project-card">
-              <header class="project-card__header">
-                <i class="ph-bold ph-github-logo"></i>
-                <h4 class="sf-h5 project-card__title">{{ item.title }}</h4>
-              </header>
-              <p class="project-card__description">{{ item.description }}</p>
-              <footer class="project-card__footer">
-                <span class="project-card__meta-item"><i class="ph-bold ph-star"></i> {{ item.stars }}</span>
-                <span class="project-card__meta-item"><i class="ph-bold ph-git-fork"></i> {{ item.forks }}</span>
-                <span class="project-card__meta-item"><span style="color: {{ item.language_color }};">●</span> {{ item.language }}</span>
-              </footer>
-            </a></li>
-          {% endfor %}
-          </ul>
-        </div>
-      </section>
-      
       <!-- Skills Section (Tag Cloud) -->
       <section class="sf-card resume-section">
         <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-wrench"></i><span>Skills</span></h3></div>
