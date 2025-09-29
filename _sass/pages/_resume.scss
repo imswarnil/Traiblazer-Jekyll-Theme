@@ -194,4 +194,46 @@
   padding: var(--sf-2) var(--sf-3); border-radius: var(--sf-radius-md);
   font-weight: 600; font-size: .9rem;
   background: var(--sf-bg-2); border: 1px solid var(--sf-line-2);
-  color: var(--sf-fg-2); transition: all .2
+  color: var(--sf-fg-2); transition: all .2s ease;
+  .ph-bold { font-size: 1rem; }
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--sf-shadow-sm);
+    background-color: color-mix(in oklab, var(--sf-brand), white 88%);
+    color: var(--sf-brand);
+  }
+}
+
+// --- Certifications Section ---
+.cert-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sf-4); }
+.cert-item {
+  display: flex; align-items: flex-start; gap: var(--sf-3);
+  &__icon { font-size: 1.5rem; color: var(--sf-brand); flex-shrink: 0; margin-top: 2px; }
+  &__content { line-height: 1.4; }
+  &__title { font-weight: 600; color: var(--sf-fg); margin:0; }
+  &__meta { font-size: .8rem; color: var(--sf-muted); }
+  &__link {
+    font-size: .8rem; font-weight: 600; display: inline-block; margin-top: var(--sf-1);
+  }
+}
+
+// --- Achievements & Interests ---
+.achievement-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sf-4); }
+.achievement-item {
+  display: flex; align-items: flex-start; gap: var(--sf-3);
+  &__icon { font-size: 1.5rem; color: var(--sf-brand); flex-shrink: 0; margin-top: 2px; }
+  &__content { line-height: 1.4; }
+  &__title { font-weight: 600; color: var(--sf-fg); margin:0; }
+  &__description { font-size: .9rem; color: var(--sf-fg-2); }
+}
+
+// --- Print Styles ---
+@media print {
+  body { background: #fff; --sf-bg-1: #fff; --sf-bg-2: #fff; --sf-fg: #000; }
+  .sf-header, .sf-footer, .resume-sidebar { display: none !important; }
+  .resume-grid, .resume-hero__grid { grid-template-columns: 1fr !important; }
+  .sf-card, .cert-card, .achievement-card, .project-card { box-shadow: none; border: 1px solid #ddd; }
+  a { color: #000; text-decoration: none; }
+  .resume-hero { padding: 0; border-bottom: 2px solid #000; }
+  .resume-hero::before, .resume-hero__initials { display: none; }
+}
