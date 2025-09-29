@@ -28,7 +28,6 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
   </div>
 </header>
 
-
 <!-- ========================================================================
      MAIN TWO-COLUMN RESUME BODY
      ======================================================================== -->
@@ -36,7 +35,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
   <div class="resume-grid">
     
     <!-- ======================================================= -->
-    <!-- LEFT COLUMN: SUMMARY, EXPERIENCE, EDUCATION, PROJECTS   -->
+    <!-- LEFT COLUMN: SUMMARY, EXPERIENCE, PROJECTS, EDUCATION   -->
     <!-- ======================================================= -->
     <main class="resume-main">
       <!-- Summary Section -->
@@ -68,10 +67,10 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         <ul class="project-list">
         {% for item in page.projects %}
           <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="project-card">
-            <div class="project-card__header">
+            <header class="project-card__header">
               <i class="ph-bold ph-github-logo"></i>
               <h4 class="sf-h4 project-card__title">{{ item.title }}</h4>
-            </div>
+            </header>
             <p class="project-card__description">{{ item.description }}</p>
             <footer class="project-card__footer">
               <span class="project-card__meta-item"><i class="ph-bold ph-star"></i> {{ item.stars }}</span>
@@ -81,7 +80,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         {% endfor %}
         </ul>
       </section>
-
+      
       <!-- Education Section -->
       <section class="resume-section">
         <h2 class="sf-h2 resume-section__title"><span>Education</span></h2>
@@ -100,20 +99,23 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
     </main>
 
     <!-- ======================================================= -->
-    <!-- RIGHT COLUMN: SKILLS, CERTS, ACHIEVEMENTS, TRAILHEAD    -->
+    <!-- RIGHT COLUMN: SKILLS, CERTS, ACHIEVEMENTS               -->
     <!-- ======================================================= -->
     <aside class="resume-sidebar">
-      <!-- Skills Section (Bento Grid) -->
+      <!-- Skills Section -->
       <section class="resume-section">
         <h3 class="sf-h3 resume-section__title"><span>Skills</span></h3>
-        <div class="bento-grid">
-        {% for skill in page.skills %}
-          <div class="bento-item {% if skill.size %}bento-item--{{ skill.size }}{% endif %}">
-            <h4 class="sf-h4 bento-item__title">{{ skill.name }}</h4>
-            <p class="bento-item__content">{{ skill.keywords }}</p>
-          </div>
+        <ul class="skill-list">
+        {% for item in page.skills %}
+          <li><div class="skill-item">
+            <i class="ph-bold {{ item.icon | default: 'ph-check-circle' }} skill-item__icon"></i>
+            <div class="skill-item__content">
+              <h4 class="sf-h5 skill-item__title">{{ item.title }}</h4>
+              <p class="skill-item__keywords">{{ item.keywords }}</p>
+            </div>
+          </div></li>
         {% endfor %}
-        </div>
+        </ul>
       </section>
 
       <!-- Certifications Section -->
@@ -123,12 +125,13 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         {% for cert in page.certifications %}
           <li>
             <article class="cert-card">
-              <div class="cert-card__bg"></div>
+              <div class="cert-card__bg-shape">
+                <svg width="100%" height="100%" viewBox="0 0 300 320" preserveAspectRatio="none"><path d="M150 0 L300 80 L300 240 L150 320 L0 240 L0 80 Z" class="shape-bg"></path><path d="M150 0 L300 80 L300 240 L150 320 L0 240 L0 80 Z" class="shape-border"></path></svg>
+              </div>
               <div class="cert-card__content">
-                <img class="cert-card__logo" src="https://i.imgur.com/K51g2v1.png" alt="Salesforce Logo">
+                <i class="ph-bold {{ cert.icon | default: 'ph-seal-check' }} cert-card__badge-icon"></i>
                 <p class="cert-card__label">CERTIFIED</p>
                 <h4 class="sf-h3 cert-card__title">{{ cert.title }}</h4>
-                <img class="cert-card__badge" src="{{ cert.badge_url }}" alt="{{ cert.title }} Badge">
               </div>
               <footer class="cert-card__footer">
                 <span>ID: {{ cert.id }}</span>
@@ -139,7 +142,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         {% endfor %}
         </ul>
       </section>
-      
+
       <!-- Achievements Section -->
       <section class="resume-section">
         <h3 class="sf-h3 resume-section__title"><span>Key Achievements</span></h3>
@@ -168,8 +171,20 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
   </button>
 </div>
 
-<!-- Include the jspdf library for PDF generation -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- PDF Generation Modal -->
+<div id="pdf-progress-modal">
+    <div class="sf-card">
+        <div class="sf-card__body">
+            <i class="ph-bold ph-spinner"></i>
+            <p class="progress-text" id="pdf-progress-text">Generating PDF...</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- PDF Generation Libraries and Script -->
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://unpkg.com/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
@@ -180,43 +195,95 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
+          if (entry.target.matches('.resume-timeline')) {
+            const items = entry.target.querySelectorAll('.resume-timeline-item');
+            items.forEach((item, index) => {
+              item.style.transitionDelay = `${index * 150}ms`;
+            });
+          }
         }
       });
     }, { threshold: 0.1 });
     animatedItems.forEach(item => observer.observe(item));
 
     // --- PDF Generation ---
-    document.getElementById('download-pdf-btn').addEventListener('click', function () {
-      const btn = this;
-      btn.innerHTML = '<i class="ph-bold ph-spinner"></i> <span>Generating...</span>';
-      btn.disabled = true;
-      html2canvas(document.body, {
-        scale: 2,
-        onclone: (doc) => { doc.getElementById('download-pdf-btn').style.display = 'none'; }
-      }).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const ratio = canvasWidth / canvasHeight;
-        const imgHeight = pdfWidth / ratio;
-        let heightLeft = imgHeight;
-        let position = 0;
-        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-        heightLeft -= pdf.internal.pageSize.getHeight();
-        while (heightLeft >= 0) {
-          position = heightLeft - imgHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
-          heightLeft -= pdf.internal.pageSize.getHeight();
+    const downloadBtn = document.getElementById('download-pdf-btn');
+    const progressModal = document.getElementById('pdf-progress-modal');
+    const progressText = document.getElementById('pdf-progress-text');
+
+    downloadBtn.addEventListener('click', async () => {
+      progressModal.style.display = 'grid';
+      progressText.textContent = 'Step 1 of 2: Capturing page...';
+
+      // Use a timeout to allow the browser to render the modal before the heavy task
+      setTimeout(async () => {
+        try {
+          const canvas = await html2canvas(document.body, {
+            scale: 2,
+            logging: false,
+            useCORS: true,
+            onclone: (doc) => {
+              doc.getElementById('download-pdf-btn').style.display = 'none';
+              doc.getElementById('pdf-progress-modal').style.display = 'none';
+            }
+          });
+          
+          progressText.textContent = 'Step 2 of 2: Building PDF...';
+
+          const imgData = canvas.toDataURL('image/png');
+          const { PDFDocument } = PDFLib;
+          const pdfDoc = await PDFDocument.create();
+          const pngImage = await pdfDoc.embedPng(imgData);
+          
+          const a4_width_pt = 595.28;
+          const a4_height_pt = 841.89;
+          
+          const pngDims = pngImage.scale(1);
+          const aspectRatio = pngDims.width / pngDims.height;
+          
+          let imgWidth = a4_width_pt;
+          let imgHeight = imgWidth / aspectRatio;
+          
+          let remainingHeight = pngDims.height;
+          let y_offset = 0;
+
+          while (remainingHeight > 0) {
+            const page = pdfDoc.addPage([a4_width_pt, a4_height_pt]);
+            const pageHeightInImagePixels = (a4_height_pt / imgHeight) * pngDims.height;
+            
+            page.drawImage(pngImage, {
+              x: 0,
+              y: page.getHeight() - imgHeight, // Draw from top
+              width: imgWidth,
+              height: imgHeight,
+              clip: {
+                x: 0,
+                y: y_offset,
+                width: pngDims.width,
+                height: Math.min(pageHeightInImagePixels, remainingHeight)
+              }
+            });
+            
+            remainingHeight -= pageHeightInImagePixels;
+            y_offset += pageHeightInImagePixels;
+          }
+          
+          const pdfBytes = await pdfDoc.save();
+          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = '{{ page.name | slugify }}-resume.pdf';
+          link.click();
+
+        } catch (error) {
+          console.error("PDF Generation Failed:", error);
+          progressText.textContent = 'Error! Please try again.';
+        } finally {
+          setTimeout(() => {
+            progressModal.style.display = 'none';
+          }, 1000);
         }
-        pdf.save('{{ page.name | slugify }}-resume.pdf');
-        btn.innerHTML = '<i class="ph-bold ph-file-pdf"></i> <span>Generate & Download PDF</span>';
-        btn.disabled = false;
-      });
+      }, 100);
     });
   });
 </script>
