@@ -1,0 +1,187 @@
+/* ============================================================================
+   UTILITIES / LAYOUT.SCSS
+   A comprehensive suite of layout utilities based on the project's
+   design tokens. Includes a responsive 12-column grid, flexbox helpers,
+   and spacing classes.
+   ============================================================================ */
+
+/* ============================================================================
+   1. CONTAINER
+   ============================================================================ */
+.sf-container {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: var(--sf-container-padding);
+
+  // Generate container size modifiers from the $container-sizes map
+  @each $name, $size in $container-sizes {
+    &--#{$name} { max-width: $size; }
+  }
+}
+
+
+/* ============================================================================
+   2. RESPONSIVE GRID SYSTEM
+   ============================================================================ */
+.sf-row {
+  display: grid;
+  grid-template-columns: repeat(var(--sf-grid-columns, 12), minmax(0, 1fr));
+  gap: var(--sf-grid-gap, $grid-gutter);
+}
+
+// Generate responsive column classes
+@mixin make-columns($prefix: '') {
+  @for $i from 1 through $grid-columns {
+    .sf-col#{$prefix}-#{$i} {
+      grid-column: span #{$i};
+    }
+    .sf-offset#{$prefix}-#{$i} {
+      grid-column-start: #{$i + 1};
+    }
+  }
+}
+
+// Base columns (mobile-first)
+@include make-columns();
+
+// Breakpoint-specific columns
+@each $name, $bp in (xs: $bp-xs, sm: $bp-sm, md: $bp-md, lg: $bp-lg, xl: $bp-xl) {
+  @media (min-width: $bp) {
+    @include make-columns('-#{$name}');
+  }
+}
+
+
+/* ============================================================================
+   3. FLEXBOX & ALIGNMENT HELPERS
+   ============================================================================ */
+$flex-properties: (
+  '': (
+    'd-flex': (display: flex),
+    'd-inline-flex': (display: inline-flex),
+    'flex-row': (flex-direction: row),
+    'flex-column': (flex-direction: column),
+    'flex-row-reverse': (flex-direction: row-reverse),
+    'flex-column-reverse': (flex-direction: column-reverse),
+    'flex-wrap': (flex-wrap: wrap),
+    'flex-nowrap': (flex-wrap: nowrap),
+    'flex-wrap-reverse': (flex-wrap: wrap-reverse),
+    'justify-start': (justify-content: flex-start),
+    'justify-end': (justify-content: flex-end),
+    'justify-center': (justify-content: center),
+    'justify-between': (justify-content: space-between),
+    'justify-around': (justify-content: space-around),
+    'justify-evenly': (justify-content: space-evenly),
+    'align-start': (align-items: flex-start),
+    'align-end': (align-items: flex-end),
+    'align-center': (align-items: center),
+    'align-baseline': (align-items: baseline),
+    'align-stretch': (align-items: stretch)
+  )
+);
+
+// Generate base flex utilities
+@each $class, $styles in map-get($flex-properties, '') {
+  .sf-#{$class} {
+    @each $prop, $value in $styles {
+      #{$prop}: #{$value} !important;
+    }
+  }
+}
+
+// Generate responsive flex utilities
+@each $name, $bp in (xs: $bp-xs, sm: $bp-sm, md: $bp-md, lg: $bp-lg, xl: $bp-xl) {
+  @media (min-width: $bp) {
+    @each $class, $styles in map-get($flex-properties, '') {
+      .sf-#{$class}-#{$name} {
+        @each $prop, $value in $styles {
+          #{$prop}: #{$value} !important;
+        }
+      }
+    }
+  }
+}
+
+
+/* ============================================================================
+   4. SPACING UTILITIES (MARGIN & PADDING)
+   Uses the $space-keys list and --sf-* CSS variables.
+   ============================================================================ */
+$spacing-properties: ( 'm': 'margin', 'p': 'padding' );
+$spacing-directions: (
+  't': '-block-start',
+  'b': '-block-end',
+  's': '-inline-start', // 's' for start (replaces left)
+  'e': '-inline-end',   // 'e' for end (replaces right)
+  'x': '-inline',       // horizontal
+  'y': '-block'         // vertical
+);
+
+@each $prop-abbr, $prop-name in $spacing-properties {
+  // Generate classes for all four sides (e.g., .sf-m-4)
+  @each $key in $space-keys {
+    .sf-#{$prop-abbr}-#{$key} {
+      #{$prop-name}: var(--sf-#{$key}) !important;
+    }
+  }
+
+  // Generate directional classes (e.g., .sf-mt-4, .sf-px-6)
+  @each $dir-abbr, $dir-name in $spacing-directions {
+    @each $key in $space-keys {
+      .sf-#{$prop-abbr}#{$dir-abbr}-#{$key} {
+        #{$prop-name}#{$dir-name}: var(--sf-#{$key}) !important;
+      }
+    }
+  }
+
+  // Generate auto margin classes (e.g., .sf-mx-auto)
+  @if $prop-abbr == 'm' {
+    .sf-m-auto { margin: auto !important; }
+    .sf-my-auto { margin-block: auto !important; }
+    .sf-mx-auto { margin-inline: auto !important; }
+    .sf-ms-auto { margin-inline-start: auto !important; }
+    .sf-me-auto { margin-inline-end: auto !important; }
+  }
+}
+
+
+/* ============================================================================
+   5. DISPLAY & VISIBILITY
+   ============================================================================ */
+.sf-d-none { display: none !important; }
+.sf-d-inline { display: inline !important; }
+.sf-d-inline-block { display: inline-block !important; }
+.sf-d-block { display: block !important; }
+.sf-d-grid { display: grid !important; }
+.sf-d-table { display: table !important; }
+.sf-d-table-row { display: table-row !important; }
+.sf-d-table-cell { display: table-cell !important; }
+
+@each $name, $bp in (xs: $bp-xs, sm: $bp-sm, md: $bp-md, lg: $bp-lg, xl: $bp-xl) {
+  @media (min-width: $bp) {
+    .sf-d-#{$name}-none { display: none !important; }
+    .sf-d-#{$name}-inline { display: inline !important; }
+    .sf-d-#{$name}-inline-block { display: inline-block !important; }
+    .sf-d-#{$name}-block { display: block !important; }
+    .sf-d-#{$name}-grid { display: grid !important; }
+    .sf-d-#{$name}-table { display: table !important; }
+    .sf-d-#{$name}-table-row { display: table-row !important; }
+    .sf-d-#{$name}-table-cell { display: table-cell !important; }
+    .sf-d-#{$name}-flex { display: flex !important; }
+    .sf-d-#{$name}-inline-flex { display: inline-flex !important; }
+  }
+}
+
+/* ============================================================================
+   6. MISCELLANEOUS HELPERS
+   ============================================================================ */
+// Center a block-level element with a defined width
+.sf-center-block {
+  display: block;
+  margin-inline: auto;
+}
+
+// Visually hide content but keep it accessible to screen readers
+.sf-sr-only {
+  @include sr-only;
+}
