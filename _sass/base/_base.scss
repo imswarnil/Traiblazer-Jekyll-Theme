@@ -1,173 +1,28 @@
 /* ============================================================================
-   BASE (ALL-IN-ONE)
-   This file combines the reset, base styles, and default typography for the
-   entire framework. It establishes a consistent, accessible, and well-styled
-   foundation for all raw HTML elements before any components are applied.
+   BASE / BASE
+   Global element styling for the entire document.
    ============================================================================ */
-
-// ============================================================================
-// PART 1: RESET & NORMALIZATION
-// A modern reset to correct browser inconsistencies and establish a
-// predictable starting point.
-// ============================================================================
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
 body {
   margin: 0;
+  font-family: var(--sf-font-body);
+  color: var(--sf-fg);
+  background: var(--sf-bg-1);
+  line-height: 1.5;
 }
 
-// Remove default margins from block elements for consistent vertical rhythm.
-h1, h2, h3, h4, h5, h6,
-p, ul, ol, dl, blockquote, figure, pre {
-  margin-top: 0;
-  margin-bottom: var(--sfdc-spacing-4);
-}
-
-// Remove default padding and list styles.
-ul, ol {
-  padding-left: 0;
-  list-style: none;
-}
-
-// Responsive media and a consistent box model for images.
-img, svg, video, canvas {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-// Force typography inheritance for all form controls.
-input, button, textarea, select {
-  font: inherit;
-  margin: 0;
-}
-
-// A clean slate for tables.
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-
-// ============================================================================
-// PART 2: GLOBAL STYLES & STATES
-// Application of the framework's core aesthetic to the document root,
-// interactive states, and generic elements.
-// ============================================================================
-
-:root {
-  // Enable smooth scrolling for in-page links.
-  @media (prefers-reduced-motion: no-preference) {
-    scroll-behavior: smooth;
+a {
+  color: var(--sf-link);
+  text-decoration: none;
+  &:hover {
+    color: var(--sf-brand-2);
   }
 }
 
-body {
-  // --- Core Styling ---
-  font-family: var(--sfdc-font-body);
-  font-size: var(--sfdc-font-size-base);
-  color: var(--sfdc-color-text-body);
-  background-color: var(--sfdc-color-bg-soft);
-
-  // --- Rendering & Transitions ---
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background-color $sfdc-transition-duration $sfdc-transition-timing,
-              color $sfdc-transition-duration $sfdc-transition-timing;
-}
-
-// --- Global Interaction States ---
 :focus-visible {
-  outline: none;
-  box-shadow: var(--sfdc-focus);
-  border-radius: var(--sfdc-radius-sm);
+  @include focus-ring;
 }
 
 ::selection {
-  background-color: var(--sfdc-color-brand);
-  color: var(--sfdc-color-bg-hard);
-}
-
-
-// ============================================================================
-// PART 3: DEFAULT TYPOGRAPHY
-// Styles for all un-classed text and content elements.
-// ============================================================================
-
-// --- Headings ---
-// Provide `.h1`-`.h6` classes for semantic flexibility.
-h1, .h1 { font-size: var(--sfdc-font-size-3xl); }
-h2, .h2 { font-size: var(--sfdc-font-size-2xl); }
-h3, .h3 { font-size: var(--sfdc-font-size-xl); }
-h4, .h4 { font-size: var(--sfdc-font-size-lg); }
-h5, .h5 { font-size: var(--sfdc-font-size-md); }
-h6, .h6 { font-size: var(--sfdc-font-size-base); }
-
-h1, h2, h3, h4, h5, h6 {
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-// --- Links ---
-a {
-  color: var(--sfdc-color-link);
-  text-decoration: none;
-  transition: color $sfdc-transition-duration $sfdc-transition-timing;
-
-  &:hover {
-    color: var(--sfdc-color-brand-darker);
-    text-decoration: underline;
-  }
-}
-
-// --- Paragraphs & Text Elements ---
-p {
-  max-width: 75ch; // Optimal readability line length.
-  line-height: 1.6;
-}
-
-strong, b { font-weight: 700; }
-em, i { font-style: italic; }
-small { font-size: var(--sfdc-font-size-sm); }
-
-// --- Lists ---
-// Re-add list styling, but now controlled by our design system.
-ul, ol {
-  padding-left: var(--sfdc-spacing-5); // Indentation for markers.
-}
-ul { list-style: disc outside; }
-ol { list-style: decimal outside; }
-li { margin-bottom: var(--sfdc-spacing-2); }
-
-// --- Content & Code Blocks ---
-hr {
-  border: 0;
-  border-top: 1px solid var(--sfdc-color-border);
-  margin-top: var(--sfdc-spacing-6);
-  margin-bottom: var(--sfdc-spacing-6);
-}
-
-blockquote {
-  padding-left: var(--sfdc-spacing-4);
-  border-left: 4px solid var(--sfdc-color-border);
-  font-style: italic;
-  color: var(--sfdc-color-text-subtle);
-}
-
-pre, code {
-  font-family: var(--sfdc-font-mono);
-  font-size: var(--sfdc-font-size-sm);
-}
-
-pre {
-  padding: var(--sfdc-spacing-4);
-  overflow-x: auto;
-  background-color: var(--sfdc-color-bg-hard);
-  border: 1px solid var(--sfdc-color-border);
-  border-radius: if($sfdc-enable-rounded, var(--sfdc-radius-md), 0);
+  background: var(--sf-ink);
+  color: #fff;
 }

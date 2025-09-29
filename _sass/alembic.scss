@@ -5,12 +5,17 @@
 
 // 1. ABSTRACTS
 // Contains all variables, tokens, and functions. Must be imported first.
-
-@import 'abstract/abstract';
+@import 'abstracts/tokens';
+@import 'abstracts/variables';
+@import 'abstracts/mixins';
 
 // 2. BASE
 // Contains global styles, resets, and typography.
+@import 'base/reset';
 @import 'base/base';
+@import 'base/typography';
+
+
 // 3. LAYOUT
 // Defines the grid and main page structure.
 @import 'layout/grid';
