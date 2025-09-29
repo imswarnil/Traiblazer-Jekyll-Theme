@@ -1,260 +1,58 @@
----
-layout: default
----
-{% comment %}
-============================================================================
-_layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
-============================================================================
-{% endcomment %}
+<div class="form  form--search">
+  <form id="contact-form" action="">
+    <label class="label" for="search">Search term:</label>
+    <input class="input" id="search" type="search" name="search" placeholder="e.g. About us" autocomplete="off" />
 
-<!-- ========================================================================
-     JSON-LD SCHEMA FOR SEO
-     ======================================================================== -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "{{ page.name }}",
-  "jobTitle": "{{ page.title }}",
-  "email": "mailto:{{ page.contact.email }}",
-  "telephone": "{{ page.contact.phone }}",
-  "url": "{{ page.contact.website }}",
-  "image": "{{ page.avatar | absolute_url }}",
-  "sameAs": [
-    "{{ page.contact.linkedin }}"
-  ],
-  "alumniOf": [
-    {% for item in page.education %}
-      {
-        "@type": "EducationalOrganization",
-        "name": "{{ item.institution }}"
-      }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ],
-  "worksFor": [
-     {% for item in page.experience %}
-      {
-        "@type": "Organization",
-        "name": "{{ item.company }}"
-      }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ]
-}
-</script>
-
-<!-- ========================================================================
-     RESUME HERO
-     ======================================================================== -->
-<header class="resume-hero">
-  <div class="sf-container">
-    <div class="resume-hero__grid">
-      <div class="resume-hero__text">
-        <h1 class="resume-hero__name">{{ page.name }}</h1>
-        <h2 class="resume-hero__title">{{ page.title }}</h2>
-        <div class="resume-hero__contact-list">
-          <a href="tel:{{ page.contact.phone }}"><i class="ph-bold ph-phone"></i> <span>{{ page.contact.phone }}</span></a>
-          <a href="mailto:{{ page.contact.email }}"><i class="ph-bold ph-envelope-simple"></i> <span>{{ page.contact.email }}</span></a>
-          <a href="{{ page.contact.linkedin }}" target="_blank" rel="noopener"><i class="ph-bold ph-linkedin-logo"></i> <span>LinkedIn</span></a>
-          <a href="{{ page.contact.website }}" target="_blank" rel="noopener"><i class="ph-bold ph-globe"></i> <span>{{ page.contact.website | remove: 'https://' }}</span></a>
-        </div>
-      </div>
-      <div class="resume-hero__initials">{{ page.initials }}</div>
-    </div>
-  </div>
-</header>
-
-<!-- ========================================================================
-     MAIN TWO-COLUMN RESUME BODY
-     ======================================================================== -->
-<div class="sf-container" style="padding: var(--sf-8) 0;">
-  <div class="resume-grid">
-    
-    <!-- ======================================================= -->
-    <!-- LEFT COLUMN: SUMMARY, EXPERIENCE, EDUCATION             -->
-    <!-- ======================================================= -->
-    <main class="resume-main">
-      <!-- Summary Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body typeset">
-          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-user"></i><span>Summary</span></h2>
-          {{ page.summary | markdownify }}
-        </div>
-      </section>
-
-      <!-- Experience Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body">
-          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-briefcase"></i><span>Work Experience</span></h2>
-          <ul class="resume-timeline">
-            {% for item in page.experience %}
-            <li class="resume-timeline-item">
-              <div class="resume-timeline-item__icon">
-                {% if item.logo_url %}
-                  <img src="{{ item.logo_url | relative_url }}" alt="{{ item.company }} logo">
-                {% else %}
-                  <i class="ph-bold ph-buildings"></i>
-                {% endif %}
-              </div>
-              <div class="resume-timeline-item__header">
-                <h3 class="sf-h4 resume-timeline-item__title">{{ item.role }}</h3>
-                <span class="resume-timeline-item__meta">{{ item.dates }}</span>
-              </div>
-              <p class="resume-timeline-item__subtitle"><a href="{{ item.company_url }}" target="_blank" rel="noopener">{{ item.company }}</a> • <i class="ph-bold ph-map-pin"></i> {{ item.location }}</p>
-              <div class="resume-timeline-item__description typeset">{{ item.description | markdownify }}</div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </section>
-      
-      <!-- Education Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body">
-          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-graduation-cap"></i><span>Education</span></h2>
-          <ul class="resume-timeline">
-            {% for item in page.education %}
-            <li class="resume-timeline-item">
-               <div class="resume-timeline-item__icon">
-                {% if item.logo_url %}
-                  <img src="{{ item.logo_url | relative_url }}" alt="{{ item.institution }} logo">
-                {% else %}
-                  <i class="ph-bold ph-buildings"></i>
-                {% endif %}
-              </div>
-              <div class="resume-timeline-item__header">
-                <h3 class="sf-h4 resume-timeline-item__title">{{ item.degree }}</h3>
-                <span class="resume-timeline-item__meta">{{ item.dates }}</span>
-              </div>
-              <p class="resume-timeline-item__subtitle">{{ item.institution }}</p>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </section>
-    </main>
-
-    <!-- ======================================================= -->
-    <!-- RIGHT COLUMN: PROJECTS, SKILLS, CERTS, ACHIEVEMENTS     -->
-    <!-- ======================================================= -->
-    <aside class="resume-sidebar">
-      <!-- Projects Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-rocket-launch"></i><span>Projects</span></h3></div>
-        <div class="sf-card__body">
-          <ul class="project-list">
-          {% for item in page.projects %}
-            <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="project-card">
-              <header class="project-card__header">
-                <i class="ph-bold ph-github-logo"></i>
-                <h4 class="sf-h5 project-card__title">{{ item.title }}</h4>
-              </header>
-              <p class="project-card__description">{{ item.description }}</p>
-              <footer class="project-card__footer">
-                <span class="project-card__meta-item"><i class="ph-bold ph-star"></i> {{ item.stars }}</span>
-                <span class="project-card__meta-item"><i class="ph-bold ph-git-fork"></i> {{ item.forks }}</span>
-                <span class="project-card__meta-item"><span style="color: {{ item.language_color }};">●</span> {{ item.language }}</span>
-              </footer>
-            </a></li>
-          {% endfor %}
-          </ul>
-        </div>
-      </section>
-      
-      <!-- Skills Section (Tag Cloud) -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-wrench"></i><span>Skills</span></h3></div>
-        <div class="sf-card__body">
-          <ul class="skill-cloud">
-          {% for item in page.skills %}
-            <li><div class="skill-tag">
-              <i class="ph-bold {{ item.icon | default: 'ph-check-circle' }}"></i>
-              <span>{{ item.name }}</span>
-            </div></li>
-          {% endfor %}
-          </ul>
-        </div>
-      </section>
-
-      <!-- Certifications Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-seal-check"></i><span>Certifications</span></h3></div>
-        <div class="sf-card__body">
-          <ul class="cert-list">
-          {% for item in page.certifications %}
-            <li>
-              <div class="cert-item">
-                <i class="ph-bold {{ item.icon | default: 'ph-book-open' }} cert-item__icon"></i>
-                <div class="cert-item__content">
-                  <h4 class="sf-h5 cert-item__title">{{ item.title }}</h4>
-                  <p class="cert-item__meta">ID: {{ item.id }}</p>
-                  <a href="{{ item.verify_link }}" class="cert-item__link" target="_blank" rel="noopener">Verify Credential</a>
-                </div>
-              </div>
-            </li>
-          {% endfor %}
-          </ul>
-        </div>
-      </section>
-      
-      <!-- Achievements Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-trophy"></i><span>Achievements</span></h3></div>
-        <div class="sf-card__body">
-          <ul class="achievement-list">
-          {% for item in page.achievements %}
-            <li><div class="achievement-item">
-              <i class="ph-bold ph-star achievement-item__icon"></i>
-              <div class="achievement-item__content">
-                <h4 class="sf-h5 achievement-item__title">{{ item.title }}</h4>
-                <p class="achievement-item__description">{{ item.description }}</p>
-              </div>
-            </div></li>
-          {% endfor %}
-          </ul>
-        </div>
-      </section>
-      
-      <!-- Interests Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-heart"></i><span>Interests</span></h3></div>
-        <div class="sf-card__body">
-          <ul class="achievement-list">
-          {% for item in page.interests %}
-            <li><div class="achievement-item">
-              <i class="ph-bold {{ item.icon | default: 'ph-check-circle' }} achievement-item__icon"></i>
-              <div class="achievement-item__content">
-                <h4 class="sf-h5 achievement-item__title">{{ item.title }}</h4>
-                <p class="achievement-item__description">{{ item.description }}</p>
-              </div>
-            </div></li>
-          {% endfor %}
-          </ul>
-        </div>
-      </section>
-    </aside>
-
-  </div>
+    <ul class="list  list--results" id="list">
+        <!-- results go here -->
+    </ul>
+  </form>
 </div>
 
-<!-- JavaScript for scroll animations -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // --- Scroll-activated Animations ---
-    const animatedItems = document.querySelectorAll('.resume-section, .resume-timeline');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          if (entry.target.matches('.resume-timeline')) {
-            const items = entry.target.querySelectorAll('.resume-timeline-item');
-            items.forEach((item, index) => {
-              item.style.transitionDelay = `${index * 150}ms`;
-            });
-          }
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
-    animatedItems.forEach(item => observer.observe(item));
+<script type="text/javascript" src="{{ "/assets/scripts/fetch.js" | relative_url }}"></script>
+<script type="text/javascript">
+  const endpoint = '{{ "/assets/search.json" | relative_url }}';
+
+  const pages = [];
+
+  fetch(endpoint)
+    .then(blob => blob.json())
+    .then(data => pages.push(...data))
+
+  function findResults(termToMatch, pages) {
+    return pages.filter(item => {
+      const regex = new RegExp(termToMatch, 'gi');
+      return item.title.match(regex) || item.content.match(regex);
+    });
+  }
+
+  function displayResults() {
+    const resultsArray = findResults(this.value, pages);
+    const html = resultsArray.map(item => {
+      return `
+        <li class="item  item--result">
+          <article class="article  typeset">
+            <h4><a href="${item.url}">${item.title}</a></h4>
+            <p>${item.excerpt}</p>
+          </article>
+        </li>`;
+    }).join('');
+    if ((resultsArray.length == 0) || (this.value == '')) {
+      resultsList.innerHTML = `<p>Sorry, nothing was found</p>`;
+    } else {
+      resultsList.innerHTML = html;
+    }
+  }
+
+  const field = document.querySelector('#search');
+  const resultsList = document.querySelector('#list');
+
+  field.addEventListener('keyup', displayResults);
+
+  field.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
   });
 </script>
+<noscript>Please enable JavaScript to use the search form.</noscript>
