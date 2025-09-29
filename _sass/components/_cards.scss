@@ -177,3 +177,129 @@ a.sf-card {
     overflow: hidden;
   }
 }
+
+
+/* ============================================================================
+   COMPONENTS / CARDS.SCSS
+   A flexible and modern card component system.
+   ============================================================================ */
+
+/* --- 1. Base Card Styles --- */
+.sf-card {
+  /* Structure & Appearance */
+  background-color: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-sm);
+  display: flex;
+  flex-direction: column;
+  height: 100%; // Allows cards in a grid to be equal height
+
+  /* Motion */
+  transition: box-shadow .2s var(--sf-ease-standard, ease),
+              transform .2s var(--sf-ease-standard, ease),
+              border-color .2s var(--sf-ease-standard, ease);
+}
+
+/* --- 2. Card Sections --- */
+.sf-card__header,
+.sf-card__footer {
+  padding: var(--sf-4) var(--sf-5);
+  border-bottom: 1px solid var(--sf-line-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sf-4);
+  
+  // Header specifics
+  .sf-card__header {
+    font-size: var(--sf-text-lg);
+    font-weight: 600;
+  }
+}
+
+.sf-card__footer {
+  border-bottom: 0;
+  border-top: 1px solid var(--sf-line-2);
+  background-color: var(--sf-bg-1);
+  // Round bottom corners to match the card
+  border-bottom-left-radius: var(--sf-radius-lg);
+  border-bottom-right-radius: var(--sf-radius-lg);
+}
+
+.sf-card__body {
+  padding: var(--sf-5);
+  flex-grow: 1; // Allows body to fill available space
+
+  // Make direct children paragraphs/lists have consistent spacing
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sf-card__image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  
+  // Round top corners when it's the first child
+  &:first-child {
+    border-top-left-radius: var(--sf-radius-lg);
+    border-top-right-radius: var(--sf-radius-lg);
+  }
+}
+
+
+/* --- 3. Card Variants --- */
+
+// [Bordered] An outlined card with no shadow.
+.sf-card--bordered {
+  border-width: 2px;
+  border-color: var(--sf-line-1);
+  box-shadow: none;
+}
+
+// [Raised / Interactive] Lifts up on hover, for clickable cards.
+.sf-card--interactive {
+  cursor: pointer;
+  @include hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sf-shadow-lg);
+  }
+}
+
+// [Inverted] For use on dark or colored backgrounds, with a glass effect.
+.sf-card--inverted {
+  background-color: color-mix(in srgb, var(--sf-bg-2) 80%, transparent);
+  border-color: color-mix(in srgb, var(--sf-line-1) 50%, transparent);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--sf-shadow-md);
+}
+
+// [Full Width] Takes up the full width of its container.
+.sf-card--full-width {
+  width: 100%;
+}
+
+
+/* --- 4. Card Modifiers --- */
+
+// [No Padding] For when the card body needs to be flush with the edges.
+.sf-card--no-padding {
+  .sf-card__body {
+    padding: 0;
+  }
+}
+
+// [Dense] Reduces padding for a more compact card.
+.sf-card--dense {
+  .sf-card__header, .sf-card__footer { padding: var(--sf-2) var(--sf-4); }
+  .sf-card__body { padding: var(--sf-4); }
+}
+
+// [Radius Modifiers] Overrides the default border-radius.
+.sf-card--radius-sm { border-radius: var(--sf-radius-sm); }
+.sf-card--radius-md { border-radius: var(--sf-radius-md); }
+.sf-card--radius-xl { border-radius: var(--sf-radius-xl); }
+.sf-card--radius-pill { border-radius: var(--sf-radius-pill); }
