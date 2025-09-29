@@ -1,158 +1,173 @@
 /* ============================================================================
-   BASE / BASE
-   This file establishes the foundational aesthetic and behavior for the
-   entire framework. It translates the design tokens from our "Abstracts"
-   layer into tangible, global styles for core elements like the `body`,
-   links, and interactive states. This is where the framework's opinionated
-   design language is first applied.
+   BASE (ALL-IN-ONE)
+   This file combines the reset, base styles, and default typography for the
+   entire framework. It establishes a consistent, accessible, and well-styled
+   foundation for all raw HTML elements before any components are applied.
    ============================================================================ */
 
-// -----------------------------------------------------------------------------
-// 1. Root & Document Styles
-// -----------------------------------------------------------------------------
+// ============================================================================
+// PART 1: RESET & NORMALIZATION
+// A modern reset to correct browser inconsistencies and establish a
+// predictable starting point.
+// ============================================================================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+// Remove default margins from block elements for consistent vertical rhythm.
+h1, h2, h3, h4, h5, h6,
+p, ul, ol, dl, blockquote, figure, pre {
+  margin-top: 0;
+  margin-bottom: var(--sfdc-spacing-4);
+}
+
+// Remove default padding and list styles.
+ul, ol {
+  padding-left: 0;
+  list-style: none;
+}
+
+// Responsive media and a consistent box model for images.
+img, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+// Force typography inheritance for all form controls.
+input, button, textarea, select {
+  font: inherit;
+  margin: 0;
+}
+
+// A clean slate for tables.
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
+// ============================================================================
+// PART 2: GLOBAL STYLES & STATES
+// Application of the framework's core aesthetic to the document root,
+// interactive states, and generic elements.
+// ============================================================================
 
 :root {
-  // --- Color Scheme Definition ---
-  // Define supported color schemes for the document. This allows user agents
-  // (browsers) to render UI elements like scrollbars and form controls
-  // in a theme-aware manner.
-  color-scheme: light dark;
-
-  // --- Scroll Behavior ---
-  // Ensure smooth scrolling for in-page links (e.g., hash links).
-  // This is a progressive enhancement for a better user experience.
+  // Enable smooth scrolling for in-page links.
   @media (prefers-reduced-motion: no-preference) {
     scroll-behavior: smooth;
   }
 }
 
 body {
-  // --- Core Typography ---
-  // Set the global font family, size, and color from our design tokens.
-  // This is the single source of truth for the site's default text.
+  // --- Core Styling ---
   font-family: var(--sfdc-font-body);
   font-size: var(--sfdc-font-size-base);
   color: var(--sfdc-color-text-body);
-  line-height: 1.6; // A slightly taller line-height for improved readability in long-form text.
-
-  // --- Background & Theming ---
-  // Set the default page background color, which acts as the canvas.
   background-color: var(--sfdc-color-bg-soft);
 
-  // --- Rendering & Performance ---
-  // Improve text rendering for crisper fonts on high-DPI screens.
+  // --- Rendering & Transitions ---
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  // Optimize rendering performance for elements with animations or transitions.
-  // It tells the browser to offload the work to the GPU.
-  transform: translateZ(0);
-
-  // --- Transitions ---
-  // Add a smooth transition for color and background. This is crucial for
-  // a seamless experience when toggling light/dark themes.
-  transition:
-    background-color $sfdc-transition-duration ease,
-    color $sfdc-transition-duration ease;
+  transition: background-color $sfdc-transition-duration $sfdc-transition-timing,
+              color $sfdc-transition-duration $sfdc-transition-timing;
 }
 
-
-// -----------------------------------------------------------------------------
-// 2. Global Interaction & State Styles
-// -----------------------------------------------------------------------------
-
-/**
- * Define a custom, highly visible, and accessible focus ring.
- * `:focus-visible` is a modern standard that intelligently applies focus styles
- * only for keyboard navigators, avoiding distracting outlines for mouse users.
- * This is a non-negotiable for WCAG accessibility compliance.
- */
+// --- Global Interaction States ---
 :focus-visible {
   outline: none;
   box-shadow: var(--sfdc-focus);
   border-radius: var(--sfdc-radius-sm);
-  // Add a transition to the focus ring for a smoother appearance.
-  transition: box-shadow 0.1s ease-in-out;
 }
 
-/**
- * Apply a custom style for text selection, reinforcing the brand identity.
- */
 ::selection {
   background-color: var(--sfdc-color-brand);
-  color: var(--sfdc-color-bg-hard); // Ensures high contrast for selected text.
+  color: var(--sfdc-color-bg-hard);
 }
 
 
-// -----------------------------------------------------------------------------
-// 3. Links & Navigation Primitives
-// -----------------------------------------------------------------------------
+// ============================================================================
+// PART 3: DEFAULT TYPOGRAPHY
+// Styles for all un-classed text and content elements.
+// ============================================================================
 
+// --- Headings ---
+// Provide `.h1`-`.h6` classes for semantic flexibility.
+h1, .h1 { font-size: var(--sfdc-font-size-3xl); }
+h2, .h2 { font-size: var(--sfdc-font-size-2xl); }
+h3, .h3 { font-size: var(--sfdc-font-size-xl); }
+h4, .h4 { font-size: var(--sfdc-font-size-lg); }
+h5, .h5 { font-size: var(--sfdc-font-size-md); }
+h6, .h6 { font-size: var(--sfdc-font-size-base); }
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+// --- Links ---
 a {
   color: var(--sfdc-color-link);
-  // Remove the default underline for a cleaner, more modern aesthetic.
-  // Interaction affordance will be provided by hover states.
   text-decoration: none;
-  // Apply a consistent transition for all interactive link states.
-  transition:
-    color $sfdc-transition-duration ease,
-    text-decoration-color $sfdc-transition-duration ease;
+  transition: color $sfdc-transition-duration $sfdc-transition-timing;
 
   &:hover {
     color: var(--sfdc-color-brand-darker);
-    // Add an underline on hover for clear visual feedback.
     text-decoration: underline;
   }
 }
 
-
-// -----------------------------------------------------------------------------
-// 4. Content Separators & Generic Containers
-// -----------------------------------------------------------------------------
-
-/**
- * Style for horizontal rules (`<hr>`).
- * This provides a subtle, clean, and consistent visual separator.
- */
-hr {
-  // Use the standard border token for consistency.
-  border-top-color: var(--sfdc-color-border);
+// --- Paragraphs & Text Elements ---
+p {
+  max-width: 75ch; // Optimal readability line length.
+  line-height: 1.6;
 }
 
-/**
- * Base styles for tables. This provides a clean, readable default for any
- * `<table>` element. More advanced styles (e.g., striped rows, hover effects)
- * should be handled by a dedicated `.sfdc-table` component.
- */
-table {
-  width: 100%;
-  color: var(--sfdc-color-text-body);
-  border-color: var(--sfdc-color-border);
+strong, b { font-weight: 700; }
+em, i { font-style: italic; }
+small { font-size: var(--sfdc-font-size-sm); }
 
-  // Provide a subtle container for the table on softer backgrounds.
+// --- Lists ---
+// Re-add list styling, but now controlled by our design system.
+ul, ol {
+  padding-left: var(--sfdc-spacing-5); // Indentation for markers.
+}
+ul { list-style: disc outside; }
+ol { list-style: decimal outside; }
+li { margin-bottom: var(--sfdc-spacing-2); }
+
+// --- Content & Code Blocks ---
+hr {
+  border: 0;
+  border-top: 1px solid var(--sfdc-color-border);
+  margin-top: var(--sfdc-spacing-6);
+  margin-bottom: var(--sfdc-spacing-6);
+}
+
+blockquote {
+  padding-left: var(--sfdc-spacing-4);
+  border-left: 4px solid var(--sfdc-color-border);
+  font-style: italic;
+  color: var(--sfdc-color-text-subtle);
+}
+
+pre, code {
+  font-family: var(--sfdc-font-mono);
+  font-size: var(--sfdc-font-size-sm);
+}
+
+pre {
+  padding: var(--sfdc-spacing-4);
+  overflow-x: auto;
   background-color: var(--sfdc-color-bg-hard);
   border: 1px solid var(--sfdc-color-border);
   border-radius: if($sfdc-enable-rounded, var(--sfdc-radius-md), 0);
-  box-shadow: if($sfdc-enable-shadows, var(--sfdc-shadow-sm), none);
-}
-
-th,
-td {
-  padding: var(--sfdc-spacing-3);
-  vertical-align: top;
-  // Use a bottom border on cells to create clean, distinct rows.
-  border-bottom: 1px solid var(--sfdc-color-border);
-  text-align: left;
-
-  // Remove the bottom border from the last row for a cleaner look.
-  tbody tr:last-child & {
-    border-bottom: 0;
-  }
-}
-
-thead th {
-  color: var(--sfdc-color-text-subtle);
-  font-weight: 600;
-  vertical-align: bottom;
-  border-bottom-width: 2px; // A thicker border for the header row.
 }
