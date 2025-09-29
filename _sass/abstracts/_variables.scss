@@ -3,6 +3,50 @@
    SCSS-only variables used for logic, loops, and media queries.
    These are not compiled into the final CSS.
    ============================================================================ */
+
+/* Breakpoints (kept your sm/md/lg and added xs/xl) */
+$bp-xs: 30em;  // 480px
 $bp-sm: 40em;  // 640px
 $bp-md: 60em;  // 960px
 $bp-lg: 75em;  // 1200px
+$bp-xl: 90em;  // 1440px
+
+/* Grid & Layout (new) */
+$grid-columns: 12 !default;
+$grid-gutter: 1rem !default;
+
+/* Container map (new, mirrors tokens) */
+$container-sizes: (
+  sm: 40rem,
+  md: 48rem,
+  lg: 64rem,
+  xl: 80rem,
+  2xl: 96rem
+) !default;
+
+/* Z-index tiers (new) */
+$z-stack: (
+  base: 0,
+  dropdown: 900,
+  sticky: 1000,
+  fixed: 1030,
+  modal: 1100,
+  popover: 1200,
+  tooltip: 1300,
+  toast: 1400
+) !default;
+
+/* Motion (new) */
+$durations: (100: .10s, 150: .15s, 200: .20s, 300: .30s, 500: .50s) !default;
+$easings: (
+  standard: cubic-bezier(.2, 0, 0, 1),
+  decel:    cubic-bezier(0, 0, .2, 1),
+  accel:    cubic-bezier(.4, 0, 1, 1)
+) !default;
+
+/* Controls & icons (new) */
+$control-heights: (sm: 2rem, md: 2.5rem, lg: 3rem) !default;
+$icon-sizes: (sm: 1rem, md: 1.25rem, lg: 1.5rem) !default;
+
+/* Spacing keys used by utility generators (new) */
+$space-keys: 0,1,2,3,4,5,6,7,8,9,10,12 !default;

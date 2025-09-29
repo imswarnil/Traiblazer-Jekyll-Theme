@@ -9,6 +9,9 @@
   --sf-brand-2: #0b5cab;
   --sf-accent: #009ed9;
   --sf-link: #0176d3;
+  /* Extended brand states (new) */
+  --sf-brand-hover: #0163b5;
+  --sf-brand-active: #014a8a;
 
   /* Greys */
   --sf-ink: #0b1221;
@@ -31,17 +34,101 @@
   --sf-radius-sm: .25rem;
   --sf-radius-md: .375rem;
   --sf-radius-lg: .5rem;
+  /* New */
+  --sf-radius-xl: .75rem;
+  --sf-radius-pill: 9999px;
+  --sf-radius-circle: 50%;
+
   --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.06);
   --sf-shadow-md: 0 4px 12px rgba(0,0,0,.08);
+  /* New */
+  --sf-shadow-lg: 0 12px 28px rgba(0,0,0,.12);
+
   --sf-focus: 0 0 0 .14rem rgba(1,118,211,.9);
+  /* New */
+  --sf-backdrop: rgba(3,12,33,.55);
 
   /* Typography */
   --sf-font-body: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
   --sf-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
+  /* New fluid type scale */
+  --sf-text-xs: clamp(.75rem, .71rem + .2vw, .8125rem);
+  --sf-text-sm: clamp(.875rem, .84rem + .2vw, .9375rem);
+  --sf-text-base: 1rem;
+  --sf-text-lg: clamp(1.125rem, 1.04rem + .4vw, 1.25rem);
+  --sf-text-xl: clamp(1.25rem, 1.1rem + .8vw, 1.5rem);
+  --sf-text-2xl: clamp(1.5rem, 1.2rem + 1.6vw, 1.875rem);
+  --sf-text-3xl: clamp(1.875rem, 1.4rem + 2.6vw, 2.25rem);
+  --sf-leading-tight: 1.25;
+  --sf-leading-normal: 1.5;
+  --sf-leading-relaxed: 1.7;
+  --sf-tracking-tight: -0.005em;
+  --sf-tracking-wide:  0.02em;
+  --sf-measure: 65ch;
+
   /* Spacing scale */
   --sf-0: 0; --sf-1: .25rem; --sf-2: .5rem; --sf-3: .75rem; --sf-4: 1rem;
   --sf-5: 1.5rem; --sf-6: 2rem; --sf-8: 3rem;
+  /* New gaps to bridge your scale */
+  --sf-7: 2.5rem; --sf-9: 3.5rem; --sf-10: 4rem; --sf-12: 6rem;
+
+  /* Containers (new) */
+  --sf-container-padding: var(--sf-4);
+  --sf-container-sm: 40rem;
+  --sf-container-md: 48rem;
+  --sf-container-lg: 64rem;
+  --sf-container-xl: 80rem;
+  --sf-container-2xl: 96rem;
+
+  /* Grid (new) */
+  --sf-grid-columns: 12;
+  --sf-grid-gap: var(--sf-4);
+
+  /* Layers (new) */
+  --sf-z-dropdown: 900;
+  --sf-z-sticky: 1000;
+  --sf-z-fixed: 1030;
+  --sf-z-modal: 1100;
+  --sf-z-popover: 1200;
+  --sf-z-tooltip: 1300;
+  --sf-z-toast: 1400;
+
+  /* Controls (new) */
+  --sf-control-sm: 2rem;
+  --sf-control-md: 2.5rem;
+  --sf-control-lg: 3rem;
+  --sf-control-bg: var(--sf-bg-2);
+  --sf-control-border: var(--sf-line-1);
+  --sf-control-radius: var(--sf-radius-md);
+  --sf-control-pad-x: var(--sf-3);
+  --sf-control-placeholder: var(--sf-muted);
+  --sf-control-disabled-bg: var(--sf-bg-1);
+  --sf-control-disabled-fg: var(--sf-fg-3);
+
+  /* Buttons (new) */
+  --sf-btn-primary-bg: var(--sf-brand);
+  --sf-btn-primary-text: #fff;
+  --sf-btn-primary-hover-bg: var(--sf-brand-hover);
+  --sf-btn-primary-active-bg: var(--sf-brand-active);
+  --sf-btn-radius: var(--sf-radius-md);
+
+  /* Icons (new) */
+  --sf-icon-sm: 1rem;
+  --sf-icon-md: 1.25rem;
+  --sf-icon-lg: 1.5rem;
+  --sf-icon-stroke: 1.5;
+
+  /* Navbar (new) */
+  --sf-nav-height: 3.5rem;
+  --sf-nav-bg: color-mix(in srgb, var(--sf-bg-2) 82%, transparent);
+  --sf-nav-border: var(--sf-line-2);
+
+  /* Hero (new) */
+  --hero-pad-y: var(--sf-12);
+  --hero-grid: color-mix(in srgb, var(--sf-line-2) 55%, transparent);
+  --hero-grad-a: color-mix(in srgb, var(--sf-brand) 8%, transparent);
+  --hero-grad-b: color-mix(in srgb, var(--sf-accent) 8%, transparent);
 }
 
 /* Dark Mode Theme Definition */
@@ -55,6 +142,14 @@
   --sf-line-1: #243045;
   --sf-line-2: #1b2436;
   --sf-link: #66b3ff;
+
   --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.5);
   --sf-shadow-md: 0 6px 24px rgba(0,0,0,.45);
+  /* New */
+  --sf-shadow-lg: 0 16px 32px rgba(0,0,0,.5);
+
+  /* Optional: slightly brighter brand on hover in dark */
+  --sf-btn-primary-hover-bg: #1a6fd1;
+  --sf-btn-primary-active-bg: #155aa8;
+  --sf-backdrop: rgba(0,0,0,.6);
 }
