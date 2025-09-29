@@ -1,0 +1,39 @@
+/* ============================================================================
+   ABSTRACTS / THEME ENGINE
+   A map-based system for generating multiple CSS themes.
+   ============================================================================ */
+
+$sfdc-themes: (
+  "dark": (
+    "brand": #66b3ff,
+    "link": #66b3ff,
+    "text-body": #e5e7eb,
+    "text-subtle": #c8d0da,
+    "text-muted": #9aa5b1,
+    "bg-soft": #0f172a,
+    "bg-hard": #121a2e,
+    "border": #243045,
+    "shadow-sm": 0 1px 2px rgba(0,0,0,.5),
+    "shadow-md": 0 6px 24px rgba(0,0,0,.45)
+  )
+  // Add other themes here, e.g., "high-contrast": ( ... )
+) !default;
+
+/**
+ * Mixin: sfdc-apply-themes
+ * Iterates through the `$sfdc-themes` map and generates the CSS Custom
+ * Property overrides for each theme.
+ */
+@mixin sfdc-apply-themes {
+  @if $sfdc-enable-dark-mode {
+    @each $theme-name, $theme-map in $sfdc-themes {
+      [data-theme="#{$theme-name}"] {
+        @each $token-name, $value in $theme-map {
+          // Note: some themes override non-color tokens like shadows
+          $prefix: if(map.has-key($sfdc-colors, $token-name), "color", "");
+          --sfdc-#{$prefix}-#{$token-name}: #{$value};
+        }
+      }
+    }
+  }
+}

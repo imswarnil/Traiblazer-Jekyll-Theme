@@ -5,9 +5,14 @@
 
 // 1. ABSTRACTS
 // Contains all variables, tokens, and functions. Must be imported first.
-@import 'abstracts/tokens';
+
+@import 'abstracts/config';
+@import 'abstracts/functions';
 @import 'abstracts/variables';
+@import 'abstracts/themes';
 @import 'abstracts/mixins';
+@import 'abstracts/placeholders';
+
 
 // 2. BASE
 // Contains global styles, resets, and typography.

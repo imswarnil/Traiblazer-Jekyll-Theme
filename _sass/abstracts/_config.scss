@@ -1,0 +1,18 @@
+/* ============================================================================
+   ABSTRACTS / CONFIGURATION
+   Acts as the master control panel for the framework. Use these variables
+   to enable/disable features and modify global behavior at compile time.
+   ============================================================================ */
+
+// -- Feature Flags --
+// Controls whether entire modules are generated, enabling "tree-shaking".
+$sfdc-enable-dark-mode: true !default;
+$sfdc-enable-utility-classes: true !default; // Master switch for all utilities
+$sfdc-enable-spacing-utilities: true !default; // Generates .mt-1, .pb-4, etc.
+$sfdc-enable-display-utilities: true !default; // Generates .d-flex, .d-none, etc.
+
+// -- Global Settings --
+// Modifies the default aesthetic and behavior of components.
+$sfdc-enable-rounded: true !default;       // Use `false` for a squared-off design
+$sfdc-enable-shadows: true !default;       // Use `false` to disable all shadows globally
+$sfdc-base-font-size: 16px !default;       // Root font-size for rem() calculations
