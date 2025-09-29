@@ -232,3 +232,138 @@
     font-weight: 600;
   }
 }
+
+
+/* _sass/layout/_docs-layout.scss */
+
+// ... all the previous docs styles ...
+
+// ============================================================================
+// DOCS / HOMEPAGE
+// Styles for the main documentation landing page.
+// ============================================================================
+
+// --- Docs Search ---
+.docs-search {
+  position: relative;
+  margin-bottom: var(--sf-8);
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: var(--sf-4);
+    transform: translateY(-50%);
+    font-size: var(--sf-icon-lg);
+    color: var(--sf-muted);
+    pointer-events: none; // Allows clicks to pass through to the input
+  }
+
+  &__input {
+    @include control-base(var(--sf-control-lg));
+    font-size: var(--sf-text-lg);
+    padding-left: calc(var(--sf-icon-lg) + var(--sf-4) + var(--sf-3));
+    width: 100%;
+
+    &:focus {
+      border-color: var(--sf-brand);
+      box-shadow: var(--sf-focus);
+    }
+  }
+}
+
+// --- Category Grid ---
+.docs-category-grid {
+  @include grid($cols: 1, $gap: var(--sf-5));
+
+  @include breakpoint(sm) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @include breakpoint(lg) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// --- Category Card ---
+.docs-category-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%; // Ensures cards in the same row are equal height
+  background-color: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-sm);
+  transition: all .2s ease;
+
+  @include hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sf-shadow-md);
+    border-color: var(--sf-brand);
+  }
+
+  &__header {
+    padding: var(--sf-4);
+    border-bottom: 1px solid var(--sf-line-2);
+    @include cluster($gap: var(--sf-3), $align: center);
+  }
+  
+  &__icon {
+    font-size: var(--sf-icon-lg);
+    color: var(--sf-brand);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--sf-text-lg);
+    font-weight: 700;
+  }
+  
+  &__count {
+    margin-left: auto;
+    font-size: var(--sf-text-sm);
+    font-weight: 600;
+    color: var(--sf-fg-3);
+    background-color: var(--sf-bg-1);
+    padding: var(--sf-1) var(--sf-2);
+    border-radius: var(--sf-radius-pill);
+  }
+
+  &__list {
+    list-style: none;
+    padding: var(--sf-4);
+    margin: 0;
+    flex-grow: 1; // Allows the list to take up remaining space
+  }
+  
+  &__item a {
+    display: flex;
+    align-items: center;
+    gap: var(--sf-3);
+    padding: var(--sf-3);
+    border-radius: var(--sf-radius-md);
+    color: var(--sf-fg-2);
+    font-weight: 500;
+    transition: background-color .15s ease, color .15s ease;
+    
+    .ph-bold {
+      font-size: var(--sf-icon-md);
+      color: var(--sf-muted);
+      transition: color .15s ease, transform .15s ease;
+    }
+
+    @include hover {
+      background-color: var(--sf-bg-1);
+      color: var(--sf-brand);
+      
+      .ph-bold {
+        color: var(--sf-brand);
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+// --- JS Search States ---
+.docs-category-card.is-hidden,
+.docs-category-card__item.is-hidden {
+  display: none;
+}
