@@ -1,0 +1,77 @@
+---
+layout: products
+title: "My Gear & Setup"
+subtitle: "This is a curated list of the tools, software, and gear I use every day to create content and build solutions. Every item here is something I personally own and recommend."
+
+# --- FEATURED PRODUCT ---
+featured_product:
+  title: "Sony A7 IV Camera"
+  image_url: "https://i.imgur.com/your-sony-a7iv.jpg"
+  description: "The absolute workhorse of my setup. This camera delivers stunning 4K video, has incredible autofocus, and is built like a tank. It's the best hybrid camera I've ever owned and the heart of my filmmaking."
+  url: "https://www.amazon.com/your-affiliate-link-for-sonya7iv"
+
+# --- PRODUCT CATEGORIES & ITEMS ---
+categories:
+  - id: "pc-build"
+    title: "My PC Build"
+    icon: "ph-desktop-tower"
+    description: "The components that power my workstation for video editing, development, and gaming."
+    items:
+      - title: "AMD Ryzen 9 5900X"
+        image_url: "https://i.imgur.com/your-ryzen9.jpg"
+        description: "12 cores of pure processing power. Handles 4K timelines and code compilation with ease."
+        price: "$299"
+        url: "https://www.amazon.com/your-affiliate-link-for-ryzen9"
+      - title: "NVIDIA RTX 3080"
+        image_url: "https://i.imgur.com/your-rtx3080.jpg"
+        description: "An absolute beast for GPU-accelerated tasks in DaVinci Resolve and for gaming."
+        price: "$749"
+        url: "https://www.amazon.com/your-affiliate-link-for-rtx3080"
+      - title: "Samsung 980 Pro 2TB NVMe"
+        image_url: "https://i.imgur.com/your-ssd.jpg"
+        description: "Blazing fast storage means no more waiting for projects or apps to load."
+        price: "$149"
+        url: "https://www.amazon.com/your-affiliate-link-for-ssd"
+        
+  - id: "camera-gear"
+    title: "Filmmaking Gear"
+    icon: "ph-camera"
+    description: "The cameras, lenses, and accessories I use to shoot my YouTube videos and short films."
+    items:
+      - title: "Sony 24-70mm f/2.8 GM II"
+        image_url: "https://i.imgur.com/your-lens.jpg"
+        description: "My go-to lens for almost everything. Incredibly sharp, versatile, and beautifully built."
+        price: "$2,298"
+        url: "https://www.amazon.com/your-affiliate-link-for-lens"
+      - title: "Rode NTG5 Microphone"
+        image_url: "https://i.imgur.com/your-mic.jpg"
+        description: "Crisp, clean audio is non-negotiable. This shotgun mic delivers broadcast-quality sound."
+        price: "$499"
+        url: "https://www.amazon.com/your-affiliate-link-for-mic"
+      - title: "Aputure 120D II Light"
+        image_url: "https://i.imgur.com/your-light.jpg"
+        description: "Powerful, high-quality lighting is the key to a professional look. This is my key light."
+        price: "$649"
+        url: "https://www.amazon.com/your-affiliate-link-for-light"
+
+  - id: "software-services"
+    title: "Software & Services"
+    icon: "ph-circles-four"
+    description: "The digital tools that are essential to my workflow as a creator and developer."
+    items:
+      - title: "DaVinci Resolve Studio"
+        image_url: "https://i.imgur.com/your-davinci.jpg"
+        description: "My preferred software for professional video editing, color grading, and visual effects."
+        price: "$295"
+        url: "https://www.blackmagicdesign.com/products/davinciresolve"
+      - title: "Figma"
+        image_url: "https://i.imgur.com/your-figma.jpg"
+        description: "The industry standard for UI/UX design. I use it for everything from YouTube thumbnails to app mockups."
+        price: "Free Plan"
+        url: "https://www.figma.com/"
+      - title: "Ghost Pro"
+        image_url: "https://i.imgur.com/your-ghost.jpg"
+        description: "The powerful, open-source platform that runs my blog and e-learning site."
+        price: "$25/mo"
+        url: "https://ghost.org/"
+---

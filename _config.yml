@@ -132,6 +132,8 @@ navigation_header:
   url: /elements/
 - title: Blog
   url: /blog/
+- title: Products
+  url: /products/
 - title: Search
   url: /search/
 - title: Fork Alembic

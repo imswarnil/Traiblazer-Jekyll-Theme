@@ -1,0 +1,151 @@
+---
+layout: default
+---
+{% comment %}
+============================================================================
+_layouts/products.html (Definitive, "Masterpiece" Affiliate Hub Edition)
+============================================================================
+{% endcomment %}
+
+<!-- ========================================================================
+     PAGE HEADER
+     ======================================================================== -->
+<header class="products-header">
+  <div class="sf-container">
+    <h1 class="sf-h1 products-header__title">{{ page.title }}</h1>
+    <p class="sf-text--large products-header__subtitle">{{ page.subtitle }}</p>
+  </div>
+</header>
+
+<!-- ========================================================================
+     MAIN TWO-COLUMN LAYOUT
+     ======================================================================== -->
+<div class="sf-container">
+  <div class="products-layout">
+
+    <!-- ============================================= -->
+    <!-- Sidebar Column (Left)                         -->
+    <!-- ============================================= -->
+    <aside class="products-sidebar">
+      <div class="sf-card">
+        <div class="sf-card__header"><h3 class="sf-h4">Categories</h3></div>
+        <div class="sf-card__body">
+          <ul class="product-category-nav" id="product-category-nav">
+            {% for category in page.categories %}
+            <li>
+              <a href="#{{ category.id }}" class="product-category-nav__link">
+                <i class="ph-bold {{ category.icon }}"></i>
+                <span>{{ category.title }}</span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============================================= -->
+    <!-- Main Content Column (Right)                   -->
+    <!-- ============================================= -->
+    <main class="products-main-content">
+      
+      <!-- Featured Product Section -->
+      {% if page.featured_product %}
+      <section class="about-section">
+        <h2 class="sf-h2 about-section__title"><i class="ph-bold ph-star"></i> My Top Pick</h2>
+        <article class="featured-product-card">
+          <div class="featured-product-card__image-wrapper">
+            <img src="{{ page.featured_product.image_url }}" alt="{{ page.featured_product.title }}">
+          </div>
+          <div class="featured-product-card__content">
+            <span class="sf-badge sf-badge--brand featured-product-card__badge">Editor's Choice</span>
+            <h3 class="sf-h3 featured-product-card__title">{{ page.featured_product.title }}</h3>
+            <p class="featured-product-card__description">{{ page.featured_product.description }}</p>
+            <div class="featured-product-card__actions">
+              <a href="{{ page.featured_product.url }}" target="_blank" rel="noopener noreferrer" class="sf-btn sf-btn--brand sf-btn--lg">Buy Now</a>
+              <a href="#" class="sf-btn sf-btn--neutral sf-btn--lg">Read My Review</a>
+            </div>
+          </div>
+        </article>
+      </section>
+      {% endif %}
+
+      <!-- Product Categories Sections -->
+      {% for category in page.categories %}
+      <section class="product-category-section" id="{{ category.id }}">
+        <h2 class="sf-h2 product-category__title">
+          <i class="ph-bold {{ category.icon }}"></i>
+          <span>{{ category.title }}</span>
+        </h2>
+        <div class="typeset">
+          <p>{{ category.description }}</p>
+        </div>
+        <ul class="product-grid" style="margin-top: var(--sf-5);">
+          {% for product in category.items %}
+          <li>
+            <div class="product-card">
+              <a href="{{ product.url }}" target="_blank" rel="noopener noreferrer" class="product-card__figure" aria-label="View {{ product.title }}">
+                <img src="{{ product.image_url }}" alt="{{ product.title }}">
+              </a>
+              <div class="product-card__content">
+                <h3 class="sf-h4 product-card__title">{{ product.title }}</h3>
+                <p class="product-card__description">{{ product.description }}</p>
+                <footer class="product-card__footer">
+                  <span class="product-card__price">{{ product.price }}</span>
+                  <a href="{{ product.url }}" target="_blank" rel="noopener noreferrer" class="sf-btn sf-btn--brand sf-btn--sm">Buy Now</a>
+                </footer>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endfor %}
+
+    </main>
+
+  </div>
+</div>
+
+
+<!-- JavaScript for Scrollspy Navigation & Animations -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('.product-category-section');
+    const navLinks = document.querySelectorAll('.product-category-nav__link');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Add 'is-visible' for scroll animations
+          entry.target.classList.add('is-visible');
+          
+          // Update active state in navigation
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.classList.remove('is-active');
+            if (link.getAttribute('href') === `#${id}`) {
+              link.classList.add('is-active');
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-40% 0px -60% 0px' }); // Trigger when section is in the middle of the screen
+
+    sections.forEach(section => {
+      sectionObserver.observe(section);
+    });
+
+    // Smooth scroll for nav links
+    navLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  });
+</script>
