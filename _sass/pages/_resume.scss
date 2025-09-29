@@ -1,5 +1,5 @@
 /* ============================================================================
-   PAGES / RESUME (Definitive, 2-Column Final Version)
+   PAGES / RESUME (Definitive, Bulletproof 2-Column Final Version)
    ============================================================================ */
 
 // --- Full-Width Resume Hero ---
@@ -57,21 +57,21 @@
   }
 }
 
-// --- The Bulletproof 2-Column Grid ---
+// --- THE BULLETPROOF 2-COLUMN GRID ---
 .resume-grid {
   display: grid;
-  gap: var(--sf-8);
-  grid-template-columns: 1fr; // Mobile: Single column
+  gap: var(--sf-8); // A large, professional gap between the columns
+  grid-template-columns: 1fr; // Mobile: A single column
 
   @media (min-width: 1024px) {
-    // Desktop: Main Content | Sidebar
+    // Desktop: A wider main column and a narrower sidebar
     grid-template-columns: 1.5fr 1fr;
   }
 }
 
 // --- General Section Styling ---
 .resume-section {
-  margin-bottom: var(--sf-6);
+  margin-bottom: var(--sf-8); // Large vertical spacing between sections
   &:last-child { margin-bottom: 0; }
 }
 .resume-section__title {
@@ -84,7 +84,7 @@
 
 // --- Main Content Column (Left) ---
 .resume-main {
-  // Container for left-side sections
+  // Just a container for the left-side sections
 }
 
 // --- Experience & Education Timeline ---
@@ -97,9 +97,9 @@
     display: flex; flex-wrap: wrap; justify-content: space-between;
     align-items: baseline; gap: var(--sf-2); margin-bottom: var(--sf-1);
   }
-  &__title { margin: 0; font-size: 1.25rem; }
+  &__title { margin: 0; font-size: 1.25rem; } // Role title
   &__meta { font-size: .9rem; font-weight: 500; color: var(--sf-muted); display: inline-flex; align-items: center; gap: var(--sf-2); }
-  &__subtitle { font-weight: 600; color: var(--sf-fg-2); }
+  &__subtitle { font-weight: 600; color: var(--sf-fg-2); } // Company/Institution
   &__description {
     margin-top: var(--sf-3); padding-left: var(--sf-4); font-size: .95rem;
     color: var(--sf-fg-2); border-left: 2px solid var(--sf-line-2);
@@ -110,7 +110,7 @@
 
 // --- Sidebar Column (Right) ---
 .resume-sidebar {
-  // Container for right-side sections
+  // Just a container for the right-side sections
 }
 
 // --- Projects Section ---
