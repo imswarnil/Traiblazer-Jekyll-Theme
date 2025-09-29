@@ -82,9 +82,9 @@
   }
 }
 
-// --- General Section Styling with Scroll Animation ---
+// --- General Section Styling (Each section is a card) ---
 .resume-section {
-  // Sections are now wrapped in .sf-card by default in the HTML
+  // Each section is an .sf-card for perfect consistency
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -104,7 +104,11 @@
 }
 
 // --- Main Content Column (Left) ---
-.resume-main { /* container */ }
+.resume-main {
+  display: grid;
+  gap: var(--sf-6);
+  align-content: start;
+}
 
 // --- Experience & Education Timeline with Scroll Animation ---
 .resume-timeline {
@@ -162,7 +166,7 @@
 .resume-sidebar {
   display: grid;
   gap: var(--sf-6);
-  align-content: start; // Prevents items from stretching
+  align-content: start;
 }
 
 // --- Projects Section ---
