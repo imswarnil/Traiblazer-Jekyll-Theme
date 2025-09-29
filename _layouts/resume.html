@@ -28,6 +28,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
   </div>
 </header>
 
+
 <!-- ========================================================================
      MAIN TWO-COLUMN RESUME BODY
      ======================================================================== -->
@@ -35,7 +36,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
   <div class="resume-grid">
     
     <!-- ======================================================= -->
-    <!-- LEFT COLUMN: SUMMARY, EXPERIENCE, PROJECTS, EDUCATION   -->
+    <!-- LEFT COLUMN: EXPERIENCE, PROJECTS, EDUCATION            -->
     <!-- ======================================================= -->
     <main class="resume-main">
       <!-- Summary Section -->
@@ -50,11 +51,14 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         <ul class="resume-timeline">
           {% for item in page.experience %}
           <li class="resume-timeline-item">
+            <div class="resume-timeline-item__icon">
+              <img src="{{ item.logo_url }}" alt="{{ item.company }} logo" style="width: 24px; height: 24px; border-radius: 4px;">
+            </div>
             <div class="resume-timeline-item__header">
               <h3 class="sf-h3 resume-timeline-item__title">{{ item.role }}</h3>
-              <span class="resume-timeline-item__meta"><i class="ph-bold ph-calendar"></i>{{ item.dates }}</span>
+              <span class="resume-timeline-item__meta">{{ item.dates }}</span>
             </div>
-            <p class="resume-timeline-item__subtitle">{{ item.company }} • <i class="ph-bold ph-map-pin"></i> {{ item.location }}</p>
+            <p class="resume-timeline-item__subtitle"><a href="{{ item.company_url }}" target="_blank" rel="noopener">{{ item.company }}</a> • <i class="ph-bold ph-map-pin"></i> {{ item.location }}</p>
             <div class="resume-timeline-item__description typeset">{{ item.description | markdownify }}</div>
           </li>
           {% endfor %}
@@ -75,6 +79,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
             <footer class="project-card__footer">
               <span class="project-card__meta-item"><i class="ph-bold ph-star"></i> {{ item.stars }}</span>
               <span class="project-card__meta-item"><i class="ph-bold ph-git-fork"></i> {{ item.forks }}</span>
+              <span class="project-card__meta-item"><span style="color: {{ item.language_color }};">●</span> {{ item.language }}</span>
             </footer>
           </a></li>
         {% endfor %}
@@ -87,11 +92,14 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         <ul class="resume-timeline">
           {% for item in page.education %}
           <li class="resume-timeline-item">
+            <div class="resume-timeline-item__icon">
+              <i class="ph-bold ph-buildings"></i>
+            </div>
             <div class="resume-timeline-item__header">
               <h3 class="sf-h3 resume-timeline-item__title">{{ item.degree }}</h3>
               <span class="resume-timeline-item__meta">{{ item.dates }}</span>
             </div>
-            <p class="resume-timeline-item__subtitle"><i class="ph-bold ph-buildings"></i> {{ item.institution }}</p>
+            <p class="resume-timeline-item__subtitle">{{ item.institution }}</p>
           </li>
           {% endfor %}
         </ul>
@@ -99,20 +107,17 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
     </main>
 
     <!-- ======================================================= -->
-    <!-- RIGHT COLUMN: SKILLS, CERTS, ACHIEVEMENTS, TRAILHEAD    -->
+    <!-- RIGHT COLUMN: SKILLS, CERTS, ACHIEVEMENTS, INTERESTS    -->
     <!-- ======================================================= -->
     <aside class="resume-sidebar">
-      <!-- Skills Section -->
+      <!-- Skills Section (Tag Cloud) -->
       <section class="resume-section">
         <h3 class="sf-h3 resume-section__title"><i class="ph-bold ph-wrench"></i><span>Skills</span></h3>
-        <ul class="skill-list">
+        <ul class="skill-cloud">
         {% for item in page.skills %}
-          <li><div class="skill-item">
-            <i class="ph-bold {{ item.icon | default: 'ph-check-circle' }} skill-item__icon"></i>
-            <div class="skill-item__content">
-              <h4 class="sf-h5 skill-item__title">{{ item.title }}</h4>
-              <p class="skill-item__keywords">{{ item.keywords }}</p>
-            </div>
+          <li><div class="skill-tag">
+            <i class="ph-bold {{ item.icon | default: 'ph-check-circle' }}"></i>
+            <span>{{ item.name }}</span>
           </div></li>
         {% endfor %}
         </ul>
@@ -142,14 +147,30 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         {% endfor %}
         </ul>
       </section>
-
+      
       <!-- Achievements Section -->
       <section class="resume-section">
-        <h3 class="sf-h3 resume-section__title"><span>Key Achievements</span></h3>
+        <h3 class="sf-h3 resume-section__title"><i class="ph-bold ph-trophy"></i><span>Key Achievements</span></h3>
         <ul class="achievement-list">
         {% for item in page.achievements %}
           <li><div class="achievement-item">
-            <i class="ph-bold ph-trophy achievement-item__icon"></i>
+            <i class="ph-bold ph-star achievement-item__icon"></i>
+            <div class="achievement-item__content">
+              <h4 class="sf-h5 achievement-item__title">{{ item.title }}</h4>
+              <p class="achievement-item__description">{{ item.description }}</p>
+            </div>
+          </div></li>
+        {% endfor %}
+        </ul>
+      </section>
+      
+      <!-- Interests Section -->
+      <section class="resume-section">
+        <h3 class="sf-h3 resume-section__title"><i class="ph-bold ph-heart"></i><span>Interests & Hobbies</span></h3>
+        <ul class="achievement-list">
+        {% for item in page.interests %}
+          <li><div class="achievement-item">
+            <i class="ph-bold {{ item.icon | default: 'ph-check-circle' }} achievement-item__icon"></i>
             <div class="achievement-item__content">
               <h4 class="sf-h5 achievement-item__title">{{ item.title }}</h4>
               <p class="achievement-item__description">{{ item.description }}</p>
@@ -166,12 +187,12 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
 <!-- JavaScript for scroll animations -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // --- Scroll-activated Animations ---
     const animatedItems = document.querySelectorAll('.resume-section, .resume-timeline');
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          // Stagger timeline item animations
           if (entry.target.matches('.resume-timeline')) {
             const items = entry.target.querySelectorAll('.resume-timeline-item');
             items.forEach((item, index) => {

@@ -86,7 +86,6 @@
 .resume-section {
   margin-bottom: var(--sf-8);
   &:last-child { margin-bottom: 0; }
-  // Staggered animation for sections on page load/scroll
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -118,7 +117,7 @@
 .resume-timeline {
   list-style: none; padding: 0; margin: 0; position: relative;
   &::before {
-    content: ''; position: absolute; left: 12px; top: 12px; bottom: 12px;
+    content: ''; position: absolute; left: 20px; top: 20px; bottom: 20px;
     width: 2px; background: var(--sf-line-2); border-radius: 2px;
     transform: scaleY(0);
     transform-origin: top;
@@ -129,7 +128,7 @@
   }
 }
 .resume-timeline-item {
-  position: relative; padding-left: var(--sf-6); padding-bottom: var(--sf-5);
+  position: relative; padding-left: var(--sf-8); padding-bottom: var(--sf-6);
   opacity: 0;
   transform: translateX(-20px);
   transition: opacity .5s ease-out, transform .5s ease-out;
@@ -138,24 +137,27 @@
     opacity: 1;
     transform: translateX(0);
   }
-  &::before {
-    content: ''; position: absolute; left: 8px; top: 8px; width: 10px; height: 10px;
-    border-radius: 50%; background: var(--sf-brand);
-    box-shadow: 0 0 0 4px var(--sf-bg-2); border: 1px solid var(--sf-line-1);
+  &__icon {
+    position: absolute; left: 0; top: 0;
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--sf-bg-2);
+    border: 1px solid var(--sf-line-2);
+    display: grid; place-items: center;
+    font-size: 1.5rem; color: var(--sf-brand);
     transform: scale(0);
     transition: transform .3s ease-out .2s;
   }
-  &.is-visible::before {
+  &.is-visible &__icon {
     transform: scale(1);
   }
   &__header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--sf-2); margin-bottom: var(--sf-1); }
   &__title { margin: 0; font-size: 1.25rem; }
-  &__meta { font-size: .9rem; font-weight: 500; color: var(--sf-muted); display: inline-flex; align-items: center; gap: var(--sf-2); }
+  &__meta { font-size: .9rem; font-weight: 500; color: var(--sf-muted); }
   &__subtitle { font-weight: 600; color: var(--sf-fg-2); display: flex; align-items: center; gap: var(--sf-2); }
   &__description {
-    margin-top: var(--sf-3); padding-left: var(--sf-4); font-size: .95rem;
-    color: var(--sf-fg-2); border-left: 2px solid var(--sf-line-2);
-    ul { padding-left: var(--sf-4); margin-top: var(--sf-2); li { margin-bottom: var(--sf-2); } }
+    margin-top: var(--sf-3); font-size: .95rem; color: var(--sf-fg-2);
+    ul { padding-left: var(--sf-4); margin-top: var(--sf-2); li { margin-bottom: var(--sf-2); list-style-type: disc; } }
   }
 }
 
@@ -169,11 +171,7 @@
   background: var(--sf-bg-2); border: 1px solid var(--sf-line-2);
   border-radius: var(--sf-radius-md); padding: var(--sf-4);
   transition: all .2s ease;
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--sf-shadow-md);
-    border-color: var(--sf-brand);
-  }
+  &:hover { transform: translateY(-4px); box-shadow: var(--sf-shadow-md); border-color: var(--sf-brand); }
   &__header {
     display: flex; align-items: center; gap: var(--sf-2);
     margin-bottom: var(--sf-2);
@@ -185,85 +183,62 @@
   &__meta-item { display: inline-flex; align-items: center; gap: var(--sf-1); }
 }
 
-// --- Skills Section ---
-.skill-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sf-4); }
-.skill-item {
-  display: flex; align-items: center; gap: var(--sf-3);
+// --- Skills Section (Tag Cloud) ---
+.skill-cloud {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-wrap: wrap; gap: var(--sf-2);
+}
+.skill-tag {
+  // Uses sf-badge as a base
+  display: inline-flex; align-items: center; gap: var(--sf-2);
+  padding: var(--sf-2) var(--sf-3); border-radius: var(--sf-radius-md);
+  font-weight: 600; font-size: .9rem;
   background: var(--sf-bg-2); border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-md); padding: var(--sf-3);
-  transition: all .2s ease;
+  color: var(--sf-fg-2); transition: all .2s ease;
+  .ph-bold { font-size: 1rem; }
   &:hover {
     transform: translateY(-2px);
     box-shadow: var(--sf-shadow-sm);
-    border-color: var(--sf-brand);
+    background-color: color-mix(in oklab, var(--sf-brand), white 88%);
+    color: var(--sf-brand);
   }
-  &__icon { font-size: 2rem; color: var(--sf-brand); flex-shrink: 0; }
-  &__title { font-weight: 600; color: var(--sf-fg); margin:0; line-height: 1.3; }
-  &__keywords { font-size: .85rem; color: var(--sf-muted); }
 }
 
 // --- Certifications Section with Dynamic CSS Shape ---
 .cert-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sf-4); }
 .cert-card {
-  position: relative;
-  border-radius: var(--sf-radius-lg);
-  overflow: hidden;
-  box-shadow: var(--sf-shadow-sm);
-  transition: all .2s ease;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-
+  position: relative; border-radius: var(--sf-radius-lg); overflow: hidden;
+  box-shadow: var(--sf-shadow-sm); transition: all .2s ease;
+  min-height: 280px; display: flex; flex-direction: column;
   &:hover { transform: translateY(-4px); box-shadow: var(--sf-shadow-md); }
   
   &__bg-shape {
     position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
-    // Hexagonal shape for Salesforce certs
     svg { width: 100%; height: 100%; }
     .shape-bg { fill: var(--sf-bg-2); }
     .shape-border { stroke: var(--sf-line-2); stroke-width: 2px; transition: stroke .2s ease; }
   }
-  &:hover &__bg-shape .shape-border {
-    stroke: var(--sf-brand);
-  }
+  &:hover &__bg-shape .shape-border { stroke: var(--sf-brand); }
   
   &__content {
-    position: relative; z-index: 2;
-    padding: var(--sf-5) var(--sf-4);
-    text-align: center;
-    display: flex; flex-direction: column;
-    align-items: center;
-    flex-grow: 1;
+    position: relative; z-index: 2; padding: var(--sf-5) var(--sf-4);
+    text-align: center; display: flex; flex-direction: column;
+    align-items: center; flex-grow: 1;
   }
-  
   &__logo { width: 80px; margin-bottom: var(--sf-3); }
-  &__label {
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: .5px;
-    color: var(--sf-brand);
-  }
-  &__title {
-    margin: var(--sf-1) 0;
-    font-size: 1.5rem;
-    font-weight: 800;
-    flex-grow: 1;
-  }
-  &__badge-icon {
-    font-size: 3rem;
-    color: #009ed9;
-  }
+  &__label { text-transform: uppercase; font-weight: 700; letter-spacing: .5px; color: var(--sf-brand); }
+  &__title { margin: var(--sf-1) 0; font-size: 1.5rem; font-weight: 800; flex-grow: 1; }
+  &__badge-icon { font-size: 3rem; color: #009ed9; }
+  
   &__footer {
-    position: relative; z-index: 2;
-    border-top: 1px solid var(--sf-line-2);
-    padding: var(--sf-2) var(--sf-4);
-    font-size: .75rem; color: var(--sf-muted);
+    position: relative; z-index: 2; border-top: 1px solid var(--sf-line-2);
+    padding: var(--sf-2) var(--sf-4); font-size: .75rem; color: var(--sf-muted);
     display: flex; justify-content: space-between;
     background: color-mix(in oklab, var(--sf-bg-1), white 60%);
   }
 }
 
-// --- Achievements Section ---
+// --- Achievements & Interests Section ---
 .achievement-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sf-4); }
 .achievement-item {
   display: flex; align-items: flex-start; gap: var(--sf-3);
@@ -276,9 +251,9 @@
 // --- Print Styles ---
 @media print {
   body { background: #fff; --sf-bg-1: #fff; --sf-bg-2: #fff; --sf-fg: #000; }
-  .sf-header, .sf-footer, .resume-sidebar { display: none !important; }
+  .sf-header, .sf-footer, .resume-sidebar, #download-pdf-btn { display: none !important; }
   .resume-grid, .resume-hero__grid { grid-template-columns: 1fr !important; }
-  .sf-card, .cert-card, .achievement-card, .bento-item, .project-card { box-shadow: none; border: 1px solid #ddd; }
+  .sf-card, .cert-card, .achievement-card, .project-card { box-shadow: none; border: 1px solid #ddd; }
   a { color: #000; text-decoration: none; }
   .resume-hero { padding: 0; border-bottom: 2px solid #000; }
   .resume-hero::before, .resume-hero__initials { display: none; }

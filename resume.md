@@ -19,6 +19,8 @@ summary: |
 experience:
   - role: "Technical Consultant"
     company: "FinancialForce"
+    company_url: "https://www.financialforce.com/"
+    logo_url: "https://i.imgur.com/your-financialforce-logo.png"
     location: "Remote"
     dates: "03/2022 – Present"
     description: |
@@ -26,6 +28,8 @@ experience:
       - Collaborated directly with financial institutions to architect and implement 15+ bespoke Salesforce solutions.
   - role: "Salesforce Developer"
     company: "Appirio"
+    company_url: "https://www.wipro.com/appi-rio/"
+    logo_url: "https://i.imgur.com/your-appirio-logo.png"
     location: "Denver, CO"
     dates: "01/2020 – 02/2022"
     description: |
@@ -33,6 +37,8 @@ experience:
       - Developed robust Visualforce pages and custom Apex controllers, handling 1,000+ financial transactions per day.
   - role: "Salesforce Administrator"
     company: "Slalom Consulting"
+    company_url: "https://www.slalom.com/"
+    logo_url: "https://i.imgur.com/your-slalom-logo.png"
     location: "Seattle, WA"
     dates: "01/2017 – 12/2019"
     description: |
@@ -44,11 +50,15 @@ projects:
     link: "https://github.com/christiantorres/reporting-tool"
     stars: "1.2k"
     forks: "340"
+    language: "Apex"
+    language_color: "#C22D40"
     description: "Architected an open-source Salesforce reporting tool that increased report generation efficiency by 35%."
   - title: "Banking Data Integration Framework"
     link: "https://github.com/christiantorres/data-framework"
     stars: "850"
     forks: "120"
+    language: "JavaScript"
+    language_color: "#f1e05a"
     description: "Created a reusable framework for banking data integration on Salesforce, enhancing data accuracy by 30%."
 
 education:
@@ -58,27 +68,27 @@ education:
   - degree: "Higher Secondary Certificate (12th Grade)"
     institution: "Denver Public School"
     dates: "2012 – 2014"
-  - degree: "Secondary School Certificate (10th Grade)"
-    institution: "St. Paul's School"
-    dates: "2012"
 
 # --- SIDEBAR (RIGHT COLUMN) ---
 skills:
-  - title: "Core Technologies"
+  - name: "Salesforce Development"
+    icon: "ph-cloud-lightning"
+  - name: "Apex & SOQL"
     icon: "ph-code"
-    keywords: "Salesforce Platform, Apex, JavaScript, TypeScript, XML, SOQL, LWC, Visualforce, ETL Platforms, nCino"
-  - title: "Methodologies"
+  - name: "Lightning Web Components"
+    icon: "ph-wind"
+  - name: "JavaScript & TypeScript"
+    icon: "ph-file-js"
+  - name: "Integration & APIs"
+    icon: "ph-plugs-connected"
+  - name: "Agile Methodologies"
     icon: "ph-arrows-clockwise"
-    keywords: "Agile, Scrum, CI/CD, Test-Driven Development"
-  - title: "Tools & Ecosystem"
-    icon: "ph-wrench"
-    keywords: "Git, Jira, VS Code, nCino, FinancialForce"
 
 certifications:
   - title: "AI Associate"
     id: "3648198"
     verify_link: "https://s.force.co/verifycerts"
-    icon: "ph-brain" # Icon for the badge itself
+    icon: "ph-brain"
   - title: "Tableau Data Analyst"
     id: "3112845"
     verify_link: "https://s.force.co/verifycerts"
@@ -89,4 +99,15 @@ achievements:
     description: "Recognized at FinancialForce for achieving a 20% increase in integration efficiency."
   - title: "Customer Satisfaction Excellence"
     description: "Boosted customer satisfaction scores by 40% at Appirio through personalized consultations."
+
+interests:
+  - title: "Open Source Contribution"
+    icon: "ph-git-branch"
+    description: "Active contributor to open-source Salesforce tools and libraries on GitHub."
+  - title: "Filmmaking & Storytelling"
+    icon: "ph-film-slate"
+    description: "Passionate about creating short films and tech documentaries on my YouTube channel."
+  - title: "Mountain Hiking"
+    icon: "ph-mountains"
+    description: "Exploring the trails of the Rocky Mountains to recharge and find new perspectives."
 ---
