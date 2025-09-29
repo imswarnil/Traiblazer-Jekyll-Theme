@@ -1,5 +1,5 @@
 /* ============================================================================
-   PAGES / RESUME (Definitive, "Masterpiece" All-in-One Edition)
+   PAGES / RESUME (Definitive, Masterpiece All-in-One Edition)
    ============================================================================ */
 
 // --- KEYFRAME ANIMATIONS ---
@@ -20,8 +20,7 @@
     background-image:
       linear-gradient(rgba(207, 215, 224, 0.2) 1px, transparent 1px),
       linear-gradient(to right, rgba(207, 215, 224, 0.2) 1px, transparent 1px);
-    background-size: 40px 40px;
-    z-index: 1;
+    background-size: 40px 40px; z-index: 1;
   }
   [data-theme="dark"] &::before {
     background-image:
@@ -84,8 +83,8 @@
 
 // --- General Section Styling with Scroll Animation ---
 .resume-section {
-  margin-bottom: var(--sf-8);
-  &:last-child { margin-bottom: 0; }
+  // Sections are now wrapped in .sf-card by default in the HTML
+  margin-bottom: var(--sf-6);
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -98,12 +97,6 @@
   display: flex;
   align-items: center;
   gap: var(--sf-3);
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: .5px;
-  padding-bottom: var(--sf-3);
-  margin-bottom: var(--sf-4);
-  border-bottom: 2px solid var(--sf-line-1);
   .ph-bold {
     font-size: 1.5rem;
     color: var(--sf-brand);
@@ -140,7 +133,7 @@
   &__icon {
     position: absolute; left: 0; top: 0;
     width: 42px; height: 42px;
-    border-radius: 50%;
+    border-radius: var(--sf-radius-lg);
     background: var(--sf-bg-2);
     border: 1px solid var(--sf-line-2);
     display: grid; place-items: center;
@@ -189,7 +182,6 @@
   display: flex; flex-wrap: wrap; gap: var(--sf-2);
 }
 .skill-tag {
-  // Uses sf-badge as a base
   display: inline-flex; align-items: center; gap: var(--sf-2);
   padding: var(--sf-2) var(--sf-3); border-radius: var(--sf-radius-md);
   font-weight: 600; font-size: .9rem;
@@ -204,41 +196,20 @@
   }
 }
 
-// --- Certifications Section with Dynamic CSS Shape ---
+// --- Certifications Section ---
 .cert-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sf-4); }
-.cert-card {
-  position: relative; border-radius: var(--sf-radius-lg); overflow: hidden;
-  box-shadow: var(--sf-shadow-sm); transition: all .2s ease;
-  min-height: 280px; display: flex; flex-direction: column;
-  &:hover { transform: translateY(-4px); box-shadow: var(--sf-shadow-md); }
-  
-  &__bg-shape {
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1;
-    svg { width: 100%; height: 100%; }
-    .shape-bg { fill: var(--sf-bg-2); }
-    .shape-border { stroke: var(--sf-line-2); stroke-width: 2px; transition: stroke .2s ease; }
-  }
-  &:hover &__bg-shape .shape-border { stroke: var(--sf-brand); }
-  
-  &__content {
-    position: relative; z-index: 2; padding: var(--sf-5) var(--sf-4);
-    text-align: center; display: flex; flex-direction: column;
-    align-items: center; flex-grow: 1;
-  }
-  &__logo { width: 80px; margin-bottom: var(--sf-3); }
-  &__label { text-transform: uppercase; font-weight: 700; letter-spacing: .5px; color: var(--sf-brand); }
-  &__title { margin: var(--sf-1) 0; font-size: 1.5rem; font-weight: 800; flex-grow: 1; }
-  &__badge-icon { font-size: 3rem; color: #009ed9; }
-  
-  &__footer {
-    position: relative; z-index: 2; border-top: 1px solid var(--sf-line-2);
-    padding: var(--sf-2) var(--sf-4); font-size: .75rem; color: var(--sf-muted);
-    display: flex; justify-content: space-between;
-    background: color-mix(in oklab, var(--sf-bg-1), white 60%);
+.cert-item {
+  display: flex; align-items: flex-start; gap: var(--sf-3);
+  &__icon { font-size: 1.5rem; color: var(--sf-brand); flex-shrink: 0; margin-top: 2px; }
+  &__content { line-height: 1.4; }
+  &__title { font-weight: 600; color: var(--sf-fg); margin:0; }
+  &__meta { font-size: .8rem; color: var(--sf-muted); }
+  &__link {
+    font-size: .8rem; font-weight: 600;
   }
 }
 
-// --- Achievements & Interests Section ---
+// --- Achievements & Interests ---
 .achievement-list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sf-4); }
 .achievement-item {
   display: flex; align-items: flex-start; gap: var(--sf-3);
@@ -251,7 +222,7 @@
 // --- Print Styles ---
 @media print {
   body { background: #fff; --sf-bg-1: #fff; --sf-bg-2: #fff; --sf-fg: #000; }
-  .sf-header, .sf-footer, .resume-sidebar, #download-pdf-btn { display: none !important; }
+  .sf-header, .sf-footer, .resume-sidebar { display: none !important; }
   .resume-grid, .resume-hero__grid { grid-template-columns: 1fr !important; }
   .sf-card, .cert-card, .achievement-card, .project-card { box-shadow: none; border: 1px solid #ddd; }
   a { color: #000; text-decoration: none; }
