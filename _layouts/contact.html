@@ -1,0 +1,121 @@
+---
+layout: default
+---
+{% comment %}
+============================================================================
+_layouts/contact.html (Definitive, "Masterpiece" All-in-One Edition)
+============================================================================
+{% endcomment %}
+
+<!-- ========================================================================
+     PAGE HEADER
+     ======================================================================== -->
+<header class="contact-header">
+  <div class="sf-container">
+    <h1 class="sf-h1 contact-header__title">{{ page.title }}</h1>
+    <p class="sf-text--large contact-header__subtitle">{{ page.subtitle }}</p>
+  </div>
+</header>
+
+<!-- ========================================================================
+     MAIN TWO-COLUMN LAYOUT
+     ======================================================================== -->
+<div class="sf-container">
+  <div class="contact-layout">
+
+    <!-- ============================================= -->
+    <!-- Primary Content Column (Left)                 -->
+    <!-- ============================================= -->
+    <main class="contact-main-content">
+      <section class="sf-card contact-section">
+        <div class="sf-card__header">
+          <h2 class="sf-h3 resume-section__title" style="border: none; margin: 0; padding: 0;">
+            <i class="ph-bold ph-paper-plane-tilt"></i>
+            <span>Send a Message</span>
+          </h2>
+        </div>
+        <div class="sf-card__body">
+          <form class="contact-form-grid" action="{{ page.formspree_url }}" method="POST">
+            <div class="sf-field">
+              <label for="first-name" class="sf-form__label">First Name</label>
+              <input type="text" id="first-name" name="first-name" class="sf-input" required>
+            </div>
+            <div class="sf-field">
+              <label for="last-name" class="sf-form__label">Last Name</label>
+              <input type="text" id="last-name" name="last-name" class="sf-input" required>
+            </div>
+            <div class="sf-field sf-field--full-width">
+              <label for="email" class="sf-form__label">Email Address</label>
+              <input type="email" id="email" name="email" class="sf-input" required>
+            </div>
+            <div class="sf-field sf-field--full-width">
+              <label for="message" class="sf-form__label">Your Message</label>
+              <textarea id="message" name="message" class="sf-textarea" rows="6" required></textarea>
+            </div>
+            <div class="sf-field sf-field--full-width" style="text-align: right;">
+              <button type="submit" class="sf-btn sf-btn--brand sf-btn--lg">Submit</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================================= -->
+    <!-- Sidebar Column (Right)                        -->
+    <!-- ============================================= -->
+    <aside class="contact-sidebar">
+      
+      <section class="contact-section">
+        <h3 class="sf-h3 contact-section__title"><i class="ph-bold ph-map-pin"></i> My Location</h3>
+        <div class="contact-map-card">
+          <iframe 
+            src="{{ page.google_maps_embed_url }}"
+            width="600" 
+            height="450" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </section>
+
+      <section class="contact-section">
+        <h3 class="sf-h3 contact-section__title"><i class="ph-bold ph-chats-circle"></i> Connect on Social</h3>
+        <ul class="social-links-list">
+          {% for link in page.social_links %}
+          <li>
+            <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="social-link-card">
+              <i class="ph-bold {{ link.icon }} social-link-card__icon"></i>
+              <div class="social-link-card__text">
+                <h4 class="sf-h5 social-link-card__title">{{ link.platform }}</h4>
+                <p class="social-link-card__handle">{{ link.handle }}</p>
+              </div>
+              <i class="ph-bold ph-arrow-right social-link-card__arrow"></i>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+      
+    </aside>
+  </div>
+</div>
+
+<!-- JavaScript for Scroll Animations -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const animatedItems = document.querySelectorAll('.contact-section');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    animatedItems.forEach(item => {
+      observer.observe(item);
+    });
+  });
+</script>
