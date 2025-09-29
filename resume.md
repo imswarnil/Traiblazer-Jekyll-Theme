@@ -14,7 +14,7 @@ contact:
 
 # --- MAIN CONTENT (LEFT COLUMN) ---
 summary: |
-  Technical Consultant with over 3 years of experience in Salesforce and nCino platform implementation. Proficient in Apex, JavaScript, and XML, achieving a 20% increase in integration efficiency. Strong analytical skills and dedication to customer success in cloud banking.
+  A dynamic and results-oriented Technical Consultant with over 3 years of specialized experience in Salesforce and nCino platform implementation. Proficient in Apex, JavaScript, and XML, with a proven track record of achieving a 20% increase in integration efficiency. Possesses strong analytical skills and a relentless dedication to achieving customer success in the complex world of cloud banking.
 
 experience:
   - role: "Technical Consultant"
@@ -22,16 +22,16 @@ experience:
     location: "Remote"
     dates: "03/2022 – Present"
     description: |
-      - Led Salesforce integration projects achieving a 30% reduction in deployment time.
-      - Collaborated directly with financial institutions to design and implement 15+ bespoke Salesforce solutions.
-      - Designed and executed test plans for Salesforce updates, reducing system errors by 25%.
+      - Led end-to-end Salesforce integration projects for enterprise clients, achieving a 30% average reduction in deployment time through the implementation of optimized workflows and reusable components.
+      - Collaborated directly with financial institutions to architect and implement 15+ bespoke Salesforce solutions, enhancing client satisfaction by 40%.
+      - Designed and executed comprehensive test plans for Salesforce seasonal releases, proactively identifying issues and reducing post-deployment system errors by 25%.
   - role: "Salesforce Developer"
     company: "Appirio"
     location: "Denver, CO"
     dates: "01/2020 – 02/2022"
     description: |
-      - Implemented Salesforce and nCino customizations that enhanced process efficiency by over 20%.
-      - Developed complex Visualforce pages and custom controllers, handling 1,000+ transactions per day.
+      - Implemented complex Salesforce and nCino customizations that enhanced business process efficiency by over 20% for key clients.
+      - Developed and maintained robust Visualforce pages and custom Apex controllers, handling over 1,000 financial transactions per day with zero downtime.
 
 education:
   - degree: "Bachelor of Science in Information Systems"
@@ -42,21 +42,21 @@ education:
 projects:
   - title: "Custom Salesforce Reporting Tool"
     link: "https://github.com/christiantorres/reporting-tool"
-    description: "Developed an open-source Salesforce reporting tool, increasing report generation efficiency by 35%."
+    description: "Architected and developed an open-source Salesforce reporting tool that increased report generation efficiency by 35% through asynchronous processing."
   - title: "Banking Data Integration Framework"
     link: "https://github.com/christiantorres/data-framework"
-    description: "Created a framework for banking data integration on Salesforce, enhancing data accuracy by 30%."
+    description: "Created a reusable framework for banking data integration on Salesforce, enhancing data accuracy by 30% and providing a scalable foundation for future projects."
 
 achievements:
   - title: "Integration Efficiency Award"
-    description: "Recognized for achieving a 20% increase in integration efficiency through innovative solutions."
+    description: "Recognized at FinancialForce for achieving a 20% increase in integration efficiency across projects through innovative architectural solutions."
   - title: "Customer Satisfaction Excellence"
-    description: "Boosted customer satisfaction scores by 40% through personalized client consultations."
+    description: "Boosted customer satisfaction scores by 40% at Appirio through personalized client consultations and successful project delivery."
 
 skills:
   - name: "Core Technologies"
-    size: "wide" # Spans 2 columns in the bento grid
-    keywords: "Salesforce, Apex, JavaScript, TypeScript, XML, ETL Platforms, nCino"
+    size: "wide"
+    keywords: "Salesforce Platform, Apex, JavaScript, TypeScript, XML, SOQL, LWC, Visualforce, ETL Platforms, nCino"
   - name: "Methodologies"
     keywords: "Agile, Scrum, CI/CD"
   - name: "Tools"
@@ -64,9 +64,9 @@ skills:
 
 certifications:
   - title: "Salesforce Platform Developer I"
-    description: "Advanced development skills and Salesforce solutions."
+    description: "Demonstrates advanced programmatic capabilities on the Force.com platform."
   - title: "Integration Architecture Designer"
-    description: "Designing scalable integration solutions with Salesforce."
+    description: "Validates expertise in designing scalable, secure integration solutions with Salesforce."
 
 trailhead:
   rank: "Ranger"

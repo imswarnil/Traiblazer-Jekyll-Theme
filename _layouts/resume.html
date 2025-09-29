@@ -3,7 +3,7 @@ layout: default
 ---
 {% comment %}
 ============================================================================
-_layouts/resume.html (Definitive, "All-in-One" Full-Fledged Final Version)
+_layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
 ============================================================================
 {% endcomment %}
 
@@ -27,7 +27,6 @@ _layouts/resume.html (Definitive, "All-in-One" Full-Fledged Final Version)
     </div>
   </div>
 </header>
-
 
 <!-- ========================================================================
      MAIN TWO-COLUMN RESUME BODY
@@ -141,7 +140,7 @@ _layouts/resume.html (Definitive, "All-in-One" Full-Fledged Final Version)
         {% endfor %}
         </ul>
       </section>
-      
+
       <!-- Trailhead Section -->
       <section class="resume-section">
         <h3 class="sf-h3 resume-section__title"><span>Trailhead</span></h3>
@@ -164,3 +163,65 @@ _layouts/resume.html (Definitive, "All-in-One" Full-Fledged Final Version)
 
   </div>
 </div>
+
+<!-- Button to trigger PDF generation/download -->
+<div style="text-align: center; padding-bottom: var(--sf-8);">
+  <button id="download-pdf-btn" class="sf-btn sf-btn--brand sf-btn--lg">
+    <i class="ph-bold ph-file-pdf"></i>
+    <span>Generate & Download PDF</span>
+  </button>
+</div>
+
+<!-- Include the jspdf library for PDF generation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+  document.getElementById('download-pdf-btn').addEventListener('click', function () {
+    const btn = this;
+    btn.innerHTML = '<i class="ph-bold ph-spinner"></i> <span>Generating...</span>';
+    btn.disabled = true;
+
+    // Use html2canvas to capture the entire body. We exclude the button itself.
+    html2canvas(document.body, {
+      scale: 2, // Higher scale for better quality
+      onclone: (document) => {
+        // In the cloned document, hide the button so it's not in the PDF
+        document.getElementById('download-pdf-btn').style.display = 'none';
+      }
+    }).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const { jsPDF } = window.jspdf;
+      
+      // Calculate dimensions for A4 page
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
+      const ratio = canvasWidth / canvasHeight;
+      const imgWidth = pdfWidth;
+      const imgHeight = imgWidth / ratio;
+      
+      let heightLeft = imgHeight;
+      let position = 0;
+      
+      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+      
+      // Add new pages if content is longer than one page
+      while (heightLeft >= 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+      
+      pdf.save('{{ page.name | slugify }}-resume.pdf');
+      
+      // Reset button state
+      btn.innerHTML = '<i class="ph-bold ph-file-pdf"></i> <span>Generate & Download PDF</span>';
+      btn.disabled = false;
+    });
+  });
+</script>
