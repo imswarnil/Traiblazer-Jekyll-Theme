@@ -1,0 +1,149 @@
+/* ============================================================================
+   ABSTRACTS / THEMES
+   Five SLDS-style themes via CSS variable overrides.
+   Toggle with either:
+     1) [data-theme="<name>"]                (attribute-driven)
+     2) .slds-theme--<name> on any container (class-driven scope)
+   ============================================================================ */
+
+/* -------- Base (already defined in :root) -------- */
+/* No changes here; we override selectively per theme. */
+
+/* Helper: scope a set of overrides to an arbitrary selector */
+@mixin _theme-scope($selector) {
+  #{$selector} {
+    /* You can override as many (or as few) tokens as needed */
+    color-scheme: light;
+  }
+}
+
+/* -------------------- OCEAN (default Salesforce-ish) -------------------- */
+@include _theme-scope('[data-theme="ocean"]'),
+@include _theme-scope('.slds-theme--ocean') {
+  --sf-brand:   #0176d3;
+  --sf-brand-2: #0b5cab;
+  --sf-accent:  #009ed9;
+  --sf-link:    #0176d3;
+
+  --sf-bg-1: #f4f6f9;
+  --sf-bg-2: #ffffff;
+  --sf-line-1: #cfd7e0;
+  --sf-line-2: #e6ebf1;
+
+  --sf-btn-primary-bg: var(--sf-brand);
+  --sf-btn-primary-hover-bg: #0163b5;
+  --sf-btn-primary-active-bg:#014a8a;
+}
+
+/* -------------------- SUNSET (warm vibrant) -------------------- */
+@include _theme-scope('[data-theme="sunset"]'),
+@include _theme-scope('.slds-theme--sunset') {
+  --sf-brand:   #e2554d;
+  --sf-brand-2: #b13f3a;
+  --sf-accent:  #ff7e47;
+  --sf-link:    #e2554d;
+
+  --sf-bg-1: #fff7f4;
+  --sf-bg-2: #ffffff;
+  --sf-line-1: #ffd9ce;
+  --sf-line-2: #ffe8e2;
+
+  --sf-focus: 0 0 0 .14rem rgba(226,85,77,.55);
+  --sf-btn-primary-bg: var(--sf-brand);
+  --sf-btn-primary-hover-bg: color-mix(in srgb, var(--sf-brand) 88%, black);
+  --sf-btn-primary-active-bg: color-mix(in srgb, var(--sf-brand) 75%, black);
+}
+
+/* -------------------- FOREST (calm green) -------------------- */
+@include _theme-scope('[data-theme="forest"]'),
+@include _theme-scope('.slds-theme--forest') {
+  --sf-brand:   #1e7f5a;
+  --sf-brand-2: #145a40;
+  --sf-accent:  #26b37b;
+  --sf-link:    #1e7f5a;
+
+  --sf-bg-1: #f3fbf7;
+  --sf-bg-2: #ffffff;
+  --sf-line-1: #cfe9de;
+  --sf-line-2: #e7f5ee;
+
+  --sf-success: #1e7f5a;
+  --sf-focus: 0 0 0 .14rem rgba(30,127,90,.45);
+  --sf-btn-primary-bg: var(--sf-brand);
+  --sf-btn-primary-hover-bg: color-mix(in srgb, var(--sf-brand) 88%, black);
+  --sf-btn-primary-active-bg: color-mix(in srgb, var(--sf-brand) 75%, black);
+}
+
+/* -------------------- GRAPHITE (cool gray / near neutral) -------------------- */
+@include _theme-scope('[data-theme="graphite"]'),
+@include _theme-scope('.slds-theme--graphite') {
+  --sf-brand:   #39424e;
+  --sf-brand-2: #222a34;
+  --sf-accent:  #6c7a89;
+  --sf-link:    #39424e;
+
+  --sf-ink:   #0b1221;
+  --sf-fg:    #2b3540;
+  --sf-fg-2:  #3d4753;
+  --sf-fg-3:  #5b6673;
+
+  --sf-bg-1: #f3f4f6;
+  --sf-bg-2: #ffffff;
+  --sf-line-1: #d9dee5;
+  --sf-line-2: #e9edf2;
+
+  --sf-btn-primary-bg: var(--sf-brand);
+  --sf-btn-primary-hover-bg: color-mix(in srgb, var(--sf-brand) 90%, black);
+  --sf-btn-primary-active-bg: color-mix(in srgb, var(--sf-brand) 78%, black);
+}
+
+/* -------------------- HIGH CONTRAST (accessible, dark-on-light) -------------------- */
+@include _theme-scope('[data-theme="contrast"]'),
+@include _theme-scope('.slds-theme--contrast') {
+  --sf-ink:   #0b0b0b;
+  --sf-fg:    #121212;
+  --sf-fg-2:  #1a1a1a;
+  --sf-fg-3:  #2a2a2a;
+  --sf-muted: #555;
+
+  --sf-bg-1: #ffffff;
+  --sf-bg-2: #ffffff;
+  --sf-line-1: #1a1a1a;
+  --sf-line-2: #d0d0d0;
+
+  --sf-brand:   #000000;
+  --sf-brand-2: #0b0b0b;
+  --sf-accent:  #202020;
+  --sf-link:    #000000;
+
+  --sf-shadow-sm: 0 0 0 1px rgba(0,0,0,.8);
+  --sf-shadow-md: 0 0 0 2px rgba(0,0,0,.85);
+
+  --sf-focus: 0 0 0 .16rem rgba(0,0,0,.9);
+  --sf-btn-primary-bg: var(--sf-brand);
+  --sf-btn-primary-hover-bg: #111;
+  --sf-btn-primary-active-bg: #222;
+}
+
+/* -------------------- DARK (attribute already supported globally)
+   If you also want a class-scoped dark theme: .slds-theme--dark
+   It mirrors your :root[data-theme="dark"] tokens exactly.
+---------------------------------------------------------------- */
+.slds-theme--dark {
+  color-scheme: dark;
+  --sf-bg-1: #0f172a;
+  --sf-bg-2: #121a2e;
+  --sf-fg:   #e5e7eb;
+  --sf-fg-2: #c8d0da;
+  --sf-fg-3: #9aa5b1;
+  --sf-muted:#9aa5b1;
+  --sf-line-1: #243045;
+  --sf-line-2: #1b2436;
+  --sf-link: #66b3ff;
+  --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.5);
+  --sf-shadow-md: 0 6px 24px rgba(0,0,0,.45);
+  --sf-shadow-lg: 0 16px 32px rgba(0,0,0,.5);
+  --sf-btn-primary-hover-bg: #1a6fd1;
+  --sf-btn-primary-active-bg: #155aa8;
+  --sf-backdrop: rgba(0,0,0,.6);
+}

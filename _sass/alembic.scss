@@ -3,11 +3,16 @@
    Master import file for the entire theme.
    ============================================================================ */
 
-// 1. ABSTRACTS
-// Contains all variables, tokens, and functions. Must be imported first.
-@import 'abstracts/tokens';
-@import 'abstracts/variables';
-@import 'abstracts/mixins';
+// 1) ABSTRACTS — core, no output deps broken
+@import "abstracts/variables";     // SCSS maps & breakpoints (used by functions/mixins)
+@import "abstracts/tokens";        // CSS custom properties (can be anywhere, but early is tidy)
+@import "abstracts/functions";     // uses variables (maps), exposes getters/helpers
+@import "abstracts/mixins";        // uses variables + functions
+   
+   // 2) ABSTRACTS (emits CSS utilities powered by the above)
+@import "abstracts/placeholders";   // skeleton loaders; uses tokens + mixins + functions
+@import "abstracts/themes";         // theme overrides; uses tokens
+   
 
 // 2. BASE
 // Contains global styles, resets, and typography.

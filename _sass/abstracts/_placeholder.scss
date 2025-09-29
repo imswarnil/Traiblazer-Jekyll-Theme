@@ -1,0 +1,81 @@
+/* ============================================================================
+   ABSTRACTS / PLACEHOLDERS
+   Skeleton & preload states. Provides %placeholders (for @extend) and
+   .slds-skeleton* utility classes. Uses your color tokens.
+   ============================================================================ */
+
+/* ---------- Animation keyframes ---------- */
+@keyframes slds-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes slds-pulse {
+  0%,100% { opacity: .55; }
+  50%     { opacity: .95; }
+}
+
+/* ---------- Base placeholder surface ---------- */
+%_slds-skeleton-base {
+  position: relative;
+  display: block;
+  background:
+    linear-gradient(
+      90deg,
+      mix-on-bg(var(--sf-ink), var(--sf-bg-2), .04) 25%,
+      mix-on-bg(var(--sf-ink), var(--sf-bg-2), .08) 37%,
+      mix-on-bg(var(--sf-ink), var(--sf-bg-2), .04) 63%
+    );
+  background-size: 400% 100%;
+  border-radius: var(--sf-radius-md);
+  animation: slds-shimmer 1.4s ease-in-out infinite;
+}
+%_slds-skeleton-muted {
+  background-color: mix-on-bg(var(--sf-ink), var(--sf-bg-2), .06);
+  background-image: none;
+  animation: slds-pulse 1.2s ease-in-out infinite;
+}
+
+/* ---------- Sizes ---------- */
+%_slds-skeleton-line { height: .9em; border-radius: var(--sf-radius-sm); }
+%_slds-skeleton-block { height: 1rem; }
+
+/* ---------- Variants (placeholders) ---------- */
+%slds-skeleton-line      { @extend %_slds-skeleton-base; @extend %_slds-skeleton-line; }
+%slds-skeleton-line--muted { @extend %_slds-skeleton-muted; @extend %_slds-skeleton-line; }
+
+%slds-skeleton-title       { @extend %_slds-skeleton-base; height: 1.6em; border-radius: var(--sf-radius-sm); }
+%slds-skeleton-title--muted{ @extend %_slds-skeleton-muted; height: 1.6em; border-radius: var(--sf-radius-sm); }
+
+%slds-skeleton-block       { @extend %_slds-skeleton-base; @extend %_slds-skeleton-block; }
+%slds-skeleton-block--muted{ @extend %_slds-skeleton-muted; @extend %_slds-skeleton-block; }
+
+%slds-skeleton-avatar      { @extend %_slds-skeleton-base; width: 3rem; height: 3rem; border-radius: var(--sf-radius-circle); }
+%slds-skeleton-avatar--sm  { width: 2rem; height: 2rem; }
+%slds-skeleton-avatar--lg  { width: 4rem; height: 4rem; }
+
+%slds-skeleton-media { @extend %_slds-skeleton-base; @include aspect-ratio(16,9); border-radius: var(--sf-radius-lg); }
+
+/* ---------- Utility classes (no @extend required) ---------- */
+.slds-skeleton          { @extend %_slds-skeleton-base; }
+.slds-skeleton--muted   { @extend %_slds-skeleton-muted; }
+
+.slds-skeleton__line    { @extend %slds-skeleton-line; }
+.slds-skeleton__line--muted { @extend %slds-skeleton-line--muted; }
+
+.slds-skeleton__title   { @extend %slds-skeleton-title; }
+.slds-skeleton__title--muted { @extend %slds-skeleton-title--muted; }
+
+.slds-skeleton__block   { @extend %slds-skeleton-block; }
+.slds-skeleton__block--muted { @extend %slds-skeleton-block--muted; }
+
+.slds-skeleton__avatar  { @extend %slds-skeleton-avatar; }
+.slds-skeleton__avatar--sm { @extend %slds-skeleton-avatar; @extend %slds-skeleton-avatar--sm; }
+.slds-skeleton__avatar--lg { @extend %slds-skeleton-avatar; @extend %slds-skeleton-avatar--lg; }
+
+.slds-skeleton__media   { @extend %slds-skeleton-media; }
+
+/* ---------- Skeleton stacks (quick layouts) ---------- */
+.slds-skeleton-stack {
+  @include stack(var(--sf-3));
+  .slds-skeleton__line + .slds-skeleton__line { margin-top: .35rem; }
+}
