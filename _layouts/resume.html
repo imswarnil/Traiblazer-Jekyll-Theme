@@ -63,7 +63,6 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
   </div>
 </header>
 
-
 <!-- ========================================================================
      MAIN TWO-COLUMN RESUME BODY
      ======================================================================== -->
@@ -71,7 +70,7 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
   <div class="resume-grid">
     
     <!-- ======================================================= -->
-    <!-- LEFT COLUMN: SUMMARY, EXPERIENCE, PROJECTS, EDUCATION   -->
+    <!-- LEFT COLUMN: SUMMARY, EXPERIENCE, EDUCATION, PROJECTS   -->
     <!-- ======================================================= -->
     <main class="resume-main">
       <!-- Summary Section -->
@@ -90,7 +89,11 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
             {% for item in page.experience %}
             <li class="resume-timeline-item">
               <div class="resume-timeline-item__icon">
-                <img src="{{ item.logo_url | relative_url }}" alt="{{ item.company }} logo">
+                {% if item.logo_url %}
+                  <img src="{{ item.logo_url | relative_url }}" alt="{{ item.company }} logo">
+                {% else %}
+                  <i class="ph-bold ph-buildings"></i>
+                {% endif %}
               </div>
               <div class="resume-timeline-item__header">
                 <h3 class="sf-h4 resume-timeline-item__title">{{ item.role }}</h3>
@@ -104,6 +107,36 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         </div>
       </section>
 
+      <!-- Education Section -->
+      <section class="sf-card resume-section">
+        <div class="sf-card__body">
+          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-graduation-cap"></i><span>Education</span></h2>
+          <ul class="resume-timeline">
+            {% for item in page.education %}
+            <li class="resume-timeline-item">
+               <div class="resume-timeline-item__icon">
+                {% if item.logo_url %}
+                  <img src="{{ item.logo_url | relative_url }}" alt="{{ item.institution }} logo">
+                {% else %}
+                  <i class="ph-bold ph-buildings"></i>
+                {% endif %}
+              </div>
+              <div class="resume-timeline-item__header">
+                <h3 class="sf-h4 resume-timeline-item__title">{{ item.degree }}</h3>
+                <span class="resume-timeline-item__meta">{{ item.dates }}</span>
+              </div>
+              <p class="resume-timeline-item__subtitle">{{ item.institution }}</p>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- ======================================================= -->
+    <!-- RIGHT COLUMN: SKILLS, PROJECTS, CERTS, ACHIEVEMENTS     -->
+    <!-- ======================================================= -->
+    <aside class="resume-sidebar">
       <!-- Projects Section -->
       <section class="sf-card resume-section">
         <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-rocket-launch"></i><span>Projects</span></h3></div>
@@ -127,32 +160,6 @@ _layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
         </div>
       </section>
       
-      <!-- Education Section -->
-      <section class="sf-card resume-section">
-        <div class="sf-card__body">
-          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-graduation-cap"></i><span>Education</span></h2>
-          <ul class="resume-timeline">
-            {% for item in page.education %}
-            <li class="resume-timeline-item">
-               <div class="resume-timeline-item__icon">
-                <i class="ph-bold ph-buildings"></i>
-              </div>
-              <div class="resume-timeline-item__header">
-                <h3 class="sf-h4 resume-timeline-item__title">{{ item.degree }}</h3>
-                <span class="resume-timeline-item__meta">{{ item.dates }}</span>
-              </div>
-              <p class="resume-timeline-item__subtitle">{{ item.institution }}</p>
-            </li>
-            {% endfor %}
-          </ul>
-        </div>
-      </section>
-    </main>
-
-    <!-- ======================================================= -->
-    <!-- RIGHT COLUMN: SKILLS, CERTS, ACHIEVEMENTS, INTERESTS    -->
-    <!-- ======================================================= -->
-    <aside class="resume-sidebar">
       <!-- Skills Section (Tag Cloud) -->
       <section class="sf-card resume-section">
         <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-wrench"></i><span>Skills</span></h3></div>
