@@ -13,11 +13,11 @@
 @import 'abstracts/mixins';
 @import 'abstracts/placeholders';
 
-
 // 2. BASE
 // Contains global styles, resets, and typography.
 @import 'base/reset';
 @import 'base/base';
+@import 'base/generic';
 @import 'base/typography';
 
 

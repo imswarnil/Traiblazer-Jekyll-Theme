@@ -1,28 +1,143 @@
 /* ============================================================================
-   BASE / RESET
-   Modern resets for cross-browser consistency.
+   BASE / REBOOT
+   A comprehensive reset that builds upon Normalize.css principles. It corrects
+   browser inconsistencies and provides sensible defaults for a consistent
+   starting point across all devices and browsers.
    ============================================================================ */
+
+// -----------------------------------------------------------------------------
+// 1. Box Sizing & Root Defaults
+// -----------------------------------------------------------------------------
+
 *,
 *::before,
 *::after {
+  // Set a more intuitive box-sizing model on all elements. `border-box`
+  // includes padding and border in the element's total width and height,
+  // which simplifies layout calculations immensely.
   box-sizing: border-box;
 }
 
-html,
-body {
-  height: 100%;
-}
-
 html {
+  // Prevent adjustments of font size after orientation changes in iOS.
   -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  // Set a default tab size for better code formatting readability.
+  -moz-tab-size: 4;
+  tab-size: 4;
 }
 
-img,
-svg,
-video,
-canvas {
+
+// -----------------------------------------------------------------------------
+// 2. Body & Core Element Defaults
+// -----------------------------------------------------------------------------
+
+body {
+  // Remove the default browser margin. We control spacing deliberately.
+  margin: 0;
+  // Apply the default font family from our design tokens.
+  font-family: var(--sfdc-font-body);
+  // Establish a comfortable, readable line-height for all text.
+  line-height: 1.5;
+  // Improve text rendering for better readability on high-DPI screens.
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Remove the top margin on headings and paragraphs. Bottom margin is used
+// for consistent vertical rhythm.
+h1, h2, h3, h4, h5, h6, p, ul, ol, dl, blockquote, figure {
+  margin-top: 0;
+  margin-bottom: var(--sfdc-spacing-4);
+}
+
+// Remove default list padding.
+ul, ol {
+  padding-left: 0;
+}
+
+// A more robust underline for links that is less crowded.
+a {
+  text-decoration: underline;
+  text-decoration-skip-ink: auto;
+}
+
+// -----------------------------------------------------------------------------
+// 3. Normalization for Common Elements
+// -----------------------------------------------------------------------------
+
+// Make all media elements responsive by default.
+img, svg, video, canvas, audio, iframe, embed, object {
   display: block;
+  vertical-align: middle;
   max-width: 100%;
   height: auto;
+}
+// Add the correct display in Edge and IE.
+main {
+  display: block;
+}
+
+// Correct the border style for `hr` in Firefox.
+hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+  border: 0;
+  border-top: 1px solid var(--sfdc-color-border);
+  margin-top: var(--sfdc-spacing-5);
+  margin-bottom: var(--sfdc-spacing-5);
+}
+
+// Ensure tables are collapsed for consistent borders.
+table {
+  border-collapse: collapse;
+}
+
+// -----------------------------------------------------------------------------
+// 4. Form Element Normalization
+// -----------------------------------------------------------------------------
+
+// Force typography inheritance for all form controls.
+input,
+button,
+textarea,
+select {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+// Show the overflow in Edge.
+button,
+input {
+  overflow: visible;
+}
+
+// Remove the inheritance of text transform in Firefox.
+button,
+select {
+  text-transform: none;
+}
+
+// Correct the inability to style clickable types in iOS and Safari.
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+}
+
+// Remove the inner border and padding in Firefox.
+button::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner {
+  padding: 0;
+  border-style: none;
+}
+
+// Set a default cursor for disabled elements.
+:disabled {
+  cursor: not-allowed;
 }
