@@ -79,3 +79,39 @@
   @include stack(var(--sf-3));
   .slds-skeleton__line + .slds-skeleton__line { margin-top: .35rem; }
 }
+
+
+/* ============================================================================
+ABSTRACTS / PLACEHOLDERS (skeletons)
+============================================================================ */
+@keyframes sf-shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+@keyframes sf-pulse   { 0%,100%{opacity:.55} 50%{opacity:.95} }
+
+%sf-skel-base {
+  display:block; position:relative; overflow:hidden;
+  background:
+    linear-gradient(90deg,
+      color-mix(in srgb, var(--sf-ink) 4%, var(--sf-bg-2)) 25%,
+      color-mix(in srgb, var(--sf-ink) 8%, var(--sf-bg-2)) 37%,
+      color-mix(in srgb, var(--sf-ink) 4%, var(--sf-bg-2)) 63%
+    );
+  background-size: 400% 100%;
+  border-radius: var(--sf-radius-md);
+  animation: sf-shimmer 1.4s ease-in-out infinite;
+}
+%sf-skel-muted { background: color-mix(in srgb, var(--sf-ink) 6%, var(--sf-bg-2)); animation: sf-pulse 1.2s ease-in-out infinite; }
+
+%sf-skel-line { height: .9em; border-radius: var(--sf-radius-sm); }
+%sf-skel-title { height: 1.6em; border-radius: var(--sf-radius-sm); }
+%sf-skel-block { height: 1rem; }
+
+/* Public utilities */
+.sf-skeleton             { @extend %sf-skel-base; }
+.sf-skeleton--muted      { @extend %sf-skel-muted; }
+.sf-skeleton__line       { @extend %sf-skel-base; @extend %sf-skel-line; }
+.sf-skeleton__title      { @extend %sf-skel-base; @extend %sf-skel-title; }
+.sf-skeleton__block      { @extend %sf-skel-base; @extend %sf-skel-block; }
+.sf-skeleton__avatar     { @extend %sf-skel-base; width:3rem; height:3rem; border-radius: var(--sf-radius-circle); }
+.sf-skeleton__media      { @extend %sf-skel-base; @include aspect-ratio(16,9); border-radius: var(--sf-radius-lg); }
+
+.sf-skeleton-stack { @include stack(var(--sf-3)); .sf-skeleton__line + .sf-skeleton__line { margin-top: .35rem; } }
