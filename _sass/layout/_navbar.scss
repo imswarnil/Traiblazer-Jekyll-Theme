@@ -52,7 +52,7 @@ body.theme-transitioning {
   }
 
   // When theme is LIGHT, show MOON icon (to switch to Dark)
-  [data-theme="light"] & { .ph-moon { transform: translateY(0) rotate(0deg); opacity: 1; } }
+  [data-theme="light"] & { .ph-cloud { transform: translateY(0) rotate(0deg); opacity: 1; } }
   // When theme is DARK, show SUNSET icon (to switch to Sunset)
   [data-theme="dark"] & { .ph-sun-horizon { transform: translateY(0) rotate(0deg); opacity: 1; } }
   // When theme is SUNSET, show LEAF icon (to switch to Nature)
