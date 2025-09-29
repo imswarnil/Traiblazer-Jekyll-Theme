@@ -6,7 +6,7 @@
 // 1) ABSTRACTS — core, no output deps broken
 @import "abstracts/variables";
 @import "abstracts/tokens";
-@import "abstracts/theme"; // <-- ADD THIS LINE
+@import "abstracts/themes"; // <-- ADD THIS LINE
 @import "abstracts/mixins";
 
    // 2) ABSTRACTS (emits CSS utilities powered by the above)
