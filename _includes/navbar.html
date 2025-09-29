@@ -36,6 +36,13 @@ _includes/navbar.html (Premium Animation Edition - Complete)
  <button class="sf-nav-toggle" aria-label="Toggle navigation" data-toggle="nav-panel">
    <span></span><span></span><span></span>
  </button>
+ <button class="sf-header__action-btn sf-theme-switcher" aria-label="Toggle theme">
+  <i class="ph-bold ph-sun"></i>      <!-- Icon for switching TO Light -->
+  <i class="ph-bold ph-moon"></i>     <!-- Icon for switching TO Dark -->
+  <i class="ph-bold ph-sun-horizon"></i> <!-- Icon for switching TO Sunset -->
+  <i class="ph-bold ph-leaf"></i>      <!-- Icon for switching TO Nature -->
+  <i class="ph-bold ph-palette"></i>   <!-- Icon for switching TO B&W -->
+</button>
 </div>
 </div>
 </header>
@@ -179,4 +186,37 @@ document.querySelectorAll('[data-toggle="search-panel"]').forEach(btn => {
  });
 });
 });
+// ... inside your <script> tag ...
+
+// --- Theme Switching with Body Class for Animation ---
+const themeSwitcher = document.querySelector('.sf-theme-switcher');
+const themes = ['light', 'dark', 'sunset', 'nature', 'b&w']; // Define theme cycle
+
+const setTheme = theme => {
+  document.body.classList.add('theme-transitioning');
+  htmlEl.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  // Also update the switcher's data-theme attribute for SCSS targeting
+  if (themeSwitcher) {
+    themeSwitcher.setAttribute('data-theme', theme);
+  }
+  setTimeout(() => document.body.classList.remove('theme-transitioning'), 500);
+};
+
+// Determine initial theme
+const savedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+setTheme(initialTheme);
+
+// Add click listener to cycle through themes
+themeSwitcher.addEventListener('click', () => {
+  const currentTheme = htmlEl.getAttribute('data-theme') || 'light';
+  const currentIndex = themes.indexOf(currentTheme);
+  const nextIndex = (currentIndex + 1) % themes.length; // Loop back to start
+  const nextTheme = themes[nextIndex];
+  setTheme(nextTheme);
+});
+
+// ... rest of your javascript ...
 </script>

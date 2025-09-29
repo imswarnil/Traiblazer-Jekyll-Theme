@@ -362,3 +362,55 @@ margin: 0;
     }
   }
 }
+
+/* ============================================================================
+   NAVBAR.SCSS — THEME SWITCHER UPDATE
+   Replace your existing .sf-theme-switcher rules with this block.
+   ============================================================================ */
+
+.sf-theme-switcher {
+  position: relative;
+  overflow: hidden;
+  
+  // Base state: All icons are hidden and positioned off-screen.
+  .ph-bold {
+    transition: transform .4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity .4s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -.75rem;
+    margin-top: -.75rem;
+    transform: translateY(150%) rotate(90deg);
+    opacity: 0;
+  }
+
+  // Define which icon is VISIBLE based on the CURRENT theme.
+  // The visible icon shows what you will switch TO.
+
+  // When theme is LIGHT, show MOON (to switch to Dark)
+  &:not([data-theme]), // Default state (no attribute)
+  [data-theme="light"] & {
+    .ph-moon { transform: translateY(0) rotate(0deg); opacity: 1; }
+  }
+
+  // When theme is DARK, show SUNSET (to switch to Sunset)
+  [data-theme="dark"] & {
+    .ph-sun-horizon { transform: translateY(0) rotate(0deg); opacity: 1; }
+  }
+  
+  // When theme is SUNSET, show LEAF (to switch to Nature)
+  [data-theme="sunset"] & {
+    .ph-leaf { transform: translateY(0) rotate(0deg); opacity: 1; }
+  }
+
+  // When theme is NATURE, show PALETTE (to switch to B&W)
+  [data-theme="nature"] & {
+    .ph-palette { transform: translateY(0) rotate(0deg); opacity: 1; }
+  }
+  
+  // When theme is B&W, show SUN (to switch back to Light)
+  [data-theme="b&w"] & {
+    .ph-sun { transform: translateY(0) rotate(0deg); opacity: 1; }
+  }
+}
