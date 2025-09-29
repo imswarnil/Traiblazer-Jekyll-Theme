@@ -1,0 +1,50 @@
+/* ============================================================================
+BUTTONS (SLDS-flavored)
+============================================================================ */
+.slds-button {
+  @include button-reset;
+  @include control-base(var(--sf-control-md));
+  display:inline-flex; align-items:center; justify-content:center; gap: var(--sf-2);
+  border-radius: var(--sf-btn-radius);
+  @include interactive(background-color);
+}
+
+.slds-button_neutral {
+  background: var(--sf-bg-2); color: var(--sf-fg); border-color: var(--sf-line-1);
+  &:hover { background: var(--sf-bg-1); }
+  &:active { filter: brightness(.97); }
+  @include focus-visible;
+}
+
+.slds-button_brand {
+  background: var(--sf-btn-primary-bg); color: var(--sf-btn-primary-text); border-color: transparent;
+  @include elevation(sm);
+  &:hover { background: var(--sf-btn-primary-hover-bg); }
+  &:active { background: var(--sf-btn-primary-active-bg); }
+  @include focus-visible;
+}
+
+.slds-button_outline-brand {
+  background: transparent; color: var(--sf-brand); border-color: var(--sf-brand);
+  &:hover { background: color-mix(in srgb, var(--sf-brand) 10%, transparent); }
+  &:active { background: color-mix(in srgb, var(--sf-brand) 18%, transparent); }
+  @include focus-visible;
+}
+
+.slds-button_destructive {
+  background: var(--sf-danger); color: #fff; border-color: transparent;
+  &:hover { filter: brightness(.98); }
+  &:active { filter: brightness(.95); }
+  @include focus-visible;
+}
+
+.slds-button_success {
+  background: var(--sf-success); color: #fff; border-color: transparent;
+  &:hover { filter: brightness(1.02); }
+  &:active { filter: brightness(.96); }
+  @include focus-visible;
+}
+
+/* Sizes */
+.slds-button_small { min-height: var(--sf-control-sm); padding-inline: var(--sf-2); }
+.slds-button_large { min-height: var(--sf-control-lg); padding-inline: var(--sf-4); }

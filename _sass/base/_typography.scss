@@ -1,43 +1,27 @@
 /* ============================================================================
-   BASE / TYPOGRAPHY
-   The foundational type scale and styles for all text content.
-   ============================================================================ */
+TYPOGRAPHY
+============================================================================ */
+:root { --sf-head-weight: 700; --sf-body-weight: 400; }
 
-/* Fluid type scale classes */
-.sf-text--body { font-size: clamp(0.98rem, 0.95rem + .2vw, 1.05rem); }
-.sf-text--small { font-size: .875rem; color: var(--sf-muted); }
-.sf-text--large { font-size: clamp(1.05rem, 1rem + .4vw, 1.25rem); }
+.slds-text-heading_large  { @include text(var(--sf-text-3xl), 700, var(--sf-leading-tight), var(--sf-tracking-tight)); color: var(--sf-ink); }
+.slds-text-heading_medium { @include text(var(--sf-text-2xl), 700, var(--sf-leading-tight), var(--sf-tracking-tight)); color: var(--sf-ink); }
+.slds-text-heading_small  { @include text(var(--sf-text-xl), 700, var(--sf-leading-tight), var(--sf-tracking-tight)); color: var(--sf-ink); }
 
-/* Headings (Salesforce-y weight & spacing) */
-.sf-h1,.sf-h2,.sf-h3,.sf-h4,.sf-h5,.sf-h6 {
-  margin: 0 0 var(--sf-3) 0;
-  font-weight: 700;
-  letter-spacing: .2px;
-}
+.slds-text-title_caps { text-transform: uppercase; letter-spacing: .12em; font-weight: 600; font-size: var(--sf-text-xs); color: var(--sf-muted); }
+.slds-text-body_regular { @include text(var(--sf-text-base), var(--sf-body-weight), var(--sf-leading-relaxed)); }
+.slds-text-body_small   { @include text(var(--sf-text-sm), var(--sf-body-weight), var(--sf-leading-normal)); }
+.slds-text-body_weak    { color: var(--sf-muted); }
 
-.sf-h1 { font-size: clamp(1.6rem, 1.2rem + 2vw, 2.25rem); line-height: 1.2; }
-.sf-h2 { font-size: clamp(1.4rem, 1.1rem + 1.5vw, 1.8rem); }
-.sf-h3 { font-size: clamp(1.2rem, 1.05rem + 1vw, 1.5rem); }
-.sf-h4 { font-size: 1.125rem; }
-.sf-h5 { font-size: 1rem; }
-.sf-h6 { font-size: .875rem; color: var(--sf-muted); }
+.slds-link { color: var(--sf-link); @include interactive(color); &:hover { text-decoration: underline; } @include focus-visible; }
 
-/* Links with gentle underline on hover (SLDS vibe) */
-.sf-link-underline {
-  position: relative;
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -2px;
-    height: 2px;
-    background: currentColor;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform .15s ease;
-  }
-  &:hover::after {
-    transform: scaleX(1);
-  }
+/* Prose block */
+.slds-prose {
+  color: var(--sf-fg);
+  max-width: var(--sf-measure);
+  > * + * { margin-top: var(--sf-4); }
+  h1, h2, h3 { margin-top: var(--sf-8); }
+  h4, h5, h6 { margin-top: var(--sf-6); }
+  code { font-family: var(--sf-font-mono); background: var(--sf-bg-1); padding: .15em .35em; border-radius: var(--sf-radius-sm); }
+  pre { padding: var(--sf-4); border-radius: var(--sf-radius-lg); background: var(--sf-bg-2); @include elevation(sm); overflow:auto; }
+  blockquote { margin: var(--sf-5) 0; padding: var(--sf-4); border-left: 3px solid var(--sf-brand); background: var(--sf-bg-2); }
 }

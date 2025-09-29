@@ -1,0 +1,106 @@
+/* ============================================================================
+MIXINS
+============================================================================ */
+
+/* Focus */
+@mixin focus-ring {
+  outline: none;
+  box-shadow: var(--sf-focus);
+  border-radius: 2px;
+}
+@mixin focus-visible { &:focus-visible { @include focus-ring; } }
+
+/* Breakpoints */
+@mixin breakpoint($point) {
+  @if $point == xs { @media (min-width: $bp-xs) { @content; } }
+  @else if $point == sm { @media (min-width: $bp-sm) { @content; } }
+  @else if $point == md { @media (min-width: $bp-md) { @content; } }
+  @else if $point == lg { @media (min-width: $bp-lg) { @content; } }
+  @else if $point == xl { @media (min-width: $bp-xl) { @content; } }
+}
+
+/* Motion guards */
+@mixin motion-safe { @media (prefers-reduced-motion: no-preference) { @content; } }
+@mixin motion-reduce { @media (prefers-reduced-motion: reduce) { @content; } }
+
+/* Hover media */
+@mixin hover { @media (hover: hover) and (pointer: fine) { &:hover { @content; } } }
+
+/* Typography helpers */
+@mixin antialiased { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+@mixin text($size: var(--sf-text-base), $weight: 400, $line: var(--sf-leading-normal), $tracking: 0) {
+  font-size: $size; font-weight: $weight; line-height: $line; letter-spacing: $tracking;
+}
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  } @else {
+    display: -webkit-box; -webkit-line-clamp: $lines; -webkit-box-orient: vertical; overflow: hidden;
+  }
+}
+@mixin sr-only {
+  position: absolute !important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+@mixin not-sr-only { position: static; width:auto; height:auto; margin:0; overflow:visible; clip:auto; white-space:normal; }
+
+/* Layout */
+@mixin container($size: md) {
+  width: min(calc(100% - (2 * var(--sf-container-padding))), var(--sf-container-#{$size}));
+  margin-inline: auto;
+  padding-inline: var(--sf-container-padding);
+}
+@mixin grid($cols: var(--sf-grid-columns), $gap: var(--sf-grid-gap)) {
+  display: grid;
+  grid-template-columns: repeat(#{$cols}, minmax(0, 1fr));
+  gap: $gap;
+}
+@mixin grid-col-span($span) { grid-column: span #{$span} / span #{$span}; }
+
+@mixin stack($gap: var(--sf-4)) { display:flex; flex-direction:column; gap:$gap; }
+@mixin cluster($gap: var(--sf-3), $align: center, $justify: flex-start, $wrap: wrap) {
+  display:flex; flex-wrap:$wrap; align-items:$align; justify-content:$justify; gap:$gap;
+}
+@mixin center($axis: both) {
+  display:flex;
+  @if $axis == both { align-items:center; justify-content:center; }
+  @else if $axis == x { justify-content:center; }
+  @else if $axis == y { align-items:center; }
+}
+
+/* Effects */
+@mixin border($color: var(--sf-line-1)) { border: 1px solid $color; }
+@mixin ring($size: .14rem, $color: rgba(1,118,211,.9)) { box-shadow: 0 0 0 $size $color; }
+@mixin elevation($level: sm) {
+  @if $level == sm { box-shadow: var(--sf-shadow-sm); }
+  @else if $level == md { box-shadow: var(--sf-shadow-md); }
+  @else if $level == lg { box-shadow: var(--sf-shadow-lg); }
+}
+@mixin aspect-ratio($w, $h) {
+  aspect-ratio: #{$w} / #{$h};
+  @supports not (aspect-ratio: 1) {
+    position: relative;
+    &::before { content:""; display:block; padding-top: calc(#{$h} / #{$w} * 100%); }
+    > * { position:absolute; inset:0; }
+  }
+}
+
+/* Resets & controls */
+@mixin button-reset {
+  appearance: none; background: none; border: 0; padding: 0; font: inherit; color: inherit;
+}
+@mixin input-reset {
+  appearance: none; background: none; border: 0; padding: 0; font: inherit; color: inherit;
+}
+@mixin control-base($height: var(--sf-control-md), $pad-x: var(--sf-control-pad-x)) {
+  min-height: $height; padding-inline: $pad-x; border-radius: var(--sf-control-radius);
+  background: var(--sf-control-bg); color: var(--sf-fg); @include border(var(--sf-control-border));
+}
+@mixin interactive($transition-prop: all) {
+  transition: #{$transition-prop} var(--sf-dur-150, .15s) var(--sf-ease-standard, cubic-bezier(.2,0,0,1));
+  @include hover { filter: brightness(0.98); }
+}
+
+/* Icons & media */
+@mixin icon-size($size: var(--sf-icon-md)) { width:$size; height:$size; flex:0 0 $size; }
+@mixin media-cover { width:100%; height:100%; object-fit:cover; border-radius:var(--sf-radius-lg); box-shadow:var(--sf-shadow-md); }

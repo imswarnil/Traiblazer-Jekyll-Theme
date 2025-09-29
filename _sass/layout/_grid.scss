@@ -1,21 +1,50 @@
 /* ============================================================================
-   LAYOUT / GRID
-   The responsive container and grid system.
-   ============================================================================ */
-.sf-container {
-  width: min(1200px, 92%);
-  margin-inline: auto;
+GRID & CONTAINERS (SLDS-style + CSS Grid utilities)
+============================================================================ */
+
+/* Containers */
+.slds-container        { @include container(md); }
+.slds-container_small  { @include container(sm); }
+.slds-container_medium { @include container(md); }
+.slds-container_large  { @include container(lg); }
+.slds-container_x-large{ @include container(xl); }
+.slds-container_2x-large{ @include container(2xl); }
+
+/* Flex grid (SLDS-like) */
+.slds-grid { display:flex; flex-wrap:nowrap; align-items:stretch; }
+.slds-grid_vertical { flex-direction: column; }
+.slds-wrap { flex-wrap: wrap; }
+
+/* Gutters */
+.slds-gutters { margin-inline: calc(#{$grid-gutter} * -0.5); }
+.slds-gutters > .slds-col { padding-inline: calc(#{$grid-gutter} * 0.5); }
+
+/* Columns (1..12) */
+.slds-col { flex: 1 1 0; min-width: 0; }
+@for $i from 1 through $grid-columns {
+  .slds-col_#{$i}-of-#{$grid-columns} { flex: 0 0 auto; width: percentage($i / $grid-columns); }
 }
 
-.sf-grid {
-  display: grid;
-  gap: var(--sf-4);
-}
-
+/* Responsive column sizing */
 @include breakpoint(sm) {
-  .sf-grid--2 { grid-template-columns: 1fr 1fr; }
+  @for $i from 1 through $grid-columns {
+    .slds-small-size_#{$i}-of-#{$grid-columns} { flex: 0 0 auto; width: percentage($i / $grid-columns); }
+  }
+}
+@include breakpoint(md) {
+  @for $i from 1 through $grid-columns {
+    .slds-medium-size_#{$i}-of-#{$grid-columns} { flex: 0 0 auto; width: percentage($i / $grid-columns); }
+  }
+}
+@include breakpoint(lg) {
+  @for $i from 1 through $grid-columns {
+    .slds-large-size_#{$i}-of-#{$grid-columns} { flex: 0 0 auto; width: percentage($i / $grid-columns); }
+  }
 }
 
-@include breakpoint(md) {
-  .sf-grid--3 { grid-template-columns: repeat(3, 1fr); }
+/* CSS Grid utilities */
+.slds-grid-css { @include grid(var(--sf-grid-columns), var(--sf-grid-gap)); }
+@for $i from 1 through $grid-columns {
+  .slds-grid-cols-#{$i} { grid-template-columns: repeat(#{$i}, minmax(0,1fr)); }
+  .slds-col-span-#{$i}  { @include grid-col-span($i); }
 }

@@ -7,3 +7,55 @@
 // Basic spacing helpers
 .mt-8 { margin-top: $space-8; }
 .mb-8 { margin-bottom: $space-8; }
+
+/* ============================================================================
+UTILITIES (spacing, display, gaps, visibility)
+============================================================================ */
+
+/* Spacing helpers (margin/padding for the token keys) */
+@function _space-var($k) { @return unquote("var(--sf-#{$k})"); }
+
+@each $k in $space-keys {
+  .slds-m-#{$k} { margin: _space-var($k); }
+  .slds-mt-#{$k} { margin-top: _space-var($k); }
+  .slds-mr-#{$k} { margin-right: _space-var($k); }
+  .slds-mb-#{$k} { margin-bottom: _space-var($k); }
+  .slds-ml-#{$k} { margin-left: _space-var($k); }
+  .slds-mx-#{$k} { margin-inline: _space-var($k); }
+  .slds-my-#{$k} { margin-block: _space-var($k); }
+
+  .slds-p-#{$k} { padding: _space-var($k); }
+  .slds-pt-#{$k} { padding-top: _space-var($k); }
+  .slds-pr-#{$k} { padding-right: _space-var($k); }
+  .slds-pb-#{$k} { padding-bottom: _space-var($k); }
+  .slds-pl-#{$k} { padding-left: _space-var($k); }
+  .slds-px-#{$k} { padding-inline: _space-var($k); }
+  .slds-py-#{$k} { padding-block: _space-var($k); }
+}
+
+/* Display & alignment */
+.slds-show { display: block !important; }
+.slds-hide { display: none !important; }
+.slds-inline { display: inline !important; }
+.slds-inline-block { display: inline-block !important; }
+.slds-flex { display: flex !important; }
+.slds-inline-flex { display: inline-flex !important; }
+
+.slds-align_start { align-items: flex-start; }
+.slds-align_center { align-items: center; }
+.slds-align_end { align-items: flex-end; }
+.slds-justify_start { justify-content: flex-start; }
+.slds-justify_center { justify-content: center; }
+.slds-justify_end { justify-content: flex-end; }
+.slds-justify_between { justify-content: space-between; }
+
+/* Gaps */
+@each $k in $space-keys {
+  .slds-gap-#{$k} { gap: _space-var($k); }
+  .slds-gap-x-#{$k} { column-gap: _space-var($k); }
+  .slds-gap-y-#{$k} { row-gap: _space-var($k); }
+}
+
+/* Assistive text */
+.slds-assistive-text { @include sr-only; }
+.slds-not-assistive { @include not-sr-only; }

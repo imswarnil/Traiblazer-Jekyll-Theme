@@ -1,0 +1,21 @@
+/* ============================================================================
+FLEX UTILITIES
+============================================================================ */
+.slds-flex_row { display:flex; flex-direction: row; }
+.slds-flex_column { display:flex; flex-direction: column; }
+.slds-flex_wrap { flex-wrap: wrap; }
+.slds-flex_nowrap { flex-wrap: nowrap; }
+.slds-grow { flex: 1 1 0%; }
+.slds-shrink-none { flex-shrink: 0; }
+
+.slds-align_start { align-items:flex-start; }
+.slds-align_center { align-items:center; }
+.slds-align_end { align-items:flex-end; }
+.slds-self_start { align-self:flex-start; }
+.slds-self_center { align-self:center; }
+.slds-self_end { align-self:flex-end; }
+
+.slds-justify_start { justify-content:flex-start; }
+.slds-justify_center { justify-content:center; }
+.slds-justify_end { justify-content:flex-end; }
+.slds-justify_between { justify-content:space-between; }
