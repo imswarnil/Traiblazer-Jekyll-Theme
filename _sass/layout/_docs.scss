@@ -1,0 +1,234 @@
+/* ============================================================================
+   LAYOUT / DOCS
+   Styles for the documentation module, including the 3-column layout,
+   sidebar, content area, TOC, and pagination.
+   ============================================================================ */
+@use "sass:math";
+
+// --- Main Layout Grid ---
+.docs-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr; // Mobile-first: single column
+
+  @include breakpoint(md) {
+    grid-template-columns: 260px 1fr; // Sidebar + Content on medium screens
+    gap: var(--sf-6);
+  }
+
+  @include breakpoint(lg) {
+    // 3-column layout on large screens: Sidebar + Content + TOC
+    grid-template-columns: 260px minmax(0, var(--sf-measure)) 1fr;
+    gap: var(--sf-8);
+  }
+}
+
+// --- Docs Header ---
+.docs-header {
+  padding-block: var(--sf-6);
+  border-bottom: 1px solid var(--sf-line-2);
+  margin-bottom: var(--sf-6);
+}
+
+// --- 1. Docs Sidebar (Left Column) ---
+.docs-sidebar {
+  @include breakpoint(md) {
+    position: sticky;
+    top: calc(var(--sf-nav-height) + var(--sf-4)); // Stick below the main navbar
+    height: calc(100vh - var(--sf-nav-height) - (2 * var(--sf-4)));
+    overflow-y: auto;
+    padding-right: var(--sf-4);
+  }
+}
+
+.docs-nav {
+  &__category-title {
+    font-size: var(--sf-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--sf-tracking-wide);
+    color: var(--sf-muted);
+    padding: var(--sf-3) 0;
+    margin-top: var(--sf-4);
+    &:first-child { margin-top: 0; }
+  }
+  &__link {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--sf-2) var(--sf-3);
+    margin-bottom: var(--sf-1);
+    font-size: var(--sf-text-sm);
+    font-weight: 500;
+    color: var(--sf-fg-2);
+    border-radius: var(--sf-radius-md);
+    transition: background-color .15s ease, color .15s ease;
+
+    @include hover {
+      background-color: var(--sf-bg-2);
+      color: var(--sf-fg);
+    }
+
+    &.is-active {
+      background-color: var(--sf-bg-2);
+      color: var(--sf-brand);
+      font-weight: 600;
+      box-shadow: var(--sf-shadow-sm);
+    }
+  }
+}
+
+// --- 2. Docs Content (Center Column) ---
+.docs-content {
+  // Rich styling for markdown content
+  h1, h2, h3 {
+    scroll-margin-top: calc(var(--sf-nav-height) + var(--sf-4));
+  }
+  h2 {
+    padding-bottom: var(--sf-3);
+    border-bottom: 1px solid var(--sf-line-2);
+    margin-top: var(--sf-8);
+  }
+  h3 {
+    margin-top: var(--sf-6);
+  }
+  code {
+    background-color: var(--sf-line-2);
+    padding: .1em .3em;
+    border-radius: var(--sf-radius-sm);
+    font-size: .9em;
+  }
+  pre {
+    background-color: var(--sf-bg-2);
+    border: 1px solid var(--sf-line-2);
+  }
+}
+
+// --- 3. Docs Table of Contents (Right Column) ---
+.docs-toc-wrapper {
+  display: none; // Hidden on small and medium screens
+
+  @include breakpoint(lg) {
+    display: block;
+    position: sticky;
+    top: calc(var(--sf-nav-height) + var(--sf-4));
+    height: calc(100vh - var(--sf-nav-height) - (2 * var(--sf-4)));
+  }
+}
+
+.docs-toc {
+  font-size: var(--sf-text-sm);
+
+  &__title {
+    font-size: var(--sf-text-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: var(--sf-tracking-wide);
+    color: var(--sf-muted);
+    margin-bottom: var(--sf-4);
+  }
+
+  &__list {
+    list-style: none;
+    padding-left: 0;
+  }
+  &__item {
+    &--h3 {
+      padding-left: var(--sf-4);
+    }
+  }
+  &__link {
+    display: block;
+    padding: var(--sf-2) 0;
+    color: var(--sf-fg-3);
+    border-left: 2px solid var(--sf-line-2);
+    padding-left: var(--sf-3);
+    transition: all .15s ease;
+
+    @include hover {
+      color: var(--sf-fg);
+      border-left-color: var(--sf-muted);
+    }
+
+    &.is-active {
+      color: var(--sf-brand);
+      font-weight: 600;
+      border-left-color: var(--sf-brand);
+      transform: translateX(4px);
+    }
+  }
+}
+
+// --- Ad Placeholder ---
+.docs-ad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sf-4);
+  margin-top: var(--sf-6);
+  border-radius: var(--sf-radius-lg);
+  border: 1px dashed var(--sf-line-1);
+  background-color: var(--sf-bg-2);
+  color: var(--sf-muted);
+  font-size: var(--sf-text-xs);
+  text-align: center;
+
+  .ph-bold {
+    font-size: 2rem;
+    margin-bottom: var(--sf-2);
+  }
+}
+
+// --- Docs Pagination ---
+.docs-pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--sf-8);
+  padding-top: var(--sf-6);
+  border-top: 1px solid var(--sf-line-2);
+
+  &__link {
+    display: inline-flex;
+    flex-direction: column;
+    padding: var(--sf-3) var(--sf-4);
+    border: 1px solid var(--sf-line-2);
+    border-radius: var(--sf-radius-lg);
+    max-width: 48%;
+    transition: all .15s ease;
+
+    .ph-bold {
+      font-size: var(--sf-icon-md);
+      color: var(--sf-muted);
+      margin-bottom: var(--sf-2);
+    }
+
+    &--prev {
+      align-items: flex-start;
+      .ph-bold {
+        align-self: flex-start;
+      }
+    }
+    &--next {
+      align-items: flex-end;
+      margin-left: auto;
+      .ph-bold {
+        align-self: flex-end;
+      }
+    }
+
+    @include hover {
+      border-color: var(--sf-brand);
+      transform: translateY(-2px);
+      box-shadow: var(--sf-shadow-md);
+    }
+  }
+  &__label {
+    font-size: var(--sf-text-xs);
+    font-weight: 600;
+    color: var(--sf-muted);
+  }
+  &__title {
+    color: var(--sf-fg);
+    font-weight: 600;
+  }
+}
