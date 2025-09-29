@@ -59,6 +59,11 @@ $sfdc-font-sizes: (
   "3xl": 2.5rem
 ) !default;
 
+:focus-visible {
+  outline: none;
+  box-shadow: var(--sfdc-focus);
+  border-radius: var(--sfdc-radius-sm);
+}
 // -----------------------------------------------------------------------------
 // CSS Custom Properties (Design Tokens for Browser)
 // We loop through our SCSS maps to generate these automatically.
