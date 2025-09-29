@@ -1,6 +1,5 @@
 /* ============================================================================
-   COMPONENTS / PAGE.SCSS
-   Styles for the default static page layout.
+   COMPONENTS / PAGE.SCSS (V3 - Professional & Complete Edition)
    ============================================================================ */
 
 /* --- 1. Page Header --- */
@@ -9,8 +8,10 @@
   background-color: var(--sf-bg-1);
   border-bottom: 1px solid var(--sf-line-2);
   text-align: center;
+  animation: fadeIn 0.5s ease-out;
 
   .sf-h1 {
+    margin-top: var(--sf-4);
     margin-bottom: var(--sf-3);
   }
   .sf-text--large {
@@ -20,29 +21,69 @@
   }
 }
 
+// BREADCRUMBS (Consistent styling with blog layouts)
+.breadcrumb {
+  @include cluster(var(--sf-2), center, center, wrap); // Center align
+  font-size: var(--sf-text-sm);
+  a {
+    color: var(--sf-fg-2);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    &:hover { color: var(--sf-brand); }
+  }
+  span { color: var(--sf-muted); }
+  i { color: var(--sf-muted); }
+}
+
+// LAST UPDATED META
+.page-header__meta {
+  @include cluster(var(--sf-2), center, center);
+  margin-top: var(--sf-5);
+  padding: var(--sf-2) var(--sf-4);
+  display: inline-flex; // So it doesn't take full width
+  background-color: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-pill);
+  font-size: var(--sf-text-sm);
+  color: var(--sf-fg-2);
+  
+  i { color: var(--sf-brand); }
+}
+
+
 /* --- 2. Main Page Body & Grid --- */
 .page-body-section {
   padding-block: var(--sf-8);
 }
 
+.page-main-content {
+  animation: fadeIn 0.5s ease-out 0.1s;
+  animation-fill-mode: both; // Keep state after animation
+}
+
 // The main content card that holds the article
 .page-content-card {
-  // Solves the "content coming out" issue by ensuring images and other
-  // wide elements are contained within the card's boundaries.
+  // Solves the "content coming out" issue
   .typeset {
-    overflow-wrap: break-word; // Break long words/URLs
+    overflow-wrap: break-word;
     
-    img, video, iframe {
+    // Make embedded content responsive and contained
+    img, video, iframe, figure {
       max-width: 100%;
       height: auto;
       border-radius: var(--sf-radius-md);
+      margin-block: var(--sf-5);
     }
   }
 }
 
 /* --- 3. Page Sidebar --- */
 .page-sidebar {
-  // On mobile, when the sidebar stacks, add some space above it.
+  display: flex; // Use flex for gap and vertical alignment
+  flex-direction: column;
+  gap: var(--sf-6);
+
+  // On mobile, when the sidebar stacks, add space above it.
   margin-top: var(--sf-8);
   
   @include breakpoint(lg) {
@@ -50,20 +91,11 @@
     margin-top: 0;
     position: sticky;
     top: calc(var(--sf-nav-height) + var(--sf-4));
-    align-self: start; // Crucial for sticky positioning within a flex/grid row
-    
-    // Create a vertical rhythm for sidebar widgets
-    display: flex;
-    flex-direction: column;
-    gap: var(--sf-6);
+    align-self: start; // Crucial for sticky positioning
   }
 }
 
 /* --- 4. Sidebar Widgets --- */
-
-// Table of Contents Card
-// It will reuse the `.toc-card` styles from `_post.scss` for consistency.
-// We add a check here in case _post.scss isn't imported.
 .toc-card {
   padding: var(--sf-4);
   .toc-list {
@@ -74,45 +106,30 @@
       &:hover { background-color: var(--sf-bg-1); color: var(--sf-brand); }
     }
   }
-  // Hide the TOC card if the list is empty (JS from toc.html handles this)
-  &:empty {
+  &:has(:not(ul:empty)) { // Modern CSS to only show if TOC has items
+    display: block;
+  }
+  &:not(:has(:not(ul:empty))) {
     display: none;
   }
 }
 
-// Quick Links Card
 .quick-links-card {
-  // Basic card styles are inherited. We just style the list inside.
   .quick-links-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sf-2);
-
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: var(--sf-2);
     a {
-      display: block;
-      text-decoration: none;
-      font-weight: 500;
-      color: var(--sf-fg-2);
-      padding: var(--sf-2) var(--sf-3);
-      border-radius: var(--sf-radius-sm);
-      transition: all .2s ease;
-
+      display: block; text-decoration: none; font-weight: 500;
+      color: var(--sf-fg-2); padding: var(--sf-2) var(--sf-3);
+      border-radius: var(--sf-radius-sm); transition: all .2s ease;
       &:hover {
-        background-color: var(--sf-bg-1);
-        color: var(--sf-brand);
-        transform: translateX(4px);
+        background-color: var(--sf-bg-1); color: var(--sf-brand); transform: translateX(4px);
       }
     }
   }
 }
 
-
 /* --- 5. Ad Placeholders --- */
-// Inherits from a global .ad-placeholder class if it exists.
-// Defining it here ensures it works regardless.
 .ad-placeholder--sidebar-ad {
   display: flex;
   align-items: center;
@@ -124,4 +141,10 @@
   border-radius: var(--sf-radius-lg);
   color: var(--sf-muted);
   font-size: var(--sf-text-sm);
+}
+
+/* --- Animation Keyframes --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

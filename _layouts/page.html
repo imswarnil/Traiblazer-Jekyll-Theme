@@ -4,82 +4,118 @@ layout: default
 
 {% comment %}
 ============================================================================
-_layouts/page.html (V2 - Professional Edition)
-- Fixes layout overflow using the project's sf-row grid system.
-- Adds optional, sticky Table of Contents via `toc: true` front matter.
-- Adds a sticky sidebar ad placeholder.
-- Incorporates SEO-friendly breadcrumbs with schema.org microdata.
+_layouts/page.html (V3 - Professional & Complete Edition)
 ============================================================================
 {% endcomment %}
 
-<!-- ========================================================================
-     PAGE HEADER
-     ======================================================================== -->
-<header class="page-header">
-  <div class="sf-container">
-    <nav class="breadcrumb" aria-label="Breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-      <div itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display:inline;">
-        <a href="{{ '/' | relative_url }}" itemprop="item"><span itemprop="name">Home</span></a>
-        <meta itemprop="position" content="1" />
-      </div>
-      <i class="ph-bold ph-caret-right"></i>
-      <div itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display:inline;">
-        <span itemprop="name">{{ page.title }}</span>
-        <meta itemprop="position" content="2" />
-      </div>
-    </nav>
-    <h1 class="sf-h1">{{ page.title }}</h1>
-    {% if page.subtitle %}
-      <p class="sf-text--large">{{ page.subtitle }}</p>
-    {% endif %}
-  </div>
-</header>
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ========================================================================
-     MAIN PAGE BODY & GRID
-     ======================================================================== -->
-<div class="page-body-section">
-  <div class="sf-container">
-    <div class="sf-row">
+    {% comment %} --- SEO & Social Sharing Meta Tags --- {% endcomment %}
+    <title>{{ page.title }} | {{ site.title }}</title>
+    <meta name="description" content="{{ page.subtitle | default: page.excerpt | strip_html | truncatewords: 25 }}">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    <meta property="og:title" content="{{ page.title }}">
+    <meta property="og:description" content="{{ page.subtitle | default: page.excerpt | strip_html | truncatewords: 25 }}">
+    <meta property="og:image" content="{% if page.feature_image %}{{ page.feature_image | absolute_url }}{% else %}{{ site.logo | absolute_url }}{% endif %}">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ page.url | absolute_url }}">
+    <meta property="twitter:title" content="{{ page.title }}">
+    <meta property="twitter:description" content="{{ page.subtitle | default: page.excerpt | strip_html | truncatewords: 25 }}">
+    <meta property="twitter:image" content="{% if page.feature_image %}{{ page.feature_image | absolute_url }}{% else %}{{ site.logo | absolute_url }}{% endif %}">
 
-      <!-- Primary Content Column -->
-      <main class="sf-col-12 sf-col-lg-8">
-        <div class="sf-card page-content-card">
-          <article class="sf-card__body typeset">
-            {{ content }}
-          </article>
-        </div>
-      </main>
+    <!-- Your existing CSS and icon links -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
 
-      <!-- Sidebar Column -->
-      <aside class="sf-col-12 sf-col-lg-4 page-sidebar">
+    {% include navbar.html %}
+
+    <!-- ========================================================================
+         PAGE HEADER
+         ======================================================================== -->
+    <header class="page-header">
+      <div class="sf-container">
+        <nav class="breadcrumb" aria-label="Breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+          <div itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display:inline;">
+            <a href="{{ '/' | relative_url }}" itemprop="item"><span itemprop="name">Home</span></a>
+            <meta itemprop="position" content="1" />
+          </div>
+          <i class="ph-bold ph-caret-right"></i>
+          <div itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display:inline;">
+            <span itemprop="name">{{ page.title }}</span>
+            <meta itemprop="position" content="2" />
+          </div>
+        </nav>
+        <h1 class="sf-h1">{{ page.title }}</h1>
+        {% if page.subtitle %}
+          <p class="sf-text--large">{{ page.subtitle }}</p>
+        {% endif %}
         
-        <!-- TABLE OF CONTENTS (Only appears if `toc: true` is in page front matter) -->
-        {% if page.toc %}
-        <div class="sf-card toc-card">
-          {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+        <!-- USER-FACING META DETAILS -->
+        {% if page.last_updated %}
+        <div class="page-header__meta">
+            <i class="ph-bold ph-info"></i>
+            <span>Last Updated: <time datetime="{{ page.last_updated | date_to_xmlschema }}">{{ page.last_updated | date: "%B %d, %Y" }}</time></span>
         </div>
         {% endif %}
+      </div>
+    </header>
 
-        <!-- SIDEBAR AD -->
-        <div class="ad-placeholder ad-placeholder--sidebar-ad">
-          <span>Sidebar Ad<br>300x250</span>
-        </div>
-        
-        <!-- Example Sidebar Widget -->
-        <div class="sf-card quick-links-card">
-            <div class="sf-card__header">Quick Links</div>
-            <div class="sf-card__body">
-                <ul class="quick-links-list">
-                    <li><a href="/about/">About Me</a></li>
-                    <li><a href="/contact/">Contact</a></li>
-                    <li><a href="/blog/">My Blog</a></li>
-                </ul>
+    <!-- ========================================================================
+         MAIN PAGE BODY & GRID
+         ======================================================================== -->
+    <div class="page-body-section">
+      <div class="sf-container">
+        <div class="sf-row">
+
+          <!-- Primary Content Column -->
+          <main class="sf-col-12 sf-col-lg-8 page-main-content">
+            <div class="sf-card page-content-card">
+              <article class="sf-card__body typeset">
+                {{ content }}
+              </article>
             </div>
+          </main>
+
+          <!-- Sidebar Column -->
+          <aside class="sf-col-12 sf-col-lg-4 page-sidebar">
+            {% if page.toc %}
+            <div class="sf-card toc-card">
+              {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+            </div>
+            {% endif %}
+
+            <div class="ad-placeholder ad-placeholder--sidebar-ad">
+              <span>Sidebar Ad<br>300x250</span>
+            </div>
+            
+            <div class="sf-card quick-links-card">
+                <div class="sf-card__header">Quick Links</div>
+                <div class="sf-card__body">
+                    <ul class="quick-links-list">
+                        <li><a href="/about/">About Me</a></li>
+                        <li><a href="/contact/">Contact</a></li>
+                        <li><a href="/blog/">My Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+          </aside>
+
         </div>
-
-      </aside>
-
+      </div>
     </div>
-  </div>
-</div>
+
+    {% include footer.html %}
+
+</body>
+</html>
