@@ -1,173 +1,260 @@
+---
+layout: default
+---
+{% comment %}
+============================================================================
+_layouts/resume.html (Definitive, "Masterpiece" All-in-One Final Version)
+============================================================================
+{% endcomment %}
 
-<!-- DYNAMIC PAGE HEADER -->
-<header class="sf-page-header">
+<!-- ========================================================================
+     JSON-LD SCHEMA FOR SEO
+     ======================================================================== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "{{ page.name }}",
+  "jobTitle": "{{ page.title }}",
+  "email": "mailto:{{ page.contact.email }}",
+  "telephone": "{{ page.contact.phone }}",
+  "url": "{{ page.contact.website }}",
+  "image": "{{ page.avatar | absolute_url }}",
+  "sameAs": [
+    "{{ page.contact.linkedin }}"
+  ],
+  "alumniOf": [
+    {% for item in page.education %}
+      {
+        "@type": "EducationalOrganization",
+        "name": "{{ item.institution }}"
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ],
+  "worksFor": [
+     {% for item in page.experience %}
+      {
+        "@type": "Organization",
+        "name": "{{ item.company }}"
+      }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
+
+<!-- ========================================================================
+     RESUME HERO
+     ======================================================================== -->
+<header class="resume-hero">
   <div class="sf-container">
-    <div class="search-header-grid">
-      <div class="search-header__text">
-        <h1 class="sf-h1 sf-page-header__title">{{ page.title }}</h1>
-        <p class="sf-text--large sf-page-header__subtitle">{{ page.subtitle }}</p>
-      </div>
-      <div class="trending-topics">
-        <h2 class="trending-topics__title">Trending Topics:</h2>
-        <div class="trending-topics__list">
-          <a href="#" class="sf-badge sf-badge--brand" data-search-term="Salesforce">Salesforce</a>
-          <a href="#" class="sf-badge" data-search-term="LWC">LWC</a>
-          <a href="#" class="sf-badge" data-search-term="Filmmaking">Filmmaking</a>
+    <div class="resume-hero__grid">
+      <div class="resume-hero__text">
+        <h1 class="resume-hero__name">{{ page.name }}</h1>
+        <h2 class="resume-hero__title">{{ page.title }}</h2>
+        <div class="resume-hero__contact-list">
+          <a href="tel:{{ page.contact.phone }}"><i class="ph-bold ph-phone"></i> <span>{{ page.contact.phone }}</span></a>
+          <a href="mailto:{{ page.contact.email }}"><i class="ph-bold ph-envelope-simple"></i> <span>{{ page.contact.email }}</span></a>
+          <a href="{{ page.contact.linkedin }}" target="_blank" rel="noopener"><i class="ph-bold ph-linkedin-logo"></i> <span>LinkedIn</span></a>
+          <a href="{{ page.contact.website }}" target="_blank" rel="noopener"><i class="ph-bold ph-globe"></i> <span>{{ page.contact.website | remove: 'https://' }}</span></a>
         </div>
       </div>
+      <div class="resume-hero__initials">{{ page.initials }}</div>
     </div>
   </div>
 </header>
 
-<!-- MAIN SEARCH LAYOUT -->
+<!-- ========================================================================
+     MAIN TWO-COLUMN RESUME BODY
+     ======================================================================== -->
 <div class="sf-container" style="padding: var(--sf-8) 0;">
-  <div class="search-layout">
+  <div class="resume-grid">
+    
+    <!-- ======================================================= -->
+    <!-- LEFT COLUMN: SUMMARY, EXPERIENCE, EDUCATION             -->
+    <!-- ======================================================= -->
+    <main class="resume-main">
+      <!-- Summary Section -->
+      <section class="sf-card resume-section">
+        <div class="sf-card__body typeset">
+          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-user"></i><span>Summary</span></h2>
+          {{ page.summary | markdownify }}
+        </div>
+      </section>
 
-    <!-- Primary Content Column (Left) -->
-    <main class="search-main">
-      <form class="search-input-wrapper" action="" role="search" onsubmit="return false;">
-        <label for="search-input" class="sf-sr-only">Search term:</label>
-        <i class="ph-bold ph-magnifying-glass"></i>
-        <input class="sf-input page-search-input" id="search-input" type="search" name="search" placeholder="Search for anything..." autocomplete="off" />
-      </form>
-      <ul class="search-results-list" id="results-list">
-        <!-- Live search results are injected here -->
-      </ul>
-    </main>
-
-    <!-- Sidebar Column (Right) -->
-    <aside class="search-sidebar">
-      
-      <div class="sf-card">
-        <header class="sf-card__header">
-          <h3 class="sf-h4">Filter by Type</h3>
-        </header>
+      <!-- Experience Section -->
+      <section class="sf-card resume-section">
         <div class="sf-card__body">
-          <ul class="sf-list">
-            <li class="sf-list__item"><label class="sf-check"><input type="radio" name="typeFilter" value="all" checked> <span class="sf-check__box"></span> <span>All Results</span></label></li>
-            <li class="sf-list__item"><label class="sf-check"><input type="radio" name="typeFilter" value="post"> <span class="sf-check__box"></span> <span>Blog Posts</span></label></li>
-            <li class="sf-list__item"><label class="sf-check"><input type="radio" name="typeFilter" value="page"> <span class="sf-check__box"></span> <span>Pages</span></label></li>
+          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-briefcase"></i><span>Work Experience</span></h2>
+          <ul class="resume-timeline">
+            {% for item in page.experience %}
+            <li class="resume-timeline-item">
+              <div class="resume-timeline-item__icon">
+                {% if item.logo_url %}
+                  <img src="{{ item.logo_url | relative_url }}" alt="{{ item.company }} logo">
+                {% else %}
+                  <i class="ph-bold ph-buildings"></i>
+                {% endif %}
+              </div>
+              <div class="resume-timeline-item__header">
+                <h3 class="sf-h4 resume-timeline-item__title">{{ item.role }}</h3>
+                <span class="resume-timeline-item__meta">{{ item.dates }}</span>
+              </div>
+              <p class="resume-timeline-item__subtitle"><a href="{{ item.company_url }}" target="_blank" rel="noopener">{{ item.company }}</a> • <i class="ph-bold ph-map-pin"></i> {{ item.location }}</p>
+              <div class="resume-timeline-item__description typeset">{{ item.description | markdownify }}</div>
+            </li>
+            {% endfor %}
           </ul>
         </div>
-      </div>
+      </section>
       
-      <div class="sf-alert sf-alert--info instant-answer-card" id="instant-answer-card">
-        <div>
-          <h4 class="sf-h5">Instant Answer</h4>
-          <p class="instant-answer-card__text" id="instant-answer-text"></p>
-          <a href="#" class="instant-answer-card__source" id="instant-answer-source"></a>
+      <!-- Education Section -->
+      <section class="sf-card resume-section">
+        <div class="sf-card__body">
+          <h2 class="sf-h3 resume-section__title"><i class="ph-bold ph-graduation-cap"></i><span>Education</span></h2>
+          <ul class="resume-timeline">
+            {% for item in page.education %}
+            <li class="resume-timeline-item">
+               <div class="resume-timeline-item__icon">
+                {% if item.logo_url %}
+                  <img src="{{ item.logo_url | relative_url }}" alt="{{ item.institution }} logo">
+                {% else %}
+                  <i class="ph-bold ph-buildings"></i>
+                {% endif %}
+              </div>
+              <div class="resume-timeline-item__header">
+                <h3 class="sf-h4 resume-timeline-item__title">{{ item.degree }}</h3>
+                <span class="resume-timeline-item__meta">{{ item.dates }}</span>
+              </div>
+              <p class="resume-timeline-item__subtitle">{{ item.institution }}</p>
+            </li>
+            {% endfor %}
+          </ul>
         </div>
-      </div>
+      </section>
+    </main>
 
+    <!-- ======================================================= -->
+    <!-- RIGHT COLUMN: PROJECTS, SKILLS, CERTS, ACHIEVEMENTS     -->
+    <!-- ======================================================= -->
+    <aside class="resume-sidebar">
+      <!-- Projects Section -->
+      <section class="sf-card resume-section">
+        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-rocket-launch"></i><span>Projects</span></h3></div>
+        <div class="sf-card__body">
+          <ul class="project-list">
+          {% for item in page.projects %}
+            <li><a href="{{ item.link }}" target="_blank" rel="noopener" class="project-card">
+              <header class="project-card__header">
+                <i class="ph-bold ph-github-logo"></i>
+                <h4 class="sf-h5 project-card__title">{{ item.title }}</h4>
+              </header>
+              <p class="project-card__description">{{ item.description }}</p>
+              <footer class="project-card__footer">
+                <span class="project-card__meta-item"><i class="ph-bold ph-star"></i> {{ item.stars }}</span>
+                <span class="project-card__meta-item"><i class="ph-bold ph-git-fork"></i> {{ item.forks }}</span>
+                <span class="project-card__meta-item"><span style="color: {{ item.language_color }};">●</span> {{ item.language }}</span>
+              </footer>
+            </a></li>
+          {% endfor %}
+          </ul>
+        </div>
+      </section>
+      
+      <!-- Skills Section (Tag Cloud) -->
+      <section class="sf-card resume-section">
+        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-wrench"></i><span>Skills</span></h3></div>
+        <div class="sf-card__body">
+          <ul class="skill-cloud">
+          {% for item in page.skills %}
+            <li><div class="skill-tag">
+              <i class="ph-bold {{ item.icon | default: 'ph-check-circle' }}"></i>
+              <span>{{ item.name }}</span>
+            </div></li>
+          {% endfor %}
+          </ul>
+        </div>
+      </section>
+
+      <!-- Certifications Section -->
+      <section class="sf-card resume-section">
+        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-seal-check"></i><span>Certifications</span></h3></div>
+        <div class="sf-card__body">
+          <ul class="cert-list">
+          {% for item in page.certifications %}
+            <li>
+              <div class="cert-item">
+                <i class="ph-bold {{ item.icon | default: 'ph-book-open' }} cert-item__icon"></i>
+                <div class="cert-item__content">
+                  <h4 class="sf-h5 cert-item__title">{{ item.title }}</h4>
+                  <p class="cert-item__meta">ID: {{ item.id }}</p>
+                  <a href="{{ item.verify_link }}" class="cert-item__link" target="_blank" rel="noopener">Verify Credential</a>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      </section>
+      
+      <!-- Achievements Section -->
+      <section class="sf-card resume-section">
+        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-trophy"></i><span>Achievements</span></h3></div>
+        <div class="sf-card__body">
+          <ul class="achievement-list">
+          {% for item in page.achievements %}
+            <li><div class="achievement-item">
+              <i class="ph-bold ph-star achievement-item__icon"></i>
+              <div class="achievement-item__content">
+                <h4 class="sf-h5 achievement-item__title">{{ item.title }}</h4>
+                <p class="achievement-item__description">{{ item.description }}</p>
+              </div>
+            </div></li>
+          {% endfor %}
+          </ul>
+        </div>
+      </section>
+      
+      <!-- Interests Section -->
+      <section class="sf-card resume-section">
+        <div class="sf-card__header"><h3 class="sf-h4 resume-section__title"><i class="ph-bold ph-heart"></i><span>Interests</span></h3></div>
+        <div class="sf-card__body">
+          <ul class="achievement-list">
+          {% for item in page.interests %}
+            <li><div class="achievement-item">
+              <i class="ph-bold {{ item.icon | default: 'ph-check-circle' }} achievement-item__icon"></i>
+              <div class="achievement-item__content">
+                <h4 class="sf-h5 achievement-item__title">{{ item.title }}</h4>
+                <p class="achievement-item__description">{{ item.description }}</p>
+              </div>
+            </div></li>
+          {% endfor %}
+          </ul>
+        </div>
+      </section>
     </aside>
+
   </div>
 </div>
 
-<!-- YOUR ORIGINAL JAVASCRIPT (MODIFIED TO WORK WITH NEW HTML) -->
-<script type="text/javascript" src="{{ "/assets/scripts/fetch.js" | relative_url }}"></script>
-<script type="text/javascript">
+<!-- JavaScript for scroll animations -->
+<script>
   document.addEventListener('DOMContentLoaded', () => {
-    const endpoint = '{{ "/assets/search.json" | relative_url }}';
-    const pages = [];
-
-    const searchInput = document.getElementById('search-input');
-    const resultsList = document.getElementById('results-list');
-    const typeFilters = document.querySelectorAll('input[name="typeFilter"]');
-    const trendingLinks = document.querySelectorAll('[data-search-term]');
-    
-    const instantAnswerCard = document.getElementById('instant-answer-card');
-    const instantAnswerText = document.getElementById('instant-answer-text');
-    const instantAnswerSource = document.getElementById('instant-answer-source');
-
-    fetch(endpoint).then(blob => blob.json()).then(data => pages.push(...data));
-
-    const performSearch = () => {
-      const searchTerm = searchInput.value.trim();
-      const selectedType = document.querySelector('input[name="typeFilter"]:checked').value;
-
-      if (searchTerm === '') {
-        resultsList.innerHTML = '';
-        instantAnswerCard.style.display = 'none';
-        return;
-      }
-      
-      const regex = new RegExp(searchTerm, 'gi');
-      
-      let allResults = pages.filter(item => {
-        return item.title.match(regex) || item.content.match(regex);
-      });
-
-      let filteredResults = allResults;
-      if (selectedType !== 'all') {
-        filteredResults = allResults.filter(item => {
-          return selectedType === 'post' ? item.url.includes('/blog/') : !item.url.includes('/blog/');
-        });
-      }
-      
-      displayResults(filteredResults, searchTerm);
-      findInstantAnswer(allResults, regex);
-    };
-    
-    const displayResults = (resultsArray, searchTerm) => {
-      if (resultsArray.length === 0) {
-        resultsList.innerHTML = `<li><div class="sf-tile search-no-results"><i class="ph-bold ph-files"></i><h3 class="sf-h3">No Results Found</h3><p>Sorry, we couldn't find anything matching "${searchTerm}".</p></div></li>`;
-        return;
-      }
-      const highlight = (text, term) => text ? text.replace(new RegExp(term, 'gi'), (match) => `<mark>${match}</mark>`) : '';
-      
-      resultsList.innerHTML = resultsArray.map(item => {
-        const isPost = item.url.includes('/blog/');
-        const icon = isPost ? 'ph-newspaper' : 'ph-file-text';
-        const excerpt = item.excerpt ? highlight(item.excerpt.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...', searchTerm) : 'No description available.';
-        const urlType = isPost ? "Blog Post" : "Page";
-        
-        return `
-          <li>
-            <a href="${item.url}" class="sf-card search-result-card">
-              <div class="sf-card__body">
-                <header class="search-result-card__header">
-                  <i class="ph-bold ${icon} search-result-card__icon"></i>
-                  <div>
-                    <h2 class="sf-h4 search-result-card__title">${highlight(item.title, searchTerm)}</h2>
-                  </div>
-                </header>
-                <p class="search-result-card__excerpt">${excerpt}</p>
-              </div>
-              <footer class="sf-card__footer">${urlType} • ${item.url}</footer>
-            </a>
-          </li>`;
-      }).join('');
-    };
-    
-    const findInstantAnswer = (results, regex) => {
-        for (const item of results) {
-            const match = item.content.match(new RegExp(`[^.?!]*${regex.source}[^.?!]*[.?!]`, 'i'));
-            if (match) {
-                instantAnswerText.innerHTML = match[0].replace(regex, (m) => `<mark>${m}</mark>`);
-                instantAnswerSource.textContent = `Source: ${item.title}`;
-                instantAnswerSource.href = item.url;
-                instantAnswerCard.style.display = 'flex'; // Use flex for alert styling
-                return;
-            }
+    // --- Scroll-activated Animations ---
+    const animatedItems = document.querySelectorAll('.resume-section, .resume-timeline');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          if (entry.target.matches('.resume-timeline')) {
+            const items = entry.target.querySelectorAll('.resume-timeline-item');
+            items.forEach((item, index) => {
+              item.style.transitionDelay = `${index * 150}ms`;
+            });
+          }
+          observer.unobserve(entry.target);
         }
-        instantAnswerCard.style.display = 'none';
-    };
-
-    searchInput.addEventListener('keyup', performSearch);
-    typeFilters.forEach(filter => filter.addEventListener('change', performSearch));
-    trendingLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        searchInput.value = link.getAttribute('data-search-term');
-        performSearch();
-        searchInput.focus();
       });
-    });
-
-    searchInput.closest('form').addEventListener('submit', e => e.preventDefault());
+    }, { threshold: 0.1 });
+    animatedItems.forEach(item => observer.observe(item));
   });
 </script>
-
-<noscript>
-  <div class="sf-alert sf-alert--warning">Please enable JavaScript to use the search form.</div>
-</noscript>
