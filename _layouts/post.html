@@ -2,148 +2,129 @@
 layout: default
 ---
 
+<!-- ========================================================================
+     POST HEADER HERO
+     A dedicated, clean header section for the post.
+     ======================================================================== -->
+<header class="post-header-hero">
+    <div class="sf-container sf-container--lg">
+        <!-- BREADCRUMBS -->
+        <nav aria-label="Breadcrumb" class="breadcrumb">
+            <a href="/">Home</a>
+            <i class="ph-bold ph-caret-right"></i>
+            <a href="/blog/">Blog</a>
+            <i class="ph-bold ph-caret-right"></i>
+            <span>{{ page.title | truncatewords: 5 }}</span>
+        </nav>
+
+        <!-- TITLE & METADATA -->
+        <h1 class="post-title-main">{{ page.title }}</h1>
+        <div class="post-meta-main">
+            {% if page.author %}
+                <span class="post-meta-main__author"><i class="ph-bold ph-user-circle"></i> {{ page.author }}</span>
+            {% endif %}
+            <time class="post-meta-main__date" datetime="{{ page.date | date_to_xmlschema }}"><i class="ph-bold ph-calendar"></i> {{ page.date | date: "%B %d, %Y" }}</time>
+        </div>
+
+        <!-- FEATURE IMAGE -->
+        {% if page.feature_image %}
+            <figure class="post-feature-image-main">
+                <img src="{{ page.feature_image | relative_url }}" alt="{{ page.title }}">
+            </figure>
+        {% endif %}
+    </div>
+</header>
+
 
 <!-- ========================================================================
-     MAIN POST CONTAINER
-     Manages the responsive multi-column layout.
+     MAIN POST GRID CONTAINER
+     Manages the 3-column responsive layout.
      ======================================================================== -->
-<div class="post-container">
+<div class="post-grid-container">
 
-    <!-- ========================================================================
-        LEFT "HANGING" SKYSCRAPER AD
-        Visible only on extra-wide screens for a premium ad experience.
-        ======================================================================== -->
-    <aside class="post-skyscraper-left">
+    <!-- STICKY LEFT SKYSCRAPER AD -->
+    <aside class="post-sidebar-left">
         <div class="ad-placeholder ad-placeholder--skyscraper">
-            <span>Hanging Skyscraper<br>160x600</span>
+            <span>Left Skyscraper<br>160x600</span>
         </div>
     </aside>
 
-    <!-- ========================================================================
-        MAIN ARTICLE WRAPPER
-        Contains the content and the floating desktop share bar.
-        ======================================================================== -->
-    <div class="post-article-wrapper">
-
-        <!-- FLOATING DESKTOP SHARE BAR -->
-        <aside class="post-share-floating">
-            <div class="post-share-floating__title">Share</div>
-            {% assign post_url = page.url | absolute_url | url_encode %}
-            {% assign post_title = page.title | url_encode %}
-            <a href="https://twitter.com/intent/tweet?url={{ post_url }}&text={{ post_title }}" target="_blank" rel="noopener" aria-label="Share on Twitter"><i class="ph ph-twitter-logo"></i></a>
-            <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ post_url }}" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
-            <a href="mailto:?subject={{ post_title }}&body={{ post_url }}" aria-label="Share via Email"><i class="ph ph-envelope-simple"></i></a>
-        </aside>
-
-        <!-- MAIN ARTICLE CONTENT -->
+    <!-- MAIN ARTICLE CONTENT -->
+    <main class="post-content-main">
         <article>
-            <!-- POST HEADER -->
-            <header class="post-header">
-                {% if page.categories.size > 0 %}
-                    <a href="#" class="post-category">{{ page.categories | first }}</a>
-                {% endif %}
-                <h1 class="post-title">{{ page.title }}</h1>
-                <div class="post-meta">
-                    <span class="post-meta__author">{{ page.author | default: site.author }}</span>
-                    <span class="post-meta__separator">&bull;</span>
-                    <time datetime="{{ page.date | date_to_xmlschema }}">{{ page.date | date: "%B %d, %Y" }}</time>
-                    <span class="post-meta__separator">&bull;</span>
-                </div>
-            </header>
-
-            <!-- FEATURE IMAGE -->
-            {% if page.feature_image %}
-            <figure class="post-feature-image">
-                <img src="{{ page.feature_image | relative_url }}" alt="{{ page.title }}">
-                {% if page.image_credit %}
-                <figcaption>{{ page.image_credit }}</figcaption>
-                {% endif %}
-            </figure>
-            {% endif %}
-
-            <!-- FIRST IN-CONTENT AD -->
-            <div class="ad-placeholder ad-placeholder--in-content">
-                <span>Top In-Content Ad</span>
+            <!-- TOP SOCIAL SHARE STRIP -->
+            <div class="post-share-strip">
+                <span class="post-share-strip__label">Share:</span>
+                {% include post-share-links.html %}
             </div>
 
-            <!-- POST CONTENT (with injected ads) -->
-            <div class="post-content typeset">
+            <!-- THE POST CONTENT -->
+            <div class="post-body typeset">
                 {{ content }}
             </div>
 
-            <!-- POST TAGS -->
-            {% if page.tags.size > 0 %}
-            <div class="post-tags">
-                <span>Tagged in:</span>
-                {% for tag in page.tags %}
-                    <a href="#" class="post-tag">{{ tag }}</a>
-                {% endfor %}
+            <!-- BOTTOM SOCIAL SHARE STRIP -->
+            <div class="post-share-strip post-share-strip--footer">
+                <span class="post-share-strip__label">If you enjoyed this, please share it!</span>
+                {% include post-share-links.html %}
             </div>
-            {% endif %}
         </article>
 
-    </div>
+        <!-- AUTHOR BIO -->
+        <section class="post-author-bio">
+            <img src="https://i.pravatar.cc/150?u={{ page.author | default: 'author' }}" alt="{{ page.author }}" class="post-author-bio__avatar">
+            <div class="post-author-bio__content">
+                <h4>About {{ page.author }}</h4>
+                <p>Add your author bio here. A passionate Salesforce Developer with expertise in Apex, LWC, and building amazing things on the platform.</p>
+            </div>
+        </section>
 
-    <!-- ========================================================================
-        RIGHT STICKY SIDEBAR
-        Contains TOC, another ad, and author info.
-        ======================================================================== -->
+        <!-- COMMENTS SECTION -->
+        <section class="post-comments">
+            <h2 class="sf-h2">Comments</h2>
+            <div class="sf-card"><div class="sf-card__body">Your comments system would appear here.</div></div>
+        </section>
+    </main>
+
+    <!-- STICKY RIGHT SIDEBAR -->
     <aside class="post-sidebar-right">
-        <!-- Table of Contents Card -->
-        <div class="sf-card">
-            {% assign contentsTitle = page.toc_title | default: 'On this page' %}
-            {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title=contentsTitle %}
+        <!-- Table of Contents -->
+        <div class="sf-card toc-card">
+            {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+        </div>
+        
+        <!-- Right Skyscraper Ad -->
+        <div class="ad-placeholder ad-placeholder--skyscraper">
+            <span>Right Skyscraper<br>160x600</span>
         </div>
 
-        <!-- Sticky Sidebar Ad -->
-        <div class="ad-placeholder ad-placeholder--sidebar">
-            <span>Sidebar Ad<br>300x250</span>
+        <!-- Buy Me a Coffee Card -->
+        <div class="sf-card coffee-card">
+            <i class="ph-bold ph-coffee"></i>
+            <div class="coffee-card__content">
+                <strong>Enjoying the content?</strong>
+                <p>Support my work by buying me a coffee. It helps keep the tutorials coming!</p>
+                <a href="#" class="sf-btn sf-btn--primary sf-btn--full">Buy Me a Coffee</a>
+            </div>
+        </div>
+        
+        <!-- Sponsor Card -->
+        <div class="sf-card sponsor-card">
+            <strong>Sponsor Us</strong>
+            <p>Reach thousands of Salesforce professionals. Become a sponsor.</p>
+            <a href="/contact" class="sf-btn sf-btn--secondary sf-btn--full">Inquire Now</a>
         </div>
     </aside>
-</div>
-
-<!-- ========================================================================
-     POST-CONTENT SECTIONS (Author Bio, Bottom Ad, Comments)
-     These appear below the main grid for a clean layout.
-     ======================================================================== -->
-<div class="post-footer-container">
-
-    <!-- AUTHOR BIO CARD -->
-    <section class="post-author-bio">
-        <img src="https://i.pravatar.cc/150?u={{ page.author | default: site.author }}" alt="{{ page.author | default: site.author }}" class="post-author-bio__avatar">
-        <div class="post-author-bio__content">
-            <h4>About {{ page.author | default: site.author }}</h4>
-            <p>Author description goes here. This can be pulled from a data file or front matter. They are a passionate Salesforce Developer with expertise in Apex, LWC, and building amazing things on the platform.</p>
-        </div>
-    </section>
-
-    <!-- BOTTOM HORIZONTAL AD -->
-    <div class="ad-placeholder ad-placeholder--horizontal">
-        <span>Bottom Horizontal Ad - 728x90</span>
-    </div>
-
-    <!-- COMMENTS SECTION -->
-    <section class="post-comments-section">
-        <h2 class="sf-h2">Comments</h2>
-        {% comment %} Your comments include (e.g., Disqus, Giscus) goes here {% endcomment %}
-        <div class="sf-card">
-            <div class="sf-card__body sf-text-muted">Comments would appear here.</div>
-        </div>
-    </section>
 
 </div>
 
-
-<!-- ========================================================================
-     STICKY MOBILE SHARE BAR & AD
-     Fixed to the bottom of the screen on mobile devices.
-     ======================================================================== -->
-<div class="post-share-mobile-sticky">
-    <div class="ad-placeholder ad-placeholder--mobile-banner"><span>Mobile Ad</span></div>
-    <div class="post-share-mobile-sticky__buttons">
-        <span>Share:</span>
-        <a href="https://twitter.com/intent/tweet?url={{ post_url }}&text={{ post_title }}" target="_blank" rel="noopener" aria-label="Share on Twitter"><i class="ph ph-twitter-logo"></i></a>
-        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ post_url }}" target="_blank" rel="noopener" aria-label="Share on LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
-        <a href="mailto:?subject={{ post_title }}&body={{ post_url }}" aria-label="Share via Email"><i class="ph ph-envelope-simple"></i></a>
-    </div>
-</div>
+<!-- Create a new file `_includes/post-share-links.html` with this content -->
+{% comment %}
+<!-- _includes/post-share-links.html -->
+{% assign post_url = page.url | absolute_url | url_encode %}
+{% assign post_title = page.title | url_encode %}
+<a href="https://twitter.com/intent/tweet?url={{ post_url }}&text={{ post_title }}" target="_blank" rel="noopener" class="share-btn twitter" aria-label="Share on Twitter"><i class="ph-bold ph-twitter-logo"></i></a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ post_url }}" target="_blank" rel="noopener" class="share-btn linkedin" aria-label="Share on LinkedIn"><i class="ph-bold ph-linkedin-logo"></i></a>
+<a href="https://www.facebook.com/sharer/sharer.php?u={{ post_url }}" target="_blank" rel="noopener" class="share-btn facebook" aria-label="Share on Facebook"><i class="ph-bold ph-facebook-logo"></i></a>
+<a href="mailto:?subject={{ post_title }}&body=Check out this article: {{ post_url }}" class="share-btn email" aria-label="Share via Email"><i class="ph-bold ph-envelope-simple"></i></a>
+{% endcomment %}

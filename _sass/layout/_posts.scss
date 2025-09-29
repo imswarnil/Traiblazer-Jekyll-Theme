@@ -1,266 +1,189 @@
 /* ============================================================================
-   COMPONENTS / POST.SCSS
-   A modern, responsive, and ad-ready blog post layout.
+   COMPONENTS / POST.SCSS (V2 - Professional Layout)
+   Styles for the enhanced, multi-column, ad-ready blog post template.
    ============================================================================ */
 
-/* --- Main Layout Grid --- */
-.post-container {
-  display: grid;
-  gap: var(--sf-8);
-  padding-block: var(--sf-8);
-  max-width: 1600px; /* Max width for the 3-column layout */
-  margin-inline: auto;
-  padding-inline: var(--sf-container-padding);
-  
-  // Mobile-first: single column
-  grid-template-columns: minmax(0, 1fr);
+/* --- 1. Header Hero --- */
+.post-header-hero {
+  background-color: var(--sf-bg-1);
+  border-bottom: 1px solid var(--sf-line-2);
+  padding: var(--sf-6) 0;
+  margin-bottom: var(--sf-8);
+}
 
-  // Tablet & Desktop: Content + Right Sidebar
-  @include breakpoint(md) {
-    grid-template-columns: minmax(0, 1fr) 280px; // Flexible content, fixed sidebar
+.breadcrumb {
+  @include cluster(var(--sf-2), center);
+  font-size: var(--sf-text-sm);
+  margin-bottom: var(--sf-6);
+  a {
+    color: var(--sf-fg-2);
+    text-decoration: none;
+    &:hover { color: var(--sf-brand); }
+  }
+  span { color: var(--sf-muted); }
+  i { color: var(--sf-muted); }
+}
+
+.post-title-main {
+  font-size: clamp(2rem, 1.5rem + 2.5vw, 3.25rem);
+  font-weight: 800;
+  line-height: var(--sf-leading-tight);
+  color: var(--sf-fg);
+  margin: 0 0 var(--sf-4) 0;
+}
+
+.post-meta-main {
+  @include cluster(var(--sf-5));
+  color: var(--sf-fg-2);
+  margin-bottom: var(--sf-6);
+  span, time { @include cluster(var(--sf-2), center); }
+  i { font-size: 1.25rem; color: var(--sf-fg-3); }
+}
+
+.post-feature-image-main {
+  margin: 0;
+  img {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: var(--sf-radius-lg);
+    border: 1px solid var(--sf-line-2);
+  }
+}
+
+/* --- 2. Main Grid Layout --- */
+.post-grid-container {
+  display: grid;
+  padding-inline: var(--sf-container-padding);
+  margin-inline: auto;
+  
+  // Mobile: Single column
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sf-8);
+  
+  // Tablet: Content + Right Sidebar
+  @include breakpoint(lg) {
+    grid-template-columns: minmax(0, 1fr) 300px; // A wider sidebar
+    gap: var(--sf-8);
   }
 
   // Wide Desktop: Left Ad + Content + Right Sidebar
   @include breakpoint(xl) {
-    grid-template-columns: 160px minmax(0, var(--sf-measure)) 300px;
-    gap: var(--sf-10);
+    max-width: 1600px;
+    grid-template-columns: 1fr minmax(auto, var(--sf-container-lg)) 1fr;
+    gap: var(--sf-6);
   }
 }
 
-/* --- Left Skyscraper Ad --- */
-.post-skyscraper-left {
-  display: none; // Hidden by default
-  @include breakpoint(xl) {
-    display: block;
-    position: sticky;
-    top: calc(var(--sf-nav-height) + var(--sf-6)); // Align below navbar
-    height: 600px;
-  }
-}
-
-/* --- Main Article Wrapper --- */
-.post-article-wrapper {
-  position: relative; // Anchor for the floating share bar
-  @include breakpoint(md) {
-    grid-column: 1 / 2;
-  }
+/* --- 3. Main Content Column --- */
+.post-content-main {
+  // On wide screens, this is the center column
   @include breakpoint(xl) {
     grid-column: 2 / 3;
   }
 }
 
-/* --- Post Header & Meta --- */
-.post-header {
-  margin-bottom: var(--sf-6);
-}
-.post-category {
-  display: inline-block;
-  font-size: var(--sf-text-sm);
-  font-weight: 600;
-  color: var(--sf-brand);
-  text-decoration: none;
-  margin-bottom: var(--sf-3);
-}
-.post-title {
-  font-size: var(--sf-text-3xl);
-  font-weight: 800;
-  margin: 0 0 var(--sf-4) 0;
-  line-height: var(--sf-leading-tight);
-}
-.post-meta {
-  @include cluster(var(--sf-2), center);
-  color: var(--sf-fg-2);
-  &__separator { color: var(--sf-line-1); }
-}
-
-/* --- Feature Image --- */
-.post-feature-image {
-  margin: 0 0 var(--sf-6) 0;
-  img {
-    width: 100%;
-    border-radius: var(--sf-radius-lg);
-    border: 1px solid var(--sf-line-2);
-  }
-  figcaption {
-    font-size: var(--sf-text-sm);
-    color: var(--sf-muted);
-    text-align: center;
-    margin-top: var(--sf-2);
-  }
-}
-
-/* --- Post Content & Typography --- */
-.post-content.typeset {
+.post-body.typeset {
+  // Typography styles can be reused from your previous post.scss
+  // Or defined here for more control.
+  font-size: 1.125rem;
   color: var(--sf-fg);
   line-height: var(--sf-leading-relaxed);
-  
-  p, ul, ol, blockquote { margin-bottom: var(--sf-5); }
-  h2, h3, h4 { 
-    margin: var(--sf-8) 0 var(--sf-4) 0;
-    line-height: var(--sf-leading-tight);
-    font-weight: 700;
-  }
-  h2 { font-size: var(--sf-text-2xl); }
-  h3 { font-size: var(--sf-text-xl); }
-  
-  a {
-    color: var(--sf-link);
-    text-decoration: none;
-    font-weight: 500;
-    border-bottom: 2px solid color-mix(in srgb, var(--sf-brand) 20%, transparent);
-    transition: all .2s ease;
-    &:hover {
-      background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent);
-      border-bottom-color: var(--sf-brand);
+  h2 { margin-top: var(--sf-10); }
+  // ... (add other typography rules like blockquotes, lists, code blocks)
+}
+
+/* --- 4. Sidebar Columns (Left & Right) --- */
+.post-sidebar-left,
+.post-sidebar-right {
+  display: none; // Hidden on mobile/tablet
+
+  @include breakpoint(lg) {
+    // Show right sidebar on large screens
+    &.post-sidebar-right {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sf-6);
+      position: sticky;
+      top: calc(var(--sf-nav-height) + var(--sf-4));
+      align-self: start;
     }
   }
 
-  ul, ol { padding-left: var(--sf-5); }
-  li::marker { color: var(--sf-brand); }
-  
-  blockquote {
-    border-left: 4px solid var(--sf-brand);
-    padding-left: var(--sf-5);
-    font-style: italic;
-    color: var(--sf-fg-2);
-    p { margin-bottom: 0; }
-  }
-
-  pre {
-    background-color: var(--sf-bg-1);
-    border: 1px solid var(--sf-line-2);
-    border-radius: var(--sf-radius-md);
-    padding: var(--sf-4);
-    overflow-x: auto;
-    font-size: var(--sf-text-sm);
-  }
-  code {
-    font-family: var(--sf-font-mono);
-    background-color: var(--sf-bg-1);
-    padding: .1em .3em;
-    border-radius: var(--sf-radius-sm);
-  }
-  pre code { padding: 0; background: none; }
-}
-
-/* --- Post Tags --- */
-.post-tags {
-  @include cluster(var(--sf-3), center);
-  margin-top: var(--sf-8);
-  span { color: var(--sf-muted); }
-  .post-tag {
-    display: inline-block;
-    background-color: var(--sf-bg-1);
-    font-size: var(--sf-text-sm);
-    padding: var(--sf-1) var(--sf-3);
-    border-radius: var(--sf-radius-pill);
-    text-decoration: none;
-    transition: background-color .2s ease;
-    &:hover { background-color: var(--sf-line-2); }
-  }
-}
-
-/* --- Right Sidebar --- */
-.post-sidebar-right {
-  display: none; // Hidden on mobile
-  @include breakpoint(md) {
+  @include breakpoint(xl) {
+    // Show both sidebars on extra-large screens
     display: flex;
     flex-direction: column;
     gap: var(--sf-6);
     position: sticky;
-    top: calc(var(--sf-nav-height) + var(--sf-6));
-    align-self: start; // Important for sticky positioning
+    top: calc(var(--sf-nav-height) + var(--sf-4));
+    align-self: start;
   }
 }
 
-/* --- Table of Contents --- */
-.toc-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  a {
-    display: block;
-    padding: var(--sf-2) var(--sf-4);
-    text-decoration: none;
-    border-left: 2px solid var(--sf-line-2);
-    color: var(--sf-fg-2);
-    font-size: var(--sf-text-sm);
+/* --- 5. New Components --- */
+
+// Social Share Strip
+.post-share-strip {
+  @include cluster(var(--sf-2), center);
+  border-block: 1px solid var(--sf-line-2);
+  padding-block: var(--sf-3);
+  margin-bottom: var(--sf-8);
+
+  &--footer { margin-top: var(--sf-8); margin-bottom: 0; }
+
+  &__label { font-weight: 600; color: var(--sf-fg-2); margin-right: var(--sf-3); }
+
+  .share-btn {
+    display: inline-flex;
+    font-size: 1.5rem;
+    padding: var(--sf-2);
+    border-radius: 50%;
+    color: var(--sf-fg-3);
     transition: all .2s ease;
+
     &:hover {
-      background-color: var(--sf-bg-1);
-      color: var(--sf-brand);
-      border-left-color: var(--sf-brand);
+      transform: scale(1.1);
+      &.twitter { color: #1DA1F2; background-color: rgba(#1DA1F2, 0.1); }
+      &.linkedin { color: #0A66C2; background-color: rgba(#0A66C2, 0.1); }
+      &.facebook { color: #1877F2; background-color: rgba(#1877F2, 0.1); }
+      &.email { color: var(--sf-brand); background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent); }
     }
   }
 }
 
-/* --- Floating & Sticky Share Bars --- */
-.post-share-floating {
-  display: none; // Hidden by default
-  @include breakpoint(lg) {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sf-2);
-    position: absolute;
-    left: -80px; // Positioned outside the content area
-    top: 0;
-    
-    // "Sticks" relative to the content area
-    position: sticky;
-    top: calc(var(--sf-nav-height) + var(--sf-8)); 
-    
-    &__title {
-      font-size: var(--sf-text-xs);
-      color: var(--sf-muted);
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-      margin-bottom: var(--sf-2);
-      transform: rotate(180deg);
-    }
+// Table of Contents
+.toc-card {
+  padding: var(--sf-4);
+  .card-header { padding: 0 0 var(--sf-3) 0; } // Assuming .card-header exists from toc.html include
+  .toc-list {
+    list-style: none; padding: 0; margin: 0;
     a {
-      font-size: 1.25rem;
-      padding: var(--sf-2);
-      border-radius: 50%;
-      color: var(--sf-fg-2);
+      display: block; padding: var(--sf-2); text-decoration: none; border-radius: var(--sf-radius-sm);
+      color: var(--sf-fg-2); font-size: var(--sf-text-sm);
       &:hover { background-color: var(--sf-bg-1); color: var(--sf-brand); }
     }
   }
 }
 
-.post-share-mobile-sticky {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: var(--sf-z-sticky);
-  background: var(--sf-bg-2);
-  border-top: 1px solid var(--sf-line-2);
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+// "Buy Me a Coffee" & Sponsor Cards
+.coffee-card, .sponsor-card {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: var(--sf-3);
+  padding: var(--sf-5);
+  background-color: var(--sf-bg-1);
 
-  @include breakpoint(md) { display: none; } // Hide on desktop
-
-  &__buttons {
-    @include cluster(0, center, center);
-    padding: var(--sf-2);
-    span { font-size: var(--sf-text-sm); color: var(--sf-muted); margin-right: var(--sf-3); }
-    a {
-      flex-grow: 1;
-      text-align: center;
-      padding: var(--sf-2);
-      font-size: 1.5rem;
-      color: var(--sf-fg-2);
-    }
-  }
+  i { font-size: 2.5rem; color: var(--sf-brand); }
+  strong { font-size: var(--sf-text-lg); }
+  p { font-size: var(--sf-text-sm); color: var(--sf-fg-2); margin: 0; }
+  .sf-btn { margin-top: var(--sf-2); }
 }
 
-
-/* --- Post Footer Sections --- */
-.post-footer-container {
-  max-width: var(--sf-measure);
-  margin-inline: auto;
-  padding-inline: var(--sf-container-padding);
-}
+// Author Bio
 .post-author-bio {
+  // Re-use styles from home.scss or define here
   display: grid;
   grid-template-columns: auto 1fr;
   gap: var(--sf-5);
@@ -269,20 +192,17 @@
   padding: var(--sf-6);
   border-radius: var(--sf-radius-lg);
   margin-block: var(--sf-10);
-  &__avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-  }
+  &__avatar { width: 80px; height: 80px; border-radius: 50%; }
   h4 { margin: 0 0 var(--sf-2) 0; font-size: var(--sf-text-lg); }
   p { margin: 0; color: var(--sf-fg-2); }
 }
-.post-comments-section {
+
+// Comments
+.post-comments {
   margin-top: var(--sf-10);
 }
 
-
-/* --- AD PLACEHOLDER STYLES --- */
+/* --- 6. AD PLACEHOLDERS --- */
 .ad-placeholder {
   display: flex;
   align-items: center;
@@ -295,9 +215,9 @@
   text-align: center;
   width: 100%;
   
-  &--skyscraper { height: 600px; }
-  &--in-content { min-height: 100px; margin-block: var(--sf-6); }
-  &--sidebar { height: 250px; }
-  &--horizontal { height: 90px; margin-block: var(--sf-8); }
-  &--mobile-banner { min-height: 50px; border: none; border-bottom: 1px solid var(--sf-line-2); border-radius: 0;}
+  &--skyscraper {
+    min-height: 600px;
+    max-width: 160px;
+    margin-inline: auto; // Centers the ad in the flexible 1fr column
+  }
 }
