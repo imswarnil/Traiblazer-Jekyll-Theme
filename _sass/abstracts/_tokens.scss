@@ -9,7 +9,6 @@
   --sf-brand-2: #0b5cab;
   --sf-accent: #009ed9;
   --sf-link: #0176d3;
-  /* Extended brand states (new) */
   --sf-brand-hover: #0163b5;
   --sf-brand-active: #014a8a;
 
@@ -34,25 +33,18 @@
   --sf-radius-sm: .25rem;
   --sf-radius-md: .375rem;
   --sf-radius-lg: .5rem;
-  /* New */
   --sf-radius-xl: .75rem;
   --sf-radius-pill: 9999px;
   --sf-radius-circle: 50%;
-
   --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.06);
   --sf-shadow-md: 0 4px 12px rgba(0,0,0,.08);
-  /* New */
   --sf-shadow-lg: 0 12px 28px rgba(0,0,0,.12);
-
   --sf-focus: 0 0 0 .14rem rgba(1,118,211,.9);
-  /* New */
   --sf-backdrop: rgba(3,12,33,.55);
 
   /* Typography */
   --sf-font-body: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
   --sf-font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-
-  /* New fluid type scale */
   --sf-text-xs: clamp(.75rem, .71rem + .2vw, .8125rem);
   --sf-text-sm: clamp(.875rem, .84rem + .2vw, .9375rem);
   --sf-text-base: 1rem;
@@ -70,10 +62,9 @@
   /* Spacing scale */
   --sf-0: 0; --sf-1: .25rem; --sf-2: .5rem; --sf-3: .75rem; --sf-4: 1rem;
   --sf-5: 1.5rem; --sf-6: 2rem; --sf-8: 3rem;
-  /* New gaps to bridge your scale */
   --sf-7: 2.5rem; --sf-9: 3.5rem; --sf-10: 4rem; --sf-12: 6rem;
 
-  /* Containers (new) */
+  /* Containers */
   --sf-container-padding: var(--sf-4);
   --sf-container-sm: 40rem;
   --sf-container-md: 48rem;
@@ -81,11 +72,11 @@
   --sf-container-xl: 80rem;
   --sf-container-2xl: 96rem;
 
-  /* Grid (new) */
+  /* Grid */
   --sf-grid-columns: 12;
   --sf-grid-gap: var(--sf-4);
 
-  /* Layers (new) */
+  /* Layers */
   --sf-z-dropdown: 900;
   --sf-z-sticky: 1000;
   --sf-z-fixed: 1030;
@@ -94,7 +85,7 @@
   --sf-z-tooltip: 1300;
   --sf-z-toast: 1400;
 
-  /* Controls (new) */
+  /* Controls */
   --sf-control-sm: 2rem;
   --sf-control-md: 2.5rem;
   --sf-control-lg: 3rem;
@@ -106,50 +97,27 @@
   --sf-control-disabled-bg: var(--sf-bg-1);
   --sf-control-disabled-fg: var(--sf-fg-3);
 
-  /* Buttons (new) */
+  /* Buttons */
   --sf-btn-primary-bg: var(--sf-brand);
   --sf-btn-primary-text: #fff;
   --sf-btn-primary-hover-bg: var(--sf-brand-hover);
   --sf-btn-primary-active-bg: var(--sf-brand-active);
   --sf-btn-radius: var(--sf-radius-md);
 
-  /* Icons (new) */
+  /* Icons */
   --sf-icon-sm: 1rem;
   --sf-icon-md: 1.25rem;
   --sf-icon-lg: 1.5rem;
   --sf-icon-stroke: 1.5;
 
-  /* Navbar (new) */
+  /* Navbar */
   --sf-nav-height: 3.5rem;
   --sf-nav-bg: color-mix(in srgb, var(--sf-bg-2) 82%, transparent);
   --sf-nav-border: var(--sf-line-2);
 
-  /* Hero (new) */
+  /* Hero */
   --hero-pad-y: var(--sf-12);
   --hero-grid: color-mix(in srgb, var(--sf-line-2) 55%, transparent);
   --hero-grad-a: color-mix(in srgb, var(--sf-brand) 8%, transparent);
   --hero-grad-b: color-mix(in srgb, var(--sf-accent) 8%, transparent);
-}
-
-/* Dark Mode Theme Definition */
-:root[data-theme="dark"] {
-  --sf-bg-1: #0f172a;
-  --sf-bg-2: #121a2e;
-  --sf-fg:   #e5e7eb;
-  --sf-fg-2: #c8d0da;
-  --sf-fg-3: #9aa5b1;
-  --sf-muted:#9aa5b1;
-  --sf-line-1: #243045;
-  --sf-line-2: #1b2436;
-  --sf-link: #66b3ff;
-
-  --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.5);
-  --sf-shadow-md: 0 6px 24px rgba(0,0,0,.45);
-  /* New */
-  --sf-shadow-lg: 0 16px 32px rgba(0,0,0,.5);
-
-  /* Optional: slightly brighter brand on hover in dark */
-  --sf-btn-primary-hover-bg: #1a6fd1;
-  --sf-btn-primary-active-bg: #155aa8;
-  --sf-backdrop: rgba(0,0,0,.6);
 }

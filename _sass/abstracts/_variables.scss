@@ -4,18 +4,18 @@
    These are not compiled into the final CSS.
    ============================================================================ */
 
-/* Breakpoints (kept your sm/md/lg and added xs/xl) */
-$bp-xs: 30em;  // 480px
-$bp-sm: 40em;  // 640px
-$bp-md: 60em;  // 960px
-$bp-lg: 75em;  // 1200px
-$bp-xl: 90em;  // 1440px
+/* Breakpoints */
+$bp-xs: 30em;
+$bp-sm: 40em;
+$bp-md: 60em;
+$bp-lg: 75em;
+$bp-xl: 90em;
 
-/* Grid & Layout (new) */
+/* Grid & Layout */
 $grid-columns: 12 !default;
 $grid-gutter: 1rem !default;
 
-/* Container map (new, mirrors tokens) */
+/* Container map */
 $container-sizes: (
   sm: 40rem,
   md: 48rem,
@@ -24,7 +24,7 @@ $container-sizes: (
   2xl: 96rem
 ) !default;
 
-/* Z-index tiers (new) */
+/* Z-index tiers */
 $z-stack: (
   base: 0,
   dropdown: 900,
@@ -36,7 +36,7 @@ $z-stack: (
   toast: 1400
 ) !default;
 
-/* Motion (new) */
+/* Motion */
 $durations: (100: .10s, 150: .15s, 200: .20s, 300: .30s, 500: .50s) !default;
 $easings: (
   standard: cubic-bezier(.2, 0, 0, 1),
@@ -44,9 +44,9 @@ $easings: (
   accel:    cubic-bezier(.4, 0, 1, 1)
 ) !default;
 
-/* Controls & icons (new) */
+/* Controls & icons */
 $control-heights: (sm: 2rem, md: 2.5rem, lg: 3rem) !default;
 $icon-sizes: (sm: 1rem, md: 1.25rem, lg: 1.5rem) !default;
 
-/* Spacing keys used by utility generators (new) */
+/* Spacing keys */
 $space-keys: 0,1,2,3,4,5,6,7,8,9,10,12 !default;

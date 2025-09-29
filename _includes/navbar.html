@@ -1,5 +1,5 @@
 <!-- ============================================================================
-_includes/navbar.html (Premium Animation Edition - Complete)
+_includes/navbar.html (Premium Animation Edition - MODIFIED FOR MULTI-THEME)
 ============================================================================ -->
 
 <header class="sf-header">
@@ -29,20 +29,19 @@ _includes/navbar.html (Premium Animation Edition - Complete)
  <a href="https://github.com/your-username" class="sf-header__action-btn" aria-label="GitHub Profile" target="_blank" rel="noopener noreferrer">
    <i class="ph-bold ph-github-logo"></i>
  </a>
+ 
+ <!-- THEME SWITCHER (MODIFIED) -->
  <button class="sf-header__action-btn sf-theme-switcher" aria-label="Toggle theme">
-   <i class="ph-bold ph-sun"></i>
-   <i class="ph-bold ph-moon"></i>
+   <i class="ph-bold ph-sun"></i>        <!-- For switching back to Light -->
+   <i class="ph-bold ph-moon"></i>       <!-- For switching to Dark -->
+   <i class="ph-bold ph-sun-horizon"></i> <!-- For switching to Sunset -->
+   <i class="ph-bold ph-leaf"></i>        <!-- For switching to Nature -->
+   <i class="ph-bold ph-palette"></i>     <!-- For switching to B&W -->
  </button>
+ 
  <button class="sf-nav-toggle" aria-label="Toggle navigation" data-toggle="nav-panel">
    <span></span><span></span><span></span>
  </button>
- <button class="sf-header__action-btn sf-theme-switcher" aria-label="Toggle theme">
-  <i class="ph-bold ph-sun"></i>      <!-- Icon for switching TO Light -->
-  <i class="ph-bold ph-moon"></i>     <!-- Icon for switching TO Dark -->
-  <i class="ph-bold ph-sun-horizon"></i> <!-- Icon for switching TO Sunset -->
-  <i class="ph-bold ph-leaf"></i>      <!-- Icon for switching TO Nature -->
-  <i class="ph-bold ph-palette"></i>   <!-- Icon for switching TO B&W -->
-</button>
 </div>
 </div>
 </header>
@@ -60,11 +59,9 @@ _includes/navbar.html (Premium Animation Edition - Complete)
 </div>
 </div>
 
-<!-- Search Results Container (Separate for better layout control) -->
+<!-- Search Results Container -->
 <div class="sf-search-results-wrapper" id="sf-search-results-wrapper">
-<ul class="sf-search-results" id="sf-search-results-list">
-   <!-- JS will populate this -->
-</ul>
+<ul class="sf-search-results" id="sf-search-results-list"></ul>
 </div>
 
 <!-- Mobile Navigation Panel (Modal) -->
@@ -92,28 +89,19 @@ _includes/navbar.html (Premium Animation Edition - Complete)
 </div>
 </div>
 
-<!-- Self-contained JavaScript -->
+<!-- Self-contained JavaScript (MODIFIED) -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
 const htmlEl = document.documentElement;
-
-// --- Panel Toggling with Click Point Animation ---
 const navPanel = document.getElementById('nav-panel');
-const navContent = navPanel ? navPanel.querySelector('.sf-nav-panel__content') : null;
 const searchPanel = document.getElementById('search-panel');
 const searchResultsWrapper = document.getElementById('sf-search-results-wrapper');
 
+// --- Panel Toggling ---
 document.querySelectorAll('[data-toggle]').forEach(toggle => {
  toggle.addEventListener('click', (event) => {
    const targetPanel = document.getElementById(toggle.getAttribute('data-toggle'));
    if (!targetPanel) return;
-
-   if (targetPanel.id === 'nav-panel' && navContent) {
-     const clickX = event.clientX;
-     const clickY = event.clientY;
-     navContent.style.setProperty('--click-origin', `${clickX}px ${clickY}px`);
-   }
-
    const isOpen = targetPanel.classList.toggle('is-open');
 
    if (targetPanel.id === 'nav-panel') {
@@ -122,45 +110,44 @@ document.querySelectorAll('[data-toggle]').forEach(toggle => {
    }
    if (targetPanel.id === 'search-panel') {
        searchResultsWrapper.classList.toggle('is-active', isOpen);
-       if (isOpen) {
-           setTimeout(() => targetPanel.querySelector('input[type="search"]').focus(), 500);
-       }
+       if (isOpen) setTimeout(() => targetPanel.querySelector('input[type="search"]').focus(), 500);
    }
  });
 });
 
-// --- Theme Switching with Body Class for Animation ---
+// --- THEME SWITCHING (MODIFIED FOR 5 THEMES) ---
 const themeSwitcher = document.querySelector('.sf-theme-switcher');
+const themes = ['light', 'dark', 'sunset', 'nature', 'b&w'];
+
 const setTheme = theme => {
  document.body.classList.add('theme-transitioning');
  htmlEl.setAttribute('data-theme', theme);
  localStorage.setItem('theme', theme);
  setTimeout(() => document.body.classList.remove('theme-transitioning'), 500);
 };
-const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-setTheme(savedTheme);
-themeSwitcher.addEventListener('click', () => setTheme(htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark'));
+
+const savedTheme = localStorage.getItem('theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+setTheme(initialTheme);
+
+themeSwitcher.addEventListener('click', () => {
+  const currentTheme = htmlEl.getAttribute('data-theme') || 'light';
+  const currentIndex = themes.indexOf(currentTheme);
+  const nextIndex = (currentIndex + 1) % themes.length;
+  const nextTheme = themes[nextIndex];
+  setTheme(nextTheme);
+});
 
 // --- Live Search ---
 const searchInput = document.getElementById('sf-search-input');
 const resultsList = document.getElementById('sf-search-results-list');
 let pages = [];
-
-fetch('{{ "/assets/search.json" | relative_url }}')
- .then(res => res.json())
- .then(data => pages.push(...data));
-
+fetch('{{ "/assets/search.json" | relative_url }}').then(res => res.json()).then(data => pages.push(...data));
 searchInput.addEventListener('keyup', function() {
  const term = this.value.trim();
- if (!term) {
-   resultsList.innerHTML = '';
-   return;
- }
- const results = pages.filter(p => {
-   const regex = new RegExp(term, 'gi');
-   return p.title.match(regex) || p.content.match(regex);
- });
- 
+ if (!term) { resultsList.innerHTML = ''; return; }
+ const results = pages.filter(p => new RegExp(term, 'gi').test(p.title) || new RegExp(term, 'gi').test(p.content));
  if (results.length > 0) {
    resultsList.innerHTML = results.map(item => `
      <li class="sf-search-result">
@@ -174,49 +161,13 @@ searchInput.addEventListener('keyup', function() {
  }
 });
 
-// UX Improvement: Clear search on close
+// --- Clear search on close ---
 document.querySelectorAll('[data-toggle="search-panel"]').forEach(btn => {
  btn.addEventListener('click', () => {
    if (searchPanel && searchPanel.classList.contains('is-open')) {
-       setTimeout(() => {
-           searchInput.value = '';
-           resultsList.innerHTML = '';
-       }, 500);
+       setTimeout(() => { searchInput.value = ''; resultsList.innerHTML = ''; }, 500);
    }
  });
 });
 });
-// ... inside your <script> tag ...
-
-// --- Theme Switching with Body Class for Animation ---
-const themeSwitcher = document.querySelector('.sf-theme-switcher');
-const themes = ['light', 'dark', 'sunset', 'nature', 'b&w']; // Define theme cycle
-
-const setTheme = theme => {
-  document.body.classList.add('theme-transitioning');
-  htmlEl.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-  // Also update the switcher's data-theme attribute for SCSS targeting
-  if (themeSwitcher) {
-    themeSwitcher.setAttribute('data-theme', theme);
-  }
-  setTimeout(() => document.body.classList.remove('theme-transitioning'), 500);
-};
-
-// Determine initial theme
-const savedTheme = localStorage.getItem('theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-setTheme(initialTheme);
-
-// Add click listener to cycle through themes
-themeSwitcher.addEventListener('click', () => {
-  const currentTheme = htmlEl.getAttribute('data-theme') || 'light';
-  const currentIndex = themes.indexOf(currentTheme);
-  const nextIndex = (currentIndex + 1) % themes.length; // Loop back to start
-  const nextTheme = themes[nextIndex];
-  setTheme(nextTheme);
-});
-
-// ... rest of your javascript ...
 </script>

@@ -4,14 +4,14 @@
    ============================================================================ */
 
 // 1) ABSTRACTS — core, no output deps broken
-@import "abstracts/variables";     // SCSS maps & breakpoints (used by functions/mixins)
-@import "abstracts/tokens";        // CSS custom properties (can be anywhere, but early is tidy)
-@import "abstracts/functions";     // uses variables (maps), exposes getters/helpers
-@import "abstracts/mixins";        // uses variables + functions
-   
+@import "abstracts/variables";
+@import "abstracts/tokens";
+@import "abstracts/theme"; // <-- ADD THIS LINE
+@import "abstracts/mixins";
+
    // 2) ABSTRACTS (emits CSS utilities powered by the above)
 @import "abstracts/placeholders";   // skeleton loaders; uses tokens + mixins + functions
-// @import "abstracts/themes";         // theme overrides; uses tokens
+        // theme overrides; uses tokens
    
 
 // 2. BASE
