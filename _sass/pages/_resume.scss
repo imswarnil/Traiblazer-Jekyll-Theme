@@ -1,5 +1,5 @@
 /* ============================================================================
-   PAGES / RESUME (Definitive, Bulletproof 2-Column Final Version)
+   PAGES / RESUME (Definitive, 2-Column Final Version)
    ============================================================================ */
 
 // --- Full-Width Resume Hero ---
@@ -10,7 +10,6 @@
   overflow: hidden;
   border-bottom: 1px solid var(--sf-line-2);
 
-  // Subtle background pattern
   &::before {
     content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
     background-image:
@@ -58,22 +57,22 @@
   }
 }
 
-// --- THE BULLETPROOF 2-COLUMN GRID ---
+// --- The Bulletproof 2-Column Grid ---
 .resume-grid {
   display: grid;
-  gap: var(--sf-8); // Large gap between the two main columns
+  gap: var(--sf-8);
   grid-template-columns: 1fr; // Mobile: Single column
 
   @media (min-width: 1024px) {
-    // Desktop: The perfect two-column split
+    // Desktop: Main Content | Sidebar
     grid-template-columns: 1.5fr 1fr;
   }
 }
 
 // --- General Section Styling ---
 .resume-section {
-  // Sections are now just logical groups, not cards.
   margin-bottom: var(--sf-6);
+  &:last-child { margin-bottom: 0; }
 }
 .resume-section__title {
   display: flex; align-items: center; gap: var(--sf-3);
@@ -85,7 +84,7 @@
 
 // --- Main Content Column (Left) ---
 .resume-main {
-  // Just a container for the left-side sections
+  // Container for left-side sections
 }
 
 // --- Experience & Education Timeline ---
@@ -98,7 +97,7 @@
     display: flex; flex-wrap: wrap; justify-content: space-between;
     align-items: baseline; gap: var(--sf-2); margin-bottom: var(--sf-1);
   }
-  &__title { margin: 0; }
+  &__title { margin: 0; font-size: 1.25rem; }
   &__meta { font-size: .9rem; font-weight: 500; color: var(--sf-muted); display: inline-flex; align-items: center; gap: var(--sf-2); }
   &__subtitle { font-weight: 600; color: var(--sf-fg-2); }
   &__description {
@@ -111,7 +110,7 @@
 
 // --- Sidebar Column (Right) ---
 .resume-sidebar {
-  // Just a container for the right-side sections
+  // Container for right-side sections
 }
 
 // --- Projects Section ---
@@ -124,16 +123,14 @@
   &__description { font-size: .9rem; color: var(--sf-fg-2); margin-top: var(--sf-2); }
 }
 
-// --- Skills & Certifications/Achievements ---
+// --- Skills, Certs, Achievements Lists ---
 .skill-list, .cert-list, .achievement-list {
   list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sf-4);
 }
 .skill-item, .cert-item, .achievement-item {
   display: flex; align-items: flex-start; gap: var(--sf-3);
   &__icon { font-size: 1.5rem; color: var(--sf-brand); flex-shrink: 0; margin-top: 2px; }
-  &__content {
-    line-height: 1.4;
-  }
+  &__content { line-height: 1.4; }
   &__title { font-weight: 600; color: var(--sf-fg); margin:0; }
   &__description { font-size: .9rem; color: var(--sf-fg-2); }
 }
@@ -145,5 +142,5 @@
   .resume-grid { grid-template-columns: 1fr !important; }
   a { color: #000; text-decoration: none; }
   .resume-hero { padding: 0; border-bottom: 2px solid #000; }
-  .resume-hero::before { display: none; }
+  .resume-hero::before, .resume-hero__initials { display: none; }
 }

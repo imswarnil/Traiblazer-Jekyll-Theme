@@ -63,7 +63,12 @@ achievements:
     description: "Reduced system errors by 25% by executing comprehensive test plans."
 
 skills:
-  - title: "Salesforce, Apex, JavaScript, TypeScript, XML, ETL Platforms"
+  - title: "Core Platforms & Languages"
+    description: "Salesforce, Apex, JavaScript, TypeScript, XML, ETL Platforms"
+  - title: "Methodologies"
+    description: "Agile, Scrum, CI/CD, Test-Driven Development"
+  - title: "Tools & Ecosystem"
+    description: "Git, Jira, VS Code, nCino, FinancialForce"
 
 certifications:
   - title: "Salesforce Platform Developer I"
