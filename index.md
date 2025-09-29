@@ -20,5 +20,291 @@ recent_work_limit: 6
 
 <!-- This is all you need on your homepage to display the hero -->
 {% include hero.html %}
+    <main>
+        <!-- ============================================================================
+            1. HERO SECTION
+            A bold introduction with a clear value proposition and CTAs.
+            ============================================================================ -->
+        <section class="hero">
+            <div class="sf-container hero__content">
+                <h1 class="hero__title" data-animate>Building Scalable Solutions on the World's #1 CRM.</h1>
+                <p class="hero__subtitle" data-animate data-delay="100">
+                    I'm [Your Name], a certified Salesforce Developer specializing in Apex, LWC, and custom application development to drive business growth and efficiency.
+                </p>
+                <div class="hero__actions" data-animate data-delay="200">
+                    <a href="#contact" class="sf-btn sf-btn--primary">Get In Touch</a>
+                    <a href="/path/to/your-resume.pdf" class="sf-btn sf-btn--secondary" download>Download Resume</a>
+                </div>
+            </div>
+        </section>
+        <!-- ============================================================================
+            2. ABOUT ME SECTION
+            A personal introduction with a professional photo.
+            ============================================================================ -->
+        <section class="sf-section about-section">
+            <div class="sf-container grid">
+                <div class="about-section__image-wrapper" data-animate="fade-right">
+                    <img src="https://i.pravatar.cc/500?u=salesforce-dev" alt="[Your Name], Salesforce Developer">
+                </div>
+                <div class="about-section__text" data-animate="fade-left">
+                    <div class="section-header">
+                        <span class="section-header__pill">Introduction</span>
+                        <h2 class="section-header__title">Certified Platform Developer & Lifelong Learner.</h2>
+                    </div>
+                    <p>With over [X] years of experience in the Salesforce ecosystem, I've transitioned from an administrator to a full-stack developer, driven by a passion for solving complex problems with clean, efficient code. My goal is to not just write code, but to build robust, user-centric applications that provide tangible business value.</p>
+                    <p>When I'm not deep in the Salesforce cloud, you can find me contributing to open-source projects, writing on my blog, or exploring the great outdoors.</p>
+                </div>
+            </div>
+        </section>
+        <!-- ============================================================================
+            3. CORE COMPETENCIES SECTION
+            A scannable grid of your key skills.
+            ============================================================================ -->
+        <section class="sf-section sf-section--muted">
+            <div class="sf-container">
+                <div class="section-header" data-animate>
+                    <span class="section-header__pill">My Skills</span>
+                    <h2 class="section-header__title">Core Technical Competencies</h2>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-card" data-animate><i class="ph-bold ph-code"></i><h3>Apex Development</h3><p>Custom Triggers, Batch Apex, Schedulable jobs, Queueable Apex, and REST/SOAP integrations.</p></div>
+                    <div class="skill-card" data-animate><i class="ph-bold ph-lightning"></i><h3>Lightning Web Components</h3><p>Building modern, performant, and reusable UI components with LWC and Aura.</p></div>
+                    <div class="skill-card" data-animate><i class="ph-bold ph-plugs-connected"></i><h3>Integrations</h3><p>Connecting Salesforce with external systems using Mulesoft, REST APIs, and Platform Events.</p></div>
+                    <div class="skill-card" data-animate><i class="ph-bold ph-database"></i><h3>SOQL & SOSL</h3><p>Writing efficient and optimized queries to handle large data volumes and complex data models.</p></div>
+                    <div class="skill-card" data-animate><i class="ph-bold ph-flow-arrow"></i><h3>Flow & Automation</h3><p>Declarative automation expert, building complex business logic with Screen Flows and Record-Triggered Flows.</p></div>
+                    <div class="skill-card" data-animate><i class="ph-bold ph-git-branch"></i><h3>DevOps & Tooling</h3><p>CI/CD pipelines with SFDX, Git, and tools like Gearset or Copado for robust deployment strategies.</p></div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================================================================
+            4. FEATURED PROJECTS SECTION
+            Showcase your best work with visuals and details.
+            ============================================================================ -->
+        <section class="sf-section">
+            <div class="sf-container">
+                <div class="section-header" data-animate>
+                    <span class="section-header__pill">Portfolio</span>
+                    <h2 class="section-header__title">Projects I'm Proud Of</h2>
+                </div>
+                <div class="project-grid">
+                    <!-- Project 1 -->
+                    <div class="project-card" data-animate>
+                        <a href="#" class="project-card__image-link"><img src="https://images.unsplash.com/photo-1614741118884-62ac62b22863?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNTc5fDB8MXxzZWFyY2h8N3x8YWJzdHJhY3QlMjB0ZWNoJTIwcGF0dGVybnx8MAx8fDE2NzM0MjYwMjM&ixlib=rb-4.0.3&q=80&w=1080" alt="Project Thumbnail"></a>
+                        <div class="project-card__content">
+                            <h3 class="project-card__title">Custom CPQ Solution</h3>
+                            <p class="project-card__excerpt">Developed a bespoke Configure-Price-Quote system using LWC for a dynamic UI and Apex for complex pricing rule calculations, reducing quoting time by 40%.</p>
+                            <div class="project-card__tags"><span>Apex</span><span>LWC</span><span>Integration</span></div>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="project-card" data-animate>
+                        <a href="#" class="project-card__image-link"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNTc5fDB8MXxzZWFyY2h8Mnx8YWJzdHJhY3QlMjB0ZWNoJTIwcGF0dGVybnx8MAx8fDE2NzM0MjYwMjM&ixlib=rb-4.0.3&q=80&w=1080" alt="Project Thumbnail"></a>
+                        <div class="project-card__content">
+                            <h3 class="project-card__title">Real-time ERP Integration</h3>
+                            <p class="project-card__excerpt">Engineered a robust, bidirectional integration with SAP ERP using Mulesoft and Platform Events, ensuring data consistency for orders and inventory.</p>
+                            <div class="project-card__tags"><span>Mulesoft</span><span>Platform Events</span><span>REST API</span></div>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="project-card" data-animate>
+                        <a href="#" class="project-card__image-link"><img src="https://images.unsplash.com/photo-1603398938378-e54eab446dde?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwzNTc5fDB8MXxzZWFyY2h8MTF8fGFic3RyYWN0JTIwdGVjaCUyMHBhdHRlcm58fDAxfHwxNjczNDI3MDMw&ixlib=rb-4.0.3&q=80&w=1080" alt="Project Thumbnail"></a>
+                        <div class="project-card__content">
+                            <h3 class="project-card__title">Community Portal Overhaul</h3>
+                            <p class="project-card__excerpt">Led the redesign of a customer community, building custom LWC components and themes to create a modern, branded, and mobile-first user experience.</p>
+                            <div class="project-card__tags"><span>Experience Cloud</span><span>LWC</span><span>UI/UX</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================================================================
+            5. CAREER JOURNEY TIMELINE
+            Visually represent your work experience.
+            ============================================================================ -->
+        <section class="sf-section sf-section--muted">
+            <div class="sf-container">
+                <div class="section-header" data-animate>
+                    <span class="section-header__pill">Experience</span>
+                    <h2 class="section-header__title">My Career Journey</h2>
+                </div>
+                <div class="timeline">
+                    <!-- Timeline Item 1 -->
+                    <div class="timeline__item" data-animate>
+                        <div class="timeline__content">
+                            <span class="timeline__date">2021 - Present</span>
+                            <h3 class="timeline__title">Senior Salesforce Developer</h3>
+                            <p class="timeline__company">Tech Solutions Inc.</p>
+                            <p class="timeline__desc">Lead developer on key projects, mentor junior developers, and architect scalable solutions for Enterprise clients.</p>
+                        </div>
+                    </div>
+                    <!-- Timeline Item 2 -->
+                    <div class="timeline__item" data-animate>
+                        <div class="timeline__content">
+                            <span class="timeline__date">2019 - 2021</span>
+                            <h3 class="timeline__title">Salesforce Developer</h3>
+                            <p class="timeline__company">Innovate Corp.</p>
+                            <p class="timeline__desc">Developed custom Apex classes, triggers, and Lightning components to extend core Sales and Service Cloud functionality.</p>
+                        </div>
+                    </div>
+                    <!-- Timeline Item 3 -->
+                    <div class="timeline__item" data-animate>
+                        <div class="timeline__content">
+                            <span class="timeline__date">2017 - 2019</span>
+                            <h3 class="timeline__title">Salesforce Administrator</h3>
+                            <p class="timeline__company">Global Biz Co.</p>
+                            <p class="timeline__desc">Managed user permissions, data quality, and created reports & dashboards. Automated processes using Workflow Rules and Process Builder.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================================================================
+            6. CERTIFICATIONS SECTION
+            Display your official Salesforce certifications.
+            ============================================================================ -->
+        <section class="sf-section">
+            <div class="sf-container">
+                <div class="section-header" data-animate>
+                    <span class="section-header__pill">Credentials</span>
+                    <h2 class="section-header__title">Official Certifications</h2>
+                </div>
+                <div class="cert-grid">
+                    <div class="cert-badge" data-animate><img src="/assets/images/cert-pd1.png" alt="Platform Developer I"><span>Platform Developer I</span></div>
+                    <div class="cert-badge" data-animate><img src="/assets/images/cert-pd2.png" alt="Platform Developer II"><span>Platform Developer II</span></div>
+                    <div class="cert-badge" data-animate><img src="/assets/images/cert-js1.png" alt="JavaScript Developer I"><span>JavaScript Developer I</span></div>
+                    <div class="cert-badge" data-animate><img src="/assets/images/cert-admin.png" alt="Administrator"><span>Administrator</span></div>
+                    <div class="cert-badge" data-animate><img src="/assets/images/cert-pab.png" alt="Platform App Builder"><span>Platform App Builder</span></div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================================================================
+            7. TESTIMONIALS SECTION
+            Social proof from colleagues or clients.
+            ============================================================================ -->
+        <section class="sf-section sf-section--muted testimonial-section">
+             <div class="sf-container" data-animate>
+                <i class="ph-bold ph-quotes testimonial-icon"></i>
+                <blockquote class="testimonial-quote">
+                    "[Your Name] is an exceptional developer who combines deep technical knowledge with a keen understanding of business needs. Their work on our LWC project was transformative, and they are a true pleasure to collaborate with."
+                </blockquote>
+                <cite class="testimonial-cite">
+                    <strong>Jane Doe</strong>, Project Manager at Tech Solutions Inc.
+                </cite>
+            </div>
+        </section>
+        <!-- ============================================================================
+            8. LATEST BLOG POSTS SECTION
+            Drive engagement to your blog.
+            ============================================================================ -->
+        <section class="sf-section">
+            <div class="sf-container">
+                <div class="section-header" data-animate>
+                    <span class="section-header__pill">From the Blog</span>
+                    <h2 class="section-header__title">Thoughts on Code & Cloud</h2>
+                </div>
+                <div class="blog-grid">
+                    <!-- Blog Post 1 -->
+                    <div class="blog-card" data-animate>
+                        <span class="blog-card__date">Jan 15, 2024</span>
+                        <h3 class="blog-card__title">Mastering Apex Trigger Frameworks for Scalability</h3>
+                        <p class="blog-card__excerpt">Dive deep into why a trigger framework is essential for any serious Salesforce org and compare the most popular patterns...</p>
+                        <a href="#" class="blog-card__link">Read More <i class="ph-bold ph-arrow-right"></i></a>
+                    </div>
+                    <!-- Blog Post 2 -->
+                    <div class="blog-card" data-animate>
+                        <span class="blog-card__date">Dec 22, 2023</span>
+                        <h3 class="blog-card__title">5 LWC Performance Tips You Might Not Know</h3>
+                        <p class="blog-card__excerpt">From template optimizations to efficient data handling with the Wire service, let's explore five ways to make your LWCs faster...</p>
+                        <a href="#" class="blog-card__link">Read More <i class="ph-bold ph-arrow-right"></i></a>
+                    </div>
+                    <!-- Blog Post 3 -->
+                    <div class="blog-card" data-animate>
+                        <span class="blog-card__date">Nov 30, 2023</span>
+                        <h3 class="blog-card__title">Demystifying Platform Events: A Practical Guide</h3>
+                        <p class="blog-card__excerpt">A step-by-step tutorial on publishing and subscribing to Platform Events for building event-driven architectures on Salesforce...</p>
+                        <a href="#" class="blog-card__link">Read More <i class="ph-bold ph-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="section-footer" data-animate>
+                    <a href="/blog" class="sf-btn sf-btn--secondary">Visit The Blog</a>
+                </div>
+            </div>
+        </section>
+        <!-- ============================================================================
+            9. TECH STACK & TOOLS SECTION
+            Showcase the tools you love to use.
+            ============================================================================ -->
+        <section class="sf-section sf-section--muted">
+            <div class="sf-container">
+                 <div class="section-header" data-animate>
+                    <h3 class="section-header__title" style="font-size: var(--sf-text-lg);">My Favorite Tools & Technologies</h3>
+                </div>
+                <div class="tech-stack-grid">
+                    <div class="tech-logo" data-animate><img src="https://.../sfdx.svg" alt="SFDX"><span>SFDX</span></div>
+                    <div class="tech-logo" data-animate><img src="https://.../vscode.svg" alt="VS Code"><span>VS Code</span></div>
+                    <div class="tech-logo" data-animate><img src="https://.../git.svg" alt="Git"><span>Git</span></div>
+                    <div class="tech-logo" data-animate><img src="https://.../github.svg" alt="GitHub"><span>GitHub Actions</span></div>
+                    <div class="tech-logo" data-animate><img src="https://.../postman.svg" alt="Postman"><span>Postman</span></div>
+                    <div class="tech-logo" data-animate><img src="https://.../mulesoft.svg" alt="Mulesoft"><span>Mulesoft</span></div>
+                    <div class="tech-logo" data-animate><img src="https://.../jest.svg" alt="Jest"><span>Jest</span></div>
+                </div>
+            </div>
+        </section>
+        <!-- ============================================================================
+            10. CONTACT / CALL-TO-ACTION SECTION
+            A final, clear invitation to connect.
+            ============================================================================ -->
+        <section class="sf-section cta-section" id="contact">
+            <div class="sf-container">
+                <div class="section-header" data-animate>
+                    <span class="section-header__pill">Have a project in mind?</span>
+                    <h2 class="section-header__title">Let's Build Something Great Together.</h2>
+                    <p class="section-header__subtitle">I'm currently available for freelance opportunities and open to full-time roles. If you're looking for a dedicated developer to bring your vision to life, I'd love to hear from you.</p>
+                </div>
+                <a href="mailto:your.email@example.com" class="sf-btn sf-btn--primary sf-btn--large" data-animate>your.email@example.com</a>
+            </div>
+        </section>
+    </main>
+    <!-- ============================================================================
+        FOOTER
+        ============================================================================ -->
+    <footer class="sf-footer">
+        <div class="sf-container">
+            <div class="sf-footer__content">
+                <p>&copy; 2024 [Your Name]. All Rights Reserved.</p>
+                <div class="sf-footer__socials">
+                    <a href="#" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+                    <a href="#" aria-label="GitHub"><i class="ph ph-github-logo"></i></a>
+                    <a href="#" aria-label="Trailhead"><i class="ph ph-tree-evergreen"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ============================================================================
+        SCROLL ANIMATION SCRIPT
+        ============================================================================ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const animatedElements = document.querySelectorAll('[data-animate]');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Apply animation with optional delay
+                        const delay = entry.target.dataset.delay || 0;
+                        setTimeout(() => {
+                            entry.target.classList.add('is-visible');
+                        }, delay); 
+                        // Stop observing the element after it has been animated
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+            animatedElements.forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
 
 
