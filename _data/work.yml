@@ -1,0 +1,37 @@
+- title: Sales Analytics Accelerator
+  url: /projects/sales-analytics/
+  image: /assets/projects/sales-analytics.jpg
+  image_alt: Lightning dashboard with KPI panels
+  summary: A plug-and-play CRM Analytics template with SAQL bindings and row-level security.
+  meta:
+    - icon: gauge
+      text: "Performance: 4x faster drilldowns"
+    - icon: users-three
+      text: "Team: 3 devs, 1 analyst"
+  tags: [CRM Analytics, SAQL, RLS]
+  cta_text: Case Study →
+  cta_variant: brand
+  cta_icon: arrow-right
+
+- title: Apex Billing Engine
+  url: /projects/apex-billing/
+  image: /assets/projects/apex-billing.jpg
+  image_alt: Apex code billing module
+  summary: Usage-based invoicing with retry/backoff, platform events, and async batch.
+  meta:
+    - icon: lightning
+      text: "Apex + Platform Events"
+    - icon: clock
+      text: "Latency: < 120ms"
+  tags: [Apex, Events, Billing]
+
+- title: LWC Design System Kit
+  url: /projects/lwc-ds-kit/
+  image: /assets/projects/lwc-ds-kit.jpg
+  summary: Token-driven components (buttons, cards, forms) with dark & five custom themes.
+  meta:
+    - icon: squares-four
+      text: "20+ components"
+    - icon: paint-brush
+      text: "5 themes"
+  tags: [LWC, SLDS, Theming]
