@@ -1,45 +1,53 @@
+/* ============================================================================
+   LAYOUT / DOCS (ALL-IN-ONE)
+   A comprehensive stylesheet for the entire documentation module.
+   ============================================================================ */
+
 // --- Main Layout Grid ---
-.docs-layout-grid {
+.docs-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr; // Mobile-first default
 
-  @include breakpoint(md) {
-    grid-template-columns: 260px 1fr;
-    gap: var(--sf-6);
-  }
-
-  @include breakpoint(lg) {
-    grid-template-columns: 260px minmax(0, var(--sf-measure)) 1fr;
-    gap: var(--sf-8);
+  // Switch to 3-column layout for articles on desktop
+  &--article {
+    @include breakpoint(md) {
+      grid-template-columns: 260px 1fr;
+      gap: var(--sf-6);
+    }
+    @include breakpoint(lg) {
+      grid-template-columns: 260px minmax(0, var(--sf-measure)) 1fr;
+      gap: var(--sf-8);
+    }
   }
 }
 
-// --- Docs Header (Used on all docs pages) ---
+// --- Docs Header ---
 .docs-header {
-  padding-block: var(--sf-6) 0;
-  margin-bottom: var(--sf-6);
+  padding-block: var(--sf-6);
+  border-bottom: 1px solid var(--sf-line-2);
+  margin-bottom: var(--sf-8);
 
-  &--home { // Special styling for the main landing page header
+  &--home {
     text-align: center;
-    padding-block: var(--sf-8);
-    border-bottom: 1px solid var(--sf-line-2);
-  }
-
-  &__nav-trigger {
-    @include button-reset;
-    @include cluster($gap: var(--sf-2));
-    font-size: var(--sf-text-sm);
-    font-weight: 600;
-    color: var(--sf-fg-2);
-    cursor: pointer;
-    margin-bottom: var(--sf-6);
-    .ph-bold { font-size: var(--sf-icon-md); }
-    @include hover { color: var(--sf-brand); }
-    @include breakpoint(md) { display: none; }
+    border-bottom: none;
   }
 }
 
-// --- Sidebar & Mobile Navigation ---
+// --- Mobile Navigation Trigger ---
+.docs-nav-trigger {
+  @include button-reset;
+  @include cluster($gap: var(--sf-2), $align: center);
+  font-size: var(--sf-text-sm);
+  font-weight: 600;
+  color: var(--sf-fg-2);
+  cursor: pointer;
+  margin-bottom: var(--sf-6);
+  .ph-bold { font-size: var(--sf-icon-md); }
+  @include hover { color: var(--sf-brand); }
+  @include breakpoint(md) { display: none; }
+}
+
+// --- Sidebar (Off-Canvas Mobile, Sticky Desktop) ---
 .docs-sidebar {
   position: fixed;
   top: 0;
@@ -64,12 +72,11 @@
     top: calc(var(--sf-nav-height) + var(--sf-4));
     height: calc(100vh - var(--sf-nav-height) - (2 * var(--sf-4)));
     padding: 0;
-    padding-right: var(--sf-4);
-    border: none;
     transform: none;
     box-shadow: none;
     z-index: 1;
     background-color: transparent;
+    border: none;
   }
 
   &__close {
@@ -92,7 +99,7 @@
   z-index: calc(var(--sf-z-modal) - 1);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s var(--sf-ease-standard, ease);
+  transition: opacity 0.3s ease;
 
   &.is-visible {
     opacity: 1;
@@ -101,55 +108,58 @@
   @include breakpoint(md) { display: none; }
 }
 
-.docs-nav {
-  &__list { list-style: none; padding: 0; }
-  &__category-title {
-    @include cluster($gap: var(--sf-2), $align: center);
-    font-size: var(--sf-text-xs);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: var(--sf-tracking-wide);
-    color: var(--sf-muted);
-    padding: var(--sf-3) 0;
-    margin-top: var(--sf-4);
-    &:first-child { margin-top: 0; }
-  }
-  &__link {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: var(--sf-2) var(--sf-3);
-    margin-bottom: var(--sf-1);
-    font-size: var(--sf-text-sm);
-    font-weight: 500;
-    color: var(--sf-fg-2);
-    border-radius: var(--sf-radius-md);
-    transition: background-color .15s ease, color .15s ease;
+// --- Sidebar Navigation Links ---
+.docs-nav-list {
+  list-style: none;
+  padding: 0;
+}
+.docs-nav-category {
+  margin-top: var(--sf-4);
+  &:first-child { margin-top: 0; }
+}
+.docs-nav-category__title {
+  @include cluster($gap: var(--sf-2), $align: center);
+  padding: var(--sf-3) 0;
+  font-size: var(--sf-text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--sf-tracking-wide);
+  color: var(--sf-muted);
+}
+.docs-nav-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--sf-2) var(--sf-3);
+  margin-bottom: var(--sf-1);
+  font-size: var(--sf-text-sm);
+  font-weight: 500;
+  color: var(--sf-fg-2);
+  border-radius: var(--sf-radius-md);
+  transition: background-color .15s ease, color .15s ease;
 
-    @include hover {
-      background-color: var(--sf-bg-2);
-      color: var(--sf-fg);
-    }
-    &.is-active {
-      background-color: var(--sf-bg-2);
-      color: var(--sf-brand);
-      font-weight: 600;
-      box-shadow: var(--sf-shadow-sm);
-    }
+  @include hover {
+    background-color: var(--sf-bg-2);
+    color: var(--sf-fg);
+  }
+  &.is-active {
+    background-color: var(--sf-bg-2);
+    color: var(--sf-brand);
+    font-weight: 600;
+    box-shadow: var(--sf-shadow-sm);
   }
 }
 
-// --- Docs Content Area (articles) ---
+// --- Article Content ---
 .docs-content {
   h1, h2, h3 { scroll-margin-top: calc(var(--sf-nav-height) + var(--sf-4)); }
   h2 { padding-bottom: var(--sf-3); border-bottom: 1px solid var(--sf-line-2); margin-top: var(--sf-8); }
   h3 { margin-top: var(--sf-6); }
   code { background-color: var(--sf-line-2); padding: .1em .3em; border-radius: var(--sf-radius-sm); font-size: .9em; }
-  pre { background-color: var(--sf-bg-2); border: 1px solid var(--sf-line-2); }
 }
 
-// --- Docs Table of Contents (Right Sidebar) ---
-.docs-toc-wrapper {
+// --- Table of Contents & Ads ---
+.docs-aside {
   display: none;
   @include breakpoint(lg) {
     display: block;
@@ -158,12 +168,11 @@
     height: calc(100vh - var(--sf-nav-height) - (2 * var(--sf-4)));
   }
 }
-
-.toc-list { // Targeting the class from your include
+.toc-list {
   font-size: var(--sf-text-sm);
   list-style: none;
-  padding-left: 0;
-  .toc-list { padding-left: var(--sf-4); } // Nested lists
+  padding: 0;
+  .toc-list { padding-left: var(--sf-4); } // Nested
   a {
     display: block;
     padding: var(--sf-2) 0;
@@ -175,21 +184,39 @@
     &.is-active { color: var(--sf-brand); font-weight: 600; border-left-color: var(--sf-brand); transform: translateX(4px); }
   }
 }
-.toc-list-title { // From your include
+.toc-list-title {
   font-size: var(--sf-text-xs);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: var(--sf-tracking-wide);
   color: var(--sf-muted);
   margin-bottom: var(--sf-4);
 }
 
-// --- Pagination ---
-.docs-pagination {
-  // ... (same as before) ...
+// --- Ad/Sponsor Placeholder ---
+.docs-sponsor-ad {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sf-4);
+  margin-top: var(--sf-6);
+  border-radius: var(--sf-radius-lg);
+  border: 1px dashed var(--sf-line-1);
+  text-align: center;
+  .ph-bold { font-size: 2rem; margin-bottom: var(--sf-2); color: var(--sf-muted); }
+  span { font-size: var(--sf-text-xs); color: var(--sf-muted); }
 }
 
-// --- DOCS LANDING PAGE & CATEGORY PAGE CARDS ---
+// --- DOCS HOMEPAGE: Search & Cards ---
+.docs-search {
+  position: relative;
+  max-width: var(--sf-container-md);
+  margin-inline: auto;
+  margin-bottom: var(--sf-8);
+  &__icon { position: absolute; top: 50%; left: var(--sf-4); transform: translateY(-50%); font-size: var(--sf-icon-lg); color: var(--sf-muted); pointer-events: none; }
+  &__input { @include control-base(var(--sf-control-lg)); font-size: var(--sf-text-lg); padding-left: calc(var(--sf-icon-lg) + var(--sf-4) + var(--sf-3)); width: 100%; }
+}
+
 .docs-category-grid {
   @include grid($cols: 1, $gap: var(--sf-5));
   @include breakpoint(sm) { grid-template-columns: repeat(2, 1fr); }
@@ -197,30 +224,34 @@
 }
 
 .docs-category-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   background-color: var(--sf-bg-2);
   border: 1px solid var(--sf-line-2);
   border-radius: var(--sf-radius-lg);
   box-shadow: var(--sf-shadow-sm);
   transition: all .2s ease;
-  text-decoration: none;
 
-  @include hover {
-    transform: translateY(-4px);
-    box-shadow: var(--sf-shadow-md);
-    border-color: var(--sf-brand);
-  }
-
-  &__header {
-    padding: var(--sf-4);
-    @include cluster($gap: var(--sf-3), $align: center);
-    .ph-bold { font-size: var(--sf-icon-lg); color: var(--sf-brand); }
-    h3 { margin: 0; font-size: var(--sf-text-lg); color: var(--sf-fg); }
-  }
-  &__description {
-    padding: 0 var(--sf-4) var(--sf-4);
+  @include hover { transform: translateY(-4px); box-shadow: var(--sf-shadow-md); border-color: var(--sf-brand); }
+  &__header { padding: var(--sf-4); border-bottom: 1px solid var(--sf-line-2); @include cluster($gap: var(--sf-3), $align: center); }
+  &__icon { font-size: var(--sf-icon-lg); color: var(--sf-brand); }
+  &__title { margin: 0; font-size: var(--sf-text-lg); font-weight: 700; color: var(--sf-fg); }
+  &__count { margin-left: auto; font-size: var(--sf-text-sm); font-weight: 600; color: var(--sf-fg-3); background-color: var(--sf-bg-1); padding: var(--sf-1) var(--sf-2); border-radius: var(--sf-radius-pill); }
+  &__list { list-style: none; padding: var(--sf-4); margin: 0; flex-grow: 1; }
+  &__item a {
+    display: flex;
+    align-items: center;
+    gap: var(--sf-3);
+    padding: var(--sf-3);
+    border-radius: var(--sf-radius-md);
     color: var(--sf-fg-2);
-    font-size: var(--sf-text-sm);
+    font-weight: 500;
+    transition: background-color .15s ease, color .15s ease;
+    .ph-bold { font-size: var(--sf-icon-md); color: var(--sf-muted); transition: color .15s ease, transform .15s ease; }
+    @include hover { background-color: var(--sf-bg-1); color: var(--sf-brand); .ph-bold { color: var(--sf-brand); transform: translateX(4px); } }
   }
 }
+
+// JS States for search filtering
+.is-hidden { display: none !important; }

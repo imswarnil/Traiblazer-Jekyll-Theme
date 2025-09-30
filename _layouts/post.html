@@ -1,219 +1,89 @@
 ---
 layout: default
 ---
-
-<!-- ========================================================================
-     POST HEADER HERO (V2)
-     ======================================================================== -->
-<header class="post-header-hero">
-    <div class="sf-container sf-container--lg">
-        <nav aria-label="Breadcrumb" class="breadcrumb">
-            <a href="/">Home</a><i class="ph-bold ph-caret-right"></i>
-            <a href="/blog/">Blog</a><i class="ph-bold ph-caret-right"></i>
-            <span>{{ page.title | truncatewords: 5 }}</span>
-        </nav>
-        <h1 class="post-title-main">{{ page.title }}</h1>
-        <div class="post-meta-main">
-            {% if page.author %}<span class="post-meta-main__author"><i class="ph-bold ph-user-circle"></i> {{ page.author }}</span>{% endif %}
-            <time class="post-meta-main__date" datetime="{{ page.date | date_to_xmlschema }}"><i class="ph-bold ph-calendar"></i> {{ page.date | date: "%B %d, %Y" }}</time>
-        </div>
-        {% if page.feature_image %}
-            <figure class="post-feature-image-main">
-                <img src="{{ page.feature_image | relative_url }}" alt="{{ page.title }}">
-            </figure>
-        {% endif %}
-    </div>
-</header>
-
-<!-- A trigger element for the sticky sidebars JS -->
-<div id="sticky-sidebar-trigger"></div>
-
-<!-- ========================================================================
-     MAIN POST GRID CONTAINER (V2)
-     ======================================================================== -->
-<div class="post-grid-container">
-
-    <!-- STICKY LEFT SKYSCRAPER AD -->
-    <aside class="post-sidebar-left">
-        <div class="ad-placeholder ad-placeholder--skyscraper"><span>Left Skyscraper<br>160x600</span></div>
-    </aside>
-
-    <!-- MAIN ARTICLE CONTENT -->
-    <main class="post-content-main">
-        <article>
-            <!-- This is where the TOC will be moved on mobile -->
-            <div id="toc-mobile-target"></div>
-            
-            <div class="post-body typeset">
-                {{ content }}
-            </div>
-            
-            <div class="post-share-strip post-share-strip--footer">
-                <span class="post-share-strip__label">If you enjoyed this, please share it!</span><h1> Post Share Links</h1>
-            </div>
-        </article>
-        
-        <section class="post-author-bio">
-            <img src="https://i.pravatar.cc/150?u={{ page.author | default: 'author' }}" alt="{{ page.author }}" class="post-author-bio__avatar">
-            <div class="post-author-bio__content">
-                <h4>About {{ page.author }}</h4>
-                <p>Add your author bio here. A passionate Salesforce Developer with expertise in Apex, LWC, and building amazing things on the platform.</p>
-            </div>
-        </section>
-        
-        <section class="post-comments">
-            <h2 class="sf-h2">Comments</h2>
-            <div class="sf-card"><div class="sf-card__body">Your comments system would appear here.</div></div>
-        </section>
-    </main>
-
-    <!-- STICKY RIGHT SIDEBAR -->
-    <aside class="post-sidebar-right">
-        <!-- The desktop TOC container -->
-        <div id="toc-desktop-container">
-            <div class="sf-card toc-card">
-                {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
-            </div>
-        </div>
-
-        <div class="sf-card coffee-card">
-            <i class="ph-bold ph-coffee"></i>
-            <strong>Enjoy the content?</strong>
-            <p>Support my work by buying me a coffee!</p>
-            <a href="#" class="sf-btn sf-btn--primary sf-btn--full">Buy Me a Coffee</a>
-        </div>
-        
-        <div class="sf-card sponsor-card">
-            <strong>Sponsor Us</strong>
-            <p>Reach thousands of Salesforce professionals.</p>
-            <a href="/contact" class="sf-btn sf-btn--secondary sf-btn--full">Inquire Now</a>
-        </div>
-    </aside>
-
-</div>
-
-<!-- ========================================================================
-     MOBILE-ONLY UI ELEMENTS
-     ======================================================================== -->
-
-<!-- SLIDE-IN POPUP AD (MOBILE) -->
-<div class="slide-in-ad" id="slide-in-ad">
-    <div class="slide-in-ad__header">
-        <span>Advertisement</span>
-        <button class="slide-in-ad__close" id="slide-in-ad-close" aria-label="Close Ad"><i class="ph-bold ph-x"></i></button>
-    </div>
-    <div class="ad-placeholder ad-placeholder--slide-in"><span>Mobile Slide-in Ad<br>300x250</span></div>
-</div>
-
-<!-- FLOATING BOTTOM BANNER & SHARE (MOBILE) -->
-<div class="mobile-bottom-float">
-    <div class="ad-placeholder ad-placeholder--mobile-banner"><span>Mobile Sticky Ad - 320x50</span></div>
-</div>
-
-<!-- Create a new file `_includes/post-share-links.html` with your share links -->
 {% comment %}
-<!-- _includes/post-share-links.html -->
-{% assign post_url = page.url | absolute_url | url_encode %}
-{% assign post_title = page.title | url_encode %}
-<a href="https://twitter.com/intent/tweet?url={{ post_url }}&text={{ post_title }}" target="_blank" rel="noopener" class="share-btn twitter" aria-label="Share on Twitter"><i class="ph-bold ph-twitter-logo"></i></a>
-<a href="https://www.linkedin.com/shareArticle?mini=true&url={{ post_url }}" target="_blank" rel="noopener" class="share-btn linkedin" aria-label="Share on LinkedIn"><i class="ph-bold ph-linkedin-logo"></i></a>
-<a href="https://www.facebook.com/sharer/sharer.php?u={{ post_url }}" target="_blank" rel="noopener" class="share-btn facebook" aria-label="Share on Facebook"><i class="ph-bold ph-facebook-logo"></i></a>
-<a href="mailto:?subject={{ post_title }}&body=Check out this article: {{ post_url }}" class="share-btn email" aria-label="Share via Email"><i class="ph-bold ph-envelope-simple"></i></a>
+============================================================================
+_layouts/page.html (V4 - THE DEFINITIVE & CORRECTED VERSION)
+- Corrects the fundamental HTML structure by removing the invalid <main> wrapper.
+- Relies on the new comprehensive _page.scss to style and contain ALL raw HTML.
+============================================================================
 {% endcomment %}
 
+<!-- The <head> section with SEO/meta tags remains the same as the previous version -->
 
-<!-- ========================================================================
-     ADVANCED JAVASCRIPT FOR DYNAMIC FEATURES
-     ======================================================================== -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
+<body>
+    {% include navbar.html %}
 
-    const DESKTOP_BREAKPOINT = 992; // Must match SCSS $bp-lg
+    <!-- ========================================================================
+         PAGE HEADER
+         This is a direct child of <body>, as it should be.
+         ======================================================================== -->
+    <header class="page-header">
+      <div class="sf-container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="{{ '/' | relative_url }}">Home</a>
+          <i class="ph-bold ph-caret-right"></i>
+          <span>{{ page.title }}</span>
+        </nav>
+        <h1 class="sf-h1">{{ page.title }}</h1>
+        {% if page.subtitle %}
+          <p class="sf-text--large">{{ page.subtitle }}</p>
+        {% endif %}
+        {% if page.last_updated %}
+          <div class="page-header__meta">
+              <i class="ph-bold ph-info"></i>
+              <span>Last Updated: <time datetime="{{ page.last_updated | date_to_xmlschema }}">{{ page.last_updated | date: "%B %d, %Y" }}</time></span>
+          </div>
+        {% endif %}
+      </div>
+    </header>
 
-    /**
-     * 1. DYNAMIC TABLE OF CONTENTS
-     * Moves the TOC from the sidebar to inside the article on mobile.
-     */
-    function handleMobileTOC() {
-        const tocDesktopContainer = document.getElementById('toc-desktop-container');
-        const tocMobileTarget = document.getElementById('toc-mobile-target');
-        const tocCard = tocDesktopContainer ? tocDesktopContainer.querySelector('.toc-card') : null;
+    <!-- ========================================================================
+         MAIN PAGE BODY & CORRECTED GRID
+         This is now a sibling of <header>, which is the correct structure.
+         ======================================================================== -->
+    <div class="page-body-section">
+      <div class="sf-container">
+        <div class="sf-row">
 
-        if (!tocCard || !tocMobileTarget) return;
-        
-        // Don't move if TOC is empty
-        if (!tocCard.querySelector('li')) {
-            tocCard.style.display = 'none';
-            return;
-        }
+          <!-- Primary Content Column (8/12 on LG+) -->
+          <main class="sf-col-12 sf-col-lg-8 page-main-content">
+            <!-- This card provides the white background and padding -->
+            <div class="sf-card page-content-card">
+              <!-- The 'typeset' class provides ALL the styles for raw HTML -->
+              <article class="sf-card__body typeset">
+                {{ content }}
+              </article>
+            </div>
+          </main>
 
-        const moveToc = () => {
-            if (window.innerWidth < DESKTOP_BREAKPOINT) {
-                if (!tocMobileTarget.contains(tocCard)) {
-                    tocMobileTarget.appendChild(tocCard);
-                }
-            } else {
-                if (!tocDesktopContainer.contains(tocCard)) {
-                    tocDesktopContainer.insertBefore(tocCard, tocDesktopContainer.firstChild);
-                }
-            }
-        };
+          <!-- Sidebar Column (4/12 on LG+) -->
+          <aside class="sf-col-12 sf-col-lg-4 page-sidebar">
+            {% if page.toc and content contains "<h2" %}
+            <div class="sf-card toc-card">
+              {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+            </div>
+            {% endif %}
 
-        moveToc(); // Run on initial load
-        window.addEventListener('resize', moveToc); // Rerun on resize
-    }
+            <div class="ad-placeholder ad-placeholder--sidebar-ad">
+              <span>Sidebar Ad<br>300x250</span>
+            </div>
+            
+            <div class="sf-card quick-links-card">
+                <div class="sf-card__header">Quick Links</div>
+                <div class="sf-card__body">
+                    <ul class="quick-links-list">
+                        <li><a href="/about/">About Me</a></li>
+                        <li><a href="/contact/">Contact</a></li>
+                        <li><a href="/blog/">My Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+          </aside>
 
-    /**
-     * 2. STICKY SIDEBARS
-     * Uses IntersectionObserver to toggle a sticky class for performance.
-     */
-    function initStickySidebars() {
-        const trigger = document.getElementById('sticky-sidebar-trigger');
-        const leftSidebar = document.querySelector('.post-sidebar-left');
-        const rightSidebar = document.querySelector('.post-sidebar-right');
+        </div>
+      </div>
+    </div>
 
-        if (!trigger || (!leftSidebar && !rightSidebar)) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                // If trigger is NOT intersecting (i.e., scrolled past)
-                document.body.classList.toggle('sidebars-sticky', !entry.isIntersecting);
-            },
-            { rootMargin: `-${document.querySelector('.sf-header').offsetHeight}px 0px 0px 0px`, threshold: 1.0 }
-        );
-
-        observer.observe(trigger);
-    }
-
-    /**
-     * 3. SLIDE-IN MOBILE AD
-     * Appears after a delay and can be dismissed.
-     */
-    function initSlideInAd() {
-        const ad = document.getElementById('slide-in-ad');
-        const closeBtn = document.getElementById('slide-in-ad-close');
-        
-        if (!ad || !closeBtn) return;
-        
-        // Don't show if it was already closed this session
-        if (sessionStorage.getItem('slideInAdClosed')) {
-            return;
-        }
-
-        setTimeout(() => {
-            ad.classList.add('is-visible');
-        }, 8000); // 8-second delay
-
-        closeBtn.addEventListener('click', () => {
-            ad.classList.remove('is-visible');
-            sessionStorage.setItem('slideInAdClosed', 'true');
-        });
-    }
-
-    // Initialize all features
-    handleMobileTOC();
-    initStickySidebars();
-    initSlideInAd();
-
-});
-</script>
+    {% include footer.html %}
+</body>
