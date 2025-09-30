@@ -12,7 +12,6 @@ subtitle: "Find articles, projects, and pages across the entire site."
       Welcome to our help center. Find articles, tutorials, and guides to get the most out of our product.
     </p>
   </header>
-
   <!-- Search Bar -->
   <div class="docs-search">
     <i class="ph-bold ph-magnifying-glass docs-search__icon"></i>
@@ -44,3 +43,46 @@ subtitle: "Find articles, projects, and pages across the entire site."
   </div>
 
 </div>
+
+<script>
+    // assets/js/docs.js
+
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // ... your existing code for TOC and scroll-spying ...
+
+  // --- Live Search for Docs Homepage ---
+  const searchInput = document.getElementById('docs-search-input');
+  const categoryGrid = document.getElementById('docs-category-grid');
+
+  if (searchInput && categoryGrid) {
+    const allCards = Array.from(categoryGrid.querySelectorAll('.docs-category-card'));
+    const allItems = Array.from(categoryGrid.querySelectorAll('.docs-category-card__item'));
+
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase().trim();
+
+      // If search is empty, show everything and exit
+      if (searchTerm === '') {
+        allCards.forEach(card => card.classList.remove('is-hidden'));
+        allItems.forEach(item => item.classList.remove('is-hidden'));
+        return;
+      }
+      
+      // Filter individual doc items first
+      allItems.forEach(item => {
+        const title = item.dataset.docTitle || '';
+        const isVisible = title.includes(searchTerm);
+        item.classList.toggle('is-hidden', !isVisible);
+      });
+
+      // Then, hide any category cards that are now empty
+      allCards.forEach(card => {
+        const visibleItems = card.querySelectorAll('.docs-category-card__item:not(.is-hidden)');
+        const hasVisibleItems = visibleItems.length > 0;
+        card.classList.toggle('is-hidden', !hasVisibleItems);
+      });
+    });
+  }
+});
+    </script>
