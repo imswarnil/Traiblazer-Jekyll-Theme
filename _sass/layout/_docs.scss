@@ -1,12 +1,41 @@
 /* ============================================================================
-   COMPONENTS / DOCS.SCSS
-   - Styles for the documentation listing page and individual doc articles.
-   - Designed for the single, intelligent docs.html layout.
+   COMPONENTS / DOCS.SCSS (THE DEFINITIVE GITHUB PAGES-COMPATIBLE SUITE)
    ============================================================================ */
 
 /* ============================================================================
-   1. DOCS HOMEPAGE GRID VIEW
+   1. DOCS "FULL INDEX" HOMEPAGE VIEW
    ============================================================================ */
+.docs-hero {
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, var(--sf-bg-1) 0%, color-mix(in srgb, var(--sf-brand) 5%, var(--sf-bg-1)) 50%, var(--sf-bg-1) 100%);
+    background-size: 200% 200%;
+    animation: background-pan-v8 15s ease infinite;
+    z-index: -1;
+  }
+}
+
+.docs-full-index {
+  // A container for all the groups
+}
+
+.docs-group {
+  // Each section, e.g., "Getting Started"
+  margin-bottom: var(--sf-10);
+
+  &__title {
+    font-size: var(--sf-text-2xl);
+    font-weight: 700;
+    margin-bottom: var(--sf-6);
+    padding-bottom: var(--sf-4);
+    border-bottom: 1px solid var(--sf-line-2);
+  }
+}
+
 .docs-grid {
   display: grid;
   gap: var(--sf-6);
@@ -15,35 +44,17 @@
 
 .doc-card {
   text-decoration: none;
-  height: 100%; // Make cards in a row equal height
+  height: 100%;
+  border-radius: var(--sf-radius-xl);
+  box-shadow: var(--sf-shadow-lg);
+  border: 1px solid var(--sf-line-2);
   
-  .sf-card__body {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  
-  &__category {
-    display: inline-block;
-    color: var(--sf-brand);
-    font-size: var(--sf-text-sm);
-    font-weight: 600;
-    margin-bottom: var(--sf-3);
-  }
-  
-  &__title {
-    margin: 0 0 var(--sf-2) 0;
-    color: var(--sf-fg);
-  }
-  
-  &__description {
-    margin: 0;
-    color: var(--sf-fg-2);
-    font-size: var(--sf-text-sm);
-    flex-grow: 1; // Pushes the meta-footer down if you add one
-  }
+  .sf-card__body { display: flex; gap: var(--sf-4); align-items: flex-start; }
+  &__icon { font-size: 1.5rem; color: var(--sf-brand); background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent); border-radius: var(--sf-radius-md); padding: var(--sf-3); flex-shrink: 0; }
+  &__category { display: inline-block; color: var(--sf-brand); font-size: var(--sf-text-sm); font-weight: 600; margin-bottom: var(--sf-2); }
+  &__title { margin: 0 0 var(--sf-2) 0; color: var(--sf-fg); }
+  &__description { margin: 0; color: var(--sf-fg-2); font-size: var(--sf-text-sm); }
 }
-
 
 /* ============================================================================
    2. INDIVIDUAL DOC PAGE LAYOUT
@@ -51,17 +62,19 @@
 .doc-page-grid-container {
   display: grid;
   gap: var(--sf-8);
+  grid-template-areas: "nav" "content" "ad";
   
-  // Mobile: Stack content on top
-  grid-template-columns: minmax(0, 1fr);
-  
-  // Desktop: Sidebar + Content
   @include breakpoint(md) {
-    grid-template-columns: 280px minmax(0, 1fr);
+    grid-template-columns: 280px minmax(0, 1fr) 300px;
+    grid-template-areas: "nav content ad";
   }
 }
 
-.doc-sidebar {
+.doc-sidebar { grid-area: nav; }
+.doc-content-main { grid-area: content; }
+.doc-sidebar-ad { display: none; @include breakpoint(md) { display: block; grid-area: ad; } }
+
+.doc-sidebar, .doc-sidebar-ad {
   @include breakpoint(md) {
     position: sticky;
     top: calc(var(--sf-nav-height) + var(--sf-4));
@@ -72,63 +85,35 @@
 }
 
 .doc-sidebar-nav {
-  &__group:not(:last-child) {
-    margin-bottom: var(--sf-6);
-  }
-  
-  &__title {
-    font-size: var(--sf-text-sm);
-    font-weight: 600;
-    color: var(--sf-muted);
-    text-transform: uppercase;
-    letter-spacing: var(--sf-tracking-wide);
-    padding-inline: var(--sf-3);
-    margin-bottom: var(--sf-2);
-  }
-
+  &__group:not(:last-child) { margin-bottom: var(--sf-6); }
+  &__title { font-size: var(--sf-text-sm); font-weight: 600; color: var(--sf-muted); text-transform: uppercase; letter-spacing: var(--sf-tracking-wide); padding-inline: var(--sf-3); margin-bottom: var(--sf-2); }
   ul { list-style: none; margin: 0; padding: 0; }
-  
   a {
-    display: block;
-    padding: var(--sf-2) var(--sf-3);
-    text-decoration: none;
-    font-weight: 500;
-    color: var(--sf-fg-2);
-    border-radius: var(--sf-radius-md);
-    border-left: 3px solid transparent;
-    transition: all .2s ease;
-
-    &:hover {
-      background-color: var(--sf-bg-1);
-      color: var(--sf-fg);
-    }
-    
-    // Active State for the current page
-    &.is-active {
-      background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent);
-      color: var(--sf-brand);
-      font-weight: 600;
-      border-left-color: var(--sf-brand);
-    }
+    display: block; padding: var(--sf-2) var(--sf-3); text-decoration: none; font-weight: 500;
+    color: var(--sf-fg-2); border-radius: var(--sf-radius-md); border-left: 3px solid transparent; transition: all .2s ease;
+    &:hover { background-color: var(--sf-bg-1); color: var(--sf-fg); }
+    &.is-active { background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent); color: var(--sf-brand); font-weight: 600; border-left-color: var(--sf-brand); }
   }
 }
 
-// Styles for the main content area of a doc page
+.doc-sidebar-cta {
+  margin-top: var(--sf-8);
+  &__link {
+    display: flex; align-items: center; gap: var(--sf-3); padding: var(--sf-4); text-decoration: none;
+    background-color: var(--sf-bg-1); border: 1px solid var(--sf-line-2); border-radius: var(--sf-radius-lg);
+    color: var(--sf-fg-2); font-weight: 500; transition: all .2s ease;
+    i { font-size: 1.5rem; }
+    &:hover { background-color: var(--sf-bg-2); border-color: var(--sf-line-1); color: var(--sf-fg); box-shadow: var(--sf-shadow-sm); }
+  }
+}
+
 .doc-content-main {
-  // Use existing breadcrumb styles for consistency
   .breadcrumb { margin-bottom: var(--sf-6); justify-content: flex-start; }
-  
   .doc-content-title { margin-top: 0; }
-  
-  .doc-content-description {
-    font-size: var(--sf-text-xl);
-    color: var(--sf-fg-2);
-  }
-
-  hr {
-    border: 0;
-    height: 1px;
-    background-color: var(--sf-line-2);
-    margin: var(--sf-6) 0;
-  }
+  .doc-content-description { font-size: var(--sf-text-xl); color: var(--sf-fg-2); }
+  hr { border: 0; height: 1px; background-color: var(--sf-line-2); margin: var(--sf-6) 0; }
 }
+
+/* --- AD PLACEHOLDERS --- */
+.ad-placeholder { /* ... reuse existing styles ... */ }
+.mobile-bottom-float { /* ... reuse existing styles ... */ }
