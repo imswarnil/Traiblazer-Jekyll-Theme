@@ -3,129 +3,140 @@ layout: default
 ---
 {% comment %}
 ============================================================================
-_layouts/docs.html (THE DEFINITIVE & POLISHED SUITE)
-- A single, powerful layout for both homepage and articles.
-- 3-column desktop layout with a dedicated, sticky Table of Contents.
-- Fully responsive with a mobile-first "hamburger" navigation.
-- Includes pagination and multiple ad placements.
+_layouts/docs.html (THE DEFINITIVE "PUBLISHER PRO" SUITE)
+- A single, powerful layout for the paginated homepage and articles.
+- 3-column desktop layout with sticky Nav, ToC, and Ads.
+- Superior mobile UX with an off-canvas nav and sticky ToC dropdown.
+- Fully monetized with multiple ad placements.
 ============================================================================
 {% endcomment %}
 
-{% if page.url == '/docs/' %}
-  {% comment %} ======================================================= {% endcomment %}
-  {% comment %}          THIS IS THE /docs/ HOMEPAGE VIEW               {% endcomment %}
-  {% comment %} ======================================================= {% endcomment %}
-  <header class="page-header docs-hero">
-    <div class="sf-container">
-      <h1 class="sf-h1">{{ page.title }}</h1>
-      <p class="page-header-v8__description">{{ page.description }}</p>
-    </div>
-  </header>
-  <div class="page-body-section-v8">
-    <div class="sf-container">
-      <div class="ad-placeholder ad-placeholder--leaderboard"><span>Leaderboard Ad - 728x90</span></div>
-      <div class="docs-grid">
-        {% for doc in site.docs | sort: "order" %}
-          <a href="{{ doc.url | relative_url }}" class="sf-card sf-card--interactive doc-card">
-            <div class="sf-card__body">
-              <div class="doc-card__icon"><i class="ph-bold ph-{{ doc.icon | default: 'book-open' }}"></i></div>
-              <div class="doc-card__content">
-                <span class="doc-card__category">{{ doc.group | default: "General" }}</span>
-                <h2 class="sf-h4 doc-card__title">{{ doc.title }}</h2>
-                <p class="doc-card__description">{{ doc.description }}</p>
-              </div>
-            </div>
-          </a>
-        {% endfor %}
+<div class="doc-container">
+  
+  <!-- ==================================================================== -->
+  <!-- 1. STICKY NAVIGATION SIDEBAR (Off-canvas on mobile)                -->
+  <!-- ==================================================================== -->
+  <aside class="doc-sidebar-container">
+    <nav class="doc-sidebar-nav" id="doc-sidebar-nav">
+      <div class="doc-sidebar-header">
+        <span class="doc-sidebar-header__title">Documentation</span>
+        <button class="doc-sidebar-close-btn" id="doc-sidebar-close-btn" aria-label="Close Navigation"><i class="ph-bold ph-x"></i></button>
       </div>
-      <!-- Pagination can be added here if you switch to paginating posts -->
-    </div>
-  </div>
-
-{% else %}
-  {% comment %} ======================================================= {% endcomment %}
-  {% comment %}          THIS IS THE INDIVIDUAL DOC PAGE VIEW         {% endcomment %}
-  {% comment %} ======================================================= {% endcomment %}
-  <div class="doc-page-container">
-    
-    <!-- STICKY MAIN NAVIGATION SIDEBAR (Left) -->
-    <aside class="doc-sidebar-nav-container">
-      <button class="doc-mobile-nav-toggle" id="doc-mobile-nav-toggle" aria-label="Toggle Documentation Navigation">
-        <i class="ph-bold ph-list"></i>
-        <span>Menu</span>
-      </button>
-      <nav class="doc-sidebar-nav" id="doc-sidebar-nav">
-        {% assign docs_by_group = site.docs | group_by: "group" | sort: "name" %}
-        {% for group in docs_by_group %}
-          <div class="doc-sidebar-nav__group">
-            <p class="doc-sidebar-nav__title">{{ group.name }}</p>
-            <ul>
-              {% assign items_sorted = group.items | sort: "order" %}
-              {% for doc in items_sorted %}
-                <li>
-                  <a href="{{ doc.url | relative_url }}" {% if page.url == doc.url %}class="is-active"{% endif %}>{{ doc.title }}</a>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-        {% endfor %}
-        <div class="doc-sidebar-cta">
-          <a href="#" class="doc-sidebar-cta__link"><i class="ph-bold ph-github-logo"></i><span>Contribute on GitHub</span></a>
+      {% assign docs_by_group = site.docs | group_by: "group" | sort: "name" %}
+      {% for group in docs_by_group %}
+        <div class="doc-sidebar-nav__group">
+          <p class="doc-sidebar-nav__title">{{ group.name }}</p>
+          <ul>
+            {% assign items_sorted = group.items | sort: "order" %}
+            {% for doc in items_sorted %}
+              <li><a href="{{ doc.url | relative_url }}" {% if page.url == doc.url %}class="is-active"{% endif %}>{{ doc.title }}</a></li>
+            {% endfor %}
+          </ul>
         </div>
-      </nav>
-    </aside>
-
-    <!-- MAIN DOCUMENTATION CONTENT -->
-    <main class="doc-content-main">
-      <div class="sf-card page-content-card-v8">
-        <article class="sf-card__body typeset-v8">
-          <nav class="breadcrumb" aria-label="Breadcrumb">
-            <a href="{{ '/docs/' | relative_url }}">Documentation</a><i class="ph-bold ph-caret-right"></i>
-            {% if page.group %}<span>{{ page.group }}</span><i class="ph-bold ph-caret-right"></i>{% endif %}
-            <span>{{ page.title }}</span>
-          </nav>
-          <h1 class="doc-content-title">{{ page.title }}</h1>
-          <p class="doc-content-description">{{ page.description }}</p>
-          <hr>
-          
-          <!-- In-Content Ad Placeholder -->
-          <div class="ad-placeholder ad-placeholder--in-content"><span>In-Content Ad</span></div>
-          
-          {{ content }}
-        </article>
+      {% endfor %}
+      <div class="doc-sidebar-cta-group">
+        <a href="#" class="doc-sidebar-cta__link"><i class="ph-bold ph-github-logo"></i><span>Contribute on GitHub</span></a>
+        <a href="#" class="doc-sidebar-cta__link"><i class="ph-bold ph-hand-heart"></i><span>Become a Sponsor</span></a>
       </div>
-    </main>
-    
-    <!-- STICKY TABLE OF CONTENTS SIDEBAR (Right) -->
-    <aside class="doc-toc-container">
-      {% if content contains "<h2" %}
-      <div class="doc-toc-sticky">
-        <h3 class="doc-toc-title">On This Page</h3>
-        <nav class="doc-toc-nav">
-          {% include toc.html html=content class="toc-list" %}
-        </nav>
-        <div class="ad-placeholder ad-placeholder--sidebar-ad"><span>Sidebar Ad</span></div>
+    </nav>
+  </aside>
+  <div class="doc-nav-overlay" id="doc-nav-overlay"></div>
+
+
+  <!-- ==================================================================== -->
+  <!-- 2. MAIN CONTENT AREA                                               -->
+  <!-- ==================================================================== -->
+  <main class="doc-main-content-area">
+    {% if page.url == '/docs/' %}
+      {% comment %} --- HOMEPAGE VIEW --- {% endcomment %}
+      <header class="page-header docs-hero">
+        <div class="sf-container">
+          <h1 class="sf-h1">{{ page.title }}</h1>
+          <p class="page-header-v8__description">{{ page.description }}</p>
+        </div>
+      </header>
+      <div class="sf-container">
+        <div class="ad-placeholder ad-placeholder--leaderboard"><span>Leaderboard Ad - 728x90</span></div>
+        <div class="docs-full-index">
+          {% assign posts_as_docs = site.posts %}
+          {% for post in posts_as_docs %}
+            <a href="{{ post.url | relative_url }}" class="doc-index-card">
+              <div class="doc-index-card__content">
+                <span class="doc-index-card__category">{{ post.categories | first | default: "Article" }}</span>
+                <h3 class="doc-index-card__title">{{ post.title }}</h3>
+                <p class="doc-index-card__description">{{ post.excerpt | strip_html | truncatewords: 20 }}</p>
+                <time class="doc-index-card__date">{{ post.date | date: "%B %d, %Y" }}</time>
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+        <!-- Proper Pagination can be added by configuring jekyll-paginate for the blog index -->
       </div>
-      {% endif %}
-    </aside>
 
-  </div>
+    {% else %}
+      {% comment %} --- ARTICLE VIEW --- {% endcomment %}
+      <div class="doc-article-layout">
+        <div class="doc-article-content">
+          <div class="sf-card page-content-card-v8">
+            <article class="sf-card__body typeset-v8">
+              <nav class="breadcrumb" aria-label="Breadcrumb">
+                <a href="{{ '/docs/' | relative_url }}">Documentation</a><i class="ph-bold ph-caret-right"></i>
+                {% if page.group %}<span>{{ page.group }}</span><i class="ph-bold ph-caret-right"></i>{% endif %}
+                <span>{{ page.title }}</span>
+              </nav>
+              <h1 class="doc-content-title">{{ page.title }}</h1>
+              <p class="doc-content-description">{{ page.description }}</p>
 
-  <!-- MOBILE-ONLY STICKY BANNER AD -->
-  <div class="mobile-bottom-float">
-    <div class="ad-placeholder ad-placeholder--mobile-banner"><span>Mobile Ad</span></div>
-  </div>
+              <!-- MOBILE-ONLY TOC DROPDOWN -->
+              {% if content contains "<h2" %}
+              <details class="toc-accordion">
+                <summary class="toc-accordion__summary"><i class="ph-bold ph-list"></i><span>On This Page</span></summary>
+                <div class="toc-accordion__content">{% include toc.html html=content class='toc-list' %}</div>
+              </details>
+              {% endif %}
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const toggleBtn = document.getElementById('doc-mobile-nav-toggle');
-      const navMenu = document.getElementById('doc-sidebar-nav');
-      if (toggleBtn && navMenu) {
-        toggleBtn.addEventListener('click', function() {
-          document.body.classList.toggle('doc-nav-is-open');
-        });
-      }
-    });
-  </script>
+              <hr>
+              <div class="ad-placeholder ad-placeholder--in-content"><span>In-Content Ad</span></div>
+              {{ content }}
+            </article>
+          </div>
+        </div>
+        <aside class="doc-article-toc-container">
+          {% if content contains "<h2" %}
+          <div class="doc-toc-sticky">
+            <h3 class="doc-toc-title">On this page</h3>
+            <nav class="doc-toc-nav">{% include toc.html html=content class="toc-list" %}</nav>
+            <div class="ad-placeholder ad-placeholder--sidebar-ad"><span>Sidebar Ad</span></div>
+          </div>
+          {% endif %}
+        </aside>
+      </div>
+    {% endif %}
+  </main>
+</div>
 
-{% endif %}
+<!-- Mobile Navigation Toggle Button -->
+<button class="doc-mobile-nav-toggle" id="doc-mobile-nav-toggle" aria-label="Browse documentation">
+  <i class="ph-bold ph-list"></i><span>Browse</span>
+</button>
+
+<!-- Mobile Ad Banner -->
+<div class="mobile-bottom-float">
+  <div class="ad-placeholder ad-placeholder--mobile-banner"><span>Mobile Ad</span></div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('doc-mobile-nav-toggle');
+    const closeBtn = document.getElementById('doc-sidebar-close-btn');
+    const overlay = document.getElementById('doc-nav-overlay');
+    const body = document.body;
+
+    function openNav() { body.classList.add('doc-nav-is-open'); }
+    function closeNav() { body.classList.remove('doc-nav-is-open'); }
+
+    if (toggleBtn) toggleBtn.addEventListener('click', openNav);
+    if (closeBtn) closeBtn.addEventListener('click', closeNav);
+    if (overlay) overlay.addEventListener('click', closeNav);
+  });
+</script>
