@@ -2,7 +2,7 @@
   <defs>
     <style>
       /* 
-        This internal stylesheet makes the SVG theme-aware.
+        This internal stylesheet makes this SVG theme-aware.
         It maps the original hard-coded colors to your live CSS theme variables.
         Fallbacks are included to ensure the SVG renders correctly even if variables are missing.
       */
@@ -33,7 +33,7 @@
         stroke: var(--sf-fg, #03243f);
         stroke-linecap: round;
         stroke-linejoin: round;
-        stroke-width: 0.24;
+        stroke-width: 0.5; /* Cleaned up the stroke-width */
       }
     </style>
   </defs>
