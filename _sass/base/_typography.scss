@@ -1,0 +1,70 @@
+/* ============================================================================
+   UTILITIES / TYPOGRAPHY
+   Generates helper classes for controlling typography directly in HTML.
+   Inspired by Bulma's naming convention.
+   Examples: .is-size-1, .has-text-weight-bold, .has-text-centered
+   ============================================================================ */
+
+// --- FONT SIZE HELPERS ---
+// .is-size-1 (largest) through .is-size-7 (smallest)
+$font-sizes: (
+  '1': var(--sf-text-3xl),
+  '2': var(--sf-text-2xl),
+  '3': var(--sf-text-xl),
+  '4': var(--sf-text-lg),
+  '5': var(--sf-text-base),
+  '6': var(--sf-text-sm),
+  '7': var(--sf-text-xs)
+);
+
+@each $name, $size in $font-sizes {
+  .is-size-#{$name} {
+    font-size: #{$size} !important;
+  }
+}
+// Responsive font sizes
+@each $bp-name, $bp-value in $breakpoints {
+  @media (min-width: $bp-value) {
+    @each $name, $size in $font-sizes {
+      .is-size-#{$name}-#{$bp-name} {
+        font-size: #{$size} !important;
+      }
+    }
+  }
+}
+
+
+// --- FONT WEIGHT HELPERS ---
+// .has-text-weight-light, .has-text-weight-semibold, etc.
+@each $name, $weight in $font-weights {
+  .has-text-weight-#{$name} {
+    font-weight: #{$weight} !important;
+  }
+}
+
+
+// --- TEXT ALIGNMENT HELPERS ---
+// .has-text-left, .has-text-centered, etc.
+.has-text-centered { text-align: center !important; }
+.has-text-left     { text-align: left !important; }
+.has-text-right    { text-align: right !important; }
+.has-text-justified{ text-align: justify !important; }
+
+// Responsive text alignment
+@each $bp-name, $bp-value in $breakpoints {
+  @media (max-width: #{$bp-value - 0.02px}) {
+    .has-text-centered-touch { text-align: center !important; }
+    .has-text-left-touch     { text-align: left !important; }
+    .has-text-right-touch    { text-align: right !important; }
+  }
+  @media (min-width: $bp-value) {
+    .has-text-centered-#{$bp-name} { text-align: center !important; }
+    .has-text-left-#{$bp-name}     { text-align: left !important; }
+    .has-text-right-#{$bp-name}    { text-align: right !important; }
+  }
+}
+
+
+// --- FONT FAMILY HELPERS ---
+.is-family-primary { font-family: var(--sf-font-body) !important; }
+.is-family-monospace { font-family: var(--sf-font-mono) !important; }
