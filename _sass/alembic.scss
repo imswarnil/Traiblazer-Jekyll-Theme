@@ -2,6 +2,7 @@
    main.scss — ImSwarnil x Salesforce UI Kit
    Master import file for the entire theme.
    ============================================================================ */
+@import "custom";
 
 // 1) ABSTRACTS — core, no output deps broken
 @import "abstracts/variables";
