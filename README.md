@@ -1,55 +1,43 @@
 # Traillazer — A Jekyll Theme for Salesforce Professionals
 
-> Clean, fast, and battle‑ready for your Salesforce trail.
-> Built with **Jekyll + SCSS**, deploys on **GitHub Pages**, ships as a **PWA**, and tuned for **SEO**.
+Clean, fast, and battle‑ready for your Salesforce trail. Built with **Jekyll** and **SCSS**, deploys on **GitHub Pages**, ships as a **PWA**, and tuned for **SEO**.
 
-<p align="center">
-  <img src="docs/cover.png" alt="Traillazer theme cover" width="960"/>
-</p>
+![Traillazer cover](docs/cover.png)
 
-<p align="center">
-  <a href="https://github.com/yourname/traillazer/actions"><img alt="Build" src="https://img.shields.io/github/actions/workflow/status/yourname/traillazer/ci.yml?label=Build&logo=github"></a>
-  <a href="https://pages.github.com/"><img alt="Pages" src="https://img.shields.io/badge/Deployed%20on-GitHub%20Pages-24292e?logo=github"></a>
-  <img alt="Lighthouse" src="https://img.shields.io/badge/Lighthouse-95%2B-0A7?logo=lighthouse"/>
-  <img alt="License" src="https://img.shields.io/badge/License-MIT-0A7"/>
-</p>
+![Build](https://img.shields.io/github/actions/workflow/status/yourname/traillazer/ci.yml?label=Build\&logo=github)
+![Pages](https://img.shields.io/badge/Deployed%20on-GitHub%20Pages-24292e?logo=github)
+![Lighthouse](https://img.shields.io/badge/Lighthouse-95%2B-0A7?logo=lighthouse)
+![License](https://img.shields.io/badge/License-MIT-0A7)
 
 ---
 
-## ✨ Highlights
+## Features
 
-* ⚡ **Fast**: minimal JS, critical CSS, lazy‑loaded images, prefetch hints
-* 📱 **Responsive**: mobile → ultrawide, fluid typography, container queries
-* 🔎 **SEO‑friendly**: `jekyll-seo-tag`, clean permalinks, Open Graph/Twitter cards
-* 🗺️ **Sitemap & RSS**: `jekyll-sitemap`, `jekyll-feed`
-* 🧭 **Search (optional)**: Lunr.js client‑side search
-* 📦 **PWA**: offline support via Workbox, manifest + icons included
-* 🎨 **SCSS theming**: design tokens, dark mode, utility classes
-* ☁️ **Salesforce‑first components**:
-
-  * Certification grid
-  * Project/Package cards (CPQ, CRM Analytics, LWC, Apex, Flows)
-  * Speaking & Events timeline
-  * Skills badges + proficiency bars
-* 🧪 **Blog + Docs**: Markdown components, code highlighting (Prism/Shiki)
-* 🧰 **GitHub Pages ready**: push → publish, no Docker needed
-* 🔁 **Open source**: MIT, PR‑friendly
+* **Fast** – minimal JS, critical CSS, prefetch hints
+* **Responsive** – mobile → ultrawide, fluid typography
+* **SEO friendly** – `jekyll-seo-tag`, `jekyll-sitemap`, OG/Twitter cards
+* **PWA** – offline cache, manifest, icons
+* **Open Source** – MIT licensed
+* **SCSS Theming** – design tokens, utilities, dark mode
+* **Salesforce‑first blocks** – Certification grid, Project cards (CPQ, CRM Analytics, LWC, Apex, Flows), Talks timeline, Skills badges
+* **Content types** – Posts, Projects, Speaking, Pages
+* **Search (opt‑in)** – Lunr.js
 
 ---
 
-## 🖼️ Screens (placeholders)
+## Screenshots (placeholders)
 
-| Home                              | Blog                              | Project                                 |
-| --------------------------------- | --------------------------------- | --------------------------------------- |
-| ![Home](docs/screenshot-home.png) | ![Blog](docs/screenshot-blog.png) | ![Project](docs/screenshot-project.png) |
+* `docs/screenshot-home.png`
+* `docs/screenshot-blog.png`
+* `docs/screenshot-project.png`
 
 > Replace images in `/docs` with your own.
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
-### Option A — Remote theme (recommended)
+### A) Use as remote theme (recommended)
 
 ```yaml
 # _config.yml
@@ -65,14 +53,14 @@ plugins:
   - jekyll-remote-theme
 ```
 
-`Gemfile` (for GitHub Pages):
+`Gemfile` (GitHub Pages):
 
 ```ruby
 gem "github-pages", group: :jekyll_plugins
 gem "jekyll-remote-theme"
 ```
 
-### Option B — Clone (local dev)
+### B) Clone and run locally
 
 ```bash
 git clone https://github.com/yourname/traillazer
@@ -81,41 +69,40 @@ bundle install
 bundle exec jekyll serve
 ```
 
-Visit: [http://localhost:4000](http://localhost:4000)
+Open: [http://localhost:4000](http://localhost:4000)
 
 ---
 
-## 🧱 Content Model
+## Structure
 
 ```
 .
 ├─ _config.yml
 ├─ _data/
-│  ├─ certifications.yml       # Name, issuer, url, year
-│  ├─ skills.yml               # Category, items, level (0–100)
-│  └─ socials.yml              # LinkedIn, X, Trailblazer, GitHub
-├─ _posts/                     # Blog posts
-├─ projects/                   # Collection: portfolio projects
-│  └─ cpq-quote-dashboard.md
-├─ speaking/                   # Talks / events timeline
+│  ├─ certifications.yml
+│  ├─ skills.yml
+│  └─ socials.yml
+├─ _posts/
+├─ projects/
+├─ speaking/
 ├─ pages/
 │  ├─ about.md
 │  └─ resume.md
 ├─ assets/
 │  ├─ scss/
-│  │  ├─ _tokens.scss          # Color/typography/radius tokens
-│  │  ├─ _utilities.scss       # Spacing, grid, helpers
-│  │  └─ traillazer.scss       # Main bundle
+│  │  ├─ _tokens.scss
+│  │  ├─ _utilities.scss
+│  │  └─ traillazer.scss
 │  ├─ js/
 │  │  ├─ pwa.js
 │  │  └─ search.js
-│  └─ icons/                   # Manifest + PWA icons
+│  └─ icons/
 └─ manifest.webmanifest
 ```
 
 ---
 
-## ⚙️ Configure
+## Configuration
 
 ### Identity
 
@@ -133,7 +120,7 @@ social:
   youtube: "yourchannel"
 ```
 
-### Salesforce sections
+### Salesforce Sections
 
 ```yaml
 salesforce:
@@ -147,7 +134,7 @@ salesforce:
       tags: [CRM Analytics, SAQL]
 ```
 
-### Theme tokens (SCSS)
+### Theme Tokens (SCSS)
 
 ```scss
 /* assets/scss/_tokens.scss */
@@ -165,31 +152,16 @@ salesforce:
 
 ---
 
-## 🔍 SEO & PWA
+## SEO & PWA
 
-* **SEO**: `jekyll-seo-tag`, `jekyll-sitemap`, canonical URLs, robots.txt
-* **OG/Twitter**: front‑matter (title, description, image)
-* **Feed**: `jekyll-feed`
-* **PWA**:
-
-  * `manifest.webmanifest` (name, short_name, theme_color, icons)
-  * `assets/js/pwa.js` (Service Worker w/ Workbox)
-  * Offline cache for key routes (configurable)
+* `jekyll-seo-tag`, `jekyll-sitemap`, canonical URLs
+* Open Graph/Twitter cards via front‑matter
+* `jekyll-feed` for RSS
+* `manifest.webmanifest` + `assets/js/pwa.js` (service worker)
 
 ---
 
-## 🧩 Components (includes)
-
-* `{% include certification-grid.html %}`
-* `{% include project-card.html title="CPQ Dashboard" %}`
-* `{% include badge.html text="LWC" tone="blue" %}`
-* `{% include metric.html label="Dashboards" value="42" %}`
-
-> All components are pure HTML/SCSS—no frameworks—so Lighthouse stays happy.
-
----
-
-## 🧪 Development
+## Development
 
 ```bash
 bundle exec jekyll serve --livereload
@@ -197,37 +169,27 @@ bundle exec jekyll serve --livereload
 JEKYLL_ENV=production bundle exec jekyll build
 ```
 
-**Performance tips**
-
-* Use `.webp` images and set width/height.
-* Keep hero under 120 KB.
-* Critical CSS is inlined for above‑the‑fold.
-
 ---
 
-## 🛣️ Roadmap
+## Roadmap
 
 * [ ] Theme switcher (light/dark/auto)
-* [ ] i18n multi‑language
-* [ ] Algolia DocSearch option
+* [ ] i18n (multi‑language)
+* [ ] Algolia DocSearch
 * [ ] Structured data (Course/Event schemas)
-* [ ] Netlify & Cloudflare Pages adapters
+* [ ] Netlify/Cloudflare Pages adapters
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-PRs are welcome!
-
-1. Fork → create branch → commit → open PR
-2. Run `bundle exec jekyll build` before submitting
-3. For new components, include a usage snippet and minimal CSS
+PRs are welcome. Please run `bundle exec jekyll build` before submitting. For new components, include a usage snippet and minimal CSS.
 
 ---
 
-## 🧾 License
+## License
 
-**MIT License** — see [`LICENSE`](LICENSE).
+This project is licensed under the **MIT License**.
 
 ```
 MIT License
@@ -252,12 +214,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
-
----
-
-## 📦 Starters & Demo (update me)
-
-* Theme repo: `https://github.com/yourname/traillazer`
-* Starter site: `https://github.com/yourname/traillazer-starter`
-* Live demo: **coming soon**
-* Lighthouse report: **coming soon**
