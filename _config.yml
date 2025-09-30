@@ -70,10 +70,6 @@ collections:
     feature_text: |
       Welcome to the blog
     feature_image: "https://picsum.photos/2560/600?image=866"
-  docs:
-    output: true
-    permalink: /docs/:path/
-    sort_by: order # We will use an 'order' property in our pages
 
 # 6. Jekyll collections settings
 defaults:
