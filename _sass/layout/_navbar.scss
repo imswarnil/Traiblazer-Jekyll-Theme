@@ -131,3 +131,9 @@ body.theme-transitioning {
     &.is-active { background-color: color-mix(in oklab, var(--sf-brand), white 88%); color: var(--sf-brand); }
   }
 }
+
+
+// Invert filter for dark mode SVGs if needed
+[data-theme="dark"] .theme-aware-svg--invert-on-dark {
+  filter: invert(1) hue-rotate(180deg);
+}
