@@ -132,8 +132,57 @@ body.theme-transitioning {
   }
 }
 
+/* ============================================================================
+   COMPONENT / BRAND LOGO
+   Theme-aware styling for the inlined SVG brand logo.
+   ============================================================================ */
 
-// Invert filter for dark mode SVGs if needed
-[data-theme="dark"] .theme-aware-svg--invert-on-dark {
-  filter: invert(1) hue-rotate(180deg);
+.sf-brand__image-logo {
+  // Define the base size for the SVG container
+  width: 36px;
+  height: 36px;
+
+  // The inlined SVG will inherit this class from its wrapper
+  .theme-aware-logo {
+    width: 100%;
+    height: 100%;
+
+    // --- BASE (LIGHT THEME) STYLING ---
+    // Here, we override the SVG's hard-coded colors with our CSS tokens.
+    // The `!important` is sometimes needed to override inline styles,
+    // but often specificity is enough. Start without it, add if needed.
+    .logo-bg-main { fill: var(--sf-brand); }
+    .logo-bg-shadow { fill: var(--sf-brand-darker, var(--sf-brand-2)); }
+    .logo-outline { fill: var(--sf-fg); }
+    .logo-corners { fill: var(--sf-fg); opacity: 0.1; }
+
+    // Map the inner decorative colors to your theme's semantic colors
+    .logo-shape-1 { fill: var(--sf-warning); }
+    .logo-shape-2 { fill: var(--sf-bg-2); }
+    .logo-shape-3 { fill: var(--sf-line-2); }
+    .logo-shape-4 { fill: var(--sf-fg-3); }
+    .logo-shape-5 { fill: var(--sf-accent); }
+    .logo-shape-6 { fill: var(--sf-fg); }
+  }
+}
+
+// --- THEME OVERRIDES ---
+// Now, we just need to re-declare the fills for each theme.
+// The SVG itself doesn't change; only the values of the CSS variables do.
+// This section is technically not needed if your theme files already redefine
+// `--sf-brand`, `--sf-fg`, etc. But it's good practice to be explicit if
+// the logo needs special color handling in a specific theme.
+
+// Example: If in the sunset theme, you want the outline to be different
+[data-theme="sunset"] .theme-aware-logo {
+  .logo-outline {
+    fill: var(--sf-bg-1); // Use a very dark color for the sunset theme outline
+  }
+}
+
+// Example: For the black & white theme, we can desaturate everything
+[data-theme="b&w"] .theme-aware-logo {
+  // We can use filters for a quick effect
+  filter: grayscale(100%);
+  opacity: 0.8;
 }
