@@ -1,77 +1,79 @@
 ---
 layout: default
 ---
-    <!-- ========================================================================
-         PAGE HEADER (Unchanged from V3)
-         ======================================================================== -->
-    <header class="page-header">
-      <div class="sf-container">
-        <nav class="breadcrumb" aria-label="Breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
-          <div itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display:inline;">
-            <a href="{{ '/' | relative_url }}" itemprop="item"><span itemprop="name">Home</span></a>
-            <meta itemprop="position" content="1" />
-          </div>
-          <i class="ph-bold ph-caret-right"></i>
-          <div itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display:inline;">
-            <span itemprop="name">{{ page.title }}</span>
-            <meta itemprop="position" content="2" />
-          </div>
-        </nav>
-        <h1 class="sf-h1">{{ page.title }}</h1>
-        {% if page.subtitle %}
-          <p class="sf-text--large">{{ page.subtitle }}</p>
+{% comment %}
+============================================================================
+_layouts/page.html (V4 - THE DEFINITIVE FIX)
+This version corrects the fundamental HTML structure and relies on the new
+_page.scss to contain all raw HTML elements.
+============================================================================
+{% endcomment %}
+
+<!-- ========================================================================
+     PAGE HEADER
+     ======================================================================== -->
+<header class="page-header">
+  <div class="sf-container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ '/' | relative_url }}">Home</a>
+      <i class="ph-bold ph-caret-right"></i>
+      <span>{{ page.title }}</span>
+    </nav>
+    <h1 class="sf-h1">{{ page.title }}</h1>
+    {% if page.subtitle %}
+      <p class="sf-text--large">{{ page.subtitle }}</p>
+    {% endif %}
+    {% if page.last_updated %}
+      <div class="page-header__meta">
+          <i class="ph-bold ph-info"></i>
+          <span>Last Updated: <time datetime="{{ page.last_updated | date_to_xmlschema }}">{{ page.last_updated | date: "%B %d, %Y" }}</time></span>
+      </div>
+    {% endif %}
+  </div>
+</header>
+
+<!-- ========================================================================
+     MAIN PAGE BODY & CORRECTED GRID
+     ======================================================================== -->
+<div class="page-body-section">
+  <div class="sf-container">
+    <div class="sf-row">
+
+      <!-- Primary Content Column (8/12 on LG+) -->
+      <main class="sf-col-12 sf-col-lg-8 page-main-content">
+        <!-- This card provides the white background and padding -->
+        <div class="sf-card page-content-card">
+          <!-- The 'typeset' class provides ALL the styles for raw HTML -->
+          <article class="sf-card__body typeset">
+            {{ content }}
+          </article>
+        </div>
+      </main>
+
+      <!-- Sidebar Column (4/12 on LG+) -->
+      <aside class="sf-col-12 sf-col-lg-4 page-sidebar">
+        {% if page.toc and content contains "<h2" %}
+        <div class="sf-card toc-card">
+          {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+       </div>
         {% endif %}
+
+        <div class="ad-placeholder ad-placeholder--sidebar-ad">
+          <span>Sidebar Ad<br>300x250</span>
+        </div>
         
-        {% if page.last_updated %}
-        <div class="page-header__meta">
-            <i class="ph-bold ph-info"></i>
-            <span>Last Updated: <time datetime="{{ page.last_updated | date_to_xmlschema }}">{{ page.last_updated | date: "%B %d, %Y" }}</time></span>
+        <div class="sf-card quick-links-card">
+            <div class="sf-card__header">Quick Links</div>
+            <div class="sf-card__body">
+                <ul class="quick-links-list">
+                    <li><a href="/about/">About Me</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/blog/">My Blog</a></li>
+                </ul>
+            </div>
         </div>
-        {% endif %}
-      </div>
-    </header>
-    <!-- ========================================================================
-         MAIN PAGE BODY & GRID (FIXED GRID APPLICATION)
-         ======================================================================== -->
-    <div class="page-body-section">
-      <div class="sf-container">
-        <div class="sf-row">
+      </aside>
 
-          <!-- Primary Content Column (8/12 on LG+) -->
-          <main class="sf-col-12 sf-col-lg-8 page-main-content">
-            <!-- Ensure this content wrapper uses a card for containment -->
-            <div class="sf-card page-content-card">
-              <article class="sf-card__body typeset">
-                {{ content }}
-              </article>
-            </div>
-          </main>
-
-          <!-- Sidebar Column (4/12 on LG+) -->
-          <aside class="sf-col-12 sf-col-lg-4 page-sidebar">
-            {% if page.toc %}
-            <div class="sf-card toc-card">
-              {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
-            </div>
-            {% endif %}
-
-            <div class="ad-placeholder ad-placeholder--sidebar-ad">
-              <span>Sidebar Ad<br>300x250</span>
-            </div>
-            
-            <div class="sf-card quick-links-card">
-                <div class="sf-card__header">Quick Links</div>
-                <div class="sf-card__body">
-                    <ul class="quick-links-list">
-                        <li><a href="/about/">About Me</a></li>
-                        <li><a href="/contact/">Contact</a></li>
-                        <li><a href="/blog/">My Blog</a></li>
-                    </ul>
-                </div>
-            </div>
-          </aside>
-
-        </div>
-      </div>
     </div>
-
+  </div>
+</div>
