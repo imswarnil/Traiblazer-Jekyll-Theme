@@ -1,8 +1,8 @@
 /* ============================================================================
-   ABSTRACTS / MIXINS (DEFINITIVE & CORRECTED VERSION)
+   ABSTRACTS / MIXINS (DEFINITIVE & CORRECTED VERSION 2)
    A powerful and well-documented library of reusable SCSS functions.
-   - Restores the 4-argument `cluster` mixin to fix the build error.
-   - Includes enhanced responsive mixins and new helpers.
+   - Restores arguments to `control-base` to fix the build error.
+   - Keeps all other enhancements.
    ============================================================================ */
 @use "sass:map";
 
@@ -16,7 +16,6 @@
  * @example @include breakpoint(md) { ...styles for medium screens and up... }
  */
 @mixin breakpoint($point) {
-  // This now uses the modern $breakpoints map from _variables.scss
   @if map.has-key($breakpoints, $point) {
     @media (min-width: map.get($breakpoints, $point)) {
       @content;
@@ -48,9 +47,9 @@
 
 /**
  * Enables smoother font rendering on most browsers.
- * @example @include antialiased;
+ * @example @include font-smoothing;
  */
-@mixin antialiased {
+@mixin font-smoothing {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -177,7 +176,6 @@
 }
 
 /**
- * THE CORRECTED MIXIN
  * Creates a horizontal list of items with consistent spacing and wrapping.
  * @example .card-tags { @include cluster(var(--sf-space-2), center, flex-start, wrap); }
  */
@@ -247,11 +245,13 @@
 }
 
 /**
+ * THE CORRECTED MIXIN
  * A base style for form controls like inputs and textareas.
+ * It now correctly accepts arguments for height and padding.
  */
-@mixin control-base {
-  min-height: var(--input-height);
-  padding-inline: var(--input-padding-x);
+@mixin control-base($height: var(--input-height), $pad-x: var(--input-padding-x)) {
+  min-height: $height;
+  padding-inline: $pad-x;
   border-radius: var(--input-radius);
   background: var(--input-bg);
   color: var(--input-fg);
