@@ -1,41 +1,28 @@
----
-layout: default
-title: "404 - Page Not Found"
-excerpt: "It seems you've wandered off the trail."
-permalink: /404.html
-sitemap: false
----
+<div class="film-404">
+  <div class="film-404__stage">
 
-<div class="page-404">
-
-  <!-- The Terminal Window -->
-  <div class="terminal">
-    <div class="terminal__header">
-      <span class="dot dot--red"></span>
-      <span class="dot dot--yellow"></span>
-      <span class="dot dot--green"></span>
+    <!-- Scene 1: Starry Background (Always visible) -->
+    <div class="scene scene--space" id="scene-space">
+      <div class="stars"></div>
+      <div class="stars"></div>
+      <div class="stars"></div>
     </div>
-    <div class="terminal__body">
-      <div class="terminal__line">
-        <span class="terminal__prompt">trailblazer@sfdc-theme ~ %</span>
-        <span class="terminal__command">jekyll serve --find-page "{{ page.url | escape }}"</span>
-      </div>
-      <div class="terminal__output">
-        <span class="processing">Searching for page...</span>
-        
-        <div class="error-message">
-          <h2>404</h2>
-          <p>PATH NOT FOUND</p>
-        </div>
-      </div>
+    
+    <!-- Scene 1: The Rocket -->
+    <div class="scene scene--rocket" id="scene-rocket">
+      <i class="ph-bold ph-rocket-launch"></i>
     </div>
-  </div>
 
-  <!-- The Footer with Astro and helpful links -->
-  <div class="not-found-footer">
-    <div class="not-found-footer__astro">
-      <!-- Simplified Astro SVG -->
-      <svg viewBox="0 0 185 185" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Scene 2: The Static Glitch -->
+    <div class="scene scene--static" id="scene-static">
+      <div class="static__404">404</div>
+    </div>
+
+    <!-- Scene 3: Astro & The Broken Terminal -->
+    <div class="scene scene--astro" id="scene-astro">
+      <div class="astro__character">
+        <!-- Simplified Astro SVG -->
+        <svg viewBox="0 0 185 185" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M129.5 56.5C129.5 44.3482 119.652 34.5 107.5 34.5C95.3482 34.5 85.5 44.3482 85.5 56.5C85.5 68.6518 95.3482 78.5 107.5 78.5C119.652 78.5 129.5 68.6518 129.5 56.5Z" fill="var(--sf-bg-hard)"/>
           <path d="M136.602 110.165C138.643 97.4699 143.153 85.5 150 75C150 75 148.5 125 129.5 137.5C129.5 137.5 129.5 142 122 142C114.5 142 107.5 142 107.5 142C107.5 142 100 142 93 142C85.5 142 85.5 137.5 85.5 137.5C66.5 125 65 75 65 75C71.8472 85.5 76.3572 97.4699 78.3983 110.165C79.4326 116.591 84.7778 121.5 91.25 121.5H103.75C110.222 121.5 115.567 116.591 116.602 110.165H136.602Z" fill="var(--sf-bg-hard)"/>
           <circle cx="107.5" cy="104.5" r="37" fill="var(--sf-line-2)" stroke="var(--sf-bg-hard)" stroke-width="2"/>
@@ -45,20 +32,48 @@ sitemap: false
           <path d="M114 59C114 57.3431 115.343 56 117 56C118.657 56 120 57.3431 120 59C120 60.6569 118.657 62 117 62C115.343 62 114 60.6569 114 59Z" fill="var(--sf-fg-3)"/>
           <path d="M102 68H113" stroke="var(--sf-fg-3)" stroke-width="2" stroke-linecap="round"/>
           <defs><radialGradient id="astro-gradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(107.5 70.5) rotate(90) scale(68)"><stop stop-color="var(--sf-bg-hard)" stop-opacity="0.2"/><stop offset="1" stop-color="var(--sf-bg-hard)" stop-opacity="0"/></radialGradient></defs>
-      </svg>
+        </svg>
+      </div>
+      <div class="astro__terminal">CONNECTION LOST</div>
     </div>
-    <h2 class="not-found-footer__title">Well, that's not right.</h2>
-    <p class="not-found-footer__subtitle">Looks like my build failed. Let's get you back on a valid trail.</p>
-    <div class="not-found-footer__actions">
-      <a href="{{ '/' | relative_url }}" class="sf-btn sf-btn--primary">
-        <i class="ph-bold ph-house"></i>
-        <span>Return Home</span>
-      </a>
-      <a href="{{ '/docs/' | relative_url }}" class="sf-btn">
-        <i class="ph-bold ph-book-open"></i>
-        <span>Explore Docs</span>
-      </a>
+    
+    <!-- Scene 4: The Content -->
+    <div class="scene scene--content" id="scene-content">
+      <h1 class="content__title">Lost in Space?</h1>
+      <p class="content__subtitle">
+        Your request went on an adventure, but it seems to have missed its destination. Let's guide you back to the right orbit.
+      </p>
+      <div class="content__actions">
+        <a href="{{ '/' | relative_url }}" class="sf-btn sf-btn--primary">
+          <i class="ph-bold ph-house"></i>
+          <span>Return to Earth</span>
+        </a>
+        <a href="{{ '/docs/' | relative_url }}" class="sf-btn">
+          <i class="ph-bold ph-star"></i>
+          <span>Explore the Galaxy</span>
+        </a>
+      </div>
     </div>
   </div>
-
 </div>
+
+<script>
+  // This small script orchestrates our film loop
+  document.addEventListener('DOMContentLoaded', () => {
+    const stage = document.querySelector('.film-404__stage');
+    if (stage) {
+      const runFilm = () => {
+        stage.classList.remove('is-playing');
+        // This tiny delay forces the browser to restart the CSS animations
+        void stage.offsetWidth;
+        stage.classList.add('is-playing');
+      };
+
+      // Run the film on load
+      runFilm();
+      
+      // Set it to loop every 10 seconds
+      setInterval(runFilm, 10000);
+    }
+  });
+</script>
