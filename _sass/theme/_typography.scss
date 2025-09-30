@@ -1,0 +1,38 @@
+/* ============================================================================
+   SASSLINE-BASE / TYPOGRAPHY
+   Applies the baseline grid and typographic scale to base HTML elements.
+   ============================================================================ */
+
+// Setting root sizes
+html {
+  @include rootsize;
+  -webkit-text-size-adjust: 100%;
+}
+
+// Site-wide base styles
+body {
+  @include fontsize('zeta', 'all');
+  font-family: unquote(map-get($bodytype, 'font-family'));
+  font-weight: map-get($bodytype, 'regular');
+  line-height: 2rem;
+}
+
+// Headings
+h1, h2, h3, h4, h5, h6 {
+  color: $headingColour;
+  font-family: unquote(map-get($headingtype, 'font-family'));
+  font-weight: map-get($headingtype, 'bold');
+}
+
+h1, .alpha { @include sassline('alpha', $headingtype, 3, 1, 'all'); }
+h2, .beta  { @include sassline('beta', $headingtype, 3, 1, 'all'); }
+h3, .gamma { @include sassline('gamma', $headingtype, 2, 1, 'all'); }
+h4, .delta { @include sassline('delta', $headingtype, 2, 1, 'all'); }
+h5, .epsilon { @include sassline('epsilon', $headingtype, 2, 1, 'all'); }
+
+p { @include baseline('zeta', $bodytype, 2, 2, 'all'); }
+
+// Other elements
+ul, ol, dl, table, blockquote, pre {
+  @include baseline('zeta', $bodytype, 2, 2, 'all');
+}

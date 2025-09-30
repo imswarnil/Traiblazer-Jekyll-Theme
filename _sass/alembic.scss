@@ -1,50 +1,93 @@
+@import
+  "normalize",        // The reset
+  "settings",       // The core SCSS variables ($colors, $typography)
+  "theme",    // The typographic engine (mixins, etc.)                  
+  "theme";          // The main component and layout styles
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ============================================================================
    main.scss — ImSwarnil x Salesforce UI Kit
    Master import file for the entire theme.
    ============================================================================ */
-@import "abstracts/custom";
+// @import "abstracts/custom";
 
-// 1) ABSTRACTS — core, no output deps broken
-@import "abstracts/variables";
-@import "abstracts/tokens";
-@import "abstracts/themes"; // <-- ADD THIS LINE
-@import "abstracts/mixins";
+// // 1) ABSTRACTS — core, no output deps broken
+// @import "abstracts/variables";
+// @import "abstracts/tokens";
+// @import "abstracts/themes"; // <-- ADD THIS LINE
+// @import "abstracts/mixins";
 
-// 2. BASE
-// Contains global styles, resets, and typography.
-@import 'base/reset';
-@import 'base/base';
-@import 'base/typography';
-
-
-// 3. LAYOUT
-// Defines the grid and main page structure.
-@import 'layout/grid';
-@import 'layout/structure';
-@import 'layout/navbar';
-@import 'layout/posts';
-@import 'layout/page';
-@import 'layout/home';
-@import 'layout/blog';
-@import 'layout/docs';
+// // 2. BASE
+// // Contains global styles, resets, and typography.
+// @import 'base/reset';
+// @import 'base/base';
+// @import 'base/typography';
 
 
-@import 'pages/resume';
-@import 'pages/search';
-@import 'pages/about';
-@import 'pages/products'; 
-@import 'pages/contact';
-@import 'pages/home'; 
-@import 'pages/error'; 
+// // 3. LAYOUT
+// // Defines the grid and main page structure.
+// @import 'layout/grid';
+// @import 'layout/structure';
+// @import 'layout/navbar';
+// @import 'layout/posts';
+// @import 'layout/page';
+// @import 'layout/home';
+// @import 'layout/blog';
+// @import 'layout/docs';
+
+
+// @import 'pages/resume';
+// @import 'pages/search';
+// @import 'pages/about';
+// @import 'pages/products'; 
+// @import 'pages/contact';
+// @import 'pages/home'; 
+// @import 'pages/error'; 
 
 
 
-// 4. COMPONENTS
-// All UI components will be imported here as you build them. 
-@import 'components/buttons';
-@import 'components/cards';
-@import 'components/hero';
+// // 4. COMPONENTS
+// // All UI components will be imported here as you build them. 
+// @import 'components/buttons';
+// @import 'components/cards';
+// @import 'components/hero';
 
 
-// 5. UTILITIES
-@import 'utils/spacing';
+// // 5. UTILITIES
+// @import 'utils/spacing';

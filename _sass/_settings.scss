@@ -1,0 +1,100 @@
+/* ============================================================================
+   SETTINGS.SCSS
+   This is the single source of truth for all theme variables and design tokens.
+   It contains colors, typography, spacing, and all other core values.
+   ============================================================================ */
+
+// -----------------------------------------------------------------------------
+// 1. COLOR PALETTE
+// -----------------------------------------------------------------------------
+$accentColour: #0176d3;
+$headingColour: #0b1221;
+$bodyColour: #2e2e3a;
+$linkColour: $accentColour;
+$hoverColour: #0163b5;
+$focusColour: rgba(1,118,211,.9);
+$captionColour: #8a96a3;
+$white: #ffffff;
+$backgroundColour: #f4f6f9;
+$codeBackgroundColour: #e6ebf1;
+$featureBackgroundColour: #ffffff;
+
+// -----------------------------------------------------------------------------
+// 2. TYPOGRAPHY
+// These maps define the font families and their properties.
+// -----------------------------------------------------------------------------
+$bodytype: (
+  font-family: 'system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif',
+  regular: 400,
+  bold: 700,
+  cap-height: 0.75 // Approximate value for system fonts
+);
+
+$headingtype: (
+  font-family: 'system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif',
+  regular: 600,
+  bold: 800,
+  cap-height: 0.75
+);
+
+$monospacetype: (
+  font-family: 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace',
+  regular: 400,
+  cap-height: 0.68
+);
+
+// -----------------------------------------------------------------------------
+// 3. SASSLINE & RESPONSIVE TYPOGRAPHY ENGINE
+// This section powers the vertical rhythm and responsive font scaling.
+// -----------------------------------------------------------------------------
+$breakpoints: (
+  'break-0': 0,      // Mobile first
+  'break-1': 640,    // Small tablets up
+  'break-2': 960,    // Medium tablets / small desktops up
+  'break-3': 1200    // Desktops up
+);
+
+$rootsizes: (
+  'rootsize-0': 16,  // Base font size for mobile
+  'rootsize-1': 17,
+  'rootsize-2': 18,
+  'rootsize-3': 19
+);
+
+// Modular Scale for headings
+$modular-scale: (
+  'scale-0': ( 'alpha': 32, 'beta': 28, 'gamma': 24, 'delta': 20, 'epsilon': 18 ),
+  'scale-1': ( 'alpha': 36, 'beta': 30, 'gamma': 26, 'delta': 22, 'epsilon': 19 ),
+  'scale-2': ( 'alpha': 40, 'beta': 34, 'gamma': 28, 'delta': 24, 'epsilon': 20 ),
+  'scale-3': ( 'alpha': 44, 'beta': 38, 'gamma': 30, 'delta': 26, 'epsilon': 22 )
+);
+
+// -----------------------------------------------------------------------------
+// 4. LAYOUT & SPACING
+// -----------------------------------------------------------------------------
+$maxwidths: (
+  'width-0': 640,
+  'width-1': 768,
+  'width-2': 1024,
+  'width-3': 1280
+);
+
+$measures: (
+  'measure-0': 65ch,
+  'measure-1': 65ch,
+  'measure-2': 70ch,
+  'measure-3': 70ch
+);
+
+$gutterwidths: (
+  'small': 1rem,
+  'medium': 1.5rem,
+  'large': 2rem
+);
+
+// -----------------------------------------------------------------------------
+// 5. BORDERS & EFFECTS
+// -----------------------------------------------------------------------------
+$default-border-radius: .375rem;
+$default-border-width: 1px;
+$default-border-color: #cfd7e0;

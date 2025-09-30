@@ -1,0 +1,105 @@
+/* ============================================================================
+   SASSLINE-BASE / MIXINS
+   Core typographic and responsive mixins.
+   ============================================================================ */
+$breakpoints-limit: length($breakpoints);
+$sizes: map-values($rootsizes);
+$points: map-values($breakpoints);
+$line-widths: map-values($measures);
+
+// Breakpoints
+@mixin breakpoint($break: 'break-0') {
+  @if map-has-key($breakpoints, $break) {
+    @media screen and (min-width: #{map-get($breakpoints, $break) / 16 * 1em}) { @content; }
+  } @else {
+    @warn "#{$break} is not a set breakpoint variable";
+  }
+}
+
+// Root font-size
+@mixin rootsize {
+  font-size: nth($sizes, 1) / 16 * 100%;
+  @for $i from 2 through $breakpoints-limit {
+    @media screen and (min-width: nth($points, $i) / 16 * 1em) {
+      font-size: nth($sizes, $i) / 16 * 100%;
+    }
+  }
+}
+
+// Font-size in rems
+@mixin fontsize($fontsize, $breakpoint: 'all') {
+  $font-value: type-of($fontsize);
+  @if $breakpoint == 'all' {
+    $in-scale: map-has-key(map-get($modular-scale, 'scale-0'), $fontsize);
+    @if $font-value == number {
+      font-size: #{$fontsize / nth($sizes, 1)}rem;
+      @for $i from 2 through $breakpoints-limit {
+        @media screen and (min-width: nth($points, $i) / 16 * 1em) {
+          font-size: #{$fontsize / nth($sizes, $i)}rem;
+        }
+      }
+    } @else if $in-scale == true {
+      $get-scale: map-get($modular-scale, 'scale-0');
+      $get-size: map-get($get-scale, $fontsize);
+      font-size: #{$get-size / nth($sizes, 1)}rem;
+      @for $i from 2 through $breakpoints-limit {
+        $get-scale: map-get($modular-scale, 'scale-#{$i - 1}');
+        $get-size: map-get($get-scale, $fontsize);
+        @media screen and (min-width: nth($points, $i) / 16 * 1em) {
+          font-size: #{$get-size / nth($sizes, $i)}rem;
+        }
+      }
+    }
+  }
+}
+
+// Advanced baseline mixin
+@mixin baseline($fontsize, $font, $lineheight: 2, $below: 2, $breakpoint: 'all') {
+  $font-value: type-of($fontsize);
+  $cap-height: map-get($font, 'cap-height');
+  @if $lineheight != 0 { line-height: #{$lineheight}rem; }
+  @if $breakpoint == 'all' {
+    $in-scale: map-has-key(map-get($modular-scale, 'scale-0'), $fontsize);
+    @if $font-value == number {
+      $rootsize: nth($sizes, 1);
+      $baseline-shift: #{($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001}rem;
+      $baseline-push: #{$below - (($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001)}rem;
+      margin-bottom: $baseline-push;
+      padding-top: $baseline-shift;
+      @for $i from 2 through $breakpoints-limit {
+        $rootsize: nth($sizes, $i);
+        $baseline-shift: #{($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001}rem;
+        $baseline-push: #{$below - (($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001)}rem;
+        @media screen and (min-width: nth($points, $i) / 16 * 1em) {
+          margin-bottom: $baseline-push;
+          padding-top: $baseline-shift;
+        }
+      }
+    } @else if $in-scale == true {
+      $get-scale: map-get($modular-scale, 'scale-0');
+      $get-size: map-get($get-scale, $fontsize);
+      $rootsize: nth($sizes, 1);
+      $baseline-shift: #{($get-size / 2 * (($lineheight * $rootsize / $get-size) - $cap-height)) / $rootsize + 0.00001}rem;
+      $baseline-push: #{$below - (($get-size / 2 * (($lineheight * $rootsize / $get-size) - $cap-height)) / $rootsize + 0.00001)}rem;
+      margin-bottom: $baseline-push;
+      padding-top: $baseline-shift;
+      @for $i from 2 through $breakpoints-limit {
+        $get-scale: map-get($modular-scale, 'scale-#{$i - 1}');
+        $get-size: map-get($get-scale, $fontsize);
+        $rootsize: nth($sizes, $i);
+        $baseline-shift: #{($get-size / 2 * (($lineheight * $rootsize / $get-size) - $cap-height)) / $rootsize + 0.00001}rem;
+        $baseline-push: #{$below - (($get-size / 2 * (($lineheight * $rootsize / $get-size) - $cap-height)) / $rootsize + 0.00001)}rem;
+        @media screen and (min-width: nth($points, $i) / 16 * 1em) {
+          margin-bottom: $baseline-push;
+          padding-top: $baseline-shift;
+        }
+      }
+    }
+  }
+}
+
+// Combined fontsize and baseline mixin
+@mixin sassline($fontsize, $font, $lineheight: 2, $below: 2, $breakpoint: 'all') {
+  @include fontsize($fontsize, $breakpoint);
+  @include baseline($fontsize, $font, $lineheight, $below, $breakpoint);
+}
