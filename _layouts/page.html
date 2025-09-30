@@ -1,9 +1,18 @@
 ---
 layout: default
 ---
+{% comment %}
+============================================================================
+_layouts/page.html (V7 - THE ULTIMATE, CONDITIONAL LAYOUT)
+- Sidebar is now fully conditional via `aside: true/false`.
+- ToC is conditional via `toc: true/false`.
+- ToC intelligently moves into the content if the sidebar is disabled.
+- Sidebar is packed with new, actionable widgets.
+============================================================================
+{% endcomment %}
 
 <!-- ========================================================================
-     PAGE HEADER (COMPACT & RESPONSIVE)
+     PAGE HEADER
      ======================================================================== -->
 <header class="page-header page-header--compact">
   <div class="sf-container">
@@ -13,70 +22,62 @@ layout: default
       <span>{{ page.title }}</span>
     </nav>
     <h1 class="sf-h1">{{ page.title }}</h1>
-    {% if page.subtitle %}
-      <p class="sf-text--large">{{ page.subtitle }}</p>
+    {% if page.description %}
+      <p class="sf-text--large page-header__description">{{ page.description }}</p>
     {% endif %}
   </div>
 </header>
 
 <!-- ========================================================================
-     MAIN PAGE BODY & LAYOUT
+     MAIN PAGE BODY & DYNAMIC LAYOUT
      ======================================================================== -->
 <div class="page-body-section">
   <div class="sf-container">
-
-    <!-- TOP LEADERBOARD AD -->
-    <div class="ad-placeholder ad-placeholder--leaderboard">
-      <span>Top Leaderboard Ad - 728x90</span>
-    </div>
-
-    <!-- MAIN GRID CONTAINER -->
-    <div class="page-grid-container">
+    <div class="page-grid-container {% if page.aside != true %}page-grid-container--no-sidebar{% endif %}">
 
       <!-- Primary Content Column -->
       <main class="page-content-main">
         <div class="sf-card page-content-card">
           <article class="sf-card__body typeset">
+            <!-- Intelligent ToC Injection Point -->
+            {% if page.toc and page.aside != true %}
+              <div class="toc-card toc-card--in-content">
+                {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+              </div>
+            {% endif %}
             {{ content }}
           </article>
         </div>
       </main>
 
-      <!-- Sticky & Scrollable Sidebar Column -->
+      <!-- Sidebar Column (Only renders if `aside: true`) -->
+      {% if page.aside %}
       <aside class="page-sidebar-right">
+        
+        <!-- Sidebar ToC (Only renders if `toc: true`) -->
         {% if page.toc and content contains "<h2" %}
         <div class="sf-card toc-card">
           {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
         </div>
         {% endif %}
 
-        <div class="sf-card newsletter-card">
-            <div class="sf-card__body">
-                <i class="ph-bold ph-paper-plane-tilt"></i>
-                <strong>Stay Updated</strong>
-                <p>Get the latest articles and tutorials delivered to your inbox.</p>
-                <form action="#" class="newsletter-form">
-                    <input type="email" class="input" placeholder="your.email@example.com" required>
-                    <button type="submit" class="sf-btn sf-btn--primary sf-btn--full">Subscribe</button>
-                </form>
-            </div>
+        <!-- New Action Widgets -->
+        <div class="sf-card page-actions-card">
+          <ul class="page-actions-list">
+            <li><a href="#"><i class="ph-bold ph-coffee"></i><span>Donate / Buy Me a Coffee</span></a></li>
+            <li><a href="#"><i class="ph-bold ph-hand-heart"></i><span>Become a Sponsor</span></a></li>
+            <li><a href="#"><i class="ph-bold ph-github-logo"></i><span>Contribute on GitHub</span></a></li>
+            <li><a href="#"><i class="ph-bold ph-file-pdf"></i><span>View My Resume</span></a></li>
+            <li><a href="#"><i class="ph-bold ph-briefcase"></i><span>See My Projects</span></a></li>
+          </ul>
         </div>
 
         <div class="ad-placeholder ad-placeholder--skyscraper">
           <span>Sidebar Skyscraper Ad<br>300x600</span>
         </div>
         
-        <div class="sf-card quick-links-card">
-            <div class="sf-card__header">Quick Links</div>
-            <div class="sf-card__body">
-                <ul class="quick-links-list">
-                    <li><a href="/about/">About Me</a></li>
-                    <li><a href="/contact/">Contact</a></li>
-                    <li><a href="/blog/">My Blog</a></li>
-                </ul>
-            </div>
-        </div>
       </aside>
+      {% endif %}
 
     </div>
   </div>

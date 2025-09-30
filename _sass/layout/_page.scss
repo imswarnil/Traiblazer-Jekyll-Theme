@@ -1,5 +1,5 @@
 /* ============================================================================
-   COMPONENTS / PAGE.SCSS (V6 - THE PUBLISHER EDITION - UNABRIDGED)
+   COMPONENTS / PAGE.SCSS (V7 - THE ULTIMATE, CONDITIONAL LAYOUT)
    ============================================================================ */
 
 /* --- Keyframe Animations --- */
@@ -9,26 +9,17 @@
 }
 
 /* ============================================================================
-   1. PAGE HEADER (COMPACT & RESPONSIVE)
+   1. PAGE HEADER
    ============================================================================ */
 .page-header--compact {
-  padding-block: var(--sf-6); // Reduced padding
+  padding-block: var(--sf-6);
   background-color: var(--sf-bg-1);
   border-bottom: 1px solid var(--sf-line-2);
   text-align: center;
   animation: fadeIn 0.5s ease-out;
 
-  .sf-h1 {
-    margin-top: var(--sf-3);
-    margin-bottom: var(--sf-2);
-    font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem); // Fluid font size
-  }
-  .sf-text--large {
-    color: var(--sf-fg-2);
-    max-width: var(--sf-measure);
-    margin-inline: auto;
-    font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem); // Fluid font size
-  }
+  .sf-h1 { margin: var(--sf-3) 0 var(--sf-2) 0; font-size: clamp(2rem, 1.5rem + 2.5vw, 3rem); }
+  .page-header__description { color: var(--sf-fg-2); max-width: var(--sf-measure); margin-inline: auto; font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem); }
 }
 
 .breadcrumb {
@@ -41,22 +32,31 @@
 
 
 /* ============================================================================
-   2. SELF-CONTAINED GRID LAYOUT
+   2. DYNAMIC GRID LAYOUT
    ============================================================================ */
 .page-body-section {
-  padding-block: var(--sf-6);
+  padding-block: var(--sf-8);
 }
 
 .page-grid-container {
   display: grid;
-  // Mobile-first: A single column
-  grid-template-columns: minmax(0, 1fr);
   gap: var(--sf-8);
   
-  // Desktop: Two columns (main content + sidebar)
+  // Default: Two columns (main content + sidebar) on desktop
   @include breakpoint(lg) {
     grid-template-columns: minmax(0, 1fr) 320px;
-    gap: var(--sf-8);
+  }
+  
+  // Modifier for single-column layout
+  &--no-sidebar {
+    @include breakpoint(lg) {
+      grid-template-columns: minmax(0, 1fr);
+      // Center the content when there's no sidebar
+      .page-content-main {
+        max-width: var(--sf-measure); // Readable text width
+        margin-inline: auto;
+      }
+    }
   }
 }
 
@@ -69,70 +69,66 @@
 /* ============================================================================
    3. COMPREHENSIVE TYPESETTING STYLES (THE "FORTRESS")
    ============================================================================ */
-.typeset {
-  // --- A. GLOBAL CONTAINMENT & SPACING ---
-  overflow-wrap: break-word;
-  > *:first-child { margin-top: 0; }
-  > *:last-child { margin-bottom: 0; }
+   .typeset {
+    // --- A. GLOBAL CONTAINMENT & SPACING ---
+    overflow-wrap: break-word;
+    > *:first-child { margin-top: 0; }
+    > *:last-child { margin-bottom: 0; }
+    
+    // --- B. CORE TYPOGRAPHY ---
+    p, ul, ol, blockquote { margin-bottom: var(--sf-5); }
+    h1,h2,h3,h4,h5,h6 { margin: var(--sf-8) 0 var(--sf-4) 0; line-height: var(--sf-leading-tight); font-weight: 700; }
+    h1 { font-size: var(--sf-text-3xl); }
+    h2 { font-size: var(--sf-text-2xl); border-bottom: 1px solid var(--sf-line-2); padding-bottom: var(--sf-2); }
+    h3 { font-size: var(--sf-text-xl); }
+    a { color: var(--sf-link); }
+    ul, ol { padding-left: var(--sf-5); }
+    li { margin-bottom: var(--sf-2); }
+    blockquote { border-left: 4px solid var(--sf-brand); padding-left: var(--sf-5); font-style: italic; color: var(--sf-fg-2); }
+    
+    // --- C. MEDIA & EMBED CONTAINMENT (CRITICAL) ---
+    img, video, iframe, figure, .video, .figure { max-width: 100% !important; height: auto; margin-block: var(--sf-6); display: block; border-radius: var(--sf-radius-md); }
+    
+    // --- D. CODE BLOCK & TABLE CONTAINMENT (CRITICAL) ---
+    pre, .highlight, table { max-width: 100%; overflow-x: auto; }
+    pre, .highlight { background-color: var(--sf-bg-1); border: 1px solid var(--sf-line-2); border-radius: var(--sf-radius-md); padding: var(--sf-4); font-size: var(--sf-text-sm); }
+    code { font-family: var(--sf-font-mono); background-color: var(--sf-bg-1); border: 1px solid var(--sf-line-2); padding: .1em .3em; border-radius: var(--sf-radius-sm); font-size: 0.9em; }
+    pre code { padding: 0; background: none; border: none; }
+    table { display: block; width: 100%; border-collapse: collapse; border: 1px solid var(--sf-line-2); }
+    th, td { border: 1px solid var(--sf-line-2); padding: var(--sf-3) var(--sf-4); text-align: left; }
+    thead { background-color: var(--sf-bg-1); }
   
-  // --- B. CORE TYPOGRAPHY ---
-  p, ul, ol, blockquote { margin-bottom: var(--sf-5); }
-  h1,h2,h3,h4,h5,h6 { margin: var(--sf-8) 0 var(--sf-4) 0; line-height: var(--sf-leading-tight); font-weight: 700; }
-  h1 { font-size: var(--sf-text-3xl); }
-  h2 { font-size: var(--sf-text-2xl); border-bottom: 1px solid var(--sf-line-2); padding-bottom: var(--sf-2); }
-  h3 { font-size: var(--sf-text-xl); }
-  a { color: var(--sf-link); }
-  ul, ol { padding-left: var(--sf-5); }
-  li { margin-bottom: var(--sf-2); }
-  blockquote { border-left: 4px solid var(--sf-brand); padding-left: var(--sf-5); font-style: italic; color: var(--sf-fg-2); }
-  
-  // --- C. MEDIA & EMBED CONTAINMENT (CRITICAL) ---
-  img, video, iframe, figure, .video, .figure { max-width: 100% !important; height: auto; margin-block: var(--sf-6); display: block; border-radius: var(--sf-radius-md); }
-  
-  // --- D. CODE BLOCK & TABLE CONTAINMENT (CRITICAL) ---
-  pre, .highlight, table { max-width: 100%; overflow-x: auto; }
-  pre, .highlight { background-color: var(--sf-bg-1); border: 1px solid var(--sf-line-2); border-radius: var(--sf-radius-md); padding: var(--sf-4); font-size: var(--sf-text-sm); }
-  code { font-family: var(--sf-font-mono); background-color: var(--sf-bg-1); border: 1px solid var(--sf-line-2); padding: .1em .3em; border-radius: var(--sf-radius-sm); font-size: 0.9em; }
-  pre code { padding: 0; background: none; border: none; }
-  table { display: block; width: 100%; border-collapse: collapse; border: 1px solid var(--sf-line-2); }
-  th, td { border: 1px solid var(--sf-line-2); padding: var(--sf-3) var(--sf-4); text-align: left; }
-  thead { background-color: var(--sf-bg-1); }
-
-  // --- E. FORM STYLING ---
-  form, .form {
-    margin-block: var(--sf-8); padding: var(--sf-6); background-color: var(--sf-bg-1); border: 1px solid var(--sf-line-2); border-radius: var(--sf-radius-lg);
-    .label { display: block; font-weight: 500; margin-bottom: var(--sf-2); }
-    input[type="text"], input[type="email"], textarea { @include control-base; display: block; width: 100%; margin-bottom: var(--sf-5); &:focus { @include focus-ring; } }
-    textarea { min-height: 150px; }
-    input[type="submit"], .button { @extend .sf-btn; @extend .sf-btn--primary; }
+    // --- E. FORM STYLING ---
+    form, .form {
+      margin-block: var(--sf-8); padding: var(--sf-6); background-color: var(--sf-bg-1); border: 1px solid var(--sf-line-2); border-radius: var(--sf-radius-lg);
+      .label { display: block; font-weight: 500; margin-bottom: var(--sf-2); }
+      input[type="text"], input[type="email"], textarea { @include control-base; display: block; width: 100%; margin-bottom: var(--sf-5); &:focus { @include focus-ring; } }
+      textarea { min-height: 150px; }
+      input[type="submit"], .button { @extend .sf-btn; @extend .sf-btn--primary; }
+    }
   }
-}
 
 /* ============================================================================
-   4. STICKY & SCROLLABLE SIDEBAR
+   4. STICKY SIDEBAR
    ============================================================================ */
 .page-sidebar-right {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sf-6);
-  
-  // On mobile, hide the sidebar by default (or let it stack).
-  // Hiding is often better for simple pages. Let's stack it.
+  // Hide on mobile by default
+  display: none;
   
   @include breakpoint(lg) {
-    // Show and apply sticky positioning on desktop
+    // Show on desktop and apply sticky positioning
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-6);
     position: sticky;
     top: calc(var(--sf-nav-height) + var(--sf-4));
-    align-self: start;
-    
-    // This is the crucial part for long sidebars
-    height: calc(100vh - var(--sf-nav-height) - (2 * var(--sf-4)));
-    overflow-y: auto;
+    align-self: start; // Critical for sticky to work
+    // NO height or overflow-y here. This prevents the sidebar from scrolling.
   }
 }
 
 /* ============================================================================
-   5. SIDEBAR WIDGETS (UNABRIDGED)
+   5. SIDEBAR & IN-CONTENT WIDGETS
    ============================================================================ */
 .toc-card {
   padding: var(--sf-4);
@@ -141,52 +137,63 @@
     a { display: block; padding: var(--sf-2) var(--sf-3); text-decoration: none; border-radius: var(--sf-radius-sm); color: var(--sf-fg-2); font-size: var(--sf-text-sm); transition: all 0.2s ease; &:hover { background-color: var(--sf-bg-1); color: var(--sf-brand); } }
   }
   &:has(ul:empty) { display: none; }
-}
-
-.quick-links-card {
-  .quick-links-list {
-    list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--sf-2);
-    a { display: block; text-decoration: none; font-weight: 500; color: var(--sf-fg-2); padding: var(--sf-2) var(--sf-3); border-radius: var(--sf-radius-sm); transition: all .2s ease; &:hover { background-color: var(--sf-bg-1); color: var(--sf-brand); transform: translateX(4px); } }
+  
+  // Style for when ToC is inside the main content
+  &--in-content {
+    background-color: var(--sf-bg-1);
+    border: 1px solid var(--sf-line-2);
+    margin-bottom: var(--sf-8);
   }
 }
 
-.newsletter-card {
-  background-color: var(--sf-bg-1);
-  text-align: center;
+.page-actions-card {
+  // Use the card base, but with no body padding for the list
+  .sf-card__body { padding: 0; }
+}
 
-  .sf-card__body {
+.page-actions-list {
+  list-style: none;
+  padding: var(--sf-2);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sf-1);
+  
+  a {
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: var(--sf-3);
-  }
-  i { font-size: 2.5rem; color: var(--sf-brand); }
-  strong { font-size: var(--sf-text-lg); }
-  p { font-size: var(--sf-text-sm); color: var(--sf-fg-2); margin: 0; }
-  
-  .newsletter-form {
-    width: 100%;
-    margin-top: var(--sf-2);
-    .input { @include control-base; width: 100%; margin-bottom: var(--sf-3); }
+    padding: var(--sf-3);
+    border-radius: var(--sf-radius-md);
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--sf-fg-2);
+    transition: all 0.2s ease;
+    
+    i {
+      font-size: 1.5rem;
+      color: var(--sf-brand);
+      transition: transform 0.2s ease;
+    }
+
+    &:hover {
+      background-color: var(--sf-bg-1);
+      color: var(--sf-fg);
+      i { transform: scale(1.1) rotate(-5deg); }
+    }
   }
 }
 
-
-/* ============================================================================
-   6. AD PLACEHOLDERS
-   ============================================================================ */
 .ad-placeholder {
   display: flex; align-items: center; justify-content: center; width: 100%;
   background-color: var(--sf-bg-1); border: 1px dashed var(--sf-line-1);
   border-radius: var(--sf-radius-lg); color: var(--sf-muted); font-size: var(--sf-text-sm);
   
-  &--leaderboard {
-    min-height: 90px;
-    margin-bottom: var(--sf-8); // Space between ad and content grid
-  }
-
-  &--skyscraper {
-    min-height: 600px;
-    flex-shrink: 0; // Prevent the ad from shrinking in the flex column
-  }
+  &--skyscraper { min-height: 600px; flex-shrink: 0; }
 }
+
+
+
+
+
+
