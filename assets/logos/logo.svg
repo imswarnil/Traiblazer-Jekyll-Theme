@@ -1,6 +1,57 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="53" height="52" viewBox="-10 -10 53 52">
-  <g fill="#05BF85" fill-rule="evenodd">
-    <path d="M20.14 2.13L33 10l-1 2-6.65-3.08a12.99 12.99 0 0 1-3 13.1l1.65 9.3c.07.38-.2.68-.57.68h-.74a.86.86 0 0 1-.81-.68l-1.36-7.71A12.93 12.93 0 0 1 14 25.96v5.34a.7.7 0 0 1-.7.7h-.6a.7.7 0 0 1-.7-.7v-5.34a12.93 12.93 0 0 1-6.5-2.35l-1.37 7.71a.86.86 0 0 1-.81.68h-.73a.56.56 0 0 1-.58-.68l1.64-9.29a13 13 0 0 1 16.49-19.9zM13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22z"/>
-    <path fill-opacity=".44" d="M13 24a11 11 0 0 0 11-11s-22-.1-22 0a11 11 0 0 0 11 11z"/>
+<svg width="100px" height="100px" viewBox="-4.8 -4.8 57.60 57.60" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      /* 
+        This internal stylesheet makes the SVG theme-aware.
+        It maps the original hard-coded colors to your live CSS theme variables.
+        Fallbacks are included to ensure the SVG renders correctly even if variables are missing.
+      */
+
+      /* Original #0176d3 (blue hair/hat) -> Mapped to --sf-brand */
+      .cls-1 {
+        fill: var(--sf-brand, #0176d3); 
+      }
+
+      /* Original #f7cc94 (main skin tone) -> Mapped to --sf-bg-2 (primary surface color) */
+      .cls-2 {
+        fill: var(--sf-bg-2, #f7cc94);
+      }
+      
+      /* Original #f4b392 (shadow skin tone) -> Mapped to --sf-line-2 (subtle line/bg color) */
+      .cls-3 {
+        fill: var(--sf-line-2, #f4b392);
+      }
+      
+      /* Original #03243f (dark outlines) -> Mapped to --sf-fg (main foreground/text color) */
+      .cls-4 {
+        fill: var(--sf-fg, #03243f);
+      }
+      
+      /* Original #03243f (stroked paths) -> Also mapped to --sf-fg */
+      .cls-5 {
+        fill: none;
+        stroke: var(--sf-fg, #03243f);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 0.24;
+      }
+    </style>
+  </defs>
+  
+  <g id="hair">
+    <!-- Each path below will now use the dynamic classes defined in the <style> block -->
+    <path class="cls-1" d="M44.11,44.5H3.89C3.89,37.56,7,31.93,14,31.93h20.1c6.94,0,10.06,5.63,10.06,12.57Z"></path>
+    <path class="cls-2" d="M27.77,21.88V33.19a3.77,3.77,0,1,1-7.54,0V21.88Z"></path>
+    <path class="cls-3" d="M31.46,18.11a10.4,10.4,0,0,1-3.69,7.44v2.51a5.91,5.91,0,0,1-7.54,0V25.55a10.4,10.4,0,0,1-3.69-7.44c.45-4.95,3.61-8.8,7.46-8.8S31,13.16,31.46,18.11Z"></path>
+    <path class="cls-2" d="M31.54,16.85a10.26,10.26,0,0,1-.08,1.26,10.4,10.4,0,0,1-3.69,7.44,5.91,5.91,0,0,1-7.54,0,10.4,10.4,0,0,1-3.69-7.44,10.26,10.26,0,0,1-.08-1.26c0-5.55,3.37-10,7.54-10S31.54,11.3,31.54,16.85Z"></path>
+    <path class="cls-2" d="M34.05,16.85a2.51,2.51,0,0,1-2.51,2.52c-1.39,0,0-1.13,0-2.52s-1.39-2.51,0-2.51A2.51,2.51,0,0,1,34.05,16.85Z"></path>
+    <path class="cls-2" d="M14,16.85a2.51,2.51,0,0,0,2.51,2.52c1.39,0,0-1.13,0-2.52s1.39-2.51,0-2.51A2.51,2.51,0,0,0,14,16.85Z"></path>
+    <circle class="cls-4" cx="20.98" cy="14.59" r="0.5"></circle>
+    <circle class="cls-4" cx="27.02" cy="14.59" r="0.5"></circle>
+    <path class="cls-5" d="M19.22,13.08s1.71-2,3.52-1"></path>
+    <path class="cls-5" d="M28.78,13.08s-1.71-2-3.52-1"></path>
+    <path class="cls-5" d="M23.5,15.09s-2,5-1,5h1"></path>
+    <path class="cls-5" d="M23.5,22.13s3,0,4-1"></path>
+    <path class="cls-4" d="M21.49,11.07C25,13.59,28,14.59,30,14.59S36.16,11.08,34.79,7c-.5-1.51-1-2.94-5.76-3.44-3.54-.37-9.55,2.52-9.55,2.52A6.61,6.61,0,0,0,17,5.54c-5,0-2,8-.52,9.53C16.94,15.57,18.9,9.22,21.49,11.07Z"></path>
   </g>
 </svg>

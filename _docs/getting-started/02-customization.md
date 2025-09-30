@@ -1,10 +1,8 @@
 ---
-title: Configuration
+title: Site Configuration
 description: "Customize your site's title, navigation, social links, and more via the _config.yml file."
-category: Getting Started
+category: "Getting Started"
+category_order: 2
+article_order: 2
 ---
-All major site-wide settings are controlled from the `_config.yml` file.
-
-### Basic Settings
-- `title`: The main title of your site.
-- `description`: A short, site-wide description for SEO.
+All major site-wide settings are controlled...
