@@ -1,64 +1,37 @@
 /* ============================================================================
-   BASE / BASE.SCSS
-   This file sets the foundational styles for the entire project. It includes:
-   1. A modern CSS reset.
-   2. Global styles for the `body` and core elements.
-   3. The complete typographic scale for headings, paragraphs, and links.
-   ============================================================================ */
-@use "sass:map";
-
-/* ============================================================================
-   1. MODERN CSS RESET
-   Establishes a consistent baseline across all browsers.
+   BASE / BASE.SCSS (DEFINITIVE & FOCUSED VERSION)
+   - Provides a modern CSS reset for cross-browser consistency.
+   - Sets global, non-typographic styles for the `body` and core elements.
+   - Manages global accessibility features and interaction styles.
    ============================================================================ */
 
+/* --- 1. MODERN CSS RESET --- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  // Resetting border styles and colors
+  border-width: 0;
+  border-style: solid;
+  border-color: var(--border-color, currentColor);
 }
 
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
+  // Set the default font size here, from which `rem` units are calculated.
+  font-size: 16px;
 }
 
 body {
   min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
 }
 
-img, picture, video, canvas, svg {
-  display: block;
-  max-width: 100%;
-}
-
-input, button, textarea, select {
-  font: inherit;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  overflow-wrap: break-word;
-  text-wrap: balance; // Improves heading wrapping on modern browsers
-}
-
-p {
-  text-wrap: pretty; // Improves paragraph wrapping
-}
-
-
-/* ============================================================================
-   2. GLOBAL DOCUMENT STYLES
-   Defines the look and feel of the entire site.
-   ============================================================================ */
-
+/* --- 2. GLOBAL DOCUMENT STYLES --- */
 body {
-  font-family: var(--sf-font-body);
-  font-size: var(--sf-text-base);
-  line-height: var(--sf-leading-relaxed); // A more spacious default
-  color: var(--body-fg);
   background-color: var(--body-bg);
+  color: var(--body-fg);
   transition: background-color .3s ease, color .3s ease; // For theme switching
 }
 
@@ -79,82 +52,36 @@ body {
 }
 
 
-/* ============================================================================
-   3. TYPOGRAPHY & TEXT ELEMENTS
-   ============================================================================ */
+/* --- 3. CORE ELEMENT DEFAULTS (NON-TYPOGRAPHIC) --- */
 
-// --- HEADINGS ---
-// Styles are applied directly to semantic tags for markdown content,
-// and helper classes are available for custom use.
-h1, .sf-h1,
-h2, .sf-h2,
-h3, .sf-h3,
-h4, .sf-h4,
-h5, .sf-h5,
-h6, .sf-h6 {
-  margin-block: var(--sf-space-8) var(--sf-space-4);
-  font-weight: map-get($font-weights, 'bold');
-  line-height: var(--sf-leading-tight);
-  color: var(--heading-fg);
-}
-h1:first-child, .sf-h1:first-child { margin-top: 0; }
-
-h1, .sf-h1 { font-size: var(--sf-text-3xl); }
-h2, .sf-h2 { font-size: var(--sf-text-2xl); }
-h3, .sf-h3 { font-size: var(--sf-text-xl); }
-h4, .sf-h4 { font-size: var(--sf-text-lg); }
-h5, .sf-h5 { font-size: var(--sf-text-base); font-weight: map-get($font-weights, 'semibold'); }
-h6, .sf-h6 { font-size: var(--sf-text-sm); font-weight: map-get($font-weights, 'semibold'); }
-
-// --- PARAGRAPHS & TEXT ---
-p {
-  margin-bottom: var(--sf-space-4);
-  max-width: var(--sf-measure);
-}
-
-// Helper classes for text sizes
-.sf-text-sm {
-  font-size: var(--sf-text-sm);
-  color: var(--sf-color-muted);
-}
-.sf-text-lg {
-  font-size: var(--sf-text-lg);
-}
-
-// --- LINKS ---
-// A more modern, animated underline is now the default for all links.
+// Default link behavior (color and decoration are handled in _typography.scss)
 a {
-  color: var(--link-fg);
-  text-decoration: none;
-  background-image: linear-gradient(var(--link-fg), var(--link-fg));
-  background-position: 0% 100%;
-  background-repeat: no-repeat;
-  background-size: 0% 1px;
-  transition: background-size .2s ease, color .2s ease;
-
-  &:hover {
-    color: var(--link-hover-fg);
-    background-size: 100% 1px;
-  }
-}
-// Remove the effect from links that don't contain text (e.g., image links)
-a:empty {
-  background-image: none;
-}
-// Remove the effect from specific components where it's not desired
-.sf-btn, .sf-nav--desktop__link, .doc-sidebar-nav a {
-  background-image: none !important;
-  &:hover { background-size: 0% 1px !important; }
+  background-color: transparent;
 }
 
-// --- OTHER TEXT ELEMENTS ---
-strong, b {
-  font-weight: map-get($font-weights, 'semibold');
+// Default media behavior
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
 }
 
+// Default form element behavior
+input, button, textarea, select {
+  font: inherit; // Typography is handled in _typography.scss
+  -webkit-appearance: none;
+  appearance: none;
+}
+button {
+  cursor: pointer;
+}
+
+// Horizontal Rule
 hr {
   border: 0;
-  height: 1px;
-  background-color: var(--border-color-subtle);
+  border-top-width: 1px; // Use the reset's border properties
+  height: 0;
+  color: inherit;
   margin-block: var(--sf-space-8);
 }

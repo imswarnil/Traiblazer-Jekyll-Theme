@@ -1,70 +1,149 @@
 /* ============================================================================
-   UTILITIES / TYPOGRAPHY
-   Generates helper classes for controlling typography directly in HTML.
-   Inspired by Bulma's naming convention.
-   Examples: .is-size-1, .has-text-weight-bold, .has-text-centered
+   BASE / TYPOGRAPHY.SCSS (DEFINITIVE & COMPREHENSIVE)
+   - The single source of truth for all text styling.
+   - Defines base body font styles.
+   - Styles all semantic text elements (h1-h6, p, a, lists, etc.).
+   - Provides a complete suite of `sf-` branded typography utility classes.
    ============================================================================ */
 
-// --- FONT SIZE HELPERS ---
-// .is-size-1 (largest) through .is-size-7 (smallest)
-$font-sizes: (
-  '1': var(--sf-text-3xl),
-  '2': var(--sf-text-2xl),
-  '3': var(--sf-text-xl),
-  '4': var(--sf-text-lg),
-  '5': var(--sf-text-base),
-  '6': var(--sf-text-sm),
-  '7': var(--sf-text-xs)
-);
+/* --- 1. BASE FONT STYLES --- */
+body {
+  font-family: var(--sf-font-body);
+  font-size: var(--sf-text-base);
+  line-height: var(--sf-leading-relaxed);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-@each $name, $size in $font-sizes {
-  .is-size-#{$name} {
-    font-size: #{$size} !important;
+/* --- 2. SEMANTIC ELEMENT STYLES --- */
+
+// Headings
+h1, h2, h3, h4, h5, h6 {
+  margin-block: var(--sf-space-8) var(--sf-space-4);
+  font-weight: map-get($font-weights, 'bold');
+  line-height: var(--sf-leading-tight);
+  color: var(--heading-fg);
+  text-wrap: balance;
+}
+:is(h1, h2, h3, h4, h5, h6):first-child { 
+  margin-top: 0; 
+}
+
+h1 { font-size: var(--sf-text-3xl); }
+h2 { font-size: var(--sf-text-2xl); }
+h3 { font-size: var(--sf-text-xl); }
+h4 { font-size: var(--sf-text-lg); }
+h5 { font-size: var(--sf-text-base); font-weight: map-get($font-weights, 'semibold'); }
+h6 { font-size: var(--sf-text-sm); font-weight: map-get($font-weights, 'semibold'); }
+
+// Paragraphs
+p {
+  margin-bottom: var(--sf-space-4);
+  max-width: var(--sf-measure);
+  text-wrap: pretty;
+}
+
+// Links (Animated Underline)
+a {
+  color: var(--link-fg);
+  text-decoration: none;
+  background-image: linear-gradient(var(--link-fg), var(--link-fg));
+  background-position: 0% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size .2s ease, color .2s ease;
+
+  &:hover {
+    color: var(--link-hover-fg);
+    background-size: 100% 1px;
   }
 }
-// Responsive font sizes
+// Remove effect from links that are components or contain no text
+a:empty, .sf-btn, .sf-nav--desktop__link, .doc-sidebar-nav a {
+  background-image: none !important;
+  &:hover { background-size: 0% 1px !important; }
+}
+
+// Lists
+ul, ol {
+  padding-left: var(--sf-space-5);
+  margin-bottom: var(--sf-space-4);
+}
+li {
+  margin-bottom: var(--sf-space-2);
+}
+
+// Other Text Elements
+strong, b { font-weight: map-get($font-weights, 'bold'); }
+em, i     { font-style: italic; }
+small     { font-size: var(--sf-text-sm); }
+code      { font-family: var(--sf-font-mono); font-size: 0.9em; background-color: var(--sf-bg-1); padding: .1em .3em; border-radius: var(--sf-radius-sm); }
+pre       { font-family: var(--sf-font-mono); }
+
+
+/* ============================================================================
+   3. TYPOGRAPHY UTILITY CLASSES
+   ============================================================================ */
+
+// --- FONT SIZE ---
+// Example: .sf-text-size-1 (largest)
+$font-sizes: (
+  '1': var(--sf-text-3xl), '2': var(--sf-text-2xl), '3': var(--sf-text-xl),
+  '4': var(--sf-text-lg),  '5': var(--sf-text-base), '6': var(--sf-text-sm),
+  '7': var(--sf-text-xs)
+);
+@each $name, $size in $font-sizes {
+  .sf-text-size-#{$name} { font-size: #{$size} !important; }
+}
 @each $bp-name, $bp-value in $breakpoints {
   @media (min-width: $bp-value) {
     @each $name, $size in $font-sizes {
-      .is-size-#{$name}-#{$bp-name} {
-        font-size: #{$size} !important;
-      }
+      .sf-text-size-#{$bp-name}-#{$name} { font-size: #{$size} !important; }
     }
   }
 }
 
-
-// --- FONT WEIGHT HELPERS ---
-// .has-text-weight-light, .has-text-weight-semibold, etc.
+// --- FONT WEIGHT ---
+// Example: .sf-text-weight-bold
 @each $name, $weight in $font-weights {
-  .has-text-weight-#{$name} {
-    font-weight: #{$weight} !important;
-  }
+  .sf-text-weight-#{$name} { font-weight: #{$weight} !important; }
 }
 
+// --- FONT FAMILY ---
+.sf-font-family-body { font-family: var(--sf-font-body) !important; }
+.sf-font-family-mono { font-family: var(--sf-font-mono) !important; }
 
-// --- TEXT ALIGNMENT HELPERS ---
-// .has-text-left, .has-text-centered, etc.
-.has-text-centered { text-align: center !important; }
-.has-text-left     { text-align: left !important; }
-.has-text-right    { text-align: right !important; }
-.has-text-justified{ text-align: justify !important; }
+// --- LINE HEIGHT (LEADING) ---
+.sf-leading-tight   { line-height: var(--sf-leading-tight) !important; }
+.sf-leading-normal  { line-height: var(--sf-leading-normal) !important; }
+.sf-leading-relaxed { line-height: var(--sf-leading-relaxed) !important; }
+.sf-leading-none    { line-height: 1 !important; }
 
-// Responsive text alignment
+// --- LETTER SPACING (TRACKING) ---
+.sf-tracking-tight  { letter-spacing: var(--sf-tracking-tight) !important; }
+.sf-tracking-normal { letter-spacing: normal !important; }
+.sf-tracking-wide   { letter-spacing: var(--sf-tracking-wide) !important; }
+
+// --- TEXT ALIGNMENT ---
+.sf-text-left    { text-align: left !important; }
+.sf-text-center  { text-align: center !important; }
+.sf-text-right   { text-align: right !important; }
+.sf-text-justify { text-align: justify !important; }
+
 @each $bp-name, $bp-value in $breakpoints {
-  @media (max-width: #{$bp-value - 0.02px}) {
-    .has-text-centered-touch { text-align: center !important; }
-    .has-text-left-touch     { text-align: left !important; }
-    .has-text-right-touch    { text-align: right !important; }
-  }
   @media (min-width: $bp-value) {
-    .has-text-centered-#{$bp-name} { text-align: center !important; }
-    .has-text-left-#{$bp-name}     { text-align: left !important; }
-    .has-text-right-#{$bp-name}    { text-align: right !important; }
+    .sf-text-#{$bp-name}-left   { text-align: left !important; }
+    .sf-text-#{$bp-name}-center { text-align: center !important; }
+    .sf-text-#{$bp-name}-right  { text-align: right !important; }
   }
 }
 
+// --- TEXT TRANSFORM ---
+.sf-uppercase  { text-transform: uppercase !important; }
+.sf-lowercase  { text-transform: lowercase !important; }
+.sf-capitalize { text-transform: capitalize !important; }
+.sf-normal-case{ text-transform: none !important; }
 
-// --- FONT FAMILY HELPERS ---
-.is-family-primary { font-family: var(--sf-font-body) !important; }
-.is-family-monospace { font-family: var(--sf-font-mono) !important; }
+// --- TEXT DECORATION ---
+.sf-underline     { text-decoration: underline !important; background-image: none !important; }
+.sf-no-underline  { text-decoration: none !important; background-image: none !important; }
