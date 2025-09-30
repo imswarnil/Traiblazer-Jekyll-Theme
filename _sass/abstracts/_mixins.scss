@@ -1,105 +1,13 @@
 /* ============================================================================
-   ABSTRACTS / MIXINS (DEFINITIVE & BACKWARD-COMPATIBLE VERSION)
+   ABSTRACTS / MIXINS (DEFINITIVE & BACKWARD-COMPATIBLE)
    A powerful and well-documented library of reusable SCSS functions.
-   - Reverts to older, universally compatible Sass functions (map-get) to fix build errors.
-   - Keeps all enhanced mixins like breakpoint-down and new helpers.
+   - Restores original working syntax for `breakpoint` and `control-base`.
+   - Adds new, powerful mixins for advanced layout and responsive design.
    ============================================================================ */
 
 /* ============================================================================
-   1. RESPONSIVE DESIGN
+   1. ACCESSIBILITY & INTERACTION
    ============================================================================ */
-
-/**
- * Applies styles from a specific breakpoint and up (mobile-first).
- * This now uses the older, compatible `if/else` structure from your original file,
- * but is powered by the new `$breakpoints` map for better organization.
- * @param {string} $point - The breakpoint name (e.g., 'sm', 'md', 'lg').
- * @example @include breakpoint(md) { ...styles for medium screens and up... }
- */
-@mixin breakpoint($point) {
-  @if $point == xs { @media (min-width: map-get($breakpoints, 'xs')) { @content; } }
-  @else if $point == sm { @media (min-width: map-get($breakpoints, 'sm')) { @content; } }
-  @else if $point == md { @media (min-width: map-get($breakpoints, 'md')) { @content; } }
-  @else if $point == lg { @media (min-width: map-get($breakpoints, 'lg')) { @content; } }
-  @else if $point == xl { @media (min-width: map-get($breakpoints, 'xl')) { @content; } }
-  @else { @warn "Breakpoint '#{$point}' not found in the $breakpoints map in _variables.scss."; }
-}
-
-/**
- * Applies styles below a specific breakpoint (desktop-first).
- * @param {string} $point - The breakpoint name.
- * @example @include breakpoint-down(md) { ...styles for screens smaller than 'md'... }
- */
-@mixin breakpoint-down($point) {
-  @if map-has-key($breakpoints, $point) {
-    @media (max-width: map-get($breakpoints, $point) - 0.02px) {
-      @content;
-    }
-  } @else {
-    @warn "Breakpoint '#{$point}' not found in $breakpoints map.";
-  }
-}
-
-
-/* ============================================================================
-   2. TYPOGRAPHY HELPERS
-   ============================================================================ */
-
-/**
- * Enables smoother font rendering on most browsers.
- * @example @include antialiased;
- */
-@mixin antialiased {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/**
- * Truncates text to a specific number of lines with an ellipsis.
- * @param {number} $lines - The number of lines to show.
- * @example @include truncate(2);
- */
-@mixin truncate($lines: 1) {
-  @if $lines == 1 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  } @else {
-    display: -webkit-box;
-    -webkit-line-clamp: $lines;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-}
-
-
-/* ============================================================================
-   3. ACCESSIBILITY & INTERACTION
-   ============================================================================ */
-
-/**
- * Visually hides an element but keeps it accessible to screen readers.
- * @example .skip-link { @include sr-only; }
- */
-@mixin sr-only {
-  position: absolute !important;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/**
- * Reverses sr-only, making an element visible again.
- */
-@mixin not-sr-only {
-  position: static; width: auto; height: auto;
-  padding: 0; margin: 0;
-  overflow: visible; clip: auto;
-  white-space: normal;
-}
 
 /**
  * Applies a consistent, accessible focus ring using design tokens.
@@ -145,29 +53,136 @@
 
 
 /* ============================================================================
-   4. LAYOUT PRIMITIVES
+   2. RESPONSIVE DESIGN
    ============================================================================ */
 
 /**
- * Centers a child element within a parent using flexbox.
- * @param {string} $axis - 'x', 'y', or 'both'.
- * @example .parent { @include center; }
+ * Applies styles from a specific breakpoint and up (mobile-first).
+ * This uses the original, reliable if/else structure.
+ * @param {string} $point - The breakpoint name (e.g., 'sm', 'md', 'lg').
+ * @example @include breakpoint(md) { ...styles for medium screens and up... }
  */
-@mixin center($axis: 'both') {
-  display: flex;
-  @if $axis == 'both' {
-    align-items: center;
-    justify-content: center;
-  } @else if $axis == 'x' {
-    justify-content: center;
-  } @else if $axis == 'y' {
-    align-items: center;
+@mixin breakpoint($point) {
+  @if $point == xs { @media (min-width: $bp-xs) { @content; } }
+  @else if $point == sm { @media (min-width: $bp-sm) { @content; } }
+  @else if $point == md { @media (min-width: $bp-md) { @content; } }
+  @else if $point == lg { @media (min-width: $bp-lg) { @content; } }
+  @else if $point == xl { @media (min-width: $bp-xl) { @content; } }
+  @else { @warn "Breakpoint '#{$point}' not found. Check your $bp-* variables."; }
+}
+
+/**
+ * [NEW] Applies styles below a specific breakpoint.
+ * @param {string} $point - The breakpoint name.
+ * @example @include breakpoint-down(md) { ...styles for screens smaller than 'md'... }
+ */
+@mixin breakpoint-down($point) {
+  @if map-has-key($breakpoints, $point) {
+    @media (max-width: map-get($breakpoints, $point) - 0.02px) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint '#{$point}' not found in the $breakpoints map.";
+  }
+}
+
+
+/* ============================================================================
+   3. TYPOGRAPHY HELPERS
+   ============================================================================ */
+
+/**
+ * Enables smoother font rendering on most browsers.
+ * @example @include antialiased;
+ */
+@mixin antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/**
+ * A shorthand for setting multiple typography properties at once.
+ * @example @include text(var(--sf-text-lg), 600);
+ */
+@mixin text($size: var(--sf-text-base), $weight: 400, $line: var(--sf-leading-normal), $tracking: 0) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line;
+  letter-spacing: $tracking;
+}
+
+/**
+ * Truncates text to a specific number of lines with an ellipsis.
+ * @param {number} $lines - The number of lines to show.
+ * @example @include truncate(2);
+ */
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
 
 /**
+ * Visually hides an element but keeps it accessible to screen readers.
+ * @example .skip-link { @include sr-only; }
+ */
+@mixin sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/**
+ * Reverses sr-only, making an element visible again.
+ */
+@mixin not-sr-only {
+  position: static; width: auto; height: auto;
+  padding: 0; margin: 0;
+  overflow: visible; clip: auto;
+  white-space: normal;
+}
+
+
+/* ============================================================================
+   4. LAYOUT PRIMITIVES
+   ============================================================================ */
+
+/**
+ * Creates a centered container with a max-width.
+ * @param {string} $size - A key from the $container-sizes map ('sm', 'md', etc.).
+ */
+@mixin container($size: md) {
+  width: min(calc(100% - (2 * var(--sf-container-padding))), var(--sf-container-#{$size}));
+  margin-inline: auto;
+  padding-inline: var(--sf-container-padding);
+}
+
+/**
+ * Creates a CSS grid container.
+ */
+@mixin grid($cols: var(--sf-grid-columns), $gap: var(--sf-grid-gap)) {
+  display: grid;
+  grid-template-columns: repeat(#{$cols}, minmax(0, 1fr));
+  gap: $gap;
+}
+@mixin grid-col-span($span) {
+  grid-column: span #{$span} / span #{$span};
+}
+
+/**
  * Stacks items vertically with consistent spacing.
- * @example .form-fields { @include stack; }
+ * @example .form-fields { @include stack(var(--sf-space-5)); }
  */
 @mixin stack($gap: var(--sf-space-4)) {
   display: flex;
@@ -187,25 +202,54 @@
   gap: $gap;
 }
 
+/**
+ * Centers a child element within a parent using flexbox.
+ * @param {string} $axis - 'x', 'y', or 'both'.
+ * @example .parent { @include center; }
+ */
+@mixin center($axis: 'both') {
+  display: flex;
+  @if $axis == 'both' {
+    align-items: center;
+    justify-content: center;
+  } @else if $axis == 'x' {
+    justify-content: center;
+  } @else if $axis == 'y' {
+    align-items: center;
+  }
+}
+
 
 /* ============================================================================
    5. EFFECTS & RESETS
    ============================================================================ */
 
 /**
- * Applies a consistent box-shadow based on the elevation token system.
- * This now uses the older, compatible `if/else` structure from your original file.
- * @param {string} $level - 'sm', 'md', or 'lg'.
- * @example .card { @include elevation(md); }
+ * Applies a simple border using the theme's border color.
  */
-@mixin elevation($level: sm) {
-  @if $level == sm { box-shadow: var(--sf-shadow-sm); }
-  @else if $level == md { box-shadow: var(--sf-shadow-md); }
-  @else if $level == lg { box-shadow: var(--sf-shadow-lg); }
+@mixin border($color: var(--border-color)) {
+  border: 1px solid $color;
 }
 
 /**
- * Creates a fixed aspect ratio box that works even in older browsers.
+ * Applies an outer ring/shadow, useful for focus states.
+ */
+@mixin ring($size: .14rem, $color: var(--sf-brand-primary)) {
+  box-shadow: 0 0 0 $size $color;
+}
+
+/**
+ * Applies a consistent box-shadow based on the semantic elevation system.
+ * This now uses the new `$elevations` map for better semantics.
+ * @param {string} $level - A key from the $elevations map ('1', '2', '3', etc.).
+ * @example .card { @include elevation('2'); &:hover { @include elevation('3'); } }
+ */
+@mixin elevation($level: '2') {
+  box-shadow: map-get($elevations, $level);
+}
+
+/**
+ * Creates a fixed aspect ratio box with a fallback for older browsers.
  * @param {number} $width - The width ratio.
  * @param {number} $height - The height ratio.
  * @example .card__image { @include aspect-ratio(16, 9); }
@@ -248,8 +292,8 @@
 }
 
 /**
- * A base style for form controls like inputs and textareas.
- * This has been restored to the working version from your original file.
+ * THE CORRECTED MIXIN
+ * A base style for form controls, restored to its original working version.
  */
 @mixin control-base($height: var(--sf-control-md), $pad-x: var(--sf-control-pad-x)) {
   min-height: $height;
@@ -258,6 +302,13 @@
   background: var(--sf-control-bg);
   color: var(--sf-fg);
   border: 1px solid var(--sf-control-border);
+}
+
+/**
+ * Applies a standard transition for interactive elements.
+ */
+@mixin interactive($transition-prop: all) {
+  transition: #{$transition-prop} map-get($durations, '150') map-get($easings, 'standard');
 }
 
 
@@ -276,7 +327,7 @@
 }
 
 /**
- * Makes an image cover its container, often used with aspect-ratio.
+ * Makes an image cover its container.
  */
 @mixin media-cover {
   width: 100%;
