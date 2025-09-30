@@ -1,136 +1,182 @@
 /* ============================================================================
-   PAGE / 404 NOT FOUND (SALESFORCE TRAILBLAZER EDITION)
-   A unique, funny, and beautifully animated 404 page.
+   PAGE / 404 NOT FOUND (TERMINAL STORY EDITION)
+   A funny, animated, story-driven 404 page.
    ============================================================================ */
 
 // --- Keyframe Animations ---
-@keyframes astro-float {
-  0%, 100% { transform: translateY(0) rotate(-3deg); }
-  50% { transform: translateY(-20px) rotate(3deg); }
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
 }
 
-@keyframes element-float {
-  0% { transform: translateY(10px) rotate(5deg); }
-  100% { transform: translateY(-10px) rotate(-5deg); }
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: var(--sf-success); }
 }
 
-@keyframes hologram-glitch {
-  0%, 100% { text-shadow: 0 0 5px var(--sf-brand), 0 0 15px var(--sf-brand), 0 0 30px var(--sf-brand-hover), 2px 2px 2px var(--sf-danger); opacity: 1; }
-  48%, 52% { text-shadow: 0 0 5px var(--sf-brand), 0 0 15px var(--sf-brand), 0 0 30px var(--sf-brand-hover), -2px -2px 2px var(--sf-success); opacity: 0.8; }
-  50% { text-shadow: none; opacity: 0.5; transform: skew(-10deg); }
+@keyframes processing-dots {
+  0%, 20% { content: '.'; }
+  40%, 60% { content: '..'; }
+  80%, 100% { content: '...'; }
 }
 
-// --- Main Page Container ---
+@keyframes screen-flash {
+  0%, 100% { background-color: var(--sf-danger); box-shadow: 0 0 30px 10px color-mix(in srgb, var(--sf-danger), transparent 70%); }
+  5% { background-color: var(--sf-bg-2); box-shadow: none; }
+}
+
+@keyframes astro-peek {
+  0% { transform: translateY(100%) rotate(10deg); }
+  50% { transform: translateY(10%) rotate(-5deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+
+// --- Main Layout ---
 .page-404 {
   display: grid;
-  place-content: center;
+  place-items: center;
   min-height: 80vh;
-  padding: var(--sf-8) var(--sf-4);
-  text-align: center;
+  padding: var(--sf-4);
+  background-color: var(--sf-bg-1);
   overflow: hidden;
-  position: relative;
-  background: radial-gradient(circle at 50% 50%, var(--sf-bg-2), var(--sf-bg-1) 70%);
-
-  // Subtle background grid, SLDS style
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--sf-line-2) 1px, transparent 1px),
-      linear-gradient(to right, var(--sf-line-2) 1px, transparent 1px);
-    background-size: 40px 40px;
-    opacity: 0.5;
-  }
 }
 
-.not-found {
-  position: relative;
-  z-index: 2;
+// --- The Terminal Window ---
+.terminal {
+  width: min(700px, 90vw);
+  background-color: var(--sf-bg-2);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-lg);
+  border: 1px solid var(--sf-line-1);
+  font-family: var(--sf-font-mono);
 
-  // --- The Animated Scene ---
-  &__scene {
-    position: relative;
-    margin-bottom: var(--sf-6);
-    user-select: none;
-  }
-
-  &__astro {
-    width: clamp(120px, 20vw, 180px);
-    animation: astro-float 8s ease-in-out infinite;
-    margin-inline: auto; // Center the SVG
-    svg {
-      width: 100%;
-      height: auto;
-      filter: drop-shadow(0 20px 25px rgba(0,0,0,0.2));
+  &__header {
+    @include cluster($gap: var(--sf-2), $align: center);
+    padding: var(--sf-3);
+    border-bottom: 1px solid var(--sf-line-1);
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      &--red { background-color: #ff5f56; }
+      &--yellow { background-color: #ffbd2e; }
+      &--green { background-color: #27c93f; }
     }
   }
 
-  &__hologram {
-    font-family: var(--sf-font-mono);
-    font-size: clamp(6rem, 20vw, 12rem);
-    font-weight: 700;
-    color: var(--sf-brand);
-    animation: hologram-glitch 4s linear infinite;
+  &__body {
+    position: relative;
+    padding: var(--sf-5);
+    color: var(--sf-fg-2);
+  }
+
+  &__line {
+    @include cluster($gap: var(--sf-2), $align: center);
     margin-bottom: var(--sf-4);
   }
 
-  // Floating UI elements for a "broken interface" feel
-  &__element {
-    position: absolute;
-    background-color: var(--sf-bg-2);
-    border: 1px solid var(--sf-line-1);
-    border-radius: var(--sf-radius-lg);
-    box-shadow: var(--sf-shadow-md);
-    padding: var(--sf-2) var(--sf-3);
-    font-size: var(--sf-text-sm);
-    color: var(--sf-muted);
-    animation: element-float 10s ease-in-out infinite alternate;
-
-    &--1 { top: 10%; left: 15%; animation-delay: -2s; i { color: var(--sf-danger); } }
-    &--2 { top: 20%; right: 10%; animation-duration: 12s; i { color: var(--sf-warning); } }
-    &--3 { bottom: 25%; left: 20%; animation-duration: 8s; animation-delay: -5s; padding: var(--sf-3); }
+  &__prompt {
+    color: var(--sf-brand);
+    font-weight: 700;
   }
 
-  // --- Content ---
-  &__title {
-    font-size: var(--sf-text-3xl);
-    font-weight: 800;
-    color: var(--sf-fg);
-    margin-bottom: var(--sf-2);
+  &__command {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: .15em solid var(--sf-success);
+    animation:
+      typing 3s steps(40, end),
+      blink-caret .75s step-end infinite;
+    animation-fill-mode: forwards;
   }
 
-  &__subtitle {
-    font-size: var(--sf-text-lg);
-    color: var(--sf-muted);
-    max-width: 55ch;
-    margin-inline: auto;
-    margin-bottom: var(--sf-6);
-  }
+  &__output {
+    height: 120px;
+    position: relative;
 
-  // --- Action Buttons ---
-  &__actions {
-    @include cluster($gap: var(--sf-4), $justify: center);
+    .processing {
+      &::after {
+        content: '.';
+        animation: processing-dots 1.5s infinite;
+        animation-delay: 3s; // Start after typing animation
+      }
+    }
     
-    .sf-btn { // A self-contained button style
+    // The 404 Error Message (Initially hidden)
+    .error-message {
+      position: absolute;
+      inset: 0;
+      @include center;
+      flex-direction: column;
+      background-color: var(--sf-bg-2);
+      border-radius: var(--sf-radius-md);
+      opacity: 0;
+      animation: screen-flash 0.3s linear;
+      animation-delay: 4.5s;
+      animation-fill-mode: forwards;
+
+      h2 {
+        font-size: clamp(3rem, 15vw, 6rem);
+        color: var(--sf-danger);
+        font-weight: 800;
+        margin: 0;
+        text-shadow: 0 0 10px color-mix(in srgb, var(--sf-danger), transparent 50%);
+      }
+      p {
+        color: var(--sf-warning);
+        font-weight: 700;
+        letter-spacing: var(--sf-tracking-wide);
+      }
+    }
+  }
+}
+
+// --- The Punchline ---
+.not-found-footer {
+  position: relative;
+  text-align: center;
+  margin-top: -60px; // Overlap with the terminal
+  z-index: 10;
+  opacity: 0;
+  animation: astro-peek 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: 5s; // Start after the error appears
+
+  &__astro {
+    width: clamp(100px, 15vw, 150px);
+    margin-inline: auto;
+    margin-bottom: var(--sf-4);
+    svg {
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.15));
+    }
+  }
+
+  &__title {
+    font-size: var(--sf-text-xl);
+    font-weight: 700;
+    margin-bottom: var(--sf-1);
+  }
+  &__subtitle {
+    color: var(--sf-muted);
+    margin-bottom: var(--sf-5);
+  }
+
+  &__actions {
+    @include cluster($gap: var(--sf-3), $justify: center);
+    .sf-btn {
+      // (Using the same self-contained button style as before)
       @include control-base();
       @include cluster($gap: var(--sf-2), $align: center);
       font-weight: 600;
-      padding-inline: var(--sf-5);
+      padding-inline: var(--sf-4);
       text-decoration: none;
       transition: all .2s ease;
       box-shadow: var(--sf-shadow-sm);
-
-      &--primary {
-        background-color: var(--sf-brand);
-        color: white;
-        border-color: var(--sf-brand);
-        @include hover { background-color: var(--sf-brand-hover); }
-      }
-      @include hover {
-        transform: translateY(-2px);
-        box-shadow: var(--sf-shadow-md);
-      }
+      &--primary { background-color: var(--sf-brand); color: white; border-color: var(--sf-brand); @include hover { background-color: var(--sf-brand-hover); } }
+      @include hover { transform: translateY(-2px); box-shadow: var(--sf-shadow-md); }
     }
   }
 }
