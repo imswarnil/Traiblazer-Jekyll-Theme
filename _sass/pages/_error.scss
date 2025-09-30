@@ -1,191 +1,160 @@
 /* ============================================================================
-   PAGE / 404 "The Trailblazer's Lost Compass"
-   A beautiful, story-driven, and reliable animated 404 page.
+   PAGE / 404 FILM "Astro's Lost Transmission"
+   An interactive, animated 404 page featuring official Salesforce characters.
    ============================================================================ */
 
 // --- Keyframe Library ---
-@keyframes compass-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(1080deg); } // Spin 3 full times
+@keyframes stars-twinkle {
+  from { transform: scale(1); opacity: 0.5; }
+  to { transform: scale(1.1); opacity: 1; }
 }
 
-@keyframes compass-glitch {
-  0%, 100% { opacity: 0; transform: scale(0.5); }
-  10%, 90% { opacity: 1; transform: scale(1.5); }
-  25% { transform: scale(1.5) skew(-15deg); }
-  50% { opacity: 0.5; }
-  75% { transform: scale(1.5) skew(15deg); }
+@keyframes static-noise {
+  0% { transform: translate(0,0); }
+  10% { transform: translate(-5%,-10%); }
+  20% { transform: translate(-15%,5%); }
+  30% { transform: translate(7%,-15%); }
+  40% { transform: translate(-5%,15%); }
+  50% { transform: translate(-15%,-5%); }
+  60% { transform: translate(15%,0); }
+  70% { transform: translate(0,10%); }
+  80% { transform: translate(-15%,-10%); }
+  90% { transform: translate(10%,5%); }
+  100% { transform: translate(0,0); }
 }
 
-@keyframes needle-droop {
-  to { transform: rotate(160deg); }
+@keyframes static-screen-in {
+  from { clip-path: inset(50% 50% 50% 50%); }
+  to { clip-path: inset(0% 0% 0% 0%); }
 }
 
-@keyframes astro-slide-in {
-  from { transform: translateX(150%) rotate(20deg); }
-  to { transform: translateX(0) rotate(0); }
+@keyframes character-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
 }
 
-@keyframes content-fade-in {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes content-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-// --- Main Layout ---
-.page-404-compass {
+// --- Main Stage ---
+.page-404-film {
   display: grid;
   place-items: center;
   min-height: 80vh;
   padding: var(--sf-4);
-  background-color: var(--sf-bg-1);
+  background-color: #0c1427; // Deep space color
   overflow: hidden;
-  text-align: center;
+  cursor: pointer; // Indicate that it's interactive
 }
 
-// --- The Scene ---
-.compass-scene {
+.film-stage {
   position: relative;
-  margin-bottom: var(--sf-6);
-  // Add a wrapper to contain Astro
-  width: clamp(250px, 50vw, 350px);
-  height: clamp(250px, 50vw, 350px);
+  width: min(800px, 90vw);
+  aspect-ratio: 16 / 9;
+  border-radius: var(--sf-radius-xl);
+  overflow: hidden;
+  box-shadow: var(--sf-shadow-lg);
+  background-color: #0c1427;
+
+  // Each .film-scene is a layer in our animation
+  .film-scene {
+    position: absolute;
+    inset: 0;
+  }
 }
 
-.compass {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background-color: var(--sf-bg-2);
-  box-shadow: var(--sf-shadow-lg), inset 0 10px 20px rgba(0,0,0,0.1);
-  
-  // -- The Rings --
-  &__ring {
+// --- Layer 1: Space ---
+.film-scene--space {
+  .space__stars {
     position: absolute;
     inset: 0;
-    border-radius: 50%;
-    border: 2px solid var(--sf-line-1);
-    &--outer { inset: 5%; }
-    &--inner { inset: 10%; border-style: dashed; }
+    background-image:
+      radial-gradient(1px 1px at 25% 25%, white, transparent),
+      radial-gradient(1px 1px at 75% 75%, white, transparent),
+      radial-gradient(2px 2px at 50% 90%, white, transparent);
+    background-size: 200px 200px;
+    animation: stars-twinkle 4s ease-in-out infinite alternate;
+    &:nth-child(2) { background-size: 300px 300px; animation-delay: -2s; }
+    &:nth-child(3) { background-size: 100px 100px; animation-delay: -4s; }
   }
-
-  // -- The Face --
-  &__face {
-    position: absolute;
-    inset: 12%;
-    border-radius: 50%;
-    .compass__marker {
-      position: absolute;
-      font-family: var(--sf-font-mono);
-      font-weight: 700;
-      color: var(--sf-muted);
-      &--n { top: 5%; left: 50%; transform: translateX(-50%); }
-      &--e { top: 50%; right: 5%; transform: translateY(-50%); }
-      &--s { bottom: 5%; left: 50%; transform: translateX(-50%); }
-      &--w { top: 50%; left: 5%; transform: translateY(-50%); }
-    }
-  }
-
-  // -- The Needle --
-  &__needle {
-    position: absolute;
-    inset: 20%;
-    // The animation happens here!
-    animation: compass-spin 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards,
-               needle-droop 1s ease-in-out forwards 3s;
-  }
-  .needle__pointer {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 50% solid var(--sf-brand);
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .needle__tail {
-    width: 0;
-    height: 0;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 50% solid var(--sf-fg-3);
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .needle__pivot {
-    width: 15px;
-    height: 15px;
-    background-color: var(--sf-bg-hard);
-    border: 2px solid var(--sf-fg-3);
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-  }
-
-  // -- The Glitch Text --
-  &__glitch-text {
-    position: absolute;
-    inset: 0;
+  .space__404-ghost {
     @include center;
+    width: 100%;
+    height: 100%;
+    font-size: clamp(8rem, 30vw, 20rem);
     font-family: var(--sf-font-mono);
-    font-size: clamp(4rem, 12vw, 6rem);
     font-weight: 900;
-    color: var(--sf-danger);
-    text-shadow: 0 0 10px var(--sf-danger);
-    opacity: 0;
-    animation: compass-glitch 0.5s steps(4) infinite;
-    animation-delay: 2s; // Start after spinning
-    animation-play-state: paused; // Will be activated by the master animation
+    color: white;
+    opacity: 0.05;
+    transition: opacity .5s ease;
   }
+}
+
+// --- Layer 2: Static ---
+.film-scene--static {
+  opacity: 0; // Hidden by default
+  .static__overlay {
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAAFVLSURBVDjL7c5HAnAABADeoZv//+RCQjPAkwAiJEAJqZbOZxTTzhdbuExiCRNaxkYWcyuALEWKQtFYupC2FUyJhDF31relZMao5sCrHoE7A1SjYfmzWy4fG5wwXqrNZ5p2mrBDp9Z8kGHrEa8h09Z8rBH3aKbD5kxpP230YV2llBcZz0i13Lpi7g7YjYjLDjCIyIMPoGHBH5BAaMAA7');
+    animation: static-noise 0.1s steps(2) infinite;
+  }
+}
+
+// --- Layer 3: Characters ---
+.film-scene--characters {
+  opacity: 0; // Hidden by default
+  @include center($justify: center, $align: flex-end);
+  padding-bottom: 5%;
+
+  .character {
+    width: clamp(80px, 15vw, 150px);
+    animation: character-float 6s ease-in-out infinite;
+    img { filter: drop-shadow(0 15px 20px rgba(0,0,0,0.3)); }
+    &--astro { animation-delay: -3s; }
+    &--codey { transform: scaleX(-1); } // Make Codey face Astro
+  }
+}
+
+// --- Layer 4: Content ---
+.film-scene--content {
+  @include center;
+  flex-direction: column;
+  text-align: center;
+  color: var(--sf-fg);
+  padding: var(--sf-4);
+  // Initially transparent so you see the scene
+  background: linear-gradient(to top, var(--sf-bg-1) 20%, transparent 100%);
+
+  .content-wrapper {
+    opacity: 0; // Content text is hidden by default
+  }
+  .content__title { font-size: var(--sf-text-2xl); font-weight: 700; }
+  .content__subtitle { color: var(--sf-muted); max-width: 45ch; margin: var(--sf-3) auto var(--sf-5); }
+  .content__actions { /* ... uses sf-btn styles from previous answer ... */ }
+}
+
+// --- THE INTERACTIVE ANIMATION DIRECTOR ---
+// The `.is-playing` class will be added by JavaScript on hover/tap
+.film-stage.is-playing {
+  // Hide the ghost 404
+  .space__404-ghost { opacity: 0; }
+
+  // Animate in the static screen
+  .film-scene--static {
+    animation: static-screen-in 0.3s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+    animation-delay: 0s;
+  }
+
+  // Fade out the static and fade in the characters after 3s
+  .film-scene--static { animation-name: static-screen-in, content-reveal; animation-direction: normal, reverse; animation-delay: 0s, 3s; }
+  .film-scene--characters { animation: content-reveal 1s ease forwards; animation-delay: 3s; }
   
-  // --- Master Animation Trigger ---
-  // When the scene is active, play the glitch text animation
-  .compass-scene:hover &,
-  body:not(:hover) & { // A trick to get it to run on page load
-    .compass__glitch-text {
-      animation-play-state: running;
-    }
-  }
-}
-
-// --- The Astro Character ---
-.compass-scene__astro {
-  position: absolute;
-  bottom: -20px;
-  right: -30px;
-  width: clamp(100px, 20vw, 150px);
-  transform: translateX(150%);
-  z-index: 20;
-  animation: astro-slide-in 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-  animation-delay: 4s; // Astro appears after the compass has drooped
-  svg { filter: drop-shadow(-10px 10px 15px rgba(0,0,0,0.15)); }
-}
-
-// --- The Final Content ---
-.compass-content {
-  opacity: 0;
-  animation: content-fade-in 1s ease forwards;
-  animation-delay: 4.5s; // Fades in just after Astro appears
-
-  &__title {
-    font-size: var(--sf-text-2xl);
-    font-weight: 700;
-    margin-bottom: var(--sf-2);
-  }
-  &__subtitle {
-    color: var(--sf-muted);
-    max-width: 50ch;
-    margin-inline: auto;
-    margin-bottom: var(--sf-5);
-  }
-  &__actions {
-    @include cluster($gap: var(--sf-3), $justify: center);
-    .sf-btn { /* (Uses the self-contained button style from the previous answer) */ }
+  // Fade in the text content at the end
+  .content-wrapper {
+    animation: content-reveal 1s ease forwards;
+    animation-delay: 3.5s;
   }
 }

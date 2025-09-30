@@ -1,58 +1,69 @@
-<div class="page-404-compass">
-  <div class="sf-container">
 
-    <div class="compass-scene">
+<div class="page-404-film">
+  <div class="film-stage" id="film-stage">
 
-      <!-- The main animated compass -->
-      <div class="compass" aria-hidden="true">
-        <div class="compass__ring compass__ring--outer"></div>
-        <div class="compass__ring compass__ring--inner"></div>
-        <div class="compass__face">
-          <div class="compass__marker compass__marker--n">N</div>
-          <div class="compass__marker compass__marker--e">E</div>
-          <div class="compass__marker compass__marker--s">S</div>
-          <div class="compass__marker compass__marker--w">W</div>
-        </div>
-        <div class="compass__needle">
-          <div class="needle__pointer"></div>
-          <div class="needle__pivot"></div>
-          <div class="needle__tail"></div>
-        </div>
-        <div class="compass__glitch-text">404</div>
-      </div>
-      
-      <!-- The Astro character, initially hidden -->
-      <div class="compass-scene__astro">
-        <!-- Simplified Astro SVG -->
-        <svg viewBox="0 0 185 185" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M129.5 56.5C129.5 44.3482 119.652 34.5 107.5 34.5C95.3482 34.5 85.5 44.3482 85.5 56.5C85.5 68.6518 95.3482 78.5 107.5 78.5C119.652 78.5 129.5 68.6518 129.5 56.5Z" fill="var(--sf-bg-hard)"/>
-            <path d="M136.602 110.165C138.643 97.4699 143.153 85.5 150 75C150 75 148.5 125 129.5 137.5C129.5 137.5 129.5 142 122 142C114.5 142 107.5 142 107.5 142C107.5 142 100 142 93 142C85.5 142 85.5 137.5 85.5 137.5C66.5 125 65 75 65 75C71.8472 85.5 76.3572 97.4699 78.3983 110.165C79.4326 116.591 84.7778 121.5 91.25 121.5H103.75C110.222 121.5 115.567 116.591 116.602 110.165H136.602Z" fill="var(--sf-bg-hard)"/>
-            <circle cx="107.5" cy="104.5" r="37" fill="var(--sf-line-2)" stroke="var(--sf-bg-hard)" stroke-width="2"/>
-            <path d="M141.5 104.5C141.5 123.328 126.328 138.5 107.5 138.5C88.6716 138.5 73.5 123.328 73.5 104.5C73.5 85.6716 88.6716 70.5 107.5 70.5C126.328 70.5 141.5 85.6716 141.5 104.5Z" fill="url(#astro-gradient)"/>
-            <circle cx="107.5" cy="56.5" r="37" fill="var(--sf-bg-hard)"/>
-            <path d="M96 59C96 57.3431 97.3431 56 99 56C100.657 56 102 57.3431 102 59C102 60.6569 100.657 62 99 62C97.3431 62 96 60.6569 96 59Z" fill="var(--sf-fg-3)"/><path d="M114 59C114 57.3431 115.343 56 117 56C118.657 56 120 57.3431 120 59C120 60.6569 118.657 62 117 62C115.343 62 114 60.6569 114 59Z" fill="var(--sf-fg-3)"/><path d="M102 68H113" stroke="var(--sf-fg-3)" stroke-width="2" stroke-linecap="round"/>
-            <defs><radialGradient id="astro-gradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(107.5 70.5) rotate(90) scale(68)"><stop stop-color="var(--sf-bg-hard)" stop-opacity="0.2"/><stop offset="1" stop-color="var(--sf-bg-hard)" stop-opacity="0"/></radialGradient></defs>
-        </svg>
-      </div>
-
+    <!-- Layer 1: The Starry Background (Always Visible) -->
+    <div class="film-scene film-scene--space">
+      <div class="space__stars"></div>
+      <div class="space__stars"></div>
+      <div class="space__stars"></div>
+      <div class="space__404-ghost">404</div>
     </div>
 
-    <div class="compass-content">
-      <h1 class="compass-content__title">This Page is Off the Map</h1>
-      <p class="compass-content__subtitle">
-        Our Trailblazer compass seems to be malfunctioning. Don't worry, we know the way back.
-      </p>
-      <div class="compass-content__actions">
-        <a href="{{ '/' | relative_url }}" class="sf-btn sf-btn--primary">
-          <i class="ph-bold ph-house"></i>
-          <span>Return to Camp</span>
-        </a>
-        <a href="{{ '/docs/' | relative_url }}" class="sf-btn">
-          <i class="ph-bold ph-map-trifold"></i>
-          <span>Check the Trail Map</span>
-        </a>
-      </div>
+    <!-- Layer 2: The Glitching TV Screen (Animates on Interaction) -->
+    <div class="film-scene film-scene--static">
+      <div class="static__overlay"></div>
     </div>
 
+    <!-- Layer 3: The Characters (Animate on Interaction) -->
+    <div class="film-scene film-scene--characters">
+      <div class="character character--astro">
+        <img src="https://www.salesforce.com/blog/wp-content/uploads/sites/2/2021/12/2021-12-360Blog-2D-IndividualIllustrations-Astro.png?strip=all&quality=95" alt="Astro mascot looking worried">
+      </div>
+      <div class="character character--codey">
+        <img src="https://www.salesforce.com/blog/wp-content/uploads/sites/2/2021/12/2021-12-360Blog-2D-IndividualIllustrations-Codey.png?strip=all&quality=95" alt="Codey the Bear pointing downwards">
+      </div>
+    </div>
+    
+    <!-- Layer 4: The Content and Actions -->
+    <div class="film-scene film-scene--content">
+      <div class="content-wrapper">
+        <h1 class="content__title">Lost Transmission</h1>
+        <p class="content__subtitle">
+          We've lost the signal for the page you requested. Don't worry, our Trailblazer crew is here to help you find your way back.
+        </p>
+        <div class="content__actions">
+          <a href="{{ '/' | relative_url }}" class="sf-btn sf-btn--primary">
+            <i class="ph-bold ph-house"></i>
+            <span>Return to Base</span>
+          </a>
+          <a href="{{ '/docs/' | relative_url }}" class="sf-btn">
+            <i class="ph-bold ph-compass"></i>
+            <span>View the Trail Map</span>
+          </a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+  const stage = document.getElementById('film-stage');
+  
+  if (stage) {
+    // A simple function to trigger the animation
+    const playFilm = () => {
+      // Don't replay if it's already playing
+      if (!stage.classList.contains('is-playing')) {
+        stage.classList.add('is-playing');
+      }
+    };
+
+    // Trigger on hover for desktop
+    stage.addEventListener('mouseenter', playFilm);
+    
+    // Trigger on first tap for mobile
+    stage.addEventListener('touchstart', playFilm, { once: true });
+  }
+});
+</script>
