@@ -1,182 +1,136 @@
 /* ============================================================================
-   PAGES / SEARCH (Definitive, Bulletproof Final Version)
+   PAGE / SEARCH
+   Styles for the site-wide search portal.
    ============================================================================ */
 
-// --- Dynamic Page Header ---
-.search-header-grid {
-  display: grid;
-  align-items: end;
-  gap: var(--sf-4) var(--sf-6);
-  grid-template-columns: 1fr;
-
-  @media (min-width: 768px) {
-    grid-template-columns: 1fr auto;
-  }
+.search-page {
+  // Container for the entire search experience
 }
 
-.trending-topics {
-  &__title {
-    font-size: .875rem;
-    font-weight: 600;
-    color: var(--sf-muted);
-    margin-bottom: var(--sf-2);
-  }
-  &__list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sf-2);
-  }
-}
-
-// --- Main Search Page Layout ---
-.search-layout {
-  display: grid;
-  gap: var(--sf-6);
-  align-items: start;
-  grid-template-columns: 1fr;
-
-  @media (min-width: 960px) {
-    grid-template-columns: 1fr 300px;
-  }
-}
-
-// --- Main Search Column ---
-.search-main {
-  // Container for input and results
-}
-
-.search-input-wrapper {
-  position: relative;
+.search-header {
+  text-align: center;
+  padding-block: var(--sf-8);
+  border-bottom: 1px solid var(--sf-line-2);
   margin-bottom: var(--sf-6);
 
-  // Search icon inside the input
-  .ph-bold {
+  .sf-h1 {
+    font-size: var(--sf-text-3xl);
+  }
+}
+
+// --- Search Form ---
+.search-form {
+  position: relative;
+  max-width: var(--sf-container-md);
+  margin-inline: auto;
+
+  &__icon {
     position: absolute;
     top: 50%;
     left: var(--sf-4);
     transform: translateY(-50%);
-    font-size: 1.5rem;
+    font-size: var(--sf-icon-lg);
     color: var(--sf-muted);
     pointer-events: none;
   }
+
+  &__input {
+    @include control-base(var(--sf-control-lg));
+    font-size: var(--sf-text-lg);
+    width: 100%;
+    padding-left: calc(var(--sf-icon-lg) + var(--sf-4) + var(--sf-3));
+    margin-bottom: var(--sf-6); // Space between input and results
+  }
 }
 
-// Use the existing .sf-input component for perfect styling
-.page-search-input.sf-input {
-  padding-left: calc(var(--sf-4) + 2rem); // Make space for the icon
-  font-size: 1.25rem; // Larger font for search
-  padding-block: var(--sf-3);
-  border-radius: var(--sf-radius-lg);
+// --- Search Results ---
+.search-results {
+  &__header {
+    @include cluster($justify: space-between, $align: center);
+    padding-bottom: var(--sf-4);
+    margin-bottom: var(--sf-4);
+    border-bottom: 1px solid var(--sf-line-2);
+  }
+  &__title {
+    font-size: var(--sf-text-lg);
+    font-weight: 600;
+  }
+  &__count {
+    font-size: var(--sf-text-sm);
+    font-weight: 700;
+    color: var(--sf-muted);
+    background-color: var(--sf-bg-2);
+    padding: var(--sf-2) var(--sf-3);
+    border-radius: var(--sf-radius-pill);
+  }
+  &__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    @include stack($gap: var(--sf-4));
+  }
 }
 
-
-// --- Search Results List ---
-.search-results-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: var(--sf-4);
-}
-
-// --- The Definitive, Redesigned Result Card ---
-.search-result-card {
-  display: block;
+// --- Individual Result Item ---
+.search-result-item {
+  display: block; // Make the whole container a link
   text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  
-  // Use the .sf-card base for perfect consistency
-  &.sf-card:hover {
+  background-color: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-sm);
+  transition: all .2s ease;
+
+  @include hover {
     transform: translateY(-4px);
     box-shadow: var(--sf-shadow-md);
     border-color: var(--sf-brand);
   }
 
-  &__header {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--sf-3);
-    margin-bottom: var(--sf-2);
+  article {
+    @include cluster($gap: var(--sf-4), $align: flex-start);
+    padding: var(--sf-4);
   }
   
   &__icon {
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: var(--sf-brand);
-    margin-top: 2px;
+    background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent);
+    padding: var(--sf-2);
+    border-radius: var(--sf-radius-md);
   }
-  
+
+  &__content {
+    flex: 1;
+  }
+
   &__title {
-    margin: 0;
+    margin: 0 0 var(--sf-2);
+    font-size: var(--sf-text-lg);
+    font-weight: 700;
     color: var(--sf-fg);
-    transition: color .15s ease;
-  }
-  &:hover &__title {
-    color: var(--sf-brand);
   }
 
   &__excerpt {
+    margin: 0;
+    font-size: var(--sf-text-sm);
     color: var(--sf-fg-2);
-    font-size: .9rem;
-    line-height: 1.6;
-    padding-left: calc(1.5rem + var(--sf-3)); // Indent to align with title
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    
-    mark {
-      background: color-mix(in srgb, var(--sf-warning), transparent 60%);
-      color: var(--sf-fg);
-      padding: 0 2px;
-      border-radius: 2px;
-    }
-  }
-
-  &__footer {
-    // Uses .sf-card__footer for consistency
-    font-size: .8rem;
+    @include truncate(2); // Truncate to 2 lines
   }
 }
 
-// --- Search Sidebar ---
-.search-sidebar {
-  @media (min-width: 960px) {
-    position: sticky;
-    top: calc(68px + var(--sf-8));
-  }
-  @media (max-width: 959px) {
-    order: -1;
-  }
-}
-
-// --- Instant Answer Widget ---
-.instant-answer-card {
-  // Use a modified .sf-alert for this
-  &.sf-alert--info {
-    display: none; // Hidden by default
-    animation: fadeIn .5s ease-out;
-  }
-
-  &__text {
-    font-style: italic;
-    color: var(--sf-fg-2);
-  }
-  
-  &__source {
-    display: block;
-    margin-top: var(--sf-3);
-    font-weight: 600;
-  }
-}
-
-// --- "No Results" State ---
-.search-no-results {
-  // Use an .sf-tile for this
+// --- Status Messages ---
+.search-status {
+  padding: var(--sf-8);
   text-align: center;
-  padding: var(--sf-8) var(--sf-4);
-  border-style: dashed;
-  
-  .ph-bold { font-size: 3rem; color: var(--sf-brand); margin-bottom: var(--sf-4); }
-  .sf-h3 { color: var(--sf-fg); margin-bottom: var(--sf-2); }
-  p { max-width: 50ch; margin-inline: auto; color: var(--sf-muted); }
+  background-color: var(--sf-bg-2);
+  border: 1px dashed var(--sf-line-1);
+  border-radius: var(--sf-radius-lg);
+  color: var(--sf-muted);
+
+  .ph-bold {
+    font-size: 3rem;
+    margin-bottom: var(--sf-4);
+    color: var(--sf-brand);
+  }
 }
