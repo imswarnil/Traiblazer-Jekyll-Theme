@@ -1,7 +1,5 @@
 /* ============================================================================
-   COMPONENTS / PAGE.SCSS (V4 - THE DEFINITIVE & CORRECTED VERSION)
-   This version provides comprehensive styling for all raw HTML elements
-   inside the `.typeset` class to ensure containment and brand consistency.
+   COMPONENTS / PAGE.SCSS (V4 - UNABRIDGED & COMPLETE VERSION)
    ============================================================================ */
 
 /* --- 1. Page Header & Meta --- */
@@ -12,14 +10,27 @@
   text-align: center;
   animation: fadeIn 0.5s ease-out;
 
-  .sf-h1 { margin-top: var(--sf-4); margin-bottom: var(--sf-3); }
-  .sf-text--large { color: var(--sf-fg-2); max-width: var(--sf-measure); margin-inline: auto; }
+  .sf-h1 {
+    margin-top: var(--sf-4);
+    margin-bottom: var(--sf-3);
+  }
+  .sf-text--large {
+    color: var(--sf-fg-2);
+    max-width: var(--sf-measure);
+    margin-inline: auto;
+  }
 }
 
 .breadcrumb {
   @include cluster(var(--sf-2), center, center, wrap);
   font-size: var(--sf-text-sm);
-  a { color: var(--sf-fg-2); text-decoration: none; transition: color 0.2s ease; &:hover { color: var(--sf-brand); } }
+
+  a {
+    color: var(--sf-fg-2);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    &:hover { color: var(--sf-brand); }
+  }
   span { color: var(--sf-muted); }
   i { color: var(--sf-muted); }
 }
@@ -34,6 +45,7 @@
   border-radius: var(--sf-radius-pill);
   font-size: var(--sf-text-sm);
   color: var(--sf-fg-2);
+  
   i { color: var(--sf-brand); }
 }
 
@@ -51,11 +63,10 @@
 
 /* ============================================================================
    3. THE DEFINITIVE FIX: COMPREHENSIVE TYPESETTING STYLES
-   This `.typeset` class is a fortress. It styles and contains everything.
    ============================================================================ */
 .typeset {
   // --- A. GLOBAL CONTAINMENT & SPACING ---
-  overflow-wrap: break-word; // Prevents long text from overflowing
+  overflow-wrap: break-word;
   > *:first-child { margin-top: 0; }
   > *:last-child { margin-bottom: 0; }
   
@@ -85,7 +96,7 @@
     max-width: 100% !important; 
     height: auto;
     margin-block: var(--sf-6);
-    display: block; // Ensures centering works
+    display: block;
     border-radius: var(--sf-radius-md);
   }
   
@@ -97,8 +108,7 @@
     padding: var(--sf-4);
     font-size: var(--sf-text-sm);
     max-width: 100%;
-    overflow-x: auto; // ALLOWS internal scroll for wide code
-    -webkit-overflow-scrolling: touch;
+    overflow-x: auto;
   }
   code {
     font-family: var(--sf-font-mono);
@@ -110,15 +120,15 @@
   }
   pre code { padding: 0; background: none; border: none; }
 
-  // --- E. FIGURE & CAPTION STYLES (FROM YOUR HTML) ---
+  // --- E. FIGURE & CAPTION STYLES ---
   .figure {
     &--center { margin-inline: auto; text-align: center; }
     &--left {
       float: left;
       margin-right: var(--sf-5);
-      margin-top: var(--sf-2); // Adjust vertical alignment
+      margin-top: var(--sf-2);
       max-width: 50%;
-      @media (max-width: $bp-sm) { float: none; max-width: 100%; margin-inline: auto; } // Stack on mobile
+      @media (max-width: $bp-sm) { float: none; max-width: 100%; margin-inline: auto; }
     }
     &--right {
       float: right;
@@ -134,7 +144,6 @@
     font-size: var(--sf-text-sm);
     color: var(--sf-muted);
   }
-  // Clearfix to prevent text wrapping weirdly around floated figures
   :is(h1,h2,h3,h4,h5,h6,p):has(+ .figure--left),
   :is(h1,h2,h3,h4,h5,h6,p):has(+ .figure--right) {
     &::after { content: ""; display: table; clear: both; }
@@ -153,7 +162,6 @@
     .label { display: block; font-weight: 500; margin-bottom: var(--sf-2); }
     .required { color: var(--sf-danger); }
     
-    // Style inputs to use our existing design system
     input[type="text"], input[type="email"], textarea, .input, .textarea {
       @include control-base;
       display: block;
@@ -163,12 +171,11 @@
     }
     textarea, .textarea { min-height: 150px; }
     
-    // Style buttons to use our existing design system
     input[type="submit"], .button {
       @extend .sf-btn;
       @extend .sf-btn--primary;
       width: 100%;
-      @include breakpoint(sm) { width: auto; } // Don't force full width on desktop
+      @include breakpoint(sm) { width: auto; }
     }
     small { display: block; margin-top: var(--sf-4); font-size: var(--sf-text-sm); color: var(--sf-muted); }
   }
@@ -187,7 +194,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--sf-6);
-  margin-top: var(--sf-8);
+  margin-top: var(--sf-8); // Space on mobile when it stacks
   
   @include breakpoint(lg) {
     margin-top: 0;
@@ -199,12 +206,72 @@
   }
 }
 
-/* --- 5. Sidebar Widgets (Unchanged) --- */
-.toc-card { /* ... */ }
-.quick-links-card { /* ... */ }
-.ad-placeholder--sidebar-ad { /* ... */ }
 
-/* Animation Keyframes */
+/* --- 5. Sidebar Widgets (UNABRIDGED) --- */
+.toc-card {
+  padding: var(--sf-4);
+  .toc-list {
+    list-style: none; 
+    padding: 0; 
+    margin: 0;
+    a {
+      display: block; 
+      padding: var(--sf-2) var(--sf-3); 
+      text-decoration: none; 
+      border-radius: var(--sf-radius-sm);
+      color: var(--sf-fg-2); 
+      font-size: var(--sf-text-sm);
+      transition: all 0.2s ease;
+      &:hover { 
+        background-color: var(--sf-bg-1); 
+        color: var(--sf-brand); 
+      }
+    }
+  }
+  // Hide if TOC is empty
+  &:has(:not(ul:empty)) { display: block; }
+  &:not(:has(:not(ul:empty))) { display: none; }
+}
+
+.quick-links-card {
+  .quick-links-list {
+    list-style: none; 
+    padding: 0; 
+    margin: 0;
+    display: flex; 
+    flex-direction: column; 
+    gap: var(--sf-2);
+    a {
+      display: block; 
+      text-decoration: none; 
+      font-weight: 500;
+      color: var(--sf-fg-2); 
+      padding: var(--sf-2) var(--sf-3);
+      border-radius: var(--sf-radius-sm); 
+      transition: all .2s ease;
+      &:hover {
+        background-color: var(--sf-bg-1); 
+        color: var(--sf-brand); 
+        transform: translateX(4px);
+      }
+    }
+  }
+}
+
+.ad-placeholder--sidebar-ad {
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  width: 100%; 
+  min-height: 250px;
+  background-color: var(--sf-bg-1); 
+  border: 1px dashed var(--sf-line-1); 
+  border-radius: var(--sf-radius-lg);
+  color: var(--sf-muted); 
+  font-size: var(--sf-text-sm);
+}
+
+/* --- Animation Keyframes --- */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
