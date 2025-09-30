@@ -1,11 +1,19 @@
 /* ============================================================================
-   COMPONENTS / PAGE.SCSS (V5 - BULLETPROOF & COMPLETE VERSION)
-   - Uses higher specificity to prevent overrides.
-   - Provides comprehensive styling for all raw HTML elements.
-   - Ensures correct responsive behavior for the sidebar.
+   COMPONENTS / PAGE.SCSS (V5 - SELF-CONTAINED & COMPLETE VERSION)
+   - Creates its own responsive grid, inspired by the post layout.
+   - Does NOT depend on sf-row or sf-col utility classes.
+   - Provides comprehensive styling to contain all raw HTML elements.
    ============================================================================ */
 
-/* --- 1. Page Header & Meta --- */
+/* --- Keyframe Animations --- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================================
+   1. PAGE HEADER & META
+   ============================================================================ */
 .page-header {
   padding-block: var(--sf-8);
   background-color: var(--sf-bg-1);
@@ -17,6 +25,7 @@
   .sf-text--large { color: var(--sf-fg-2); max-width: var(--sf-measure); margin-inline: auto; }
 }
 
+// Reuses the .breadcrumb class styling from the post layout for consistency
 .breadcrumb {
   @include cluster(var(--sf-2), center, center, wrap);
   font-size: var(--sf-text-sm);
@@ -25,23 +34,25 @@
   i { color: var(--sf-muted); }
 }
 
-.page-header__meta {
-  @include cluster(var(--sf-2), center, center);
-  margin-top: var(--sf-5);
-  padding: var(--sf-2) var(--sf-4);
-  display: inline-flex;
-  background-color: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-2);
-  border-radius: var(--sf-radius-pill);
-  font-size: var(--sf-text-sm);
-  color: var(--sf-fg-2);
-  i { color: var(--sf-brand); }
-}
 
-
-/* --- 2. Main Page Body & Grid --- */
-.page-body-section {
+/* ============================================================================
+   2. SELF-CONTAINED GRID LAYOUT
+   ============================================================================ */
+.page-grid-container {
+  // Use the sf-container mixin to set max-width and padding
+  @include container(xl);
+  
+  display: grid;
+  // Mobile-first: A single column for content
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sf-8);
   padding-block: var(--sf-8);
+  
+  // Desktop: Two columns (main content + sidebar)
+  @include breakpoint(lg) {
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: var(--sf-8);
+  }
 }
 
 .page-main-content {
@@ -49,9 +60,8 @@
   animation-fill-mode: both;
 }
 
-
 /* ============================================================================
-   3. THE DEFINITIVE FIX: COMPREHENSIVE TYPESETTING STYLES
+   3. COMPREHENSIVE TYPESETTING STYLES (THE "FORTRESS")
    ============================================================================ */
 .typeset {
   // --- A. GLOBAL CONTAINMENT & SPACING ---
@@ -68,6 +78,8 @@
   a { color: var(--sf-link); }
   ul, ol { padding-left: var(--sf-5); }
   li { margin-bottom: var(--sf-2); }
+  li::marker { color: var(--sf-brand); }
+  blockquote { border-left: 4px solid var(--sf-brand); padding-left: var(--sf-5); font-style: italic; color: var(--sf-fg-2); }
   
   // --- C. MEDIA & EMBED CONTAINMENT (CRITICAL) ---
   img, video, iframe, figure, .video, .figure { max-width: 100% !important; height: auto; margin-block: var(--sf-6); display: block; border-radius: var(--sf-radius-md); }
@@ -86,7 +98,7 @@
   .caption { display: block; margin-top: var(--sf-2); font-size: var(--sf-text-sm); color: var(--sf-muted); }
   :is(h1,h2,h3,h4,h5,h6,p):has(+ .figure--left), :is(h1,h2,h3,h4,h5,h6,p):has(+ .figure--right) { &::after { content: ""; display: table; clear: both; } }
 
-  // --- F. FORM STYLING (CRITICAL) ---
+  // --- F. FORM STYLING ---
   form, .form {
     margin-block: var(--sf-8); padding: var(--sf-6); background-color: var(--sf-bg-1); border: 1px solid var(--sf-line-2); border-radius: var(--sf-radius-lg);
     .fieldset { border: none; padding: 0; margin: 0; }
@@ -102,41 +114,40 @@
   a.button { @extend .sf-btn; @extend .sf-btn--secondary; text-decoration: none; margin: var(--sf-1); }
 }
 
-/* --- 4. Page Sidebar (BULLETPROOF VERSION) --- */
-.page-sidebar {
-  // This ensures the sidebar is a flex container for its children
-  display: flex;
-  flex-direction: column;
-  gap: var(--sf-6);
-  
-  // On mobile (when sf-col-12 is active), add space above it.
-  margin-top: var(--sf-8);
+/* ============================================================================
+   4. SIDEBAR STYLES
+   ============================================================================ */
+.page-sidebar-right {
+  display: none; // Hide on mobile by default
   
   @include breakpoint(lg) {
-    // On desktop (when sf-col-lg-4 is active), remove the mobile margin.
-    margin-top: 0;
+    // Show the sidebar on desktop
+    display: flex;
+    flex-direction: column;
+    gap: var(--sf-6);
     
-    // Apply sticky positioning. align-self is crucial for this to work in a grid/flex row.
+    // Apply sticky positioning
     position: sticky;
     top: calc(var(--sf-nav-height) + var(--sf-4));
-    align-self: start;
+    align-self: start; // Critical for sticky to work inside a grid container
     
-    // Prevent the sidebar from becoming taller than the viewport
+    // Prevent long sidebars from overflowing the page
     max-height: calc(100vh - var(--sf-nav-height) - 60px);
-    overflow-y: auto; // Allow internal scrolling if sidebar content is long
+    overflow-y: auto;
   }
 }
 
-
-/* --- 5. Sidebar Widgets (UNABRIDGED) --- */
+/* ============================================================================
+   5. SIDEBAR WIDGETS (UNABRIDGED)
+   ============================================================================ */
 .toc-card {
   padding: var(--sf-4);
   .toc-list {
     list-style: none; padding: 0; margin: 0;
     a { display: block; padding: var(--sf-2) var(--sf-3); text-decoration: none; border-radius: var(--sf-radius-sm); color: var(--sf-fg-2); font-size: var(--sf-text-sm); transition: all 0.2s ease; &:hover { background-color: var(--sf-bg-1); color: var(--sf-brand); } }
   }
-  &:has(:not(ul:empty)) { display: block; }
-  &:not(:has(:not(ul:empty))) { display: none; }
+  // Hide if TOC list generated by the include is empty
+  &:has(ul:empty) { display: none; }
 }
 
 .quick-links-card {
@@ -148,10 +159,4 @@
 
 .ad-placeholder--sidebar-ad {
   display: flex; align-items: center; justify-content: center; width: 100%; min-height: 250px; background-color: var(--sf-bg-1); border: 1px dashed var(--sf-line-1); border-radius: var(--sf-radius-lg); color: var(--sf-muted); font-size: var(--sf-text-sm);
-}
-
-/* --- Animation Keyframes --- */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
 }

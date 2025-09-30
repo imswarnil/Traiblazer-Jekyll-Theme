@@ -2,7 +2,9 @@
 layout: default
 ---
 
-<!-- PAGE HEADER -->
+<!-- ========================================================================
+     PAGE HEADER
+     ======================================================================== -->
 <header class="page-header">
   <div class="sf-container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -11,48 +13,49 @@ layout: default
       <span>{{ page.title }}</span>
     </nav>
     <h1 class="sf-h1">{{ page.title }}</h1>
-    {% if page.subtitle %}<p class="sf-text--large">{{ page.subtitle }}</p>{% endif %}
+    {% if page.subtitle %}
+      <p class="sf-text--large">{{ page.subtitle }}</p>
+    {% endif %}
   </div>
 </header>
 
-<!-- MAIN PAGE BODY & CORRECTED GRID -->
-<div class="page-body-section">
-  <div class="sf-container">
-    <div class="sf-row">
+<!-- ========================================================================
+     MAIN PAGE GRID CONTAINER
+     This is the core of the responsive layout.
+     ======================================================================== -->
+<div class="page-grid-container">
 
-      <!-- Primary Content Column (8/12 on LG+) -->
-      <main class="sf-col-12 sf-col-lg-8 page-main-content">
-        <div class="sf-card page-content-card">
-          <article class="sf-card__body typeset">
-            {{ content }}
-          </article>
-        </div>
-      </main>
-
-      <!-- Sidebar Column (4/12 on LG+) -->
-      <aside class="sf-col-12 sf-col-lg-4 page-sidebar">
-        {% if page.toc and content contains "<h2" %}
-        <div class="sf-card toc-card">
-          {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
-        </div>
-        {% endif %}
-
-        <div class="ad-placeholder ad-placeholder--sidebar-ad">
-          <span>Sidebar Ad<br>300x250</span>
-        </div>
-        
-        <div class="sf-card quick-links-card">
-            <div class="sf-card__header">Quick Links</div>
-            <div class="sf-card__body">
-                <ul class="quick-links-list">
-                    <li><a href="/about/">About Me</a></li>
-                    <li><a href="/contact/">Contact</a></li>
-                    <li><a href="/blog/">My Blog</a></li>
-                </ul>
-            </div>
-        </div>
-      </aside>
-
+  <!-- Main Content Column -->
+  <main class="page-content-main">
+    <div class="sf-card page-content-card">
+      <article class="sf-card__body typeset">
+        {{ content }}
+      </article>
     </div>
-  </div>
+  </main>
+
+  <!-- Sticky Sidebar Column -->
+  <aside class="page-sidebar-right">
+    {% if page.toc and content contains "<h2" %}
+    <div class="sf-card toc-card">
+      {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+    </div>
+    {% endif %}
+
+    <div class="ad-placeholder ad-placeholder--sidebar-ad">
+      <span>Sidebar Ad<br>300x250</span>
+    </div>
+    
+    <div class="sf-card quick-links-card">
+        <div class="sf-card__header">Quick Links</div>
+        <div class="sf-card__body">
+            <ul class="quick-links-list">
+                <li><a href="/about/">About Me</a></li>
+                <li><a href="/contact/">Contact</a></li>
+                <li><a href="/blog/">My Blog</a></li>
+            </ul>
+        </div>
+    </div>
+  </aside>
+
 </div>
