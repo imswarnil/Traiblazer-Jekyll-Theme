@@ -62,7 +62,40 @@
   
     <!-- Service Worker or other end-of-body includes -->
     {% if site.service_worker != false %}{% include site-sw.html %}{% endif %}
+  <script>
+    // assets/js/docs.js
+
+document.addEventListener('DOMContentLoaded', () => {
+  const sidebar = document.getElementById('docs-sidebar');
+  const trigger = document.getElementById('docs-nav-trigger');
+  const closeButton = document.getElementById('docs-sidebar-close');
+  const backdrop = document.getElementById('docs-sidebar-backdrop');
   
+  if (sidebar && trigger && closeButton && backdrop) {
+    const openSidebar = () => {
+      sidebar.classList.add('is-open');
+      backdrop.classList.add('is-visible');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeSidebar = () => {
+      sidebar.classList.remove('is-open');
+      backdrop.classList.remove('is-visible');
+      document.body.style.overflow = '';
+    };
+
+    trigger.addEventListener('click', openSidebar);
+    closeButton.addEventListener('click', closeSidebar);
+    backdrop.addEventListener('click', closeSidebar);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && sidebar.classList.contains('is-open')) {
+        closeSidebar();
+      }
+    });
+  }
+});
+  </script>
   </body>
 
 </html>

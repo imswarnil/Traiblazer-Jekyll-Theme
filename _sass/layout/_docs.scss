@@ -1,47 +1,110 @@
-/* ============================================================================
-   LAYOUT / DOCS
-   Styles for the documentation module, including the 3-column layout,
-   sidebar, content area, TOC, and pagination.
-   ============================================================================ */
-@use "sass:math";
-
 // --- Main Layout Grid ---
 .docs-layout-grid {
   display: grid;
-  grid-template-columns: 1fr; // Mobile-first: single column
+  grid-template-columns: 1fr;
 
   @include breakpoint(md) {
-    grid-template-columns: 260px 1fr; // Sidebar + Content on medium screens
+    grid-template-columns: 260px 1fr;
     gap: var(--sf-6);
   }
 
   @include breakpoint(lg) {
-    // 3-column layout on large screens: Sidebar + Content + TOC
     grid-template-columns: 260px minmax(0, var(--sf-measure)) 1fr;
     gap: var(--sf-8);
   }
 }
 
-// --- Docs Header ---
+// --- Docs Header (Used on all docs pages) ---
 .docs-header {
-  padding-block: var(--sf-6);
-  border-bottom: 1px solid var(--sf-line-2);
+  padding-block: var(--sf-6) 0;
   margin-bottom: var(--sf-6);
-}
 
-// --- 1. Docs Sidebar (Left Column) ---
-.docs-sidebar {
-  @include breakpoint(md) {
-    position: sticky;
-    top: calc(var(--sf-nav-height) + var(--sf-4)); // Stick below the main navbar
-    height: calc(100vh - var(--sf-nav-height) - (2 * var(--sf-4)));
-    overflow-y: auto;
-    padding-right: var(--sf-4);
+  &--home { // Special styling for the main landing page header
+    text-align: center;
+    padding-block: var(--sf-8);
+    border-bottom: 1px solid var(--sf-line-2);
+  }
+
+  &__nav-trigger {
+    @include button-reset;
+    @include cluster($gap: var(--sf-2));
+    font-size: var(--sf-text-sm);
+    font-weight: 600;
+    color: var(--sf-fg-2);
+    cursor: pointer;
+    margin-bottom: var(--sf-6);
+    .ph-bold { font-size: var(--sf-icon-md); }
+    @include hover { color: var(--sf-brand); }
+    @include breakpoint(md) { display: none; }
   }
 }
 
+// --- Sidebar & Mobile Navigation ---
+.docs-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: var(--sf-z-modal);
+  width: 280px;
+  background-color: var(--sf-bg-1);
+  border-right: 1px solid var(--sf-line-2);
+  padding: var(--sf-4);
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s var(--sf-ease-standard, ease);
+
+  &.is-open {
+    transform: translateX(0);
+    box-shadow: var(--sf-shadow-lg);
+  }
+
+  @include breakpoint(md) {
+    position: sticky;
+    top: calc(var(--sf-nav-height) + var(--sf-4));
+    height: calc(100vh - var(--sf-nav-height) - (2 * var(--sf-4)));
+    padding: 0;
+    padding-right: var(--sf-4);
+    border: none;
+    transform: none;
+    box-shadow: none;
+    z-index: 1;
+    background-color: transparent;
+  }
+
+  &__close {
+    @include button-reset;
+    position: absolute;
+    top: var(--sf-3);
+    right: var(--sf-3);
+    font-size: var(--sf-icon-lg);
+    color: var(--sf-muted);
+    cursor: pointer;
+    @include hover { color: var(--sf-brand); }
+    @include breakpoint(md) { display: none; }
+  }
+}
+
+.docs-sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--sf-backdrop);
+  z-index: calc(var(--sf-z-modal) - 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s var(--sf-ease-standard, ease);
+
+  &.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @include breakpoint(md) { display: none; }
+}
+
 .docs-nav {
+  &__list { list-style: none; padding: 0; }
   &__category-title {
+    @include cluster($gap: var(--sf-2), $align: center);
     font-size: var(--sf-text-xs);
     font-weight: 700;
     text-transform: uppercase;
@@ -67,7 +130,6 @@
       background-color: var(--sf-bg-2);
       color: var(--sf-fg);
     }
-
     &.is-active {
       background-color: var(--sf-bg-2);
       color: var(--sf-brand);
@@ -77,36 +139,18 @@
   }
 }
 
-// --- 2. Docs Content (Center Column) ---
+// --- Docs Content Area (articles) ---
 .docs-content {
-  // Rich styling for markdown content
-  h1, h2, h3 {
-    scroll-margin-top: calc(var(--sf-nav-height) + var(--sf-4));
-  }
-  h2 {
-    padding-bottom: var(--sf-3);
-    border-bottom: 1px solid var(--sf-line-2);
-    margin-top: var(--sf-8);
-  }
-  h3 {
-    margin-top: var(--sf-6);
-  }
-  code {
-    background-color: var(--sf-line-2);
-    padding: .1em .3em;
-    border-radius: var(--sf-radius-sm);
-    font-size: .9em;
-  }
-  pre {
-    background-color: var(--sf-bg-2);
-    border: 1px solid var(--sf-line-2);
-  }
+  h1, h2, h3 { scroll-margin-top: calc(var(--sf-nav-height) + var(--sf-4)); }
+  h2 { padding-bottom: var(--sf-3); border-bottom: 1px solid var(--sf-line-2); margin-top: var(--sf-8); }
+  h3 { margin-top: var(--sf-6); }
+  code { background-color: var(--sf-line-2); padding: .1em .3em; border-radius: var(--sf-radius-sm); font-size: .9em; }
+  pre { background-color: var(--sf-bg-2); border: 1px solid var(--sf-line-2); }
 }
 
-// --- 3. Docs Table of Contents (Right Column) ---
+// --- Docs Table of Contents (Right Sidebar) ---
 .docs-toc-wrapper {
-  display: none; // Hidden on small and medium screens
-
+  display: none;
   @include breakpoint(lg) {
     display: block;
     position: sticky;
@@ -115,184 +159,52 @@
   }
 }
 
-.docs-toc {
+.toc-list { // Targeting the class from your include
   font-size: var(--sf-text-sm);
-
-  &__title {
-    font-size: var(--sf-text-xs);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: var(--sf-tracking-wide);
-    color: var(--sf-muted);
-    margin-bottom: var(--sf-4);
-  }
-
-  &__list {
-    list-style: none;
-    padding-left: 0;
-  }
-  &__item {
-    &--h3 {
-      padding-left: var(--sf-4);
-    }
-  }
-  &__link {
+  list-style: none;
+  padding-left: 0;
+  .toc-list { padding-left: var(--sf-4); } // Nested lists
+  a {
     display: block;
     padding: var(--sf-2) 0;
     color: var(--sf-fg-3);
     border-left: 2px solid var(--sf-line-2);
     padding-left: var(--sf-3);
     transition: all .15s ease;
-
-    @include hover {
-      color: var(--sf-fg);
-      border-left-color: var(--sf-muted);
-    }
-
-    &.is-active {
-      color: var(--sf-brand);
-      font-weight: 600;
-      border-left-color: var(--sf-brand);
-      transform: translateX(4px);
-    }
+    @include hover { color: var(--sf-fg); border-left-color: var(--sf-muted); }
+    &.is-active { color: var(--sf-brand); font-weight: 600; border-left-color: var(--sf-brand); transform: translateX(4px); }
   }
 }
-
-// --- Ad Placeholder ---
-.docs-ad {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--sf-4);
-  margin-top: var(--sf-6);
-  border-radius: var(--sf-radius-lg);
-  border: 1px dashed var(--sf-line-1);
-  background-color: var(--sf-bg-2);
-  color: var(--sf-muted);
+.toc-list-title { // From your include
   font-size: var(--sf-text-xs);
-  text-align: center;
-
-  .ph-bold {
-    font-size: 2rem;
-    margin-bottom: var(--sf-2);
-  }
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--sf-tracking-wide);
+  color: var(--sf-muted);
+  margin-bottom: var(--sf-4);
 }
 
-// --- Docs Pagination ---
+// --- Pagination ---
 .docs-pagination {
-  display: flex;
-  justify-content: space-between;
-  margin-top: var(--sf-8);
-  padding-top: var(--sf-6);
-  border-top: 1px solid var(--sf-line-2);
-
-  &__link {
-    display: inline-flex;
-    flex-direction: column;
-    padding: var(--sf-3) var(--sf-4);
-    border: 1px solid var(--sf-line-2);
-    border-radius: var(--sf-radius-lg);
-    max-width: 48%;
-    transition: all .15s ease;
-
-    .ph-bold {
-      font-size: var(--sf-icon-md);
-      color: var(--sf-muted);
-      margin-bottom: var(--sf-2);
-    }
-
-    &--prev {
-      align-items: flex-start;
-      .ph-bold {
-        align-self: flex-start;
-      }
-    }
-    &--next {
-      align-items: flex-end;
-      margin-left: auto;
-      .ph-bold {
-        align-self: flex-end;
-      }
-    }
-
-    @include hover {
-      border-color: var(--sf-brand);
-      transform: translateY(-2px);
-      box-shadow: var(--sf-shadow-md);
-    }
-  }
-  &__label {
-    font-size: var(--sf-text-xs);
-    font-weight: 600;
-    color: var(--sf-muted);
-  }
-  &__title {
-    color: var(--sf-fg);
-    font-weight: 600;
-  }
+  // ... (same as before) ...
 }
 
-
-/* _sass/layout/_docs-layout.scss */
-
-// ... all the previous docs styles ...
-
-// ============================================================================
-// DOCS / HOMEPAGE
-// Styles for the main documentation landing page.
-// ============================================================================
-
-// --- Docs Search ---
-.docs-search {
-  position: relative;
-  margin-bottom: var(--sf-8);
-
-  &__icon {
-    position: absolute;
-    top: 50%;
-    left: var(--sf-4);
-    transform: translateY(-50%);
-    font-size: var(--sf-icon-lg);
-    color: var(--sf-muted);
-    pointer-events: none; // Allows clicks to pass through to the input
-  }
-
-  &__input {
-    @include control-base(var(--sf-control-lg));
-    font-size: var(--sf-text-lg);
-    padding-left: calc(var(--sf-icon-lg) + var(--sf-4) + var(--sf-3));
-    width: 100%;
-
-    &:focus {
-      border-color: var(--sf-brand);
-      box-shadow: var(--sf-focus);
-    }
-  }
-}
-
-// --- Category Grid ---
+// --- DOCS LANDING PAGE & CATEGORY PAGE CARDS ---
 .docs-category-grid {
   @include grid($cols: 1, $gap: var(--sf-5));
-
-  @include breakpoint(sm) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @include breakpoint(lg) {
-    grid-template-columns: repeat(3, 1fr);
-  }
+  @include breakpoint(sm) { grid-template-columns: repeat(2, 1fr); }
+  @include breakpoint(lg) { grid-template-columns: repeat(3, 1fr); }
 }
 
-// --- Category Card ---
 .docs-category-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%; // Ensures cards in the same row are equal height
+  display: block;
+  height: 100%;
   background-color: var(--sf-bg-2);
   border: 1px solid var(--sf-line-2);
   border-radius: var(--sf-radius-lg);
   box-shadow: var(--sf-shadow-sm);
   transition: all .2s ease;
+  text-decoration: none;
 
   @include hover {
     transform: translateY(-4px);
@@ -302,68 +214,13 @@
 
   &__header {
     padding: var(--sf-4);
-    border-bottom: 1px solid var(--sf-line-2);
     @include cluster($gap: var(--sf-3), $align: center);
+    .ph-bold { font-size: var(--sf-icon-lg); color: var(--sf-brand); }
+    h3 { margin: 0; font-size: var(--sf-text-lg); color: var(--sf-fg); }
   }
-  
-  &__icon {
-    font-size: var(--sf-icon-lg);
-    color: var(--sf-brand);
-  }
-
-  &__title {
-    margin: 0;
-    font-size: var(--sf-text-lg);
-    font-weight: 700;
-  }
-  
-  &__count {
-    margin-left: auto;
-    font-size: var(--sf-text-sm);
-    font-weight: 600;
-    color: var(--sf-fg-3);
-    background-color: var(--sf-bg-1);
-    padding: var(--sf-1) var(--sf-2);
-    border-radius: var(--sf-radius-pill);
-  }
-
-  &__list {
-    list-style: none;
-    padding: var(--sf-4);
-    margin: 0;
-    flex-grow: 1; // Allows the list to take up remaining space
-  }
-  
-  &__item a {
-    display: flex;
-    align-items: center;
-    gap: var(--sf-3);
-    padding: var(--sf-3);
-    border-radius: var(--sf-radius-md);
+  &__description {
+    padding: 0 var(--sf-4) var(--sf-4);
     color: var(--sf-fg-2);
-    font-weight: 500;
-    transition: background-color .15s ease, color .15s ease;
-    
-    .ph-bold {
-      font-size: var(--sf-icon-md);
-      color: var(--sf-muted);
-      transition: color .15s ease, transform .15s ease;
-    }
-
-    @include hover {
-      background-color: var(--sf-bg-1);
-      color: var(--sf-brand);
-      
-      .ph-bold {
-        color: var(--sf-brand);
-        transform: translateX(4px);
-      }
-    }
+    font-size: var(--sf-text-sm);
   }
-}
-
-// --- JS Search States ---
-.docs-category-card.is-hidden,
-.docs-category-card__item.is-hidden {
-  display: none;
 }

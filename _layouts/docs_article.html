@@ -1,0 +1,58 @@
+---
+layout: default
+---
+<div class="docs-sidebar-backdrop" id="docs-sidebar-backdrop"></div>
+
+<div class="sf-container">
+  <div class="docs-layout-grid">
+    
+    <aside class="docs-sidebar" id="docs-sidebar">
+      <button class="docs-sidebar__close" id="docs-sidebar-close" aria-label="Close navigation">
+        <i class="ph-bold ph-x"></i>
+      </button>
+      {% include docs_sidebar.html %}
+    </aside>
+    
+    <main class="docs-main">
+      <header class="docs-header">
+        <button class="docs-header__nav-trigger" id="docs-nav-trigger" aria-label="Open navigation">
+          <i class="ph-bold ph-list"></i>
+          <span>Browse documentation</span>
+        </button>
+        <h1 class="sf-h1">{{ page.title }}</h1>
+        {% if page.description %}<p class="sf-text--large sf-text--muted">{{ page.description }}</p>{% endif %}
+      </header>
+      <div class="docs-content">{{ content }}</div>
+      {% include docs_pagination.html %}
+    </main>
+
+    <div class="docs-toc-wrapper">
+      {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+    </div>
+  </div>
+</div>
+
+<script>
+  // TOC Scroll-Spying logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const tocLinks = document.querySelectorAll('.toc-list a');
+    const headings = document.querySelectorAll('.docs-content h2, .docs-content h3');
+
+    if (tocLinks.length === 0 || headings.length === 0) return;
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        const tocLink = document.querySelector(`.toc-list a[href="#${id}"]`);
+        
+        if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+          tocLinks.forEach(link => link.classList.remove('is-active'));
+          if (tocLink) tocLink.classList.add('is-active');
+        }
+      });
+    }, { rootMargin: '0px 0px -80% 0px' });
+
+    headings.forEach(heading => observer.observe(heading));
+  });
+</script>
+<script src="{{ '/assets/js/docs.js' | relative_url }}"></script>

@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<div class="sf-container">
+  <header class="docs-header">
+    <h1 class="sf-h1">{{ page.category }}</h1>
+    <p class="sf-text--large sf-text--muted">{{ page.content | strip_html }}</p>
+  </header>
+
+  <div class="docs-category-grid">
+    {% assign docs_in_category = site.docs | where: "category", page.category | where_exp: "item", "item.title != 'Overview'" | sort: "order" %}
+    {% for doc in docs_in_category %}
+      <a href="{{ doc.url | relative_url }}" class="docs-category-card">
+        <div class="docs-category-card__header">
+          <i class="ph-bold ph-file-text"></i>
+          <h3>{{ doc.title }}</h3>
+        </div>
+        <p class="docs-category-card__description">
+          {{ doc.description | default: "Click to read this article." }}
+        </p>
+      </a>
+    {% endfor %}
+  </div>
+</div>
