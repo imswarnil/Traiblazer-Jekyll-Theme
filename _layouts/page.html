@@ -3,18 +3,17 @@ layout: default
 ---
 {% comment %}
 ============================================================================
-_layouts/page.html (V7 - THE ULTIMATE, CONDITIONAL LAYOUT)
-- Sidebar is now fully conditional via `aside: true/false`.
-- ToC is conditional via `toc: true/false`.
-- ToC intelligently moves into the content if the sidebar is disabled.
-- Sidebar is packed with new, actionable widgets.
+_layouts/page.html (V8 - "NO EXCUSES" FINAL EDITION)
+- A complete, creative redesign with superior animations and UX.
+- Fully conditional sidebar and a new collapsible in-content ToC.
+- All new, beautifully styled widgets.
 ============================================================================
 {% endcomment %}
 
 <!-- ========================================================================
-     PAGE HEADER
+     PAGE HEADER (ANIMATED & REDESIGNED)
      ======================================================================== -->
-<header class="page-header page-header--compact">
+<header class="page-header-v8">
   <div class="sf-container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="{{ '/' | relative_url }}">Home</a>
@@ -23,7 +22,7 @@ _layouts/page.html (V7 - THE ULTIMATE, CONDITIONAL LAYOUT)
     </nav>
     <h1 class="sf-h1">{{ page.title }}</h1>
     {% if page.description %}
-      <p class="sf-text--large page-header__description">{{ page.description }}</p>
+      <p class="page-header-v8__description">{{ page.description }}</p>
     {% endif %}
   </div>
 </header>
@@ -31,20 +30,28 @@ _layouts/page.html (V7 - THE ULTIMATE, CONDITIONAL LAYOUT)
 <!-- ========================================================================
      MAIN PAGE BODY & DYNAMIC LAYOUT
      ======================================================================== -->
-<div class="page-body-section">
+<div class="page-body-section-v8">
   <div class="sf-container">
-    <div class="page-grid-container {% if page.aside != true %}page-grid-container--no-sidebar{% endif %}">
+    <div class="page-grid-container-v8 {% if page.aside != true %}page-grid-container-v8--no-sidebar{% endif %}">
 
       <!-- Primary Content Column -->
-      <main class="page-content-main">
-        <div class="sf-card page-content-card">
-          <article class="sf-card__body typeset">
-            <!-- Intelligent ToC Injection Point -->
-            {% if page.toc and page.aside != true %}
-              <div class="toc-card toc-card--in-content">
-                {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
-              </div>
+      <main class="page-content-main-v8">
+        <div class="sf-card page-content-card-v8">
+          <article class="sf-card__body typeset-v8">
+            
+            <!-- INTELLIGENT TOC: Renders as a collapsible accordion if sidebar is disabled -->
+            {% if page.toc and page.aside != true and content contains "<h2" %}
+              <details class="toc-accordion" open>
+                <summary class="toc-accordion__summary">
+                  <i class="ph-bold ph-list"></i>
+                  <span>On This Page</span>
+                </summary>
+                <div class="toc-accordion__content">
+                  {% include toc.html html=content class='toc-list' h_min=2 h_max=3 %}
+                </div>
+              </details>
             {% endif %}
+
             {{ content }}
           </article>
         </div>
@@ -52,30 +59,36 @@ _layouts/page.html (V7 - THE ULTIMATE, CONDITIONAL LAYOUT)
 
       <!-- Sidebar Column (Only renders if `aside: true`) -->
       {% if page.aside %}
-      <aside class="page-sidebar-right">
+      <aside class="page-sidebar-right-v8">
         
         <!-- Sidebar ToC (Only renders if `toc: true`) -->
         {% if page.toc and content contains "<h2" %}
-        <div class="sf-card toc-card">
-          {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+        <div class="sf-card sidebar-widget">
+          <div class="sf-card__header">On This Page</div>
+          <div class="sf-card__body">
+            {% include toc.html html=content class='toc-list' h_min=2 h_max=3 %}
+          </div>
         </div>
         {% endif %}
 
         <!-- New Action Widgets -->
-        <div class="sf-card page-actions-card">
-          <ul class="page-actions-list">
-            <li><a href="#"><i class="ph-bold ph-coffee"></i><span>Donate / Buy Me a Coffee</span></a></li>
+        <div class="sf-card sidebar-widget">
+          <div class="sf-card__header">Actions & Support</div>
+          <ul class="page-actions-list-v8">
+            <li><a href="#"><i class="ph-bold ph-coffee"></i><span>Buy Me a Coffee</span></a></li>
             <li><a href="#"><i class="ph-bold ph-hand-heart"></i><span>Become a Sponsor</span></a></li>
-            <li><a href="#"><i class="ph-bold ph-github-logo"></i><span>Contribute on GitHub</span></a></li>
-            <li><a href="#"><i class="ph-bold ph-file-pdf"></i><span>View My Resume</span></a></li>
-            <li><a href="#"><i class="ph-bold ph-briefcase"></i><span>See My Projects</span></a></li>
+          </ul>
+        </div>
+        
+        <div class="sf-card sidebar-widget">
+          <div class="sf-card__header">Contribute & Connect</div>
+           <ul class="page-actions-list-v8">
+            <li><a href="#"><i class="ph-bold ph-github-logo"></i><span>Edit this page on GitHub</span></a></li>
+            <li><a href="#"><i class="ph-bold ph-file-pdf"></i><span>Download My Resume</span></a></li>
+            <li><a href="#"><i class="ph-bold ph-briefcase"></i><span>Explore My Projects</span></a></li>
           </ul>
         </div>
 
-        <div class="ad-placeholder ad-placeholder--skyscraper">
-          <span>Sidebar Skyscraper Ad<br>300x600</span>
-        </div>
-        
       </aside>
       {% endif %}
 
