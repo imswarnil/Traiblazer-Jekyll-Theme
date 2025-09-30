@@ -1,0 +1,83 @@
+/* ============================================================================
+   UTILITIES / SPACING
+   Generates a responsive spacing system for margins and paddings.
+   Syntax: .[m|p][t|b|s|e|x|y]-[breakpoint]-[size]
+   - `m` for margin, `p` for padding
+   - `t`(top), `b`(bottom), `s`(start/left), `e`(end/right), `x`(horizontal), `y`(vertical)
+   - `breakpoint` is optional (e.g., '-md')
+   - `size` is a key from your $spacing-scale (0, 1, 2, 4, etc.)
+   Examples: .mt-4, .py-6, .mx-md-auto
+   ============================================================================ */
+
+$spacing-properties: (
+  'm': 'margin',
+  'p': 'padding'
+);
+
+// Map shorthand directions to logical properties for better multi-language support
+$spacing-directions: (
+  't': '-block-start', // Top
+  'b': '-block-end',   // Bottom
+  's': '-inline-start',// Start (Left in LTR)
+  'e': '-inline-end',  // End (Right in LTR)
+  'x': '-inline',      // Horizontal
+  'y': '-block'        // Vertical
+);
+
+// --- GENERATE BASE (MOBILE-FIRST) CLASSES ---
+@each $prop-abbr, $prop-name in $spacing-properties {
+  // Generate classes for all four sides (e.g., .m-4, .p-2)
+  @each $key, $value in $spacing-scale {
+    .#{$prop-abbr}-#{$key} {
+      #{$prop-name}: #{$value} !important;
+    }
+  }
+
+  // Generate directional classes (e.g., .mt-4, .px-6)
+  @each $dir-abbr, $dir-name in $spacing-directions {
+    @each $key, $value in $spacing-scale {
+      .#{$prop-abbr}#{$dir-abbr}-#{$key} {
+        #{$prop-name}#{$dir-name}: #{$value} !important;
+      }
+    }
+  }
+
+  // Generate auto margin classes (e.g., .mx-auto)
+  @if $prop-abbr == 'm' {
+    .mx-auto { margin-inline: auto !important; }
+    .my-auto { margin-block: auto !important; }
+    .ms-auto { margin-inline-start: auto !important; }
+    .me-auto { margin-inline-end: auto !important; }
+  }
+}
+
+// --- GENERATE RESPONSIVE CLASSES ---
+@each $bp-name, $bp-value in $breakpoints {
+  @media (min-width: $bp-value) {
+    @each $prop-abbr, $prop-name in $spacing-properties {
+      // e.g., .m-md-4, .p-lg-2
+      @each $key, $value in $spacing-scale {
+        .#{$prop-abbr}-#{$bp-name}-#{$key} {
+          #{$prop-name}: #{$value} !important;
+        }
+      }
+
+      // e.g., .mt-md-4, .px-lg-6
+      @each $dir-abbr, $dir-name in $spacing-directions {
+        @each $key, $value in $spacing-scale {
+          .#{$prop-abbr}#{$dir-abbr}-#{$bp-name}-#{$key} {
+            #{$prop-name}#{$dir-name}: #{$value} !important;
+          }
+        }
+      }
+
+      // e.g., .mx-md-auto
+      @if $prop-abbr == 'm' {
+        .mx-#{$bp-name}-auto { margin-inline: auto !important; }
+        .my-#{$bp-name}-auto { margin-block: auto !important; }
+        .ms-#{$bp-name}-auto { margin-inline-start: auto !important; }
+        .me-#{$bp-name}-auto { margin-inline-end: auto !important; }
+      }
+    }
+  }
+}
