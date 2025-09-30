@@ -1,106 +1,96 @@
-/* ============================================================================
-   SETTINGS.SCSS (DEFINITIVE, ERROR-FREE & UNABRIDGED)
-   This is the single source of truth for ALL theme variables and design tokens.
-   ============================================================================ */
+// ============================================================================
+// settings.scss  — mapped from your :root CSS variables & SCSS maps
+// ============================================================================
 
-// -----------------------------------------------------------------------------
-// 1. LIGHT THEME (DEFAULT) COLOR PALETTE
-// -----------------------------------------------------------------------------
-$colors-light: (
-  'brand-primary': #0176d3,
-  'brand-primary-hover': #0163b5,
-  'brand-primary-active': #014a8a,
-  'brand-accent': #009ed9,
-  'gray-900': #0b1221,
-  'gray-800': #2e2e3a,
-  'gray-700': #3f4954,
-  'gray-600': #5b6673,
-  'gray-500': #8a96a3,
-  'gray-400': #cfd7e0,
-  'gray-300': #e6ebf1,
-  'gray-200': #f4f6f9,
-  'gray-100': #ffffff,
-  'semantic-success': #2e844a,
-  'semantic-warning': #ffb75d,
-  'semantic-danger': #ba0517,
-  'semantic-info': #1b96ff,
-  'shadow-color-rgb': '0, 0, 0'
+// ---------------------------------------------------------------------------
+// Background colours (mapped from --sf-bg-* / neutrals)
+// ---------------------------------------------------------------------------
+$backgroundColour:        #ffffff !default;  // --sf-bg-2
+$codeBackgroundColour:    #f4f6f9 !default;  // --sf-bg-1
+$featureBackgroundColour: #f4f6f9 !default;  // section/feature surfaces
+
+// ---------------------------------------------------------------------------
+// Text colours (mapped from semantic + neutral tokens)
+// ---------------------------------------------------------------------------
+$headingColour: #0b1221 !default; // --sf-gray-900
+$bodyColour:    #2e2e3a !default; // --sf-gray-800
+$linkColour:    #009ed9 !default; // --sf-brand-accent
+$hoverColour:   #0163b5 !default; // --sf-brand-primary-hover
+$focusColour:   rgba(1,118,211,.9) !default; // --sf-focus-ring color
+$captionColour: #8a96a3 !default; // --sf-gray-500
+$white:         #ffffff !default;
+
+// ---------------------------------------------------------------------------
+// Accent / brand (primary vs accent split kept simple here)
+// ---------------------------------------------------------------------------
+$accentColour:  #009ed9 !default; // --sf-brand-accent
+
+// ---------------------------------------------------------------------------
+// Typography (mapped from --sf-font-body / --sf-font-mono)
+// TIP: Load custom fonts in your site config before these apply.
+// ---------------------------------------------------------------------------
+$bodytype: (
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+  regular: 400,
+  bold: 700,
+  italic: italic,
+  cap-height: 0.75
 ) !default;
 
-// -----------------------------------------------------------------------------
-// 2. MASTER THEMES MAP
-// -----------------------------------------------------------------------------
-$themes: (
-  'dark': (
-    'brand-primary': #3b82f6, 'brand-primary-hover': #60a5fa, 'brand-primary-active': #2563eb,
-    'brand-accent': #818cf8,
-    'gray-900': #f8fafc, 'gray-800': #e2e8f0, 'gray-700': #cbd5e1,
-    'gray-600': #94a3b8, 'gray-500': #64748b, 'gray-400': #334155,
-    'gray-300': #1e293b, 'gray-200': #0f172a, 'gray-100': #1e293b,
-    'semantic-danger': #f87171,
-    'link-fg-override': #93c5fd,
-    'shadow-color-rgb': '0, 0, 0'
-  ),
-  'sunset': (
-    'brand-primary': #f97316, 'brand-primary-hover': #fb923c, 'brand-primary-active': #ea580c,
-    'brand-accent': #ec4899,
-    'gray-900': #fdf2f8, 'gray-800': #fbcfe8, 'gray-600': #e7c5e0,
-    'gray-500': #c084fc, 'gray-400': #581c87, 'gray-300': #3b0764,
-    'gray-200': #2a0248, 'gray-100': #3b0764,
-    'link-fg-override': #fca5a5,
-    'shadow-color-rgb': '25, 10, 50'
-  )
+$headingtype: (
+  // If you later introduce a distinct heading family, swap here.
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+  regular: 600, // Slightly stronger default for headings
+  bold: 700,
+  cap-height: 0.75
 ) !default;
 
-// -----------------------------------------------------------------------------
-// 3. TYPOGRAPHY
-// -----------------------------------------------------------------------------
-$typography: (
-  // THE FIX IS HERE: The font stack is now a single, correctly quoted string.
-  'font-body': 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-  'font-mono': 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace',
-  'text-xs': .75rem, 'text-sm': .875rem, 'text-base': 1rem,
-  'text-lg': 1.125rem, 'text-xl': 1.25rem, 'text-2xl': 1.5rem, 'text-3xl': 1.875rem,
-  'leading-tight': 1.25, 'leading-normal': 1.5, 'leading-relaxed': 1.7,
-  'tracking-tight': -0.005em, 'tracking-wide': 0.02em,
-  'measure': 65ch
+$monospacetype: (
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace,
+  regular: 400,
+  cap-height: 0.68
 ) !default;
 
-$font-weights: (
-  'light': 300, 'normal': 400, 'medium': 500, 'semibold': 600, 'bold': 700
+// ============================================================================
+// Optional: expose a few helpful maps from your SCSS config for downstream use
+// (kept lightweight; comment out if your target system doesn’t consume them)
+// ============================================================================
+
+$breakpoints: (
+  xs: 30em, // 480px
+  sm: 40em, // 640px
+  md: 60em, // 960px
+  lg: 75em, // 1200px
+  xl: 90em  // 1440px
 ) !default;
 
-// -----------------------------------------------------------------------------
-// 4. SPACING, SIZING, AND RADII
-// -----------------------------------------------------------------------------
 $spacing-scale: (
-  '0': 0, '1': .25rem, '2': .5rem, '3': .75rem, '4': 1rem, '5': 1.5rem, '6': 2rem,
-  '8': 3rem, '10': 4rem, '12': 6rem
+  0:  0,
+  1:  .25rem,
+  2:  .5rem,
+  3:  .75rem,
+  4:  1rem,
+  5:  1.5rem,
+  6:  2rem,
+  7:  2.5rem,
+  8:  3rem,
+  9:  3.5rem,
+  10: 4rem,
+  12: 6rem
 ) !default;
 
 $radii: (
-  'sm': .25rem, 'md': .375rem, 'lg': .5rem, 'xl': .75rem, 'pill': 9999px, 'circle': 50%
+  sm:   .25rem,
+  md:   .375rem,
+  lg:   .5rem,
+  xl:   .75rem,
+  pill: 9999px,
+  full: 50%
 ) !default;
 
-// -----------------------------------------------------------------------------
-// 5. BREAKPOINTS & LAYOUT
-// -----------------------------------------------------------------------------
-$breakpoints: (
-  'sm': 40em, 'md': 60em, 'lg': 75em, 'xl': 90em
-) !default;
-
-$bp-sm: map-get($breakpoints, 'sm');
-$bp-md: map-get($breakpoints, 'md');
-$bp-lg: map-get($breakpoints, 'lg');
-$bp-xl: map-get($breakpoints, 'xl');
-
-// -----------------------------------------------------------------------------
-// 6. EFFECTS & LAYERS
-// -----------------------------------------------------------------------------
-$shadow-templates: (
-  'sm': '0 1px 2px', 'md': '0 4px 12px', 'lg': '0 12px 28px', 'xl': '0 24px 48px'
-) !default;
-
-$z-stack: (
-  'dropdown': 900, 'sticky': 1000, 'fixed': 1030, 'modal': 1100
+$elevations: (
+  1: 0 1px 2px rgba(0,0,0,.06),   // --sf-shadow-sm
+  2: 0 4px 12px rgba(0,0,0,.08),  // --sf-shadow-md
+  3: 0 12px 28px rgba(0,0,0,.12), // --sf-shadow-lg
+  4: 0 24px 48px rgba(0,0,0,.15)  // --sf-shadow-xl
 ) !default;

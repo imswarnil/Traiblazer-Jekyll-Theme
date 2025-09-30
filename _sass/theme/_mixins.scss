@@ -1,0 +1,339 @@
+// =============================================================================
+// mixins.scss — built to play nice with your variables.scss + token system
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// Guarded defaults (only used if you haven’t defined these maps elsewhere)
+// -----------------------------------------------------------------------------
+$durations: (
+  '100': .10s,
+  '150': .15s,
+  '200': .20s,
+  '300': .30s,
+  '500': .50s,
+  '700': .70s,
+  '1000': 1s
+) !default;
+
+$easings: (
+  'standard': cubic-bezier(.2, 0, 0, 1),
+  'decel':    cubic-bezier(0, 0, .2, 1),
+  'accel':    cubic-bezier(.4, 0, 1, 1),
+  'bounce':   cubic-bezier(0.34, 1.56, 0.64, 1)
+) !default;
+
+// A name → pixel lookup so we can accept human names (xs…xl) while your $breakpoints
+// remain numeric (break-0…break-4). Values are px integers (per variables.scss).
+$__bp-named: (
+  xs: map-get($breakpoints, break-1), // 640
+  sm: map-get($breakpoints, break-1), // alias to xs (keep if you want distinct)
+  md: map-get($breakpoints, break-2), // 960
+  lg: map-get($breakpoints, break-3), // 1200
+  xl: map-get($breakpoints, break-4)  // 1440
+);
+
+// Convenience lists used by some mixins (mirrors your existing approach).
+$breakpoints-limit: length($breakpoints);
+$sizes:        map-values($rootsizes);
+$points:       map-values($breakpoints);
+$line-widths:  map-values($measures);
+$max-widths:   map-values($maxwidths);
+
+// =============================================================================
+// 1) ACCESSIBILITY & INTERACTION
+// =============================================================================
+
+/**
+ * Consistent focus ring using your token.
+ * Usage: button { @include focus-visible; }
+ */
+@mixin focus-ring {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: 2px;
+}
+@mixin focus-visible {
+  &:focus-visible { @include focus-ring; }
+}
+
+/**
+ * Only apply hover styles on devices that truly hover.
+ */
+@mixin hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { @content; }
+  }
+}
+
+/**
+ * Motion preferences gates.
+ */
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) { @content; }
+}
+@mixin motion-reduce {
+  @media (prefers-reduced-motion: reduce) { @content; }
+}
+
+/**
+ * Standard interactive transition (uses $durations / $easings).
+ */
+@mixin interactive($prop: all, $dur: '150', $ease: 'standard') {
+  transition: #{$prop} map-get($durations, $dur) map-get($easings, $ease);
+}
+
+// =============================================================================
+// 2) RESPONSIVE DESIGN
+// =============================================================================
+
+/**
+ * Mobile-first up-from breakpoint using named keys (xs, md, lg…).
+ * Example: @include breakpoint(md) { … }
+ */
+@mixin breakpoint($point) {
+  @if map-has-key($__bp-named, $point) {
+    $px: map-get($__bp-named, $point);
+    @media (min-width: #{$px / 16}em) { @content; }
+  } @else {
+    @warn "Breakpoint '#{$point}' not found. Valid: #{map-keys($__bp-named)}";
+  }
+}
+
+/**
+ * Down-to breakpoint (max-width < point).
+ * Example: @include breakpoint-down(md) { … }
+ */
+@mixin breakpoint-down($point) {
+  @if map-has-key($__bp-named, $point) {
+    $px: map-get($__bp-named, $point);
+    // Subtract a hair to avoid overlap
+    @media (max-width: #{($px - .02) / 16}em) { @content; }
+  } @else {
+    @warn "Breakpoint '#{$point}' not found in named map.";
+  }
+}
+
+// =============================================================================
+// 3) TYPOGRAPHY HELPERS
+// =============================================================================
+
+/**
+ * Better font smoothing.
+ */
+@mixin antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/**
+ * Shorthand for standard text props.
+ * Example: @include text(var(--sf-text-lg), 600);
+ */
+@mixin text($size: var(--sf-text-base), $weight: 400, $line: var(--sf-leading-normal), $tracking: 0) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line;
+  letter-spacing: $tracking;
+}
+
+/**
+ * Multiline / single-line truncation.
+ * Example: @include truncate(2);
+ */
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/**
+ * Screen-reader utilities.
+ */
+@mixin sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@mixin not-sr-only {
+  position: static; width: auto; height: auto;
+  padding: 0; margin: 0;
+  overflow: visible; clip: auto;
+  white-space: normal;
+}
+
+// =============================================================================
+// 4) LAYOUT PRIMITIVES
+// =============================================================================
+
+/**
+ * Centered container with tokenized max-widths and padding.
+ * $size keys should match your CSS custom properties: sm | md | lg | xl | 2xl
+ */
+@mixin container($size: md) {
+  width: min(
+    calc(100% - (2 * var(--sf-container-padding, var(--sf-space-4)))),
+    var(--sf-container-#{$size})
+  );
+  margin-inline: auto;
+  padding-inline: var(--sf-container-padding, var(--sf-space-4));
+}
+
+/**
+ * Grid helpers. Falls back gracefully if CSS vars aren’t present.
+ */
+@mixin grid($cols: var(--sf-grid-columns, 12), $gap: var(--sf-grid-gap, var(--sf-space-4))) {
+  display: grid;
+  grid-template-columns: repeat(#{$cols}, minmax(0, 1fr));
+  gap: $gap;
+}
+@mixin grid-col-span($span) {
+  grid-column: span #{$span} / span #{$span};
+}
+
+/**
+ * Stack → vertical flex with gap.
+ */
+@mixin stack($gap: var(--sf-space-4)) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+/**
+ * Cluster → horizontal flex with wrap + gap.
+ */
+@mixin cluster($gap: var(--sf-space-3), $align: center, $justify: flex-start, $wrap: wrap) {
+  display: flex;
+  flex-wrap: $wrap;
+  align-items: $align;
+  justify-content: $justify;
+  gap: $gap;
+}
+
+/**
+ * Center children via flex; axis can be 'x' | 'y' | 'both'.
+ */
+@mixin center($axis: 'both') {
+  display: flex;
+  @if $axis == 'both' {
+    align-items: center; justify-content: center;
+  } @else if $axis == 'x' {
+    justify-content: center;
+  } @else if $axis == 'y' {
+    align-items: center;
+  }
+}
+
+// =============================================================================
+// 5) EFFECTS & LOW-LEVEL RESETS
+// =============================================================================
+
+/**
+ * Theme border helper.
+ */
+@mixin border($color: var(--border-color)) { border: 1px solid $color; }
+
+/**
+ * Token-based outer ring (good for focus states).
+ */
+@mixin ring($size: .14rem, $color: var(--sf-brand-primary)) {
+  box-shadow: 0 0 0 $size $color;
+}
+
+/**
+ * Elevation helper using your $elevations map (see settings.scss).
+ * Example: .card { @include elevation('2'); &:hover { @include elevation('3'); } }
+ */
+@mixin elevation($level: '2') {
+  box-shadow: map-get($elevations, $level);
+}
+
+/**
+ * Aspect-ratio with fallback.
+ */
+@mixin aspect-ratio($w, $h) {
+  aspect-ratio: #{$w} / #{$h};
+  @supports not (aspect-ratio: 1 / 1) {
+    position: relative;
+    &::before {
+      content: '';
+      display: block;
+      padding-top: calc(#{$h} / #{$w} * 100%);
+    }
+    > * { position: absolute; inset: 0; }
+  }
+}
+
+/**
+ * Minimal resets for buttons/inputs.
+ */
+@mixin button-reset {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+@mixin input-reset {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+}
+
+/**
+ * Correct base for controls using your semantic tokens.
+ */
+@mixin control-base($height: var(--sf-control-md), $pad-x: var(--sf-control-pad-x)) {
+  min-height: $height;
+  padding-inline: $pad-x;
+  border-radius: var(--sf-control-radius);
+  background: var(--sf-control-bg);
+  color: var(--sf-fg);
+  border: 1px solid var(--sf-control-border);
+}
+
+/**
+ * Old-school clearfix (when you inevitably wrestle a floaty legacy beast).
+ */
+@mixin clearfix {
+  &:before, &:after { display: table; content: ""; }
+  &:after { clear: both; }
+}
+
+// =============================================================================
+// 6) ICONS & MEDIA
+// =============================================================================
+
+/**
+ * Icon sizing. Accepts any length or uses your $icon-sizes['md'] if present,
+ * else falls back to 1.25rem. You can also pass a CSS var directly.
+ */
+@mixin icon-size($size: null) {
+  $fallback: if(global-variable-exists(icon-sizes), map-get($icon-sizes, 'md'), 1.25rem);
+  $final: if($size == null, $fallback, $size);
+  width: $final; height: $final; flex-shrink: 0;
+}
+
+/**
+ * Cover-fit media utility.
+ */
+@mixin media-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
