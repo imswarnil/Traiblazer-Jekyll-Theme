@@ -5,7 +5,6 @@ description: Your one-stop guide to building a stunning personal website, portfo
 ---
 
 <div class="sf-container">
-
   <header class="docs-home-header">
     <h1 class="sf-h1">{{ page.title }}</h1>
     <p class="sf-text--large sf-text--muted">{{ page.description }}</p>

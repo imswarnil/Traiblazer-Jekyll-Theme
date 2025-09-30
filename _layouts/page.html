@@ -3,9 +3,9 @@ layout: default
 ---
 
 <!-- ========================================================================
-     PAGE HEADER
+     PAGE HEADER (COMPACT & RESPONSIVE)
      ======================================================================== -->
-<header class="page-header">
+<header class="page-header page-header--compact">
   <div class="sf-container">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href="{{ '/' | relative_url }}">Home</a>
@@ -20,42 +20,64 @@ layout: default
 </header>
 
 <!-- ========================================================================
-     MAIN PAGE GRID CONTAINER
-     This is the core of the responsive layout.
+     MAIN PAGE BODY & LAYOUT
      ======================================================================== -->
-<div class="page-grid-container">
+<div class="page-body-section">
+  <div class="sf-container">
 
-  <!-- Main Content Column -->
-  <main class="page-content-main">
-    <div class="sf-card page-content-card">
-      <article class="sf-card__body typeset">
-        {{ content }}
-      </article>
+    <!-- TOP LEADERBOARD AD -->
+    <div class="ad-placeholder ad-placeholder--leaderboard">
+      <span>Top Leaderboard Ad - 728x90</span>
     </div>
-  </main>
 
-  <!-- Sticky Sidebar Column -->
-  <aside class="page-sidebar-right">
-    {% if page.toc and content contains "<h2" %}
-    <div class="sf-card toc-card">
-      {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
-    </div>
-    {% endif %}
+    <!-- MAIN GRID CONTAINER -->
+    <div class="page-grid-container">
 
-    <div class="ad-placeholder ad-placeholder--sidebar-ad">
-      <span>Sidebar Ad<br>300x250</span>
-    </div>
-    
-    <div class="sf-card quick-links-card">
-        <div class="sf-card__header">Quick Links</div>
-        <div class="sf-card__body">
-            <ul class="quick-links-list">
-                <li><a href="/about/">About Me</a></li>
-                <li><a href="/contact/">Contact</a></li>
-                <li><a href="/blog/">My Blog</a></li>
-            </ul>
+      <!-- Primary Content Column -->
+      <main class="page-content-main">
+        <div class="sf-card page-content-card">
+          <article class="sf-card__body typeset">
+            {{ content }}
+          </article>
         </div>
-    </div>
-  </aside>
+      </main>
 
+      <!-- Sticky & Scrollable Sidebar Column -->
+      <aside class="page-sidebar-right">
+        {% if page.toc and content contains "<h2" %}
+        <div class="sf-card toc-card">
+          {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+        </div>
+        {% endif %}
+
+        <div class="sf-card newsletter-card">
+            <div class="sf-card__body">
+                <i class="ph-bold ph-paper-plane-tilt"></i>
+                <strong>Stay Updated</strong>
+                <p>Get the latest articles and tutorials delivered to your inbox.</p>
+                <form action="#" class="newsletter-form">
+                    <input type="email" class="input" placeholder="your.email@example.com" required>
+                    <button type="submit" class="sf-btn sf-btn--primary sf-btn--full">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="ad-placeholder ad-placeholder--skyscraper">
+          <span>Sidebar Skyscraper Ad<br>300x600</span>
+        </div>
+        
+        <div class="sf-card quick-links-card">
+            <div class="sf-card__header">Quick Links</div>
+            <div class="sf-card__body">
+                <ul class="quick-links-list">
+                    <li><a href="/about/">About Me</a></li>
+                    <li><a href="/contact/">Contact</a></li>
+                    <li><a href="/blog/">My Blog</a></li>
+                </ul>
+            </div>
+        </div>
+      </aside>
+
+    </div>
+  </div>
 </div>
