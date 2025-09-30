@@ -1,47 +1,8 @@
 ---
 layout: default
 ---
-
-{% comment %}
-============================================================================
-_layouts/page.html (V3 - Professional & Complete Edition)
-============================================================================
-{% endcomment %}
-
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    {% comment %} --- SEO & Social Sharing Meta Tags --- {% endcomment %}
-    <title>{{ page.title }} | {{ site.title }}</title>
-    <meta name="description" content="{{ page.subtitle | default: page.excerpt | strip_html | truncatewords: 25 }}">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ page.url | absolute_url }}">
-    <meta property="og:title" content="{{ page.title }}">
-    <meta property="og:description" content="{{ page.subtitle | default: page.excerpt | strip_html | truncatewords: 25 }}">
-    <meta property="og:image" content="{% if page.feature_image %}{{ page.feature_image | absolute_url }}{% else %}{{ site.logo | absolute_url }}{% endif %}">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="{{ page.url | absolute_url }}">
-    <meta property="twitter:title" content="{{ page.title }}">
-    <meta property="twitter:description" content="{{ page.subtitle | default: page.excerpt | strip_html | truncatewords: 25 }}">
-    <meta property="twitter:image" content="{% if page.feature_image %}{{ page.feature_image | absolute_url }}{% else %}{{ site.logo | absolute_url }}{% endif %}">
-
-    <!-- Your existing CSS and icon links -->
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-</head>
-<body>
-
-    {% include navbar.html %}
-
     <!-- ========================================================================
-         PAGE HEADER
+         PAGE HEADER (Unchanged from V3)
          ======================================================================== -->
     <header class="page-header">
       <div class="sf-container">
@@ -61,7 +22,6 @@ _layouts/page.html (V3 - Professional & Complete Edition)
           <p class="sf-text--large">{{ page.subtitle }}</p>
         {% endif %}
         
-        <!-- USER-FACING META DETAILS -->
         {% if page.last_updated %}
         <div class="page-header__meta">
             <i class="ph-bold ph-info"></i>
@@ -70,16 +30,16 @@ _layouts/page.html (V3 - Professional & Complete Edition)
         {% endif %}
       </div>
     </header>
-
     <!-- ========================================================================
-         MAIN PAGE BODY & GRID
+         MAIN PAGE BODY & GRID (FIXED GRID APPLICATION)
          ======================================================================== -->
     <div class="page-body-section">
       <div class="sf-container">
         <div class="sf-row">
 
-          <!-- Primary Content Column -->
+          <!-- Primary Content Column (8/12 on LG+) -->
           <main class="sf-col-12 sf-col-lg-8 page-main-content">
+            <!-- Ensure this content wrapper uses a card for containment -->
             <div class="sf-card page-content-card">
               <article class="sf-card__body typeset">
                 {{ content }}
@@ -87,7 +47,7 @@ _layouts/page.html (V3 - Professional & Complete Edition)
             </div>
           </main>
 
-          <!-- Sidebar Column -->
+          <!-- Sidebar Column (4/12 on LG+) -->
           <aside class="sf-col-12 sf-col-lg-4 page-sidebar">
             {% if page.toc %}
             <div class="sf-card toc-card">
@@ -115,7 +75,3 @@ _layouts/page.html (V3 - Professional & Complete Edition)
       </div>
     </div>
 
-    {% include footer.html %}
-
-</body>
-</html>
