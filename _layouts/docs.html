@@ -102,13 +102,11 @@ _layouts/docs.html (THE DEFINITIVE "PUBLISHER PRO" SUITE)
           </div>
         </div>
         <aside class="doc-article-toc-container">
-          {% if content contains "<h2" %}
           <div class="doc-toc-sticky">
             <h3 class="doc-toc-title">On this page</h3>
             <nav class="doc-toc-nav">{% include toc.html html=content class="toc-list" %}</nav>
             <div class="ad-placeholder ad-placeholder--sidebar-ad"><span>Sidebar Ad</span></div>
           </div>
-          {% endif %}
         </aside>
       </div>
     {% endif %}
