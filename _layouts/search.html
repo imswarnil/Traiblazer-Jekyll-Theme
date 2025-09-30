@@ -1,15 +1,11 @@
 ---
 layout: default
-title: Search
-excerpt: "Search for a page or post you're looking for"
-subtitle: "Find articles, projects, and pages across the entire site."
 ---
-
-<div class="search-page sf-container">
+<div class="search-layout sf-container">
 
   <header class="search-header">
     <h1 class="sf-h1">{{ page.title }}</h1>
-    <p class="sf-text--large sf-text--muted">{{ page.subtitle }}</p>
+    <p class="sf-text--large sf-text--muted">{{ page.subtitle | default: page.excerpt }}</p>
   </header>
 
   <form class="search-form" id="search-form" action="" onsubmit="return false;">
@@ -18,7 +14,7 @@ subtitle: "Find articles, projects, and pages across the entire site."
   </form>
 
   <div class="search-results" id="search-results-container">
-    <!-- Search results will be dynamically injected here -->
+    <!-- Search results will be dynamically injected here by JavaScript -->
   </div>
 
   <noscript>
@@ -32,41 +28,47 @@ subtitle: "Find articles, projects, and pages across the entire site."
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const endpoint = '{{ "/assets/search.json" | relative_url }}';
-  const pages = [];
+  let pages = [];
 
-  // --- Elements ---
   const searchInput = document.getElementById('search-input');
   const resultsContainer = document.getElementById('search-results-container');
 
-  // --- Fetch search data ---
+  // Fetch search data only once on page load
   fetch(endpoint)
     .then(blob => blob.json())
-    .then(data => pages.push(...data))
-    .catch(err => console.error('Error fetching search data:', err));
+    .then(data => {
+      // Clean up potential null entries from the JSON generation
+      pages = data.filter(item => item !== null && typeof item === 'object');
+    })
+    .catch(err => {
+      console.error('Error fetching search data:', err);
+      resultsContainer.innerHTML = `
+        <div class="search-status">
+          <i class="ph-bold ph-x-circle"></i>
+          <h3>Error Loading Search</h3>
+          <p>The search index file could not be loaded. Please try again later.</p>
+        </div>`;
+    });
 
-  // --- Helper function to determine icon based on URL ---
   function getIconForType(url) {
     if (url.includes('/docs/')) return 'ph-book-open';
-    if (url.includes('/blog/')) return 'ph-article';
+    if (url.includes('/blog/') || url.match(/\/\d{4}\/\d{2}\/\d{2}\//)) return 'ph-article';
     if (url.includes('/projects/')) return 'ph-rocket-launch';
     if (url.includes('/products/')) return 'ph-storefront';
-    return 'ph-file-text'; // Default icon
+    return 'ph-file-text';
   }
   
-  // --- Search and filter logic ---
-  function findResults(termToMatch, pages) {
+  function findResults(termToMatch, data) {
     if (!termToMatch) return [];
-    return pages.filter(item => {
+    return data.filter(item => {
       const regex = new RegExp(termToMatch, 'gi');
       return item.title.match(regex) || item.content.match(regex);
     });
   }
 
-  // --- Render results to the DOM ---
   function displayResults() {
     const searchTerm = this.value;
     
-    // If the search term is empty, clear the results and show the initial state.
     if (!searchTerm || searchTerm.length < 2) {
       resultsContainer.innerHTML = `
         <div class="search-status">
@@ -79,19 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const resultsArray = findResults(searchTerm, pages);
     
     let html = '';
-
     if (resultsArray.length > 0) {
-      // Build the header with result count
-      html += `
-        <div class="search-results__header">
-          <h2 class="search-results__title">Results</h2>
-          <span class="search-results__count">${resultsArray.length} found</span>
-        </div>`;
-      
-      // Build the list of results
+      html += `<div class="search-results__header"><h2 class="search-results__title">Results</h2><span class="search-results__count">${resultsArray.length} found</span></div>`;
       html += '<ul class="search-results__list">';
       html += resultsArray.map(item => {
         const icon = getIconForType(item.url);
+        // Ensure excerpt is not null before using
+        const excerpt = item.excerpt ? item.excerpt.substring(0, 150) + '...' : '';
         return `
           <li>
             <a href="${item.url}" class="search-result-item">
@@ -99,16 +95,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <i class="ph-bold ${icon} search-result-item__icon"></i>
                 <div class="search-result-item__content">
                   <h3 class="search-result-item__title">${item.title}</h3>
-                  <p class="search-result-item__excerpt">${item.excerpt}</p>
+                  <p class="search-result-item__excerpt">${excerpt}</p>
                 </div>
               </article>
             </a>
           </li>`;
       }).join('');
       html += '</ul>';
-
     } else {
-      // Show a "no results" message
       html = `
         <div class="search-status">
           <i class="ph-bold ph-binoculars"></i>
@@ -116,11 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <p>Try searching for a different term.</p>
         </div>`;
     }
-
     resultsContainer.innerHTML = html;
   }
 
-  // --- Event Listeners ---
   searchInput.addEventListener('keyup', displayResults);
   
   // Display initial state on page load

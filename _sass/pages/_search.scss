@@ -1,9 +1,9 @@
 /* ============================================================================
    PAGE / SEARCH
-   Styles for the site-wide search portal.
+   Styles for the site-wide search portal layout.
    ============================================================================ */
 
-.search-page {
+.search-layout {
   // Container for the entire search experience
 }
 
@@ -39,12 +39,15 @@
     font-size: var(--sf-text-lg);
     width: 100%;
     padding-left: calc(var(--sf-icon-lg) + var(--sf-4) + var(--sf-3));
-    margin-bottom: var(--sf-6); // Space between input and results
+    margin-bottom: var(--sf-6);
   }
 }
 
 // --- Search Results ---
 .search-results {
+  max-width: var(--sf-container-lg);
+  margin-inline: auto;
+
   &__header {
     @include cluster($justify: space-between, $align: center);
     padding-bottom: var(--sf-4);
@@ -102,6 +105,7 @@
 
   &__content {
     flex: 1;
+    min-width: 0; // Fix for flexbox overflow
   }
 
   &__title {
@@ -109,13 +113,14 @@
     font-size: var(--sf-text-lg);
     font-weight: 700;
     color: var(--sf-fg);
+    @include truncate(1);
   }
 
   &__excerpt {
     margin: 0;
     font-size: var(--sf-text-sm);
     color: var(--sf-fg-2);
-    @include truncate(2); // Truncate to 2 lines
+    @include truncate(2);
   }
 }
 
