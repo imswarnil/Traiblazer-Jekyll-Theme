@@ -1,171 +1,48 @@
 /* ============================================================================
-   MIXINS.SCSS (DEFINITIVE & UNABRIDGED)
-   Contains all reusable mixins for the theme, including Sassline and Flexbox.
+   MIXINS.SCSS (DEFINITIVE & BACKWARD-COMPATIBLE)
+   A library of all reusable SCSS mixins for the theme.
    ============================================================================ */
-@use "sass:math";
 
-// --- SASSLINE CORE MIXINS ---
-$breakpoints-limit: length($breakpoints);
-$sizes: map-values($rootsizes);
-$points: map-values($breakpoints);
-$line-widths: map-values($measures);
-$max-widths: map-values($maxwidths);
+// --- RESPONSIVE DESIGN ---
+@mixin breakpoint($point) {
+  @if $point == sm { @media (min-width: $bp-sm) { @content; } }
+  @else if $point == md { @media (min-width: $bp-md) { @content; } }
+  @else if $point == lg { @media (min-width: $bp-lg) { @content; } }
+  @else if $point == xl { @media (min-width: $bp-xl) { @content; } }
+  @else { @warn "Breakpoint '#{$point}' not found."; }
+}
 
-@mixin breakpoint($break: 0, $max: 0) {
-  $value: type-of($break);
-  @if $value == string {
-    @if map-has-key($breakpoints, $break) { @media screen and (min-width: #{map-get($breakpoints, $break) / 16 * 1em} ) { @content; } }
-    @else { @warn "#{$break} is not a set breakpoint variable"; }
-  } @else if $value == number {
-    $query: "all" !default;
-    @if $break != 0 and $max != 0 { $query: "(min-width: #{$break / 16 * 1em}) and (max-width: #{$max / 16 * 1em})"; }
-    @else if $break != 0 and $max == 0 { $query: "(min-width: #{$break / 16 * 1em})"; }
-    @else if $break == 0 and $max != 0 { $query: "(max-width: #{$max / 16 * 1em})"; }
-    @media #{$query} { @content; }
+// --- ACCESSIBILITY & INTERACTION ---
+@mixin focus-ring { outline: none; box-shadow: var(--sf-focus-ring); border-radius: 2px; }
+@mixin focus-visible { &:focus-visible { @include focus-ring; } }
+@mixin hover { @media (hover: hover) and (pointer: fine) { &:hover { @content; } } }
+@mixin motion-safe { @media (prefers-reduced-motion: no-preference) { @content; } }
+@mixin sr-only { position: absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0, 0, 0, 0); white-space:nowrap; border:0; }
+
+// --- TYPOGRAPHY ---
+@mixin antialiased { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+@mixin truncate($lines: 1) {
+  @if $lines == 1 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  @else { display: -webkit-box; -webkit-line-clamp: $lines; -webkit-box-orient: vertical; overflow: hidden; }
+}
+
+// --- LAYOUT PRIMITIVES ---
+@mixin center($axis: 'both') {
+  display: flex;
+  @if $axis == 'both' { align-items: center; justify-content: center; }
+  @else if $axis == 'x' { justify-content: center; }
+  @else if $axis == 'y' { align-items: center; }
+}
+@mixin stack($gap: var(--sf-space-4)) { display:flex; flex-direction:column; gap:$gap; }
+@mixin cluster($gap: var(--sf-space-3), $align: center, $justify: flex-start, $wrap: wrap) { display:flex; flex-wrap:$wrap; align-items:$align; justify-content:$justify; gap:$gap; }
+
+// --- EFFECTS & RESETS ---
+@mixin button-reset { padding: 0; border: none; font: inherit; color: inherit; background-color: transparent; cursor: pointer; }
+@mixin aspect-ratio($width, $height) {
+  aspect-ratio: #{$width} / #{$height};
+  @supports not (aspect-ratio: #{$width} / #{$height}) {
+    position: relative;
+    &::before { content: ''; display: block; padding-top: calc(#{$height} / #{$width} * 100%); }
+    > * { position: absolute; inset: 0; }
   }
-}
-
-@mixin rootsize {
-  font-size: nth($sizes, 1) / 16 * 100%;
-  @for $i from 2 through $breakpoints-limit {
-    @media screen and (min-width: nth($points, $i) / 16 * 1em ) { font-size: nth($sizes, $i) / 16 * 100%; }
-  }
-}
-
-@function in-modular-scale($scale, $key) {
-  $map: map-get($modular-scale, $scale);
-  @return map-has-key($map, $key);
-}
-
-@mixin fontsize($fontsize, $breakpoint: 0) {
-  $font-value: type-of($fontsize);
-  $break-value: type-of($breakpoint);
-  $in-scale: in-modular-scale(scale-0, $fontsize);
-  @if $break-value == number and $breakpoint <= ($breakpoints-limit - 1) and $breakpoint >= 0 {
-    @if $font-value == number { font-size: #{$fontsize / nth($sizes, ($breakpoint + 1))}rem; }
-    @else if $in-scale == true {
-      $get-scale: map-get($modular-scale, scale-#{$breakpoint});
-      font-size: #{map-get($get-scale, $fontsize) / nth($sizes, ($breakpoint + 1))}rem;
-    }
-  } @else if $breakpoint == all {
-    @if $font-value == number {
-      font-size: #{$fontsize / nth($sizes, 1)}rem;
-      @for $i from 2 through $breakpoints-limit {
-        @media screen and (min-width: nth($points, $i) / 16 * 1em) { font-size: #{$fontsize / nth($sizes, $i)}rem; }
-      }
-    } @else if $in-scale == true {
-      font-size: #{map-get(map-get($modular-scale, scale-0), $fontsize) / nth($sizes, 1)}rem;
-      @for $i from 2 through $breakpoints-limit {
-        $get-scale: map-get($modular-scale, scale-#{$i - 1});
-        @media screen and (min-width: nth($points, $i) / 16 * 1em) { font-size: #{map-get($get-scale, $fontsize) / nth($sizes, $i)}rem; }
-      }
-    }
-  }
-}
-
-@mixin baseline($fontsize, $font, $lineheight: 2, $below: 2, $breakpoint: 0) {
-  $font-value: type-of($fontsize);
-  $break-value: type-of($breakpoint);
-  $cap-height: map-get($font, cap-height);
-  $in-scale: in-modular-scale(scale-0, $fontsize);
-  @if $lineheight != 0 { line-height: #{$lineheight}rem; }
-  @if $break-value == number and $breakpoint <= ($breakpoints-limit - 1) and $breakpoint >= 0 {
-    @if $font-value == number {
-      $rootsize: nth($sizes, ($breakpoint + 1));
-      margin-bottom: #{$below - (($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001)}rem;
-      padding-top: #{($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001}rem;
-    } @else if $in-scale == true {
-      $get-scale: map-get($modular-scale, scale-#{$breakpoint});
-      $get-size: map-get($get-scale, $fontsize);
-      $rootsize: nth($sizes, ($breakpoint + 1));
-      margin-bottom: #{$below - (($get-size / 2 * (($lineheight * $rootsize / $get-size) - $cap-height)) / $rootsize + 0.00001)}rem;
-      padding-top: #{($get-size / 2 * (($lineheight * $rootsize / $get-size) - $cap-height)) / $rootsize + 0.00001}rem;
-    }
-  } @else if $breakpoint == all {
-    @if $font-value == number {
-      $rootsize: nth($sizes, 1);
-      margin-bottom: #{$below - (($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001)}rem;
-      padding-top: #{($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001}rem;
-      @for $i from 2 through $breakpoints-limit {
-        $rootsize: nth($sizes, $i);
-        @media screen and (min-width: nth($points, $i) / 16 * 1em) {
-          margin-bottom: #{$below - (($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001)}rem;
-          padding-top: #{($fontsize / 2 * (($lineheight * $rootsize / $fontsize) - $cap-height)) / $rootsize + 0.00001}rem;
-        }
-      }
-    } @else if $in-scale == true {
-      $get-scale: map-get($modular-scale, scale-0);
-      $get-size: map-get($get-scale, $fontsize);
-      $rootsize: nth($sizes, 1);
-      margin-bottom: #{$below - (($get-size / 2 * (($lineheight * $rootsize / $get-size) - $cap-height)) / $rootsize + 0.00001)}rem;
-      padding-top: #{($get-size / 2 * (($lineheight * $rootsize / $get-size) - $cap-height)) / $rootsize + 0.00001}rem;
-      @for $i from 2 through $breakpoints-limit {
-        $get-scale: map-get($modular-scale, scale-#{$i - 1});
-        $get-size: map-get($get-scale, $fontsize);
-        $rootsize: nth($sizes, $i);
-        @media screen and (min-width: nth($points, $i) / 16 * 1em) {
-          margin-bottom: #{$below - (($get-size / 2 * (($lineheight * $rootsize / $get-size) - $cap-height)) / $rootsize + 0.00001)}rem;
-          padding-top: #{($get-size / 2 * (($lineheight * $rootsize / $get-size) - $cap-height)) / $rootsize + 0.00001}rem;
-        }
-      }
-    }
-  }
-}
-
-@mixin sassline($fontsize, $font, $lineheight: 2, $below: 2, $breakpoint: 0) {
-  @include fontsize($fontsize, $breakpoint);
-  @include baseline($fontsize, $font, $lineheight, $below, $breakpoint);
-}
-
-@mixin clearfix { &::before, &::after { display: table; content: ""; } &::after { clear: both; } }
-
-// --- FLEXBOX MIXINS ---
-@mixin flexbox { display: -webkit-box; display: -webkit-flex; display: -moz-flex; display: -ms-flexbox; display: flex; }
-@mixin inline-flex { display: -webkit-inline-box; display: -webkit-inline-flex; display: -moz-inline-flex; display: -ms-inline-flexbox; display: inline-flex; }
-@mixin flex-direction($value: row) {
-  @if $value == row-reverse { -webkit-box-direction: reverse; -webkit-box-orient: horizontal; }
-  @else if $value == column { -webkit-box-direction: normal; -webkit-box-orient: vertical; }
-  @else if $value == column-reverse { -webkit-box-direction: reverse; -webkit-box-orient: vertical; }
-  @else { -webkit-box-direction: normal; -webkit-box-orient: horizontal; }
-  -webkit-flex-direction: $value; -moz-flex-direction: $value; -ms-flex-direction: $value; flex-direction: $value;
-}
-@mixin flex-wrap($value: nowrap) { -webkit-flex-wrap: $value; -moz-flex-wrap: $value; @if $value == nowrap { -ms-flex-wrap: none; } @else { -ms-flex-wrap: $value; } flex-wrap: $value; }
-@mixin flex-flow($values: (row nowrap)) { -webkit-flex-flow: $values; -moz-flex-flow: $values; -ms-flex-flow: $values; flex-flow: $values; }
-@mixin order($int: 0) { -webkit-box-ordinal-group: $int + 1; -webkit-order: $int; -moz-order: $int; -ms-flex-order: $int; order: $int; }
-@mixin flex-grow($int: 0) { -webkit-box-flex: $int; -webkit-flex-grow: $int; -moz-flex-grow: $int; -ms-flex-positive: $int; flex-grow: $int; }
-@mixin flex-shrink($int: 1) { -webkit-flex-shrink: $int; -moz-flex-shrink: $int; -ms-flex-negative: $int; flex-shrink: $int; }
-@mixin flex-basis($value: auto) { -webkit-flex-basis: $value; -moz-flex-basis: $value; -ms-flex-preferred-size: $value; flex-basis: $value; }
-@mixin flex($fg: 1, $fs: null, $fb: null) {
-  $fg-boxflex: $fg;
-  @if type-of($fg) == 'list' { $fg-boxflex: nth($fg, 1); }
-  -webkit-box-flex: $fg-boxflex; -webkit-flex: $fg $fs $fb; -moz-box-flex: $fg-boxflex;
-  -moz-flex: $fg $fs $fb; -ms-flex: $fg $fs $fb; flex: $fg $fs $fb;
-}
-@mixin justify-content($value: flex-start) {
-  @if $value == flex-start { -webkit-box-pack: start; -ms-flex-pack: start; }
-  @else if $value == flex-end { -webkit-box-pack: end; -ms-flex-pack: end; }
-  @else if $value == space-between { -webkit-box-pack: justify; -ms-flex-pack: justify; }
-  @else if $value == space-around { -ms-flex-pack: distribute; }
-  @else { -webkit-box-pack: $value; -ms-flex-pack: $value; }
-  -webkit-justify-content: $value; -moz-justify-content: $value; justify-content: $value;
-}
-@mixin align-items($value: stretch) {
-  @if $value == flex-start { -webkit-box-align: start; -ms-flex-align: start; }
-  @else if $value == flex-end { -webkit-box-align: end; -ms-flex-align: end; }
-  @else { -webkit-box-align: $value; -ms-flex-align: $value; }
-  -webkit-align-items: $value; -moz-align-items: $value; align-items: $value;
-}
-@mixin align-self($value: auto) {
-  -webkit-align-self: $value; -moz-align-self: $value;
-  @if $value == flex-start { -ms-flex-item-align: start; }
-  @else if $value == flex-end { -ms-flex-item-align: end; }
-  @else { -ms-flex-item-align: $value; }
-  align-self: $value;
-}
-@mixin align-content($value: stretch) {
-  -webkit-align-content: $value; -moz-align-content: $value;
-  @if $value == flex-start { -ms-flex-line-pack: start; }
-  @else if $value == flex-end { -ms-flex-line-pack: end; }
-  @else { -ms-flex-line-pack: $value; }
-  align-content: $value;
 }

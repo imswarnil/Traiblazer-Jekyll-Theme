@@ -1,95 +1,127 @@
 /* ============================================================================
-   SETTINGS.SCSS (DEFINITIVE & UNABRIDGED)
-   This is the single source of truth for ALL theme variables and design tokens.
+   SETTINGS.SCSS (DEFINITIVE ALL-IN-ONE VERSION)
+   This is the single source of truth for ALL theme variables, tokens, and
+   configuration maps. Edit this file to customize the entire theme.
    ============================================================================ */
 
 // -----------------------------------------------------------------------------
-// 1. COLOR PALETTE
+// 1. LIGHT THEME (DEFAULT) COLOR PALETTE
 // -----------------------------------------------------------------------------
-$accentColour: #05bf85 !default;
-$headingColour: #242e2b !default;
-$bodyColour: #384743 !default;
-$linkColour: $accentColour !default;
-$hoverColour: darken($accentColour, 10%) !default;
-$focusColour: #fa407a !default;
-$captionColour: #a8adac !default;
-$white: #ffffff !default;
-$backgroundColour: #fdfdfd !default;
-$codeBackgroundColour: #f7f7f7 !default;
-$featureBackgroundColour: #f9fafa !default;
-$borderColour: #e1e1e1 !default;
-
-// -----------------------------------------------------------------------------
-// 2. TYPOGRAPHY
-// -----------------------------------------------------------------------------
-$bodytype: (
-  'font-family': 'Georgia, serif',
-  'regular': 400,
-  'bold': 700,
-  'italic': italic,
-  'cap-height': 0.66
-) !default;
-
-$headingtype: (
-  'font-family': '"Merriweather", serif',
-  'regular': 400,
-  'bold': 700,
-  'cap-height': 0.75
-) !default;
-
-$monospacetype: (
-  'font-family': 'Menlo, monospace',
-  'regular': 400,
-  'cap-height': 0.68
+$colors-light: (
+  'brand-primary': #0176d3,
+  'brand-primary-hover': #0163b5,
+  'brand-primary-active': #014a8a,
+  'brand-accent': #009ed9,
+  'gray-900': #0b1221,
+  'gray-800': #2e2e3a,
+  'gray-700': #3f4954,
+  'gray-600': #5b6673,
+  'gray-500': #8a96a3,
+  'gray-400': #cfd7e0,
+  'gray-300': #e6ebf1,
+  'gray-200': #f4f6f9,
+  'gray-100': #ffffff,
+  'semantic-success': #2e844a,
+  'semantic-warning': #ffb75d,
+  'semantic-danger': #ba0517,
+  'semantic-info': #1b96ff,
+  'shadow-color-rgb': '0, 0, 0'
 ) !default;
 
 // -----------------------------------------------------------------------------
-// 3. RESPONSIVE ENGINE (SASSLINE)
+// 2. MASTER THEMES MAP
+// This map contains the color overrides for all alternate themes.
+// -----------------------------------------------------------------------------
+$themes: (
+  'dark': (
+    'brand-primary': #3b82f6,
+    'brand-primary-hover': #60a5fa,
+    'brand-primary-active': #2563eb,
+    'brand-accent': #818cf8,
+    'gray-900': #f8fafc,
+    'gray-800': #e2e8f0,
+    'gray-700': #cbd5e1,
+    'gray-600': #94a3b8,
+    'gray-500': #64748b,
+    'gray-400': #334155,
+    'gray-300': #1e293b,
+    'gray-200': #0f172a,
+    'gray-100': #1e293b,
+    'semantic-danger': #f87171,
+    'link-fg-override': #93c5fd,
+    'shadow-color-rgb': '0, 0, 0'
+  ),
+  'sunset': (
+    'brand-primary': #f97316,
+    'brand-primary-hover': #fb923c,
+    'brand-primary-active': #ea580c,
+    'brand-accent': #ec4899,
+    'gray-900': #fdf2f8,
+    'gray-800': #fbcfe8,
+    'gray-600': #e7c5e0,
+    'gray-500': #c084fc,
+    'gray-400': #581c87,
+    'gray-300': #3b0764,
+    'gray-200': #2a0248,
+    'gray-100': #3b0764,
+    'link-fg-override': #fca5a5,
+    'shadow-color-rgb': '25, 10, 50'
+  )
+  // ... (Add your other themes like 'nature' and 'b&w' here)
+) !default;
+
+// -----------------------------------------------------------------------------
+// 3. TYPOGRAPHY
+// -----------------------------------------------------------------------------
+$typography: (
+  'font-body': system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
+  'font-mono': ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace,
+  'text-xs': .75rem, 'text-sm': .875rem, 'text-base': 1rem,
+  'text-lg': 1.125rem, 'text-xl': 1.25rem, 'text-2xl': 1.5rem, 'text-3xl': 1.875rem,
+  'leading-tight': 1.25, 'leading-normal': 1.5, 'leading-relaxed': 1.7,
+  'tracking-tight': -0.005em, 'tracking-wide': 0.02em,
+  'measure': 65ch
+) !default;
+
+$font-weights: (
+  'light': 300, 'normal': 400, 'medium': 500, 'semibold': 600, 'bold': 700
+) !default;
+
+// -----------------------------------------------------------------------------
+// 4. SPACING, SIZING, AND RADII
+// -----------------------------------------------------------------------------
+$spacing-scale: (
+  '0': 0, '1': .25rem, '2': .5rem, '3': .75rem, '4': 1rem, '5': 1.5rem, '6': 2rem,
+  '8': 3rem, '10': 4rem, '12': 6rem
+) !default;
+
+$radii: (
+  'sm': .25rem, 'md': .375rem, 'lg': .5rem, 'xl': .75rem, 'pill': 9999px, 'circle': 50%
+) !default;
+
+// -----------------------------------------------------------------------------
+// 5. BREAKPOINTS & LAYOUT
 // -----------------------------------------------------------------------------
 $breakpoints: (
-  'break-0': 0,      // Mobile first (0px)
-  'break-1': 640,    // ~Small tablet up
-  'break-2': 800,    // ~Large tablet up
-  'break-3': 1024,   // ~Desktop up
-  'break-4': 1600    // ~Large desktop up
+  'sm': 40em, 'md': 60em, 'lg': 75em, 'xl': 90em
 ) !default;
 
-$rootsizes: (
-  'rootsize-0': 12,   // 24px line-height body text
-  'rootsize-1': 14,   // 28px line-height body text
-  'rootsize-2': 15,   // 30px line-height body text
-  'rootsize-3': 17,   // 34px line-height body text
-  'rootsize-4': 19    // 38px line-height body text
-) !default;
-
-// Modular Scale for Headings (values are in px)
-$modular-scale: (
-  'scale-0': ( 'alpha': 28.0, 'beta': 25.0, 'gamma': 22.4, 'delta': 20.0, 'epsilon': 17.9, 'zeta': 16.0, 'eta': 14.3, 'theta': 12.8, 'iota': 11.5 ),
-  'scale-1': ( 'alpha': 30.0, 'beta': 26.6, 'gamma': 24.0, 'delta': 21.3, 'epsilon': 19.2, 'zeta': 17.0, 'eta': 15.3, 'theta': 13.6, 'iota': 12.8 ),
-  'scale-2': ( 'alpha': 32.0, 'beta': 28.1, 'gamma': 25.6, 'delta': 22.5, 'epsilon': 20.5, 'zeta': 18.0, 'eta': 16.3, 'theta': 14.4, 'iota': 13.1 ),
-  'scale-3': ( 'alpha': 40.0, 'beta': 35.5, 'gamma': 30.0, 'delta': 26.7, 'epsilon': 22.5, 'zeta': 20.0, 'eta': 16.9, 'theta': 15.0, 'iota': 12.7 ),
-  'scale-4': ( 'alpha': 50.0, 'beta': 43.9, 'gamma': 35.3, 'delta': 31.1, 'epsilon': 25.0, 'zeta': 22.0, 'eta': 17.6, 'theta': 15.6, 'iota': 12.5 )
-);
+// For backward compatibility with your old mixins
+$bp-sm: map-get($breakpoints, 'sm');
+$bp-md: map-get($breakpoints, 'md');
+$bp-lg: map-get($breakpoints, 'lg');
+$bp-xl: map-get($breakpoints, 'xl');
 
 // -----------------------------------------------------------------------------
-// 4. LAYOUT & SPACING
+// 6. EFFECTS & LAYERS
 // -----------------------------------------------------------------------------
-$measures: (
-  'measure-0': 500, 'measure-1': 550, 'measure-2': 600, 'measure-3': 680, 'measure-4': 750
+$shadow-templates: (
+  'sm': '0 1px 2px',
+  'md': '0 4px 12px',
+  'lg': '0 12px 28px',
+  'xl': '0 24px 48px'
 ) !default;
 
-$maxwidths: (
-  'width-0': 500, 'width-1': 600, 'width-2': 800, 'width-3': 1100, 'width-4': 1300
+$z-stack: (
+  'dropdown': 900, 'sticky': 1000, 'fixed': 1030, 'modal': 1100
 ) !default;
-
-$gutterwidths: (
-  'small': 1rem,
-  'medium': 2rem,
-  'large': 4rem
-) !default;
-
-// -----------------------------------------------------------------------------
-// 5. BORDERS & EFFECTS
-// -----------------------------------------------------------------------------
-$default-border-radius: 4px !default;
-$default-box-shadow: 0 4px 12px rgba($headingColour, 0.08) !default;
