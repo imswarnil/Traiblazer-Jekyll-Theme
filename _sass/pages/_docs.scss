@@ -1,0 +1,91 @@
+/* ============================================================================
+   PAGE / DOCS HOMEPAGE
+   Styles for the main documentation landing page.
+   ============================================================================ */
+
+.docs-home-header {
+  text-align: center;
+  padding-block: var(--sf-8);
+  margin-bottom: var(--sf-6);
+}
+
+.docs-home-search {
+  position: relative;
+  max-width: var(--sf-container-md);
+  margin-inline: auto;
+  margin-bottom: var(--sf-8);
+
+  &__icon {
+    position: absolute;
+    top: 50%;
+    left: var(--sf-4);
+    transform: translateY(-50%);
+    font-size: var(--sf-icon-lg);
+    color: var(--sf-muted);
+    pointer-events: none;
+  }
+  &__input {
+    @include control-base(var(--sf-control-lg));
+    font-size: var(--sf-text-lg);
+    padding-left: calc(var(--sf-icon-lg) + var(--sf-4) + var(--sf-3));
+    width: 100%;
+  }
+}
+
+.docs-home-grid {
+  @include grid($cols: 1, $gap: var(--sf-5));
+  @include breakpoint(sm) { grid-template-columns: repeat(2, 1fr); }
+  @include breakpoint(lg) { grid-template-columns: repeat(3, 1fr); }
+}
+
+.docs-home-card {
+  display: block; // Makes the whole card a link
+  height: 100%;
+  background-color: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-sm);
+  transition: all .2s ease;
+  text-decoration: none;
+
+  @include hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sf-shadow-md);
+    border-color: var(--sf-brand);
+  }
+
+  &__header {
+    padding: var(--sf-4);
+    @include cluster($gap: var(--sf-3), $align: center);
+  }
+  &__icon {
+    font-size: var(--sf-icon-lg);
+    color: var(--sf-brand);
+  }
+  &__title {
+    margin: 0;
+    font-size: var(--sf-text-lg);
+    font-weight: 700;
+    color: var(--sf-fg);
+  }
+  &__description {
+    padding: 0 var(--sf-4) var(--sf-4);
+    color: var(--sf-fg-2);
+    font-size: var(--sf-text-sm);
+    flex-grow: 1;
+  }
+  &__footer {
+    padding: var(--sf-3) var(--sf-4);
+    margin-top: auto;
+    border-top: 1px solid var(--sf-line-2);
+    @include cluster($gap: var(--sf-2), $align: center);
+    font-size: var(--sf-text-xs);
+    font-weight: 600;
+    color: var(--sf-muted);
+  }
+}
+
+// JS State for search filtering
+.is-hidden {
+  display: none !important;
+}
