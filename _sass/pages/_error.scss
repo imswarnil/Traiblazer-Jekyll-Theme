@@ -1,170 +1,205 @@
 /* ============================================================================
-   PAGE / 404 FILM "Astro's Lost Transmission"
-   A 10-second animated film told with CSS.
+   PAGE / 404 FILM "The Lost Cloud"
+   A 10-second animated film set in the Salesforce ecosystem.
    ============================================================================ */
 
 // --- Keyframe Library ---
-@keyframes rocket-fly {
-  0% { transform: translate(-100%, 100%) rotate(-45deg) scale(0.5); opacity: 1; }
-  100% { transform: translate(100vw, -100vh) rotate(-45deg) scale(1.5); opacity: 1; }
+@keyframes cloud-float {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(120vw); }
 }
-
-@keyframes static-glitch {
-  0%, 100% { opacity: 0; }
-  20%, 80% { opacity: 1; }
-  50% { clip-path: inset(20% 0 60% 0); }
-  75% { clip-path: inset(80% 0 10% 0); }
+@keyframes cloud-glitch {
+  0%, 100% { transform: skew(0); }
+  25% { transform: skew(15deg, -5deg); }
+  50% { transform: skew(-10deg, 10deg) scale(1.1); }
+  75% { transform: skew(5deg, -15deg); }
 }
-
-@keyframes static-404-flicker {
-  0%, 100% { opacity: 0; }
-  50%, 60% { opacity: 1; text-shadow: 0 0 10px var(--sf-danger); }
-  55% { opacity: 0.5; }
+@keyframes cloud-face-panic {
+  from { content: '^_^'; }
+  50% { content: 'o_O'; }
+  to { content: 'x_x'; }
 }
-
-@keyframes astro-scene-fade-in {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
+@keyframes cloud-error-flicker {
+  from { opacity: 0; }
+  50% { opacity: 1; }
+  to { opacity: 0; }
 }
-
-@keyframes astro-panicked-float {
-  0% { transform: translate(-5px, -5px) rotate(3deg); }
-  25% { transform: translate(5px, 5px) rotate(-3deg); }
-  50% { transform: translate(-5px, 5px) rotate(3deg); }
-  75% { transform: translate(5px, -5px) rotate(-3deg); }
-  100% { transform: translate(-5px, -5px) rotate(3deg); }
+@keyframes sky-darken {
+  to { background-color: var(--sf-muted); }
 }
-
+@keyframes characters-enter {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
 @keyframes content-fade-in {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 // --- Main Stage ---
-.film-404 {
+.film-404-sf {
   display: grid;
   place-items: center;
-  height: 80vh;
-  min-height: 500px;
-  overflow: hidden;
+  height: 85vh;
+  min-height: 600px;
   background-color: var(--sf-bg-1);
+  overflow: hidden;
 
   &__stage {
     position: relative;
     width: 100%;
     height: 100%;
     
-    // All scenes are hidden by default
     .scene {
       position: absolute;
       inset: 0;
-      display: grid;
-      place-items: center;
-      opacity: 0;
+      opacity: 0; // All scenes are hidden by default
     }
   }
 }
 
-
-// --- Scene 1: Space & Rocket ---
-.scene--space {
+// --- Scene 1: Parallax Landscape ---
+.scene--landscape {
   opacity: 1; // Always visible
-  background-color: #0c1427; // Deep space blue
-  // Starfield effect from Lea Verou
-  background-image:
-    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
-    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
-    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
-    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
-  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
-  background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
-}
-.scene--rocket {
-  i {
-    font-size: clamp(40px, 8vw, 80px);
-    color: var(--sf-bg-hard);
-    text-shadow: 0 0 15px var(--sf-warning);
-  }
-}
-
-// --- Scene 2: Static Glitch ---
-.scene--static {
-  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAAFVLSURBVDjL7c5HAnAABADeoZv//+RCQjPAkwAiJEAJqZbOZxTTzhdbuExiCRNaxkYWcyuALEWKQtFYupC2FUyJhDF31relZMao5sCrHoE7A1SjYfmzWy4fG5wwXqrNZ5p2mrBDp9Z8kGHrEa8h09Z8rBH3aKbD5kxpP230YV2llBcZz0i13Lpi7g7YjYjLDjCIyIMPoGHBH5BAaMAA7');
-  
-  .static__404 {
-    font-family: var(--sf-font-mono);
-    font-size: clamp(8rem, 30vw, 20rem);
-    font-weight: 900;
-    color: var(--sf-bg-hard);
-  }
-}
-
-// --- Scene 3: Astro Scene ---
-.scene--astro {
-  .astro__character {
-    width: clamp(150px, 25vw, 250px);
-    animation-name: astro-panicked-float;
-    animation-duration: 2s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-  }
-  .astro__terminal {
+  > div {
     position: absolute;
-    bottom: 20%;
-    padding: var(--sf-2) var(--sf-4);
-    background-color: color-mix(in srgb, var(--sf-danger), black 30%);
-    border: 2px solid var(--sf-danger);
-    color: var(--sf-bg-hard);
-    border-radius: var(--sf-radius-md);
-    font-family: var(--sf-font-mono);
-    box-shadow: 0 0 15px var(--sf-danger);
-    transform: rotate(-10deg);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-repeat: repeat-x;
+    background-position: center bottom;
   }
+  .landscape__sky {
+    top: 0;
+    background: linear-gradient(to bottom, var(--sf-accent), color-mix(in srgb, var(--sf-accent), white 60%));
+    transition: background-color 1s ease;
+  }
+  // Simplified SVG shapes for buildings
+  .landscape__buildings-back { height: 60%; background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0 100 V 50 H 10 V 100 Z M 15 100 V 60 H 25 V 100 Z M 30 100 V 40 H 45 V 100 Z M 50 100 V 70 H 60 V 100 Z M 65 100 V 55 H 80 V 100 Z M 85 100 V 65 H 95 V 100 Z" fill="%23cfd7e0"/></svg>'); transform: scale(1.1); }
+  .landscape__salesforce-tower { height: 80%; background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 200"><path d="M25 0 L 40 200 H 10 Z" fill="%233f4954"/></svg>'); background-size: contain; background-position: 55% bottom; }
+  .landscape__buildings-front { height: 40%; background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0 100 V 70 H 15 V 100 Z M 20 100 V 60 H 35 V 100 Z M 40 100 V 80 H 60 V 100 Z M 65 100 V 50 H 85 V 100 Z" fill="%238a96a3"/></svg>'); }
+  .landscape__ground { height: 10%; background-color: var(--sf-fg-3); }
 }
 
-// --- Scene 4: Final Content ---
-.scene--content {
-  background: linear-gradient(to top, var(--sf-bg-1) 50%, transparent);
-  .content__title { font-size: var(--sf-text-3xl); font-weight: 800; color: var(--sf-fg); }
-  .content__subtitle { color: var(--sf-muted); max-width: 50ch; margin: var(--sf-4) auto var(--sf-6); }
-  .content__actions { /* ... uses sf-btn styles from previous answer ... */ }
-}
+// --- The Lost Cloud Actor ---
+.lost-cloud {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  width: 120px;
+  height: 80px;
 
-
-// --- The Film Director: .is-playing ---
-.film-404__stage.is-playing {
-  // Scene 1: Rocket flies from 0s to 2s
-  .scene--rocket {
-    animation: rocket-fly 2s linear forwards;
-  }
-  
-  // Scene 2: Static appears from 2s to 5s
-  .scene--static {
-    animation: static-glitch 3s steps(8) forwards;
-    animation-delay: 2s;
-    .static__404 {
-      animation: static-404-flicker 3s linear forwards;
-      animation-delay: 2s;
+  &__body {
+    width: 100%;
+    height: 100%;
+    background-color: var(--sf-bg-hard);
+    border-radius: 60px 60px 40px 40px / 40px 40px 30px 30px;
+    box-shadow: var(--sf-shadow-lg);
+    position: relative;
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      background-color: var(--sf-bg-hard);
+      border-radius: 50%;
     }
+    &::before { width: 60px; height: 60px; top: -30px; left: 15px; }
+    &::after { width: 80px; height: 80px; top: -40px; right: 5px; }
+  }
+  &__face {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--sf-font-mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--sf-fg);
+    z-index: 2;
+  }
+  &__error {
+    position: absolute;
+    inset: 0;
+    @include center;
+    font-family: var(--sf-font-mono);
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--sf-danger);
+    z-index: 3;
+    opacity: 0;
+  }
+}
+
+// --- Scene 3: Characters ---
+.scene--characters {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 8%;
+  gap: 2rem;
+  .character {
+    width: clamp(80px, 12vw, 120px);
+    &--codey { transform: scaleX(-1); } // Make Codey face Astro
+  }
+}
+
+// --- Scene 4: Content ---
+.scene--content {
+  @include center;
+  flex-direction: column;
+  text-align: center;
+  background: linear-gradient(to top, var(--sf-bg-1) 30%, transparent);
+  .content__title { /* ... */ }
+  .content__subtitle { /* ... */ }
+  .content__actions { /* ... */ }
+}
+
+// --- THE FILM DIRECTOR ---
+#film-stage.is-playing {
+  // --- Scene 1: The Cloud Floats (0s -> 2s) ---
+  .scene--cloud-actor .lost-cloud {
+    animation: cloud-float 2s linear forwards;
+  }
+  .scene--landscape .landscape__buildings-back { animation: cloud-float 2s linear forwards .05s; }
+  .scene--landscape .landscape__salesforce-tower { animation: cloud-float 2s linear forwards .1s; }
+  .scene--landscape .landscape__buildings-front { animation: cloud-float 2s linear forwards .15s; }
+
+  // --- Scene 2: The Glitch (2s -> 4s) ---
+  .scene--landscape .landscape__sky {
+    animation: sky-darken 1s ease forwards;
+    animation-delay: 2s;
+  }
+  .lost-cloud {
+    animation: cloud-float 2s linear forwards, cloud-glitch 0.2s steps(4) infinite;
+    animation-delay: 0s, 2s;
+  }
+  .lost-cloud__face {
+    animation: cloud-face-panic 1s steps(2, end) forwards;
+    animation-delay: 2s;
+  }
+  .lost-cloud__error {
+    animation: cloud-error-flicker 0.5s steps(2, end) infinite;
+    animation-delay: 2.2s;
   }
 
-  // Scene 3: Astro appears from 5s to 8s
-  .scene--astro {
-    animation: astro-scene-fade-in 0.5s ease forwards;
-    animation-delay: 5s;
+  // --- Scene 3: Characters Appear (4s -> 7s) ---
+  .scene--characters {
+    animation: characters-enter 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation-delay: 4s;
+  }
+
+  // --- Scene 4: Content Appears (7s -> 10s) ---
+  .scene--content {
+    animation: content-fade-in 1s ease forwards;
+    animation-delay: 7s;
   }
   
-  // Scene 4: Content appears from 8s to 10s
-  .scene--content {
-    animation: content-fade-in 0.8s ease forwards;
-    animation-delay: 8s;
+  // --- Cleanup for Loop ---
+  // Fade out all scenes except the landscape at the end.
+  .scene--cloud-actor, .scene--characters, .scene--content {
+    animation-fill-mode: forwards;
+    animation-name: fade-out;
+    animation-duration: 0.5s;
+    animation-delay: 9.5s;
   }
-
-  // Fade out everything to loop smoothly at 9.5s
-  .scene--astro, .scene--content {
-    animation-duration: 3s, 2s; // astro-scene, content-fade
-    animation-name: astro-scene-fade-in, content-fade-in, fade-out;
-    animation-delay: 5s, 8s, 9.5s;
-  }
-  @keyframes fade-out { to { opacity: 0; } }
+  @keyframes fade-out { to { opacity: 0 !important; } }
 }

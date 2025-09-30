@@ -1,78 +1,67 @@
-<div class="film-404">
-  <div class="film-404__stage">
+<div class="film-404-sf">
+  <div class="film-404-sf__stage" id="film-stage">
 
-    <!-- Scene 1: Starry Background (Always visible) -->
-    <div class="scene scene--space" id="scene-space">
-      <div class="stars"></div>
-      <div class="stars"></div>
-      <div class="stars"></div>
-    </div>
-    
-    <!-- Scene 1: The Rocket -->
-    <div class="scene scene--rocket" id="scene-rocket">
-      <i class="ph-bold ph-rocket-launch"></i>
+    <!-- Scene 1: The Parallax Landscape -->
+    <div class="scene scene--landscape">
+      <div class="landscape__sky"></div>
+      <div class="landscape__buildings-back"></div>
+      <div class="landscape__salesforce-tower"></div>
+      <div class="landscape__buildings-front"></div>
+      <div class="landscape__ground"></div>
     </div>
 
-    <!-- Scene 2: The Static Glitch -->
-    <div class="scene scene--static" id="scene-static">
-      <div class="static__404">404</div>
-    </div>
-
-    <!-- Scene 3: Astro & The Broken Terminal -->
-    <div class="scene scene--astro" id="scene-astro">
-      <div class="astro__character">
-        <!-- Simplified Astro SVG -->
-        <svg viewBox="0 0 185 185" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M129.5 56.5C129.5 44.3482 119.652 34.5 107.5 34.5C95.3482 34.5 85.5 44.3482 85.5 56.5C85.5 68.6518 95.3482 78.5 107.5 78.5C119.652 78.5 129.5 68.6518 129.5 56.5Z" fill="var(--sf-bg-hard)"/>
-          <path d="M136.602 110.165C138.643 97.4699 143.153 85.5 150 75C150 75 148.5 125 129.5 137.5C129.5 137.5 129.5 142 122 142C114.5 142 107.5 142 107.5 142C107.5 142 100 142 93 142C85.5 142 85.5 137.5 85.5 137.5C66.5 125 65 75 65 75C71.8472 85.5 76.3572 97.4699 78.3983 110.165C79.4326 116.591 84.7778 121.5 91.25 121.5H103.75C110.222 121.5 115.567 116.591 116.602 110.165H136.602Z" fill="var(--sf-bg-hard)"/>
-          <circle cx="107.5" cy="104.5" r="37" fill="var(--sf-line-2)" stroke="var(--sf-bg-hard)" stroke-width="2"/>
-          <path d="M141.5 104.5C141.5 123.328 126.328 138.5 107.5 138.5C88.6716 138.5 73.5 123.328 73.5 104.5C73.5 85.6716 88.6716 70.5 107.5 70.5C126.328 70.5 141.5 85.6716 141.5 104.5Z" fill="url(#astro-gradient)"/>
-          <circle cx="107.5" cy="56.5" r="37" fill="var(--sf-bg-hard)"/>
-          <path d="M96 59C96 57.3431 97.3431 56 99 56C100.657 56 102 57.3431 102 59C102 60.6569 100.657 62 99 62C97.3431 62 96 60.6569 96 59Z" fill="var(--sf-fg-3)"/>
-          <path d="M114 59C114 57.3431 115.343 56 117 56C118.657 56 120 57.3431 120 59C120 60.6569 118.657 62 117 62C115.343 62 114 60.6569 114 59Z" fill="var(--sf-fg-3)"/>
-          <path d="M102 68H113" stroke="var(--sf-fg-3)" stroke-width="2" stroke-linecap="round"/>
-          <defs><radialGradient id="astro-gradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(107.5 70.5) rotate(90) scale(68)"><stop stop-color="var(--sf-bg-hard)" stop-opacity="0.2"/><stop offset="1" stop-color="var(--sf-bg-hard)" stop-opacity="0"/></radialGradient></defs>
-        </svg>
+    <!-- The Star of the Show: The Lost Cloud -->
+    <div class="scene scene--cloud-actor">
+      <div class="lost-cloud">
+        <div class="lost-cloud__body"></div>
+        <div class="lost-cloud__face">^_^</div>
+        <div class="lost-cloud__error">404</div>
       </div>
-      <div class="astro__terminal">CONNECTION LOST</div>
     </div>
     
-    <!-- Scene 4: The Content -->
-    <div class="scene scene--content" id="scene-content">
-      <h1 class="content__title">Lost in Space?</h1>
+    <!-- Scene 3: The Characters -->
+    <div class="scene scene--characters">
+      <div class="character character--astro">
+        <!-- Astro SVG -->
+        <svg viewBox="0 0 185 185"><path d="M129.5 56.5C129.5 44.3482 119.652 34.5 107.5 34.5C95.3482 34.5 85.5 44.3482 85.5 56.5C85.5 68.6518 95.3482 78.5 107.5 78.5C119.652 78.5 129.5 68.6518 129.5 56.5Z" fill="var(--sf-bg-hard)"/><path d="M136.602 110.165C138.643 97.4699 143.153 85.5 150 75C150 75 148.5 125 129.5 137.5C129.5 137.5 129.5 142 122 142C114.5 142 107.5 142 107.5 142C107.5 142 100 142 93 142C85.5 142 85.5 137.5 85.5 137.5C66.5 125 65 75 65 75C71.8472 85.5 76.3572 97.4699 78.3983 110.165C79.4326 116.591 84.7778 121.5 91.25 121.5H103.75C110.222 121.5 115.567 116.591 116.602 110.165H136.602Z" fill="var(--sf-bg-hard)"/><circle cx="107.5" cy="104.5" r="37" fill="var(--sf-line-2)" stroke="var(--sf-bg-hard)" stroke-width="2"/><path d="M141.5 104.5C141.5 123.328 126.328 138.5 107.5 138.5C88.6716 138.5 73.5 123.328 73.5 104.5C73.5 85.6716 88.6716 70.5 107.5 70.5C126.328 70.5 141.5 85.6716 141.5 104.5Z" fill="url(#astro-gradient)"/><circle cx="107.5" cy="56.5" r="37" fill="var(--sf-bg-hard)"/><path d="M96 59C96 57.3431 97.3431 56 99 56C100.657 56 102 57.3431 102 59C102 60.6569 100.657 62 99 62C97.3431 62 96 60.6569 96 59Z" fill="var(--sf-fg-3)"/><path d="M114 59C114 57.3431 115.343 56 117 56C118.657 56 120 57.3431 120 59C120 60.6569 118.657 62 117 62C115.343 62 114 60.6569 114 59Z" fill="var(--sf-fg-3)"/><path d="M102 68H113" stroke="var(--sf-fg-3)" stroke-width="2" stroke-linecap="round"/><defs><radialGradient id="astro-gradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(107.5 70.5) rotate(90) scale(68)"><stop stop-color="var(--sf-bg-hard)" stop-opacity="0.2"/><stop offset="1" stop-color="var(--sf-bg-hard)" stop-opacity="0"/></radialGradient></defs></svg>
+      </div>
+      <div class="character character--codey">
+        <!-- Codey the Bear SVG -->
+        <svg viewBox="0 0 100 100"><path d="M50 10 C 20 10, 20 40, 50 40 C 80 40, 80 10, 50 10 Z M 35 25 C 38 25, 38 30, 35 30 C 32 30, 32 25, 35 25 Z M 65 25 C 68 25, 68 30, 65 30 C 62 30, 62 25, 65 25 Z" fill="var(--sf-fg-3)"/><path d="M50 45 C 30 45, 25 90, 50 90 C 75 90, 70 45, 50 45 Z" fill="var(--sf-fg-2)"/><circle cx="50" cy="65" r="15" fill="var(--sf-bg-hard)"/></svg>
+      </div>
+    </div>
+
+    <!-- Scene 4: The Final Content -->
+    <div class="scene scene--content">
+      <h1 class="content__title">Looks like this cloud is lost.</h1>
       <p class="content__subtitle">
-        Your request went on an adventure, but it seems to have missed its destination. Let's guide you back to the right orbit.
+        Don't worry, our best Trailblazers are on the case! While they figure out the map, let's get you back to a known destination.
       </p>
       <div class="content__actions">
         <a href="{{ '/' | relative_url }}" class="sf-btn sf-btn--primary">
           <i class="ph-bold ph-house"></i>
-          <span>Return to Earth</span>
+          <span>Return to Ohana</span>
         </a>
         <a href="{{ '/docs/' | relative_url }}" class="sf-btn">
-          <i class="ph-bold ph-star"></i>
-          <span>Explore the Galaxy</span>
+          <i class="ph-bold ph-compass"></i>
+          <span>Check the Trail Map</span>
         </a>
       </div>
     </div>
+
   </div>
 </div>
 
 <script>
-  // This small script orchestrates our film loop
   document.addEventListener('DOMContentLoaded', () => {
-    const stage = document.querySelector('.film-404__stage');
+    const stage = document.getElementById('film-stage');
     if (stage) {
       const runFilm = () => {
         stage.classList.remove('is-playing');
-        // This tiny delay forces the browser to restart the CSS animations
         void stage.offsetWidth;
         stage.classList.add('is-playing');
       };
-
-      // Run the film on load
       runFilm();
-      
-      // Set it to loop every 10 seconds
       setInterval(runFilm, 10000);
     }
   });
