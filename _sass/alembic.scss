@@ -6,13 +6,10 @@
 // 1) ABSTRACTS — core, no output deps broken
 @import "abstracts/variables";
 @import "abstracts/tokens";
+@import "abstracts/root";
+
 @import "abstracts/themes"; // <-- ADD THIS LINE
 @import "abstracts/mixins";
-
-   // 2) ABSTRACTS (emits CSS utilities powered by the above)
-@import "abstracts/placeholders";   // skeleton loaders; uses tokens + mixins + functions
-        // theme overrides; uses tokens
-   
 
 // 2. BASE
 // Contains global styles, resets, and typography.
