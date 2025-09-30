@@ -1,0 +1,30 @@
+---
+layout: default
+---
+<header class="page-header page-header--compact">
+  <div class="sf-container">
+    <h1 class="sf-h1">{{ page.title }}</h1>
+    <p class="page-header-v8__description">{{ page.description }}</p>
+  </div>
+</header>
+
+<div class="page-body-section-v8">
+  <div class="sf-container">
+    <div class="docs-grid">
+      {% assign sorted_docs = site.docs | sort: 'order' %}
+      {% for doc in sorted_docs %}
+        <a href="{{ doc.url | relative_url }}" class="sf-card sf-card--interactive doc-card">
+          <div class="sf-card__body">
+            <div class="doc-card__icon">
+              <i class="ph-bold ph-{{ doc.icon | default: 'book-open' }}"></i>
+            </div>
+            <div class="doc-card__content">
+              <h2 class="sf-h4 doc-card__title">{{ doc.title }}</h2>
+              <p class="doc-card__description">{{ doc.description }}</p>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>

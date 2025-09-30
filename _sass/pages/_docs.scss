@@ -1,0 +1,123 @@
+/* ============================================================================
+   COMPONENTS / DOCS.SCSS
+   Styles for the documentation listing page and individual doc articles.
+   ============================================================================ */
+
+/* --- 1. Main Docs Listing Page --- */
+.docs-grid {
+  display: grid;
+  gap: var(--sf-6);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+.doc-card {
+  text-decoration: none;
+  // Use the card base, just styling the interior content
+  .sf-card__body {
+    display: flex;
+    gap: var(--sf-5);
+    align-items: flex-start;
+  }
+  
+  &__icon {
+    font-size: 2rem;
+    color: var(--sf-brand);
+    background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent);
+    border-radius: var(--sf-radius-md);
+    padding: var(--sf-3);
+    flex-shrink: 0;
+  }
+  
+  &__title {
+    margin: 0 0 var(--sf-2) 0;
+    color: var(--sf-fg);
+  }
+  
+  &__description {
+    margin: 0;
+    color: var(--sf-fg-2);
+    font-size: var(--sf-text-sm);
+  }
+}
+
+
+/* --- 2. Individual Doc Page Layout --- */
+.doc-page-grid-container {
+  display: grid;
+  gap: var(--sf-8);
+  
+  // Mobile: Stack content on top of sidebar
+  grid-template-columns: minmax(0, 1fr);
+  
+  // Desktop: Sidebar + Content
+  @include breakpoint(md) {
+    grid-template-columns: 280px minmax(0, 1fr);
+  }
+}
+
+.doc-sidebar {
+  @include breakpoint(md) {
+    position: sticky;
+    top: calc(var(--sf-nav-height) + var(--sf-4));
+    align-self: start;
+    max-height: calc(100vh - var(--sf-nav-height) - 60px);
+    overflow-y: auto;
+  }
+}
+
+.doc-sidebar-nav {
+  margin-bottom: var(--sf-6);
+  &__title {
+    font-size: var(--sf-text-sm);
+    font-weight: 600;
+    color: var(--sf-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--sf-tracking-wide);
+    padding-inline: var(--sf-3);
+    margin-bottom: var(--sf-2);
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    display: block;
+    padding: var(--sf-2) var(--sf-3);
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--sf-fg-2);
+    border-radius: var(--sf-radius-md);
+    border-left: 3px solid transparent;
+
+    &:hover {
+      background-color: var(--sf-bg-1);
+      color: var(--sf-fg);
+    }
+    
+    // Active State for the current page
+    &.is-active {
+      background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent);
+      color: var(--sf-brand);
+      font-weight: 600;
+      border-left-color: var(--sf-brand);
+    }
+  }
+}
+
+// Styles for the main content area of a doc page
+.doc-content-main {
+  .doc-content-title {
+    margin-top: 0;
+  }
+  .doc-content-description {
+    font-size: var(--sf-text-xl);
+    color: var(--sf-fg-2);
+  }
+  hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--sf-line-2);
+    margin: var(--sf-6) 0;
+  }
+}
