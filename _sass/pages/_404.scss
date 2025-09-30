@@ -1,0 +1,123 @@
+/* ============================================================================
+   PAGE / 404 NOT FOUND
+   A unique, funny, and animated 404 page layout.
+   ============================================================================ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes map-wobble {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px 5px color-mix(in srgb, var(--sf-brand), transparent 80%); }
+  50% { box-shadow: 0 0 35px 15px color-mix(in srgb, var(--sf-brand), transparent 90%); }
+}
+
+.layout-404 {
+  display: grid;
+  place-content: center;
+  min-height: 80vh;
+  padding: var(--sf-8);
+  text-align: center;
+  overflow: hidden;
+
+  .sf-container {
+    position: relative;
+    z-index: 2;
+  }
+}
+
+.not-found {
+  &__scene {
+    position: relative;
+    margin-bottom: var(--sf-6);
+    // Add some perspective for 3D-ish animations
+    perspective: 1000px;
+  }
+
+  &__astro {
+    // The main floating character
+    display: inline-block;
+    animation: float 6s ease-in-out infinite;
+
+    .ph-bold {
+      font-size: clamp(120px, 25vw, 200px);
+      color: var(--sf-brand);
+      text-shadow: 0 10px 30px color-mix(in srgb, var(--sf-brand), transparent 70%);
+      line-height: 1;
+    }
+  }
+
+  &__map {
+    // The wobbly map in the character's hand
+    position: absolute;
+    bottom: 10%;
+    right: -5%;
+    transform-origin: bottom right;
+    animation: map-wobble 4s ease-in-out infinite alternate;
+    .ph-bold {
+      font-size: clamp(40px, 8vw, 60px);
+      color: var(--sf-fg-3);
+    }
+  }
+
+  &__portal {
+    // The glowing background portal
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: clamp(200px, 40vw, 300px);
+    height: clamp(200px, 40vw, 300px);
+    background-color: color-mix(in srgb, var(--sf-bg-2), transparent 20%);
+    border-radius: 50%;
+    filter: blur(20px);
+    z-index: -1;
+    animation: pulse-glow 5s ease-in-out infinite;
+  }
+
+  &__title {
+    font-size: var(--sf-text-3xl);
+    font-weight: 800;
+    margin-bottom: var(--sf-2);
+  }
+
+  &__subtitle {
+    font-size: var(--sf-text-lg);
+    color: var(--sf-muted);
+    max-width: var(--sf-measure);
+    margin-inline: auto;
+    margin-bottom: var(--sf-6);
+  }
+
+  &__actions {
+    @include cluster($gap: var(--sf-4), $justify: center);
+    
+    // Add styles for your button component if you have one.
+    // Assuming a `.sf-btn` class for this example.
+    .sf-btn {
+      @include control-base();
+      @include cluster($gap: var(--sf-2));
+      font-weight: 600;
+      padding-inline: var(--sf-5);
+      text-decoration: none;
+      transition: all .2s ease;
+
+      &--primary {
+        background-color: var(--sf-brand);
+        color: white;
+        border-color: var(--sf-brand);
+        @include hover { background-color: var(--sf-brand-hover); }
+      }
+      @include hover {
+        transform: translateY(-2px);
+        box-shadow: var(--sf-shadow-md);
+      }
+    }
+  }
+}
