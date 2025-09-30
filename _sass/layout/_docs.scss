@@ -261,3 +261,325 @@
 
 // --- JS States for search filtering ---
 .is-hidden { display: none !important; }
+
+
+
+
+
+/* ============================================================================
+   LAYOUT / DOCS (PROFESSIONAL EDITION)
+   A comprehensive, single-file stylesheet for a world-class documentation portal.
+   ============================================================================ */
+
+// --- Main Layout Grid ---
+.docs-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  &--article {
+    @include breakpoint(md) { grid-template-columns: 260px 1fr; gap: var(--sf-6); }
+    @include breakpoint(lg) { grid-template-columns: 260px minmax(0, var(--sf-measure)) 1fr; gap: var(--sf-8); }
+  }
+}
+
+// --- Universal Docs Header ---
+.docs-header {
+  padding-block: var(--sf-6) 0;
+  margin-bottom: var(--sf-8);
+  &--home { text-align: center; border-bottom: none; }
+}
+
+// --- Mobile Navigation Trigger ---
+.docs-nav-trigger {
+  @include button-reset;
+  @include cluster($gap: var(--sf-2), $align: center);
+  font-size: var(--sf-text-sm);
+  font-weight: 600;
+  color: var(--sf-fg-2);
+  cursor: pointer;
+  margin-bottom: var(--sf-6);
+  .ph-bold { font-size: var(--sf-icon-md); }
+  @include hover { color: var(--sf-brand); }
+  @include breakpoint(md) { display: none; }
+}
+
+
+// --- Sidebar ---
+// --- Sidebar (Off-Canvas Mobile, Sticky Desktop) ---
+.docs-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: var(--sf-z-modal);
+  width: 280px;
+  background-color: var(--sf-bg-1);
+  border-right: 1px solid var(--sf-line-2);
+  padding: var(--sf-4);
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s var(--sf-ease-standard, ease);
+
+  &.is-open {
+    transform: translateX(0);
+    box-shadow: var(--sf-shadow-lg);
+  }
+
+  @include breakpoint(md) {
+    position: sticky;
+    top: calc(var(--sf-nav-height) + var(--sf-4));
+    height: calc(100vh - var(--sf-nav-height) - (2 * var(--sf-4)));
+    padding: 0;
+    transform: none;
+    box-shadow: none;
+    z-index: 1;
+    background-color: transparent;
+    border: none;
+  }
+
+  &__close {
+    @include button-reset;
+    position: absolute;
+    top: var(--sf-3);
+    right: var(--sf-3);
+    font-size: var(--sf-icon-lg);
+    color: var(--sf-muted);
+    cursor: pointer;
+    @include hover { color: var(--sf-brand); }
+    @include breakpoint(md) { display: none; }
+  }
+}
+
+.docs-sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--sf-backdrop);
+  z-index: calc(var(--sf-z-modal) - 1);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+
+  &.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @include breakpoint(md) { display: none; }
+}
+
+// --- Sidebar Navigation Links ---
+.docs-nav-list {
+  list-style: none;
+  padding: 0;
+}
+.docs-nav-category {
+  margin-top: var(--sf-4);
+  &:first-child { margin-top: 0; }
+}
+.docs-nav-category__title {
+  @include cluster($gap: var(--sf-2), $align: center);
+  padding: var(--sf-3) 0;
+  font-size: var(--sf-text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--sf-tracking-wide);
+  color: var(--sf-muted);
+}
+.docs-nav-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--sf-2) var(--sf-3);
+  margin-bottom: var(--sf-1);
+  font-size: var(--sf-text-sm);
+  font-weight: 500;
+  color: var(--sf-fg-2);
+  border-radius: var(--sf-radius-md);
+  transition: background-color .15s ease, color .15s ease;
+
+  @include hover {
+    background-color: var(--sf-bg-2);
+    color: var(--sf-fg);
+  }
+  &.is-active {
+    background-color: var(--sf-bg-2);
+    color: var(--sf-brand);
+    font-weight: 600;
+    box-shadow: var(--sf-shadow-sm);
+  }
+}
+
+// --- Article Content ---
+.docs-content {
+  // Styles for injected TOC on mobile
+  .docs-toc--inline {
+    margin-block: var(--sf-6);
+    padding: var(--sf-4);
+    background-color: var(--sf-bg-2);
+    border: 1px solid var(--sf-line-2);
+    border-radius: var(--sf-radius-lg);
+    @include breakpoint(lg) { display: none; } // Hide inline TOC on desktop
+  }
+
+  // Standard content styling
+  h1, h2, h3 { scroll-margin-top: calc(var(--sf-nav-height) + var(--sf-4)); }
+  h2 { padding-bottom: var(--sf-3); border-bottom: 1px solid var(--sf-line-2); margin-top: var(--sf-8); }
+  h3 { margin-top: var(--sf-6); }
+  code:not(pre > code) { background-color: var(--sf-line-2); padding: .1em .3em; border-radius: var(--sf-radius-sm); font-size: .9em; }
+  img { border-radius: var(--sf-radius-lg); box-shadow: var(--sf-shadow-md); margin-block: var(--sf-5); }
+}
+
+// --- Aside (Desktop TOC & Ads) ---
+.docs-aside {
+  display: none;
+  @include breakpoint(lg) {
+    display: block;
+    position: sticky;
+    top: calc(var(--sf-nav-height) + var(--sf-4));
+    height: calc(100vh - var(--sf-nav-height) - (2 * var(--sf-4)));
+  }
+}
+
+
+.toc-list {
+  font-size: var(--sf-text-sm);
+  list-style: none;
+  padding: 0;
+  .toc-list { padding-left: var(--sf-4); } // Nested
+  a {
+    display: block;
+    padding: var(--sf-2) 0;
+    color: var(--sf-fg-3);
+    border-left: 2px solid var(--sf-line-2);
+    padding-left: var(--sf-3);
+    transition: all .15s ease;
+    @include hover { color: var(--sf-fg); border-left-color: var(--sf-muted); }
+    &.is-active { color: var(--sf-brand); font-weight: 600; border-left-color: var(--sf-brand); transform: translateX(4px); }
+  }
+}
+.toc-list-title {
+  font-size: var(--sf-text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--sf-muted);
+  margin-bottom: var(--sf-4);
+}
+
+// --- Professional Metadata & CTAs ---
+.docs-meta {
+  margin-top: var(--sf-8);
+  padding-top: var(--sf-6);
+  border-top: 1px solid var(--sf-line-2);
+  @include cluster($gap: var(--sf-4), $align: center, $justify: space-between);
+  font-size: var(--sf-text-sm);
+  a {
+    color: var(--sf-fg-2);
+    font-weight: 500;
+    @include cluster($gap: var(--sf-2), $align: center);
+    @include hover { color: var(--sf-brand); }
+  }
+}
+.docs-breadcrumb {
+  list-style: none;
+  padding: 0;
+  margin-bottom: var(--sf-4);
+  @include cluster($gap: var(--sf-2), $align: center);
+  font-size: var(--sf-text-sm);
+  color: var(--sf-muted);
+  a { color: var(--sf-fg-2); }
+  .ph-caret-right { font-size: 1em; }
+}
+
+// --- Professional Pagination ---
+.docs-pagination {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sf-4);
+  margin-top: var(--sf-8);
+  padding-top: var(--sf-6);
+  border-top: 1px solid var(--sf-line-2);
+  @include breakpoint(sm) { grid-template-columns: 1fr 1fr; }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--sf-4);
+    border: 1px solid var(--sf-line-2);
+    border-radius: var(--sf-radius-lg);
+    background-color: var(--sf-bg-2);
+    transition: all .2s ease;
+    text-decoration: none;
+
+    @include hover {
+      border-color: var(--sf-brand);
+      transform: translateY(-4px);
+      box-shadow: var(--sf-shadow-md);
+    }
+
+    &--next { text-align: right; }
+  }
+  &__label { font-size: var(--sf-text-sm); font-weight: 600; color: var(--sf-muted); margin-bottom: var(--sf-2); }
+  &__title { color: var(--sf-fg); font-weight: 600; }
+}
+
+// --- Docs Homepage: Search & Cards ---
+.docs-search { /* ... (same as before) ... */ }
+.docs-category-grid { /* ... (same as before) ... */ }
+
+// --- REUSABLE CARD COMPONENT ---
+.docs-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--sf-bg-2);
+  border: 1px solid var(--sf-line-2);
+  border-radius: var(--sf-radius-lg);
+  box-shadow: var(--sf-shadow-sm);
+  transition: all .2s ease;
+  text-decoration: none;
+
+  @include hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sf-shadow-md);
+    border-color: var(--sf-brand);
+  }
+
+  &__header {
+    padding: var(--sf-4);
+    @include cluster($gap: var(--sf-3), $align: center);
+    .ph-bold { font-size: var(--sf-icon-lg); color: var(--sf-brand); }
+    h3, h2 { margin: 0; font-size: var(--sf-text-lg); color: var(--sf-fg); }
+  }
+  &__description {
+    padding: 0 var(--sf-4) var(--sf-4);
+    color: var(--sf-fg-2);
+    font-size: var(--sf-text-sm);
+    flex-grow: 1;
+  }
+  &__footer {
+    padding: var(--sf-3) var(--sf-4);
+    margin-top: auto;
+    border-top: 1px solid var(--sf-line-2);
+    @include cluster($gap: var(--sf-2), $align: center);
+    font-size: var(--sf-text-xs);
+    font-weight: 600;
+    color: var(--sf-muted);
+  }
+}
+
+// Ad/Sponsor Placeholder (Can be used anywhere)
+.docs-ad-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sf-4);
+  margin-top: var(--sf-6);
+  border-radius: var(--sf-radius-lg);
+  border: 1px dashed var(--sf-line-1);
+  background-color: var(--sf-bg-2);
+  text-align: center;
+  font-size: var(--sf-text-xs);
+  color: var(--sf-muted);
+
+  .ph-bold { font-size: 2rem; margin-right: var(--sf-3); }
+  span { font-weight: 600; }
+}

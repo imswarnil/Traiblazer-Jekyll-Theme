@@ -1,15 +1,17 @@
 ---
 layout: default
 ---
-<!-- This single layout file handles both the docs homepage and individual article pages -->
-
-<!-- Backdrop for the mobile sidebar navigation, present on all docs pages -->
 <div class="docs-sidebar-backdrop" id="docs-sidebar-backdrop"></div>
 <div class="sf-container">
 
+  {% comment %} Logic to get category info from folder name {% endcomment %}
+  {% assign path_parts = page.path | split: '/' %}
+  {% assign category_slug = path_parts[1] %}
+  {% assign category_page = site.docs | where_exp: "item", "item.path contains '_index.md'" | where: "category_slug", category_slug | first %}
+
   {% if page.url == '/docs/' %}
     <!-- ====================================================== -->
-    <!-- DOCS HOMEPAGE VIEW (renders only for /docs/)           -->
+    <!-- DOCS HOMEPAGE VIEW (/docs/)                              -->
     <!-- ====================================================== -->
     <header class="docs-header docs-header--home">
       <h1 class="sf-h1">{{ page.title }}</h1>
@@ -22,49 +24,59 @@ layout: default
     </div>
 
     <div class="docs-category-grid" id="docs-category-grid">
-      {% assign docs_by_category = site.docs | group_by: "category" %}
-      {% for category in docs_by_category %}
-        {% assign category_page = category.items | where_exp: "item", "item.title == 'Overview'" | first %}
-        {% assign items = category.items | sort: "order" %}
-        <div class="docs-category-card" data-category-name="{{ category.name | downcase }}">
-          <header class="docs-category-card__header">
-            <i class="ph-bold ph-{{ category_page.category_icon | default: 'folder-simple' }} docs-category-card__icon"></i>
-            <h2 class="docs-category-card__title">{{ category.name }}</h2>
-            <span class="docs-category-card__count">{{ items.size }}</span>
-          </header>
-          <ul class="docs-category-card__list">
-            {% for doc in items %}
-              <li class="docs-category-card__item" data-doc-title="{{ doc.title | downcase }}">
-                <a href="{{ doc.url | relative_url }}">
-                  <i class="ph-bold ph-file-text"></i>
-                  <span>{{ doc.title }}</span>
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </div>
+      {% assign categories = site.docs | where_exp: "item", "item.path contains '_index.md'" | sort: "order" %}
+      {% for cat_page in categories %}
+        {% assign docs_in_category = site.docs | where: "category_slug", cat_page.category_slug %}
+        {% include docs_card.html
+          card_url=cat_page.url
+          card_icon=cat_page.category_icon
+          card_title=cat_page.category_title
+          card_description=cat_page.content | strip_html | truncatewords: 20
+          card_footer_text=docs_in_category.size | append: " articles"
+        %}
       {% endfor %}
     </div>
 
+  {% elsif page.path contains '_index.md' %}
+    <!-- ====================================================== -->
+    <!-- DOCS CATEGORY LANDING PAGE (e.g., /docs/getting-started/) -->
+    <!-- ====================================================== -->
+    <header class="docs-header">
+      <h1 class="sf-h1">{{ page.category_title }}</h1>
+      <p class="sf-text--large sf-text--muted">{{ page.content | strip_html }}</p>
+    </header>
+
+    <div class="docs-category-grid">
+      {% assign docs_in_this_category = site.docs | where: "category_slug", page.category_slug | where_exp: "item", "item.path != page.path" | sort: "order" %}
+      {% for doc in docs_in_this_category %}
+        {% include docs_card.html
+          card_url=doc.url
+          card_icon="file-text"
+          card_title=doc.title
+          card_description=doc.description | default: "Click to read this article."
+        %}
+      {% endfor %}
+    </div>
+    
   {% else %}
     <!-- ====================================================== -->
-    <!-- DOCS ARTICLE VIEW (renders for all other docs pages)   -->
+    <!-- DOCS ARTICLE VIEW (all other pages)                    -->
     <!-- ====================================================== -->
     <div class="docs-grid docs-grid--article">
-      <!-- Left Column: Sidebar Navigation -->
+      <!-- Left Column: Sidebar -->
       <aside class="docs-sidebar" id="docs-sidebar">
         <button class="docs-sidebar__close" id="docs-sidebar-close" aria-label="Close navigation"><i class="ph-bold ph-x"></i></button>
         <nav>
-          {% assign categories = site.docs | where_exp: "item", "item.title == 'Overview'" | sort: "order" %}
-          {% for category_page in categories %}
+          {% assign categories = site.docs | where_exp: "item", "item.path contains '_index.md'" | sort: "order" %}
+          {% for cat_page in categories %}
             <div class="docs-nav-category">
               <h2 class="docs-nav-category__title">
-                <i class="ph-bold ph-{{ category_page.category_icon | default: 'folder' }}"></i>
-                <span>{{ category_page.category }}</span>
+                <i class="ph-bold ph-{{ cat_page.category_icon | default: 'folder' }}"></i>
+                <span>{{ cat_page.category_title }}</span>
               </h2>
               <ul class="docs-nav-list">
-                {% assign docs_in_category = site.docs | where: "category", category_page.category | sort: "order" %}
-                {% for doc in docs_in_category %}
+                {% assign docs_in_cat = site.docs | where: "category_slug", cat_page.category_slug | sort: "order" %}
+                {% for doc in docs_in_cat %}
                   <li><a href="{{ doc.url | relative_url }}" class="docs-nav-link {% if page.url == doc.url %}is-active{% endif %}">{{ doc.title }}</a></li>
                 {% endfor %}
               </ul>
@@ -77,30 +89,60 @@ layout: default
       <main class="docs-main">
         <header class="docs-header">
           <button class="docs-nav-trigger" id="docs-nav-trigger" aria-label="Open navigation"><i class="ph-bold ph-list"></i><span>Browse</span></button>
+          
+          <ul class="docs-breadcrumb">
+            <li><a href="{{ '/docs/' | relative_url }}">Docs</a></li>
+            <li><i class="ph-bold ph-caret-right"></i></li>
+            <li>{{ category_page.category_title }}</li>
+          </ul>
+
           <h1 class="sf-h1">{{ page.title }}</h1>
           {% if page.description %}<p class="sf-text--large sf-text--muted">{{ page.description }}</p>{% endif %}
         </header>
-        <div class="docs-content">{{ content }}</div>
+
+        {% assign content_parts = content | split: '</p>' %}
+        <div class="docs-content">
+          {{ content_parts | first | append: '</p>' }}
+          
+          <div class="docs-toc--inline">
+            {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
+          </div>
+          
+          {{ content_parts | shift | join: '</p>' }}
+        </div>
         
-        <!-- Pagination -->
-        <nav class="docs-pagination" aria-label="Documentation Pagination">
-          {% if page.previous.url %}<a href="{{ page.previous.url | relative_url }}" class="docs-pagination__link docs-pagination__link--prev"><i class="ph-bold ph-arrow-left"></i><span class="docs-pagination__label">Previous</span><span class="docs-pagination__title">{{ page.previous.title }}</span></a>{% endif %}
-          {% if page.next.url %}<a href="{{ page.next.url | relative_url }}" class="docs-pagination__link docs-pagination__link--next"><i class="ph-bold ph-arrow-right"></i><span class="docs-pagination__label">Next</span><span class="docs-pagination__title">{{ page.next.title }}</span></a>{% endif %}
+        <div class="docs-meta">
+          <a href="{{ site.github_repo_url }}/edit/main/{{ page.path }}" target="_blank" rel="noopener noreferrer">
+            <i class="ph-bold ph-github-logo"></i>
+            <span>Edit this page on GitHub</span>
+          </a>
+          <a href="{{ site.github_repo_url }}/issues/new" target="_blank" rel="noopener noreferrer">
+            <i class="ph-bold ph-bug"></i>
+            <span>Report an issue</span>
+          </a>
+        </div>
+
+        <nav class="docs-pagination">
+          {% if page.previous.url %}<a href="{{ page.previous.url | relative_url }}" class="docs-pagination__link"><span class="docs-pagination__label">Previous</span><span class="docs-pagination__title">{{ page.previous.title }}</span></a>{% endif %}
+          {% if page.next.url %}<a href="{{ page.next.url | relative_url }}" class="docs-pagination__link docs-pagination__link--next"><span class="docs-pagination__label">Next</span><span class="docs-pagination__title">{{ page.next.title }}</span></a>{% endif %}
         </nav>
       </main>
 
-      <!-- Right Column: Table of Contents & Ads -->
+      <!-- Right Column: Desktop TOC & Ads -->
       <aside class="docs-aside">
         {% include toc.html html=content class='toc-list' h_min=2 h_max=3 contents_title='On This Page' %}
-        <div class="docs-sponsor-ad">
-          <i class="ph-bold ph-hand-heart"></i>
-          <span>Sponsor this project</span>
+        <div class="docs-ad-placeholder">
+          <i class="ph-bold ph-google-logo"></i>
+          <span>AdSense Placeholder<br>300 x 250</span>
         </div>
+        <a href="{{ site.sponsor_url }}" class="docs-ad-placeholder" style="margin-top: var(--sf-4);">
+          <i class="ph-bold ph-hand-heart"></i>
+          <span>Sponsor this Project</span>
+        </a>
       </aside>
     </div>
   {% endif %}
 </div>
-
 <!-- All necessary JS in one place for simplicity -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -159,3 +201,4 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
+
