@@ -5,12 +5,11 @@ layout: default
 
 <!-- Backdrop for the mobile sidebar navigation, present on all docs pages -->
 <div class="docs-sidebar-backdrop" id="docs-sidebar-backdrop"></div>
-
 <div class="sf-container">
 
   {% if page.url == '/docs/' %}
     <!-- ====================================================== -->
-    <!-- DOCS HOMEPAGE VIEW (/docs/)                              -->
+    <!-- DOCS HOMEPAGE VIEW (renders only for /docs/)           -->
     <!-- ====================================================== -->
     <header class="docs-header docs-header--home">
       <h1 class="sf-h1">{{ page.title }}</h1>
@@ -49,7 +48,7 @@ layout: default
 
   {% else %}
     <!-- ====================================================== -->
-    <!-- DOCS ARTICLE VIEW (all other pages in /docs/)            -->
+    <!-- DOCS ARTICLE VIEW (renders for all other docs pages)   -->
     <!-- ====================================================== -->
     <div class="docs-grid docs-grid--article">
       <!-- Left Column: Sidebar Navigation -->
@@ -102,7 +101,7 @@ layout: default
   {% endif %}
 </div>
 
-<!-- All necessary JS in one place -->
+<!-- All necessary JS in one place for simplicity -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   // --- Mobile Sidebar Toggle ---
@@ -116,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     trigger.addEventListener('click', openSidebar);
     closeBtn.addEventListener('click', closeSidebar);
     backdrop.addEventListener('click', closeSidebar);
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && sidebar.classList.contains('is-open')) closeSidebar(); });
   }
 
   // --- TOC Scroll-Spying (for article pages) ---

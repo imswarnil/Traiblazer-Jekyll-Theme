@@ -1,9 +1,11 @@
 /* ============================================================================
-   LAYOUT / DOCS (ALL-IN-ONE)
-   A comprehensive stylesheet for the entire documentation module.
+   LAYOUT / DOCS (ALL-IN-ONE MODULE)
+   A comprehensive stylesheet for the entire documentation portal, including
+   the homepage, articles, sidebar, TOC, search, and responsive states.
    ============================================================================ */
 
 // --- Main Layout Grid ---
+// This class is applied by the layout file.
 .docs-grid {
   display: grid;
   grid-template-columns: 1fr; // Mobile-first default
@@ -21,7 +23,7 @@
   }
 }
 
-// --- Docs Header ---
+// --- Universal Docs Header ---
 .docs-header {
   padding-block: var(--sf-6);
   border-bottom: 1px solid var(--sf-line-2);
@@ -155,7 +157,12 @@
   h1, h2, h3 { scroll-margin-top: calc(var(--sf-nav-height) + var(--sf-4)); }
   h2 { padding-bottom: var(--sf-3); border-bottom: 1px solid var(--sf-line-2); margin-top: var(--sf-8); }
   h3 { margin-top: var(--sf-6); }
-  code { background-color: var(--sf-line-2); padding: .1em .3em; border-radius: var(--sf-radius-sm); font-size: .9em; }
+  code:not(pre > code) {
+    background-color: var(--sf-line-2);
+    padding: .1em .3em;
+    border-radius: var(--sf-radius-sm);
+    font-size: .9em;
+  }
 }
 
 // --- Table of Contents & Ads ---
@@ -192,7 +199,6 @@
   margin-bottom: var(--sf-4);
 }
 
-// --- Ad/Sponsor Placeholder ---
 .docs-sponsor-ad {
   display: flex;
   flex-direction: column;
@@ -253,5 +259,5 @@
   }
 }
 
-// JS States for search filtering
+// --- JS States for search filtering ---
 .is-hidden { display: none !important; }
