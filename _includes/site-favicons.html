@@ -1,40 +1,7 @@
-{% comment %}
-  ============================================================================
-  DYNAMIC SVG FAVICON
-  This code generates a theme-aware SVG favicon using a data URI.
-  It works by capturing the SVG file's content, encoding it, and embedding it
-  directly into the <link> tag's href.
-  ============================================================================
-{% endcomment %}
-
-{% comment %} --- Step 1: Capture the raw SVG content into a variable --- {% endcomment %}
-{% capture svg_favicon_content %}
-  {% include logo-theme-aware.svg %}
-{% endcapture %}
-
-{% comment %}
-  --- Step 2: Clean and URL-encode the SVG content ---
-  We remove newlines and then replace special characters with their URL-encoded equivalents.
-  This is necessary for the data URI to be valid.
-{% endcomment %}
-{% assign svg_favicon_encoded = svg_favicon_content | strip_newlines | replace: '"', "'" | replace: '%', '%25' | replace: '#', '%23' | replace: '{', '%7B' | replace: '}', '%7D' | replace: '<', '%3C' | replace: '>', '%3E' %}
-
-{% comment %}
-  --- Step 3: Output the final <link> tag with the embedded SVG data URI ---
-  The browser will render this SVG, and because it contains `var()` functions,
-  it will be styled by your page's CSS variables and change with your themes.
-{% endcomment %}
-<link rel="icon" href="data:image/svg+xml,{{ svg_favicon_encoded }}">
-
-
-{% comment %}
-  --- Fallback PNGs for Older Browsers & Apple Touch Icons ---
-  It's still good practice to provide standard PNG icons for compatibility.
-  These will be used by older browsers, some mobile platforms, or when saving to a home screen.
-{% endcomment %}
 {% if site.favicons %}
   {% for icon in site.favicons %}
     <link rel="icon" type="image/png" href="{{ icon[1] | relative_url }}" sizes="{{ icon[0] }}x{{ icon[0] }}">
     <link rel="apple-touch-icon" sizes="{{ icon[0] }}x{{ icon[0] }}" href="{{ icon[1] | relative_url }}">
   {% endfor %}
 {% endif %}
+<link rel="shortcut icon" href="{{ site.avatarurl + '?s=32' | default: site.logo | relative_url }}">
