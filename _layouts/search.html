@@ -10,11 +10,12 @@ layout: default
 
   <form class="search-form" id="search-form" action="" onsubmit="return false;">
     <i class="ph-bold ph-magnifying-glass search-form__icon"></i>
-    <input class="search-form__input" id="search-input" type="search" name="search" placeholder="e.g. Installation, project, ..." autocomplete="off" />
+    <i class="ph-bold ph-spinner-gap search-form__spinner" id="search-spinner"></i>
+    <input class="search-form__input" id="search-input" type="search" name="search" placeholder="Search the Trail..." autocomplete="off" />
   </form>
 
   <div class="search-results" id="search-results-container">
-    <!-- Search results will be dynamically injected here by JavaScript -->
+    <!-- Results will be injected here -->
   </div>
 
   <noscript>
@@ -29,52 +30,84 @@ layout: default
 document.addEventListener('DOMContentLoaded', () => {
   const endpoint = '{{ "/assets/search.json" | relative_url }}';
   let pages = [];
+  let isFetching = true;
 
+  const searchForm = document.getElementById('search-form');
   const searchInput = document.getElementById('search-input');
   const resultsContainer = document.getElementById('search-results-container');
+  
+  const showLoading = (isLoading) => {
+    searchForm.classList.toggle('is-searching', isLoading);
+  };
 
-  // Fetch search data only once on page load
+  // --- Initial state ---
+  showLoading(true);
+  resultsContainer.innerHTML = `
+    <div class="search-status">
+      <i class="ph-bold ph-cloud-arrow-down"></i>
+      <p>Loading search index...</p>
+    </div>`;
+
+  // --- Fetch Data ---
   fetch(endpoint)
     .then(blob => blob.json())
     .then(data => {
-      // Clean up potential null entries from the JSON generation
       pages = data.filter(item => item !== null && typeof item === 'object');
+      isFetching = false;
+      showLoading(false);
+      displayResults.call({ value: searchInput.value }); // Display initial prompt or results if user typed fast
     })
     .catch(err => {
       console.error('Error fetching search data:', err);
-      resultsContainer.innerHTML = `
-        <div class="search-status">
-          <i class="ph-bold ph-x-circle"></i>
-          <h3>Error Loading Search</h3>
-          <p>The search index file could not be loaded. Please try again later.</p>
-        </div>`;
+      showLoading(false);
+      resultsContainer.innerHTML = `<div class="search-status"><i class="ph-bold ph-x-circle"></i><h3>Error Loading Search</h3></div>`;
     });
 
   function getIconForType(url) {
     if (url.includes('/docs/')) return 'ph-book-open';
     if (url.includes('/blog/') || url.match(/\/\d{4}\/\d{2}\/\d{2}\//)) return 'ph-article';
     if (url.includes('/projects/')) return 'ph-rocket-launch';
-    if (url.includes('/products/')) return 'ph-storefront';
-    return 'ph-file-text';
+    return 'ph-file';
   }
   
-  function findResults(termToMatch, data) {
-    if (!termToMatch) return [];
-    return data.filter(item => {
-      const regex = new RegExp(termToMatch, 'gi');
-      return item.title.match(regex) || item.content.match(regex);
-    });
+  function findResults(term, data) {
+    if (!term) return [];
+    const regex = new RegExp(term, 'gi');
+    return data
+      .map(item => {
+        const titleMatch = item.title.match(regex);
+        const contentMatch = item.content.match(regex);
+        if (!titleMatch && !contentMatch) return null;
+        
+        // Create highlighted versions for display
+        const highlightedTitle = item.title.replace(regex, (match) => `<mark>${match}</mark>`);
+        
+        // Create a smarter excerpt with the first match
+        let highlightedExcerpt = '';
+        const excerptText = item.excerpt || item.content.substring(0, 150);
+        const matchIndex = excerptText.toLowerCase().indexOf(term.toLowerCase());
+
+        if (matchIndex > -1) {
+          const startIndex = Math.max(0, matchIndex - 30); // show some context before
+          highlightedExcerpt = (startIndex > 0 ? '...' : '') + 
+                                excerptText.substring(startIndex, startIndex + 120).replace(regex, (match) => `<mark>${match}</mark>`) + 
+                                '...';
+        } else {
+          highlightedExcerpt = excerptText.substring(0, 120) + '...';
+        }
+
+        return { ...item, highlightedTitle, highlightedExcerpt };
+      })
+      .filter(item => item !== null);
   }
 
   function displayResults() {
+    if (isFetching) return; // Don't do anything if index hasn't loaded
+    
     const searchTerm = this.value;
     
     if (!searchTerm || searchTerm.length < 2) {
-      resultsContainer.innerHTML = `
-        <div class="search-status">
-          <i class="ph-bold ph-keyboard"></i>
-          <p>Start typing to see search results.</p>
-        </div>`;
+      resultsContainer.innerHTML = `<div class="search-status"><i class="ph-bold ph-keyboard"></i><p>Start typing to find what you're looking for.</p></div>`;
       return;
     }
 
@@ -86,16 +119,14 @@ document.addEventListener('DOMContentLoaded', () => {
       html += '<ul class="search-results__list">';
       html += resultsArray.map(item => {
         const icon = getIconForType(item.url);
-        // Ensure excerpt is not null before using
-        const excerpt = item.excerpt ? item.excerpt.substring(0, 150) + '...' : '';
         return `
           <li>
             <a href="${item.url}" class="search-result-item">
               <article>
                 <i class="ph-bold ${icon} search-result-item__icon"></i>
                 <div class="search-result-item__content">
-                  <h3 class="search-result-item__title">${item.title}</h3>
-                  <p class="search-result-item__excerpt">${excerpt}</p>
+                  <h3 class="search-result-item__title">${item.highlightedTitle}</h3>
+                  <p class="search-result-item__excerpt">${item.highlightedExcerpt}</p>
                 </div>
               </article>
             </a>
@@ -103,19 +134,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }).join('');
       html += '</ul>';
     } else {
-      html = `
-        <div class="search-status">
-          <i class="ph-bold ph-binoculars"></i>
-          <h3>No results found</h3>
-          <p>Try searching for a different term.</p>
-        </div>`;
+      html = `<div class="search-status"><i class="ph-bold ph-binoculars"></i><h3>No Results Found</h3><p>We couldn't find anything matching "<strong>${searchTerm}</strong>". Try another search.</p></div>`;
     }
     resultsContainer.innerHTML = html;
   }
 
   searchInput.addEventListener('keyup', displayResults);
-  
-  // Display initial state on page load
-  displayResults.call({ value: '' });
 });
 </script>

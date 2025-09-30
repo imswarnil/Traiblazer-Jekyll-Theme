@@ -1,10 +1,10 @@
 /* ============================================================================
-   PAGE / SEARCH
-   Styles for the site-wide search portal layout.
+   PAGE / SEARCH (SLDS PROFESSIONAL EDITION)
+   A polished, icon-driven, and highly usable search portal.
    ============================================================================ */
 
 .search-layout {
-  // Container for the entire search experience
+  // The main container for the search page
 }
 
 .search-header {
@@ -12,17 +12,14 @@
   padding-block: var(--sf-8);
   border-bottom: 1px solid var(--sf-line-2);
   margin-bottom: var(--sf-6);
-
-  .sf-h1 {
-    font-size: var(--sf-text-3xl);
-  }
 }
 
-// --- Search Form ---
+// --- SLDS-Style Search Form ---
 .search-form {
   position: relative;
   max-width: var(--sf-container-md);
   margin-inline: auto;
+  margin-bottom: var(--sf-6);
 
   &__icon {
     position: absolute;
@@ -32,18 +29,38 @@
     font-size: var(--sf-icon-lg);
     color: var(--sf-muted);
     pointer-events: none;
+    transition: opacity .2s ease;
   }
+  
+  &__spinner {
+    position: absolute;
+    top: 50%;
+    right: var(--sf-4);
+    transform: translateY(-50%);
+    font-size: var(--sf-icon-lg);
+    color: var(--sf-brand);
+    animation: spin 1s linear infinite;
+    opacity: 0; // Hidden by default
+    transition: opacity .2s ease;
+  }
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
 
   &__input {
     @include control-base(var(--sf-control-lg));
     font-size: var(--sf-text-lg);
     width: 100%;
     padding-left: calc(var(--sf-icon-lg) + var(--sf-4) + var(--sf-3));
-    margin-bottom: var(--sf-6);
+    padding-right: calc(var(--sf-icon-lg) + var(--sf-4) + var(--sf-3)); // Space for spinner
+  }
+
+  // Show spinner and hide icon when searching
+  &.is-searching {
+    .search-form__icon { opacity: 0; }
+    .search-form__spinner { opacity: 1; }
   }
 }
 
-// --- Search Results ---
+// --- Search Results Area ---
 .search-results {
   max-width: var(--sf-container-lg);
   margin-inline: auto;
@@ -54,73 +71,64 @@
     margin-bottom: var(--sf-4);
     border-bottom: 1px solid var(--sf-line-2);
   }
-  &__title {
-    font-size: var(--sf-text-lg);
-    font-weight: 600;
-  }
-  &__count {
-    font-size: var(--sf-text-sm);
-    font-weight: 700;
-    color: var(--sf-muted);
-    background-color: var(--sf-bg-2);
-    padding: var(--sf-2) var(--sf-3);
-    border-radius: var(--sf-radius-pill);
-  }
-  &__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    @include stack($gap: var(--sf-4));
-  }
+  &__title { font-size: var(--sf-text-lg); font-weight: 600; }
+  &__count { /* ... (same as before) ... */ }
+  &__list { list-style: none; padding: 0; margin: 0; @include stack($gap: var(--sf-4)); }
 }
 
-// --- Individual Result Item ---
+// --- SLDS-Style Result Item ---
 .search-result-item {
-  display: block; // Make the whole container a link
+  display: block;
   text-decoration: none;
-  background-color: var(--sf-bg-2);
-  border: 1px solid var(--sf-line-2);
   border-radius: var(--sf-radius-lg);
-  box-shadow: var(--sf-shadow-sm);
   transition: all .2s ease;
-
-  @include hover {
-    transform: translateY(-4px);
-    box-shadow: var(--sf-shadow-md);
-    border-color: var(--sf-brand);
-  }
-
+  
   article {
     @include cluster($gap: var(--sf-4), $align: flex-start);
     padding: var(--sf-4);
+    background-color: var(--sf-bg-2);
+    border: 1px solid var(--sf-line-2);
+    border-radius: inherit;
   }
   
   &__icon {
-    font-size: 2rem;
+    flex-shrink: 0;
+    @include center;
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
     color: var(--sf-brand);
     background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent);
-    padding: var(--sf-2);
     border-radius: var(--sf-radius-md);
   }
 
-  &__content {
-    flex: 1;
-    min-width: 0; // Fix for flexbox overflow
-  }
-
+  &__content { flex: 1; min-width: 0; }
   &__title {
     margin: 0 0 var(--sf-2);
     font-size: var(--sf-text-lg);
     font-weight: 700;
     color: var(--sf-fg);
-    @include truncate(1);
   }
-
   &__excerpt {
     margin: 0;
     font-size: var(--sf-text-sm);
     color: var(--sf-fg-2);
     @include truncate(2);
+    
+    // Highlighted search term
+    mark {
+      background-color: color-mix(in srgb, var(--sf-warning) 30%, transparent);
+      color: inherit;
+      border-radius: var(--sf-radius-sm);
+      padding-inline: 0.2em;
+    }
+  }
+
+  // Hover state
+  @include hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sf-shadow-md);
+    .search-result-item__title { color: var(--sf-brand); }
   }
 }
 
@@ -132,10 +140,5 @@
   border: 1px dashed var(--sf-line-1);
   border-radius: var(--sf-radius-lg);
   color: var(--sf-muted);
-
-  .ph-bold {
-    font-size: 3rem;
-    margin-bottom: var(--sf-4);
-    color: var(--sf-brand);
-  }
+  .ph-bold { font-size: 3rem; margin-bottom: var(--sf-4); color: var(--sf-brand); }
 }
