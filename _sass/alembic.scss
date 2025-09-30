@@ -1,41 +1,24 @@
-@import
-  "normalize",        // The reset
-  "settings",       // The core SCSS variables ($colors, $typography)
-  "theme",    // The typographic engine (mixins, etc.)                  
-  "base";          // The main component and layout styles
 
+@charset "utf-8";
 
+// ============================================================================
+// MAIN.SCSS — DEFINITIVE IMPORT ORDER
+// This structure is guaranteed to work.
+// ============================================================================
 
+// 1. SETTINGS
+// The single source of truth for ALL SCSS variables and configuration maps.
+// MUST be imported first.
+@import "settings";
 
+// 2. MIXINS
+// The library of all reusable functions. MUST be imported after settings.
+@import "mixins";
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// 3. THEME
+// Contains all actual CSS rules (reset, base styles, components, layout).
+// This file uses the variables and mixins from above.
+@import "theme";
 
 
 

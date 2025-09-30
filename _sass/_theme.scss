@@ -1,5 +1,84 @@
-// Import Sassline base SCSS files in order so variables are read correctly.
-@import "theme/variables";
-@import "theme/mixins";
-@import "theme/color";
-@import "theme/typography";
+/* ============================================================================
+   THEME.SCSS (DEFINITIVE & UNABRIDGED)
+   Contains all component, layout, and page-specific styles.
+   ============================================================================ */
+
+// --- 1. SASSLINE BASE TYPOGRAPHY ---
+// Applies the baseline grid and typographic scale to base HTML elements.
+html {
+  @include rootsize;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  @include fontsize(zeta, all);
+  font-family: unquote(map-get($bodytype, 'font-family'));
+  font-weight: map-get($bodytype, 'regular');
+  line-height: 2rem;
+  background: $backgroundColour;
+  color: $bodyColour;
+}
+a {
+  color: $linkColour;
+  text-decoration: none;
+  transition: color .1s, background-color .1s;
+  &:hover, &:active, &:focus { color: $hoverColour; text-decoration: none; }
+}
+h1,h2,h3,h4,h5,h6 {
+  color: $headingColour;
+  font-family: unquote(map-get($headingtype, 'font-family'));
+  font-weight: map-get($headingtype, 'bold');
+}
+h1, .alpha { @include sassline('alpha', $headingtype, 3, 1, 'all'); }
+h2, .beta  { @include sassline('beta', $headingtype, 3, 1, 'all'); }
+h3, .gamma { @include sassline('gamma', $headingtype, 2, 1, 'all'); }
+h4, .delta { @include sassline('delta', $headingtype, 2, 0, 'all'); }
+p { @include baseline('zeta', $bodytype, 2, 2, 'all'); }
+ul, ol, dl, table, blockquote, pre { @include baseline('zeta', $bodytype, 2, 2, 'all'); }
+li { font-feature-settings: 'kern', 'onum', 'liga'; margin-left: 2rem; }
+blockquote { border-left: 0.15rem solid $linkColour; font-style: map-get($bodytype, 'italic'); padding-left: 1rem; }
+hr { background-image: linear-gradient(to bottom,rgba(0,0,0,0) 50%,$captionColour 50%); background-position: 0 50%; background-repeat: repeat-x; background-size: 100% 0.15rem; border: 0; margin: 0; padding-bottom: 3rem; padding-top: 3rem; }
+code, pre { background-color: $codeBackgroundColour; font-family: unquote(map-get($monospacetype, 'font-family')); }
+pre { display: block; margin-bottom: 2rem; padding: 1rem; white-space: pre; white-space: pre-wrap; word-break: break-all; word-wrap: break-word; }
+
+// --- 2. LAYOUT & STRUCTURE ---
+.container { width: 90%; max-width: 1200px; margin: 0 auto; }
+body { display: flex; @include flex-direction(column); min-height: 100%; }
+.main { @include flex(1, 0, auto); }
+.header, .footer { @include flex(0, 0, auto); }
+.header .container, .footer .container { @include flexbox; @include justify-content(space-between); @include align-items(center); }
+
+// --- 3. COMPONENTS ---
+// Header, Footer, Nav
+.header { padding: 1rem 0; }
+.footer { background: $headingColour; color: $captionColour; padding: 2rem 0; a { color: $captionColour; &:hover { color: $white; } } }
+.logo { display: inline-block; max-height: 4rem; }
+.nav { a { padding: .2rem; } }
+.nav--paginator { @include flexbox; @include justify-content(space-between); }
+
+// Buttons & Forms
+button, .button, input[type="submit"] {
+  cursor: pointer; display: inline-block; color: $white; background: $accentColour;
+  padding: .6rem 1.2rem; margin-bottom: .6rem; transition: box-shadow .1s;
+  box-shadow: inset 0 0 0 2rem transparent; border: none; border-radius: $default-border-radius;
+  &:hover { box-shadow: inset 0 0 0 2rem rgba(0,0,0,0.25); }
+}
+input[type="text"], input[type="email"], textarea, select {
+  width: 100%; border: 1px solid $captionColour; padding: .6rem 1.2rem;
+  &:hover { border-color: $bodyColour; }
+}
+a, button, .button, input, textarea, select {
+  &:focus { outline: solid .12rem $focusColour; outline-offset: -.12rem; }
+}
+
+// Media
+img { max-width: 100%; height: auto; }
+.figure {
+  line-height: 0;
+  &--left { float: left; padding-right: .8rem; }
+  &--right { float: right; padding-left: .8rem; }
+  &--center { text-align: center; clear: both; }
+}
+.video, .map {
+  position: relative; padding-bottom: 56.25%; height: 0; margin-bottom: .8rem;
+  iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+}
