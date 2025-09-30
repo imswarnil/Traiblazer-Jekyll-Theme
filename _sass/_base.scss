@@ -1,0 +1,113 @@
+/* ============================================================================
+   BASE / BASE.SCSS (DEFINITIVE & UNABRIDGED)
+   - Applies the CSS variables from _themes.scss to components and layouts.
+   - Defines the main structure and styles for the theme.
+   ============================================================================ */
+
+// --- 1. CORE LAYOUT ---
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--c-bg);
+  color: var(--c-body);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: map-get($maxwidths, 'width-2');
+  margin: 0 auto;
+}
+
+.main {
+  flex-grow: 1;
+}
+
+// --- 2. HEADER & FOOTER ---
+.header, .footer {
+  flex-shrink: 0;
+}
+
+.header {
+  padding: var(--gutter-sm) 0;
+  border-bottom: 1px solid var(--c-border);
+}
+
+.footer {
+  background: var(--c-heading);
+  color: var(--c-caption);
+  padding: var(--gutter-md) 0;
+  a {
+    color: var(--c-caption);
+    &:hover { color: var(--c-white); }
+  }
+}
+
+.header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+// --- 3. TYPOGRAPHY APPLICATION ---
+// Base styles are applied in `_typography.scss`. This file applies colors.
+body { color: var(--c-body); }
+h1, h2, h3, h4, h5, h6 { color: var(--c-heading); }
+a { color: var(--c-link); &:hover { color: var(--c-hover); } }
+small, .caption { color: var(--c-caption); }
+code { background: var(--c-code-bg); }
+pre { background: var(--c-code-bg); }
+
+// --- 4. CARDS & FEATURED SECTIONS ---
+.sf-card, .feature { // A generic card class
+  background: var(--c-feature-bg);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: var(--gutter-md);
+  margin-bottom: var(--gutter-md);
+}
+
+.feature {
+  padding: var(--gutter-lg) var(--gutter-md);
+  text-align: center;
+}
+
+// --- 5. FORMS & BUTTONS ---
+input, textarea, select {
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  padding: var(--gutter-sm);
+  background-color: var(--c-bg);
+  color: var(--c-body);
+  width: 100%;
+  &:focus {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 2px;
+  }
+}
+
+button, .button, input[type="submit"] {
+  border: 1px solid var(--c-accent);
+  border-radius: var(--radius);
+  padding: var(--gutter-sm) var(--gutter-md);
+  background-color: var(--c-accent);
+  color: var(--c-white);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  &:hover {
+    background-color: var(--c-hover);
+    border-color: var(--c-hover);
+  }
+}
+
+// --- 6. OTHER ELEMENTS ---
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--c-border);
+  margin: var(--gutter-lg) 0;
+}

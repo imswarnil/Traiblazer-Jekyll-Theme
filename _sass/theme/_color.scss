@@ -1,0 +1,64 @@
+/* ============================================================================
+   THEMES.SCSS (DEFINITIVE & UNABRIDGED)
+   - Generates all CSS Custom Properties from the SCSS maps in _settings.scss.
+   - Defines the default (Light) theme and all alternate themes.
+   ============================================================================ */
+@use "sass:map";
+
+:root {
+  /* ==========================================================================
+     1. DEFAULT (LIGHT) THEME VARIABLES
+     Generated from the SCSS variables in _settings.scss
+     ========================================================================== */
+
+  // --- A. COLOR TOKENS ---
+  --c-accent: #{$accentColour};
+  --c-heading: #{$headingColour};
+  --c-body: #{$bodyColour};
+  --c-link: #{$linkColour};
+  --c-hover: #{$hoverColour};
+  --c-focus: #{$focusColour};
+  --c-caption: #{$captionColour};
+  --c-white: #{$white};
+  --c-bg: #{$backgroundColour};
+  --c-code-bg: #{$codeBackgroundColour};
+  --c-feature-bg: #{$featureBackgroundColour};
+  --c-border: #{$borderColour};
+
+  // --- B. TYPOGRAPHY TOKENS ---
+  --font-body: #{unquote(map-get($bodytype, 'font-family'))};
+  --font-heading: #{unquote(map-get($headingtype, 'font-family'))};
+  --font-mono: #{unquote(map-get($monospacetype, 'font-family'))};
+
+  // --- C. SPACING & SIZING TOKENS ---
+  --radius: #{$default-border-radius};
+  --gutter-sm: #{map-get($gutterwidths, 'small')};
+  --gutter-md: #{map-get($gutterwidths, 'medium')};
+  --gutter-lg: #{map-get($gutterwidths, 'large')};
+  
+  // --- D. EFFECTS TOKENS ---
+  --shadow: #{$default-box-shadow};
+}
+
+
+/* ==========================================================================
+   2. ALTERNATE THEME DEFINITIONS
+   Here you can define overrides for dark mode or other themes.
+   ========================================================================== */
+
+// --- Example: A Simple Dark Theme ---
+/*
+[data-theme="dark"] {
+  --c-accent: #10e7a5;
+  --c-heading: #f0f0f0;
+  --c-body: #d1d1d1;
+  --c-link: var(--c-accent);
+  --c-hover: #ffffff;
+  --c-caption: #8a8a8a;
+  --c-bg: #1a1a1a;
+  --c-code-bg: #2b2b2b;
+  --c-feature-bg: #222222;
+  --c-border: #444444;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+*/
