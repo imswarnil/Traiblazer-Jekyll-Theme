@@ -1,100 +1,170 @@
 /* ============================================================================
-   SETTINGS.SCSS
-   This is the single source of truth for all theme variables and design tokens.
-   It contains colors, typography, spacing, and all other core values.
+   SETTINGS.SCSS (DEFINITIVE ALL-IN-ONE VERSION)
+   This is the single source of truth for ALL theme variables and design tokens.
+   It contains colors, themes, typography, spacing, and all other core values.
    ============================================================================ */
 
 // -----------------------------------------------------------------------------
-// 1. COLOR PALETTE
+// 1. LIGHT THEME (DEFAULT) COLOR PALETTE
 // -----------------------------------------------------------------------------
-$accentColour: #0176d3;
-$headingColour: #0b1221;
-$bodyColour: #2e2e3a;
-$linkColour: $accentColour;
-$hoverColour: #0163b5;
-$focusColour: rgba(1,118,211,.9);
-$captionColour: #8a96a3;
-$white: #ffffff;
-$backgroundColour: #f4f6f9;
-$codeBackgroundColour: #e6ebf1;
-$featureBackgroundColour: #ffffff;
-
-// -----------------------------------------------------------------------------
-// 2. TYPOGRAPHY
-// These maps define the font families and their properties.
-// -----------------------------------------------------------------------------
-$bodytype: (
-  font-family: 'system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif',
-  regular: 400,
-  bold: 700,
-  cap-height: 0.75 // Approximate value for system fonts
-);
-
-$headingtype: (
-  font-family: 'system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif',
-  regular: 600,
-  bold: 800,
-  cap-height: 0.75
-);
-
-$monospacetype: (
-  font-family: 'ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace',
-  regular: 400,
-  cap-height: 0.68
+$colors-light: (
+  'brand-primary': #0176d3,
+  'brand-primary-hover': #0163b5,
+  'brand-primary-active': #014a8a,
+  'brand-accent': #009ed9,
+  'gray-900': #0b1221,
+  'gray-800': #2e2e3a,
+  'gray-700': #3f4954,
+  'gray-600': #5b6673,
+  'gray-500': #8a96a3,
+  'gray-400': #cfd7e0,
+  'gray-300': #e6ebf1,
+  'gray-200': #f4f6f9,
+  'gray-100': #ffffff,
+  'semantic-success': #2e844a,
+  'semantic-warning': #ffb75d,
+  'semantic-danger': #ba0517,
+  'semantic-info': #1b96ff,
+  'shadow-color-rgb': '0, 0, 0'
 );
 
 // -----------------------------------------------------------------------------
-// 3. SASSLINE & RESPONSIVE TYPOGRAPHY ENGINE
-// This section powers the vertical rhythm and responsive font scaling.
+// 2. MASTER THEMES MAP
+// This map contains the color overrides for all alternate themes.
+// -----------------------------------------------------------------------------
+$themes: (
+  'dark': (
+    'brand-primary': #3b82f6,
+    'brand-primary-hover': #60a5fa,
+    'brand-primary-active': #2563eb,
+    'brand-accent': #818cf8,
+    'gray-900': #f8fafc,
+    'gray-800': #e2e8f0,
+    'gray-700': #cbd5e1,
+    'gray-600': #94a3b8,
+    'gray-500': #64748b,
+    'gray-400': #334155,
+    'gray-300': #1e2s,
+    'gray-200': #0f172a,
+    'gray-100': #1e293b,
+    'semantic-danger': #f87171,
+    'link-fg-override': #93c5fd,
+    'shadow-color-rgb': '0, 0, 0'
+  ),
+  'sunset': (
+    'brand-primary': #f97316,
+    'brand-primary-hover': #fb923c,
+    'brand-primary-active': #ea580c,
+    'brand-accent': #ec4899,
+    'gray-900': #fdf2f8,
+    'gray-800': #fbcfe8,
+    'gray-600': #e7c5e0,
+    'gray-500': #c084fc,
+    'gray-400': #581c87,
+    'gray-300': #3b0764,
+    'gray-200': #2a0248,
+    'gray-100': #3b0764,
+    'link-fg-override': #fca5a5,
+    'shadow-color-rgb': '25, 10, 50'
+  ),
+  'nature': (
+    'brand-primary': #166534,
+    'brand-primary-hover': #15803d,
+    'brand-primary-active': #14532d,
+    'brand-accent': #ca8a04,
+    'gray-900': #292524,
+    'gray-800': #44403c,
+    'gray-600': #78716c,
+    'gray-500': #a8a29e,
+    'gray-400': #d6d3d1,
+    'gray-300': #e7e5e4,
+    'gray-200': #f8f7f6,
+    'gray-100': #ffffff,
+    'shadow-color-rgb': '120, 113, 108'
+  ),
+  'b&w': (
+    'brand-primary': #171717,
+    'brand-primary-hover': #404040,
+    'brand-primary-active': #000000,
+    'brand-accent': #737373,
+    'gray-900': #000000,
+    'gray-800': #0a0a0a,
+    'gray-600': #525252,
+    'gray-500': #737373,
+    'gray-400': #d4d4d4,
+    'gray-300': #e5e5e5,
+    'gray-200': #f5f5f5,
+    'gray-100': #ffffff,
+    'shadow-color-rgb': '0, 0, 0'
+  )
+);
+
+// -----------------------------------------------------------------------------
+// 3. TYPOGRAPHY
+// -----------------------------------------------------------------------------
+$typography: (
+  'font-body': system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif,
+  'font-mono': ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace,
+  'text-xs': clamp(.75rem, .71rem + .2vw, .8125rem),
+  'text-sm': clamp(.875rem, .84rem + .2vw, .9375rem),
+  'text-base': 1rem,
+  'text-lg': clamp(1.125rem, 1.04rem + .4vw, 1.25rem),
+  'text-xl': clamp(1.25rem, 1.1rem + .8vw, 1.5rem),
+  'text-2xl': clamp(1.5rem, 1.2rem + 1.6vw, 1.875rem),
+  'text-3xl': clamp(1.875rem, 1.4rem + 2.6vw, 2.25rem),
+  'leading-tight': 1.25,
+  'leading-normal': 1.5,
+  'leading-relaxed': 1.7,
+  'tracking-tight': -0.005em,
+  'tracking-wide': 0.02em,
+  'measure': 65ch
+);
+
+$font-weights: (
+  'light': 300, 'normal': 400, 'medium': 500, 'semibold': 600, 'bold': 700, 'extrabold': 800
+);
+
+// -----------------------------------------------------------------------------
+// 4. SPACING, SIZING, AND RADII
+// -----------------------------------------------------------------------------
+$spacing-scale: (
+  '0': 0, '1': .25rem, '2': .5rem, '3': .75rem, '4': 1rem, '5': 1.5rem, '6': 2rem,
+  '7': 2.5rem, '8': 3rem, '9': 3.5rem, '10': 4rem, '12': 6rem
+);
+
+$radii: (
+  'sm': .25rem, 'md': .375rem, 'lg': .5rem, 'xl': .75rem, 'pill': 9999px, 'circle': 50%
+);
+
+// -----------------------------------------------------------------------------
+// 5. BREAKPOINTS & LAYOUT
 // -----------------------------------------------------------------------------
 $breakpoints: (
-  'break-0': 0,      // Mobile first
-  'break-1': 640,    // Small tablets up
-  'break-2': 960,    // Medium tablets / small desktops up
-  'break-3': 1200    // Desktops up
+  'xs': 30em, 'sm': 40em, 'md': 60em, 'lg': 75em, 'xl': 90em
 );
 
-$rootsizes: (
-  'rootsize-0': 16,  // Base font size for mobile
-  'rootsize-1': 17,
-  'rootsize-2': 18,
-  'rootsize-3': 19
-);
+// LEGACY BREAKPOINTS (Kept for backward compatibility with your original mixins)
+$bp-xs: map-get($breakpoints, 'xs');
+$bp-sm: map-get($breakpoints, 'sm');
+$bp-md: map-get($breakpoints, 'md');
+$bp-lg: map-get($breakpoints, 'lg');
+$bp-xl: map-get($breakpoints, 'xl');
 
-// Modular Scale for headings
-$modular-scale: (
-  'scale-0': ( 'alpha': 32, 'beta': 28, 'gamma': 24, 'delta': 20, 'epsilon': 18 ),
-  'scale-1': ( 'alpha': 36, 'beta': 30, 'gamma': 26, 'delta': 22, 'epsilon': 19 ),
-  'scale-2': ( 'alpha': 40, 'beta': 34, 'gamma': 28, 'delta': 24, 'epsilon': 20 ),
-  'scale-3': ( 'alpha': 44, 'beta': 38, 'gamma': 30, 'delta': 26, 'epsilon': 22 )
+$container-sizes: (
+  'sm': 40rem, 'md': 48rem, 'lg': 64rem, 'xl': 80rem, '2xl': 96rem
 );
 
 // -----------------------------------------------------------------------------
-// 4. LAYOUT & SPACING
+// 6. EFFECTS & LAYERS
 // -----------------------------------------------------------------------------
-$maxwidths: (
-  'width-0': 640,
-  'width-1': 768,
-  'width-2': 1024,
-  'width-3': 1280
+$shadow-templates: (
+  'sm': '0 1px 2px',
+  'md': '0 4px 12px',
+  'lg': '0 12px 28px',
+  'xl': '0 24px 48px'
 );
 
-$measures: (
-  'measure-0': 65ch,
-  'measure-1': 65ch,
-  'measure-2': 70ch,
-  'measure-3': 70ch
+$z-stack: (
+  'dropdown': 900, 'sticky': 1000, 'fixed': 1030, 'modal': 1100,
+  'popover': 1200, 'tooltip': 1300, 'toast': 1400
 );
-
-$gutterwidths: (
-  'small': 1rem,
-  'medium': 1.5rem,
-  'large': 2rem
-);
-
-// -----------------------------------------------------------------------------
-// 5. BORDERS & EFFECTS
-// -----------------------------------------------------------------------------
-$default-border-radius: .375rem;
-$default-border-width: 1px;
-$default-border-color: #cfd7e0;
