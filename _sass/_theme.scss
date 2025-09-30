@@ -1,7 +1,6 @@
 /* ============================================================================
-   THEME.SCSS (DEFINITIVE & UNABRIDGED)
-   Contains the CSS reset, the CSS variable generator, base styles,
-   and core component styles.
+   THEME.SCSS (DEFINITIVE & UNABRIDGED "SALESFORCE LIGHTNING" EDITION)
+   - Contains the CSS reset, variable generators, base styles, and components.
    ============================================================================ */
 @use "sass:map";
 
@@ -20,19 +19,16 @@ input, button, textarea, select { font: inherit; }
    ============================================================================ */
 :root {
   // --- A. Generate Light Theme (Default) ---
-  @each $name, $value in $colors-light {
-    @if $name != 'shadow-color-rgb' { --sf-#{$name}: #{$value}; }
-  }
+  @each $name, $value in $colors-light { @if $name != 'shadow-color-rgb' { --sf-#{$name}: #{$value}; } }
   @each $name, $value in $typography { --sf-#{$name}: #{$value}; }
   @each $name, $value in $spacing-scale { --sf-space-#{$name}: #{$value}; }
   @each $name, $value in $radii { --sf-radius-#{$name}: #{$value}; }
   @each $name, $value in $z-stack { --sf-z-#{$name}: #{$value}; }
-
   $shadow-color: rgba(#{map-get($colors-light, 'shadow-color-rgb')}, .08);
   @each $name, $value in $shadow-templates { --sf-shadow-#{$name}: #{$value} #{$shadow-color}; }
   --sf-focus-ring: 0 0 0 .14rem rgba(1,118,211,.9);
 
-  // --- B. Generate Semantic Tokens ---
+  // --- B. Generate Semantic Tokens for Light Theme ---
   --body-bg: var(--sf-gray-200);
   --body-fg: var(--sf-gray-800);
   --heading-fg: var(--sf-gray-900);
@@ -51,12 +47,10 @@ input, button, textarea, select { font: inherit; }
     --body-bg: var(--sf-gray-200);
     --body-fg: var(--sf-gray-800);
     @if map-has-key($theme-map, 'link-fg-override') {
-      --link-fg: #{map-get($theme-map, 'link-fg-override')};
-      --link-hover-fg: #{lighten(map-get($theme-map, 'link-fg-override'), 10%)};
-    } @else {
-      --link-fg: var(--sf-brand-primary);
-    }
-    $shadow-color: rgba(#{map-get($theme-map, 'shadow-color-rgb')}, .45);
+      --link-fg: #{map.get($theme-map, 'link-fg-override')};
+      --link-hover-fg: #{lighten(map.get($theme-map, 'link-fg-override'), 10%)};
+    } @else { --link-fg: var(--sf-brand-primary); }
+    $shadow-color: rgba(#{map.get($theme-map, 'shadow-color-rgb')}, .45);
     @each $name, $value in $shadow-templates { --sf-shadow-#{$name}: #{$value} #{$shadow-color}; }
   }
 }
@@ -73,7 +67,6 @@ body {
   background-color: var(--body-bg);
   @include antialiased;
 }
-
 h1,h2,h3,h4,h5,h6 {
   margin: var(--sf-space-8) 0 var(--sf-space-4) 0;
   font-weight: map-get($font-weights, 'bold');
@@ -83,15 +76,47 @@ h1,h2,h3,h4,h5,h6 {
 h1 { font-size: var(--sf-text-3xl); }
 h2 { font-size: var(--sf-text-2xl); }
 p { max-width: var(--sf-measure); margin-bottom: var(--sf-space-4); }
-a {
-  color: var(--link-fg);
-  text-decoration: none;
-  transition: color .2s ease;
-  &:hover { color: var(--link-hover-fg); }
-}
+a { color: var(--link-fg); text-decoration: none; transition: color .2s ease; &:hover { color: var(--link-hover-fg); } }
+hr { border: 0; height: 1px; background-color: var(--border-color-subtle); margin-block: var(--sf-space-8); }
+code { font-family: var(--sf-font-mono); font-size: 0.9em; background-color: var(--sf-gray-100); padding: .1em .3em; border-radius: var(--sf-radius-sm); border: 1px solid var(--border-color-subtle); }
+pre { font-family: var(--sf-font-mono); background-color: var(--sf-gray-100); border: 1px solid var(--border-color-subtle); border-radius: var(--sf-radius-lg); padding: var(--sf-space-4); overflow-x: auto; code { border: none; padding: 0; background: none; } }
+
 
 /* ============================================================================
-   4. CORE COMPONENT STYLES
+   4. LAYOUT & CORE STRUCTURE
+   ============================================================================ */
+.sf-container {
+  width: 100%;
+  max-width: map-get($container-sizes, 'lg');
+  margin-inline: auto;
+  padding-inline: var(--sf-space-5);
+}
+
+.sf-header {
+  padding-block: var(--sf-space-3);
+  border-bottom: 1px solid var(--border-color-subtle);
+  background-color: color-mix(in srgb, var(--sf-gray-100) 80%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  position: sticky;
+  top: 0;
+  z-index: var(--sf-z-sticky);
+}
+.sf-header__inner { display: flex; align-items: center; justify-content: space-between; gap: var(--sf-space-4); }
+
+.sf-footer {
+  padding-block: var(--sf-space-8);
+  margin-top: var(--sf-space-10);
+  background-color: var(--sf-gray-100);
+  border-top: 1px solid var(--border-color-subtle);
+  color: var(--sf-gray-600);
+  font-size: var(--sf-text-sm);
+  .sf-footer__inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--sf-space-4); }
+}
+
+
+/* ============================================================================
+   5. CORE COMPONENT STYLES
    ============================================================================ */
 // --- Buttons ---
 .sf-btn {
@@ -102,9 +127,11 @@ a {
   border: 1px solid transparent;
   font-weight: map-get($font-weights, 'semibold');
   padding: var(--sf-space-2) var(--sf-space-4);
+  font-size: var(--sf-text-base);
   border-radius: var(--sf-radius-md);
   transition: all .2s ease;
   @include focus-visible;
+  &:active { transform: scale(0.98); }
 }
 .sf-btn--primary {
   background-color: var(--sf-brand-primary);
@@ -116,8 +143,10 @@ a {
   background-color: var(--sf-gray-100);
   color: var(--sf-gray-800);
   border-color: var(--sf-gray-400);
+  box-shadow: var(--sf-shadow-sm);
   &:hover { background-color: var(--sf-gray-200); }
 }
+// Add other button variants like --danger, --text as needed
 
 // --- Cards ---
 .sf-card {
@@ -125,5 +154,25 @@ a {
   border: 1px solid var(--sf-gray-300);
   border-radius: var(--sf-radius-lg);
   box-shadow: var(--sf-shadow-sm);
-  padding: var(--sf-space-5);
+  overflow: hidden;
 }
+.sf-card__body { padding: var(--sf-space-5); }
+.sf-card__header { padding: var(--sf-space-4) var(--sf-space-5); border-bottom: 1px solid var(--sf-gray-300); font-weight: map-get($font-weights, 'semibold'); }
+.sf-card__footer { padding: var(--sf-space-3) var(--sf-space-5); border-top: 1px solid var(--sf-gray-300); background-color: var(--sf-gray-200); }
+
+// --- Forms ---
+.sf-form-group { margin-bottom: var(--sf-space-4); }
+.sf-label { display: block; font-weight: map-get($font-weights, 'semibold'); margin-bottom: var(--sf-space-2); }
+.sf-input, .sf-textarea {
+  display: block;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: var(--sf-space-2) var(--sf-space-3);
+  font-size: var(--sf-text-base);
+  background-color: var(--sf-gray-100);
+  border: 1px solid var(--sf-gray-400);
+  border-radius: var(--sf-radius-md);
+  transition: border-color .2s ease, box-shadow .2s ease;
+  &:focus { @include focus-ring; border-color: var(--sf-brand-primary); }
+}
+.sf-textarea { min-height: 120px; }
