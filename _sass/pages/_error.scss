@@ -1,160 +1,170 @@
 /* ============================================================================
    PAGE / 404 FILM "Astro's Lost Transmission"
-   An interactive, animated 404 page featuring official Salesforce characters.
+   A 10-second animated film told with CSS.
    ============================================================================ */
 
 // --- Keyframe Library ---
-@keyframes stars-twinkle {
-  from { transform: scale(1); opacity: 0.5; }
-  to { transform: scale(1.1); opacity: 1; }
+@keyframes rocket-fly {
+  0% { transform: translate(-100%, 100%) rotate(-45deg) scale(0.5); opacity: 1; }
+  100% { transform: translate(100vw, -100vh) rotate(-45deg) scale(1.5); opacity: 1; }
 }
 
-@keyframes static-noise {
-  0% { transform: translate(0,0); }
-  10% { transform: translate(-5%,-10%); }
-  20% { transform: translate(-15%,5%); }
-  30% { transform: translate(7%,-15%); }
-  40% { transform: translate(-5%,15%); }
-  50% { transform: translate(-15%,-5%); }
-  60% { transform: translate(15%,0); }
-  70% { transform: translate(0,10%); }
-  80% { transform: translate(-15%,-10%); }
-  90% { transform: translate(10%,5%); }
-  100% { transform: translate(0,0); }
+@keyframes static-glitch {
+  0%, 100% { opacity: 0; }
+  20%, 80% { opacity: 1; }
+  50% { clip-path: inset(20% 0 60% 0); }
+  75% { clip-path: inset(80% 0 10% 0); }
 }
 
-@keyframes static-screen-in {
-  from { clip-path: inset(50% 50% 50% 50%); }
-  to { clip-path: inset(0% 0% 0% 0%); }
+@keyframes static-404-flicker {
+  0%, 100% { opacity: 0; }
+  50%, 60% { opacity: 1; text-shadow: 0 0 10px var(--sf-danger); }
+  55% { opacity: 0.5; }
 }
 
-@keyframes character-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+@keyframes astro-scene-fade-in {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-@keyframes content-reveal {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes astro-panicked-float {
+  0% { transform: translate(-5px, -5px) rotate(3deg); }
+  25% { transform: translate(5px, 5px) rotate(-3deg); }
+  50% { transform: translate(-5px, 5px) rotate(3deg); }
+  75% { transform: translate(5px, -5px) rotate(-3deg); }
+  100% { transform: translate(-5px, -5px) rotate(3deg); }
+}
+
+@keyframes content-fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 // --- Main Stage ---
-.page-404-film {
+.film-404 {
   display: grid;
   place-items: center;
-  min-height: 80vh;
-  padding: var(--sf-4);
-  background-color: #0c1427; // Deep space color
+  height: 80vh;
+  min-height: 500px;
   overflow: hidden;
-  cursor: pointer; // Indicate that it's interactive
-}
+  background-color: var(--sf-bg-1);
 
-.film-stage {
-  position: relative;
-  width: min(800px, 90vw);
-  aspect-ratio: 16 / 9;
-  border-radius: var(--sf-radius-xl);
-  overflow: hidden;
-  box-shadow: var(--sf-shadow-lg);
-  background-color: #0c1427;
-
-  // Each .film-scene is a layer in our animation
-  .film-scene {
-    position: absolute;
-    inset: 0;
-  }
-}
-
-// --- Layer 1: Space ---
-.film-scene--space {
-  .space__stars {
-    position: absolute;
-    inset: 0;
-    background-image:
-      radial-gradient(1px 1px at 25% 25%, white, transparent),
-      radial-gradient(1px 1px at 75% 75%, white, transparent),
-      radial-gradient(2px 2px at 50% 90%, white, transparent);
-    background-size: 200px 200px;
-    animation: stars-twinkle 4s ease-in-out infinite alternate;
-    &:nth-child(2) { background-size: 300px 300px; animation-delay: -2s; }
-    &:nth-child(3) { background-size: 100px 100px; animation-delay: -4s; }
-  }
-  .space__404-ghost {
-    @include center;
+  &__stage {
+    position: relative;
     width: 100%;
     height: 100%;
-    font-size: clamp(8rem, 30vw, 20rem);
+    
+    // All scenes are hidden by default
+    .scene {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+    }
+  }
+}
+
+
+// --- Scene 1: Space & Rocket ---
+.scene--space {
+  opacity: 1; // Always visible
+  background-color: #0c1427; // Deep space blue
+  // Starfield effect from Lea Verou
+  background-image:
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 40px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 30px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 40px),
+    radial-gradient(rgba(255,255,255,.4), rgba(255,255,255,.1) 2px, transparent 30px);
+  background-size: 550px 550px, 350px 350px, 250px 250px, 150px 150px;
+  background-position: 0 0, 40px 60px, 130px 270px, 70px 100px;
+}
+.scene--rocket {
+  i {
+    font-size: clamp(40px, 8vw, 80px);
+    color: var(--sf-bg-hard);
+    text-shadow: 0 0 15px var(--sf-warning);
+  }
+}
+
+// --- Scene 2: Static Glitch ---
+.scene--static {
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAAFVLSURBVDjL7c5HAnAABADeoZv//+RCQjPAkwAiJEAJqZbOZxTTzhdbuExiCRNaxkYWcyuALEWKQtFYupC2FUyJhDF31relZMao5sCrHoE7A1SjYfmzWy4fG5wwXqrNZ5p2mrBDp9Z8kGHrEa8h09Z8rBH3aKbD5kxpP230YV2llBcZz0i13Lpi7g7YjYjLDjCIyIMPoGHBH5BAaMAA7');
+  
+  .static__404 {
     font-family: var(--sf-font-mono);
+    font-size: clamp(8rem, 30vw, 20rem);
     font-weight: 900;
-    color: white;
-    opacity: 0.05;
-    transition: opacity .5s ease;
+    color: var(--sf-bg-hard);
   }
 }
 
-// --- Layer 2: Static ---
-.film-scene--static {
-  opacity: 0; // Hidden by default
-  .static__overlay {
-    width: 100%;
-    height: 100%;
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39ra2uRkZGZmZlpaWmXl5dvb29xcXGTk5NnZ2c8TV1mAAAAG3RSTlNAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEAvEOwtAAAAFVLSURBVDjL7c5HAnAABADeoZv//+RCQjPAkwAiJEAJqZbOZxTTzhdbuExiCRNaxkYWcyuALEWKQtFYupC2FUyJhDF31relZMao5sCrHoE7A1SjYfmzWy4fG5wwXqrNZ5p2mrBDp9Z8kGHrEa8h09Z8rBH3aKbD5kxpP230YV2llBcZz0i13Lpi7g7YjYjLDjCIyIMPoGHBH5BAaMAA7');
-    animation: static-noise 0.1s steps(2) infinite;
+// --- Scene 3: Astro Scene ---
+.scene--astro {
+  .astro__character {
+    width: clamp(150px, 25vw, 250px);
+    animation-name: astro-panicked-float;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+  .astro__terminal {
+    position: absolute;
+    bottom: 20%;
+    padding: var(--sf-2) var(--sf-4);
+    background-color: color-mix(in srgb, var(--sf-danger), black 30%);
+    border: 2px solid var(--sf-danger);
+    color: var(--sf-bg-hard);
+    border-radius: var(--sf-radius-md);
+    font-family: var(--sf-font-mono);
+    box-shadow: 0 0 15px var(--sf-danger);
+    transform: rotate(-10deg);
   }
 }
 
-// --- Layer 3: Characters ---
-.film-scene--characters {
-  opacity: 0; // Hidden by default
-  @include center($justify: center, $align: flex-end);
-  padding-bottom: 5%;
-
-  .character {
-    width: clamp(80px, 15vw, 150px);
-    animation: character-float 6s ease-in-out infinite;
-    img { filter: drop-shadow(0 15px 20px rgba(0,0,0,0.3)); }
-    &--astro { animation-delay: -3s; }
-    &--codey { transform: scaleX(-1); } // Make Codey face Astro
-  }
-}
-
-// --- Layer 4: Content ---
-.film-scene--content {
-  @include center;
-  flex-direction: column;
-  text-align: center;
-  color: var(--sf-fg);
-  padding: var(--sf-4);
-  // Initially transparent so you see the scene
-  background: linear-gradient(to top, var(--sf-bg-1) 20%, transparent 100%);
-
-  .content-wrapper {
-    opacity: 0; // Content text is hidden by default
-  }
-  .content__title { font-size: var(--sf-text-2xl); font-weight: 700; }
-  .content__subtitle { color: var(--sf-muted); max-width: 45ch; margin: var(--sf-3) auto var(--sf-5); }
+// --- Scene 4: Final Content ---
+.scene--content {
+  background: linear-gradient(to top, var(--sf-bg-1) 50%, transparent);
+  .content__title { font-size: var(--sf-text-3xl); font-weight: 800; color: var(--sf-fg); }
+  .content__subtitle { color: var(--sf-muted); max-width: 50ch; margin: var(--sf-4) auto var(--sf-6); }
   .content__actions { /* ... uses sf-btn styles from previous answer ... */ }
 }
 
-// --- THE INTERACTIVE ANIMATION DIRECTOR ---
-// The `.is-playing` class will be added by JavaScript on hover/tap
-.film-stage.is-playing {
-  // Hide the ghost 404
-  .space__404-ghost { opacity: 0; }
 
-  // Animate in the static screen
-  .film-scene--static {
-    animation: static-screen-in 0.3s cubic-bezier(0.77, 0, 0.175, 1) forwards;
-    animation-delay: 0s;
+// --- The Film Director: .is-playing ---
+.film-404__stage.is-playing {
+  // Scene 1: Rocket flies from 0s to 2s
+  .scene--rocket {
+    animation: rocket-fly 2s linear forwards;
   }
-
-  // Fade out the static and fade in the characters after 3s
-  .film-scene--static { animation-name: static-screen-in, content-reveal; animation-direction: normal, reverse; animation-delay: 0s, 3s; }
-  .film-scene--characters { animation: content-reveal 1s ease forwards; animation-delay: 3s; }
   
-  // Fade in the text content at the end
-  .content-wrapper {
-    animation: content-reveal 1s ease forwards;
-    animation-delay: 3.5s;
+  // Scene 2: Static appears from 2s to 5s
+  .scene--static {
+    animation: static-glitch 3s steps(8) forwards;
+    animation-delay: 2s;
+    .static__404 {
+      animation: static-404-flicker 3s linear forwards;
+      animation-delay: 2s;
+    }
   }
+
+  // Scene 3: Astro appears from 5s to 8s
+  .scene--astro {
+    animation: astro-scene-fade-in 0.5s ease forwards;
+    animation-delay: 5s;
+  }
+  
+  // Scene 4: Content appears from 8s to 10s
+  .scene--content {
+    animation: content-fade-in 0.8s ease forwards;
+    animation-delay: 8s;
+  }
+
+  // Fade out everything to loop smoothly at 9.5s
+  .scene--astro, .scene--content {
+    animation-duration: 3s, 2s; // astro-scene, content-fade
+    animation-name: astro-scene-fade-in, content-fade-in, fade-out;
+    animation-delay: 5s, 8s, 9.5s;
+  }
+  @keyframes fade-out { to { opacity: 0; } }
 }
