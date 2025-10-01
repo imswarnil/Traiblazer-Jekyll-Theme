@@ -1,4 +1,4 @@
-<footer class="footer">
+<!-- <footer class="footer">
   <div class="container">
     <div class="copyright  typeset">
       <small class="small">&copy; {{ site.title }} {{ site.time | date: '%Y' }}</small>
@@ -25,4 +25,88 @@
     <h1>something else</h1>
     {% endif %}
       </div>
+</footer> -->
+
+<footer class="site-footer">
+  <div class="sf-container">
+
+    <!-- 1. Call to Action Zone -->
+    <div class="footer-cta">
+      <div class="footer-cta__bg"></div>
+      <div class="footer-cta__content">
+        <h2 class="footer-cta__title">Stay on the Trail</h2>
+        <p class="footer-cta__description">
+          Subscribe to my newsletter for the latest articles, project updates, and insights from the ecosystem.
+        </p>
+      </div>
+      <form class="footer-cta__form">
+        <input class="footer-cta__input" type="email" placeholder="your-email@trailblazer.com" required>
+        <button type="submit" class="sf-btn sf-btn--primary footer-cta__button">Subscribe</button>
+      </form>
+    </div>
+
+    <!-- 2. Main 4-Column Grid -->
+    <div class="footer-grid">
+      <!-- Column 1: Brand & Socials -->
+      <div class="footer-brand">
+        <a href="/" class="footer-brand__link">
+          <div class="footer-brand__logo">
+            <!-- Your theme-aware SVG include -->
+            {% include avatar.svg %}
+          </div>
+          <span class="footer-brand__title">SFDC Jekyll Theme</span>
+        </a>
+        <p class="footer-brand__tagline">
+          A theme for Trailblazers who want to build a stunning personal website, portfolio, and blog.
+        </p>
+        <div class="footer-socials">
+          <a href="#" class="footer-socials__link" aria-label="GitHub"><i class="ph-bold ph-github-logo"></i></a>
+          <a href="#" class="footer-socials__link" aria-label="Twitter"><i class="ph-bold ph-twitter-logo"></i></a>
+          <a href="#" class="footer-socials__link" aria-label="LinkedIn"><i class="ph-bold ph-linkedin-logo"></i></a>
+        </div>
+      </div>
+
+      <!-- Column 2: Pages -->
+      <div class="footer-links">
+        <h3 class="footer-links__title">Menu</h3>
+        <ul class="footer-links__list">
+          <li class="footer-links__item"><a href="#">Home</a></li>
+          <li class="footer-links__item"><a href="#">Blog</a></li>
+          <li class="footer-links__item"><a href="#">Projects</a></li>
+          <li class="footer-links__item"><a href="#">About</a></li>
+        </ul>
+      </div>
+      
+      <!-- Column 3: Resources -->
+      <div class="footer-links">
+        <h3 class="footer-links__title">Resources</h3>
+        <ul class="footer-links__list">
+          <li class="footer-links__item"><a href="#">Documentation</a></li>
+          <li class="footer-links__item"><a href="#">Changelog</a></li>
+          <li class="footer-links__item"><a href="#">Contributing</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Newsletter -->
+      <div class="footer-links footer-newsletter">
+        <h3 class="footer-links__title">Stay Updated</h3>
+        <p>Get new articles & updates sent to your inbox.</p>
+        <form>
+          <input type="email" placeholder="Email address" required>
+          <button type="submit" class="sf-btn sf-btn--primary sf-btn--icon-only" aria-label="Subscribe">
+            <i class="ph-bold ph-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 3. Sub-Footer -->
+    <div class="footer-sub">
+      <p>© 2024 Your Name. All rights reserved.</p>
+      <p class="footer-sub__back-to-top">
+        <span>Back to top</span>
+        <a href="#top" aria-label="Back to top"><i class="ph-bold ph-arrow-up"></i></a>
+      </p>
+    </div>
+  </div>
 </footer>
