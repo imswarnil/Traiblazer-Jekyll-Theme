@@ -143,10 +143,11 @@ const themeSwitcher = document.querySelector('.sf-theme-switcher');
 const themes = ['light', 'dark', 'sunset', 'nature', 'b&w'];
 
 const setTheme = theme => {
- document.body.classList.add('theme-transitioning');
- htmlEl.setAttribute('data-theme', theme);
- localStorage.setItem('theme', theme);
- setTimeout(() => document.body.classList.remove('theme-transitioning'), 500);
+  document.body.classList.add('theme-transitioning');
+  htmlEl.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+  themeSwitcher.setAttribute('data-theme', theme); // <-- ADD THIS LINE
+  setTimeout(() => document.body.classList.remove('theme-transitioning'), 500);
 };
 
 const savedTheme = localStorage.getItem('theme');
