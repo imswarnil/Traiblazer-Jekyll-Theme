@@ -1,178 +1,186 @@
 /* ============================================================================
-   ABSTRACTS / VARIABLES (THE DEFINITIVE & CORRECTED "FOUNDATION" FILE)
-   - This single file contains ALL SCSS variables, maps, and logic.
-   - The utility class generators have been rewritten to be 100% robust.
-   ============================================================================ */
-@use "sass:map";
-
-/* ============================================================================
-   1. CORE THEME CONFIGURATION (VARIABLES & MAPS)
+   ABSTRACTS / VARIABLES
+   SCSS-only variables for logic, loops, media queries, and configuration.
+   These variables are NOT compiled directly into the final CSS.
+   This is the central control panel for the theme's SCSS architecture.
    ============================================================================ */
 
 // -----------------------------------------------------------------------------
-// 1A. BREAKPOINTS
+// 1. BREAKPOINTS
+// Defines the minimum widths for each viewport size.
+// Used by the `breakpoint` mixin for creating responsive styles.
+// Example: @include breakpoint(md) { ... }
 // -----------------------------------------------------------------------------
 $breakpoints: (
-  'xs': 30em, 'sm': 40em, 'md': 60em, 'lg': 75em, 'xl': 90em
-) !default;
-
-// -----------------------------------------------------------------------------
-// 1B. GRID & LAYOUT
-// -----------------------------------------------------------------------------
-$grid-columns: 12 !default;
-$grid-gutter: 1.5rem !default;
-$container-sizes: (
-  'sm': 40rem, 'md': 48rem, 'lg': 64rem, 'xl': 80rem, '2xl': 96rem
-) !default;
-
-// -----------------------------------------------------------------------------
-// 1C. Z-INDEX STACKING ORDER
-// -----------------------------------------------------------------------------
-$z-stack: (
-  'base': 0, 'content': 1, 'dropdown': 900, 'sticky': 1000, 'fixed': 1030,
-  'modal-backdrop': 1050, 'modal': 1100, 'popover': 1200, 'tooltip': 1300, 'toast': 1400
-) !default;
-
-// -----------------------------------------------------------------------------
-// 1D. MOTION & ANIMATION
-// -----------------------------------------------------------------------------
-$durations: (
-  '100': .10s, '150': .15s, '200': .20s, '300': .30s,
-  '500': .50s, '700': .70s, '1000': 1s
-) !default;
-$easings: (
-  'standard': cubic-bezier(.2, 0, 0, 1), 'decel': cubic-bezier(0, 0, .2, 1),
-  'accel': cubic-bezier(.4, 0, 1, 1), 'bounce': cubic-bezier(0.34, 1.56, 0.64, 1)
-) !default;
-
-// -----------------------------------------------------------------------------
-// 1E. CONTROLS & ICONS
-// -----------------------------------------------------------------------------
-$control-heights: ( 'sm': 2rem, 'md': 2.5rem, 'lg': 3rem ) !default;
-$icon-sizes: ( 'sm': 1rem, 'md': 1.25rem, 'lg': 1.5rem, 'xl': 2rem ) !default;
-
-// -----------------------------------------------------------------------------
-// 1F. SPACING & SIZING SCALE
-// -----------------------------------------------------------------------------
-$spacing-scale: (
-  '0':0, '1':.25rem, '2':.5rem, '3':.75rem, '4':1rem, '5':1.5rem, '6':2rem,
-  '7':2.5rem, '8':3rem, '9':3.5rem, '10':4rem, '12':6rem
+  'xs': 30em,  // 480px - Extra small devices (large phones)
+  'sm': 40em,  // 640px - Small devices (tablets, portrait)
+  'md': 60em,  // 960px - Medium devices (tablets, landscape)
+  'lg': 75em,  // 1200px - Large devices (desktops)
+  'xl': 90em   // 1440px - Extra large devices (large desktops)
 );
-
-// -----------------------------------------------------------------------------
-// 1G. BORDERS & RADII
-// -----------------------------------------------------------------------------
-$radii: (
-  'none': 0, 'sm': .25rem, 'md': .375rem, 'lg': .5rem, 'xl': .75rem,
-  'pill': 9999px, 'circle': 50%
-);
-$border-widths: ( 'default': 1px, 'thick': 2px, 'heavy': 4px );
-
-// -----------------------------------------------------------------------------
-// 1H. TYPOGRAPHY
-// -----------------------------------------------------------------------------
-$font-weights: (
-  'light': 300, 'normal': 400, 'medium': 500, 'semibold': 600, 'bold': 700, 'extrabold': 800
-);
-
-// -----------------------------------------------------------------------------
-// 1I. SHADOW ELEVATION MAP
-// -----------------------------------------------------------------------------
-$elevations: (
-  '1': var(--sf-shadow-sm), '2': var(--sf-shadow-md),
-  '3': var(--sf-shadow-lg), '4': var(--sf-shadow-xl)
-);
-
-
-/* ============================================================================
-   2. UTILITY CLASS GENERATORS (REWRITTEN & BULLETPROOF)
-   ============================================================================ */
-
-// -----------------------------------------------------------------------------
-// 2A. SPACING UTILITIES (e.g., .sf-m-4, .sf-py-lg-6)
-// -----------------------------------------------------------------------------
-$spacing-properties: ( 'm': 'margin', 'p': 'padding' );
-
-// Base (mobile-first) classes
-@each $prop-abbr, $prop-name in $spacing-properties {
-  @each $key, $value in $spacing-scale {
-    .sf-#{$prop-abbr}-#{$key}  { #{$prop-name}: #{$value} !important; }
-    .sf-#{$prop-abbr}t-#{$key} { #{$prop-name}-top: #{$value} !important; }
-    .sf-#{$prop-abbr}b-#{$key} { #{$prop-name}-bottom: #{$value} !important; }
-    .sf-#{$prop-abbr}s-#{$key} { #{$prop-name}-left: #{$value} !important; }
-    .sf-#{$prop-abbr}e-#{$key} { #{$prop-name}-right: #{$value} !important; }
-    .sf-#{$prop-abbr}x-#{$key} { #{$prop-name}-left: #{$value} !important; #{$prop-name}-right: #{$value} !important; }
-    .sf-#{$prop-abbr}y-#{$key} { #{$prop-name}-top: #{$value} !important; #{$prop-name}-bottom: #{$value} !important; }
-  }
-  @if $prop-abbr == 'm' {
-    .sf-mx-auto { margin-left: auto !important; margin-right: auto !important; }
-  }
-}
-
-// Responsive classes
-@each $bp-name, $bp-value in $breakpoints {
-  @media (min-width: $bp-value) {
-    @each $prop-abbr, $prop-name in $spacing-properties {
-      @each $key, $value in $spacing-scale {
-        .sf-#{$prop-abbr}-#{$bp-name}-#{$key}  { #{$prop-name}: #{$value} !important; }
-        .sf-#{$prop-abbr}t-#{$bp-name}-#{$key} { #{$prop-name}-top: #{$value} !important; }
-        .sf-#{$prop-abbr}b-#{$bp-name}-#{$key} { #{$prop-name}-bottom: #{$value} !important; }
-        .sf-#{$prop-abbr}s-#{$bp-name}-#{$key} { #{$prop-name}-left: #{$value} !important; }
-        .sf-#{$prop-abbr}e-#{$bp-name}-#{$key} { #{$prop-name}-right: #{$value} !important; }
-        .sf-#{$prop-abbr}x-#{$bp-name}-#{$key} { #{$prop-name}-left: #{$value} !important; #{$prop-name}-right: #{$value} !important; }
-        .sf-#{$prop-abbr}y-#{$bp-name}-#{$key} { #{$prop-name}-top: #{$value} !important; #{$prop-name}-bottom: #{$value} !important; }
-      }
-      @if $prop-abbr == 'm' {
-        .sf-mx-#{$bp-name}-auto { margin-left: auto !important; margin-right: auto !important; }
-      }
-    }
-  }
-}
-
-// -----------------------------------------------------------------------------
-// 2B. FLEXBOX & ALIGNMENT UTILITIES
-// -----------------------------------------------------------------------------
-.sf-d-flex { display: flex !important; }
-.sf-d-inline-flex { display: inline-flex !important; }
-.sf-align-start { align-items: flex-start !important; }
-.sf-align-center { align-items: center !important; }
-.sf-align-end { align-items: flex-end !important; }
-.sf-justify-start { justify-content: flex-start !important; }
-.sf-justify-center { justify-content: center !important; }
-.sf-justify-end { justify-content: flex-end !important; }
-.sf-justify-between { justify-content: space-between !important; }
-
-// -----------------------------------------------------------------------------
-// 2C. DISPLAY & VISIBILITY UTILITIES
-// -----------------------------------------------------------------------------
-.sf-d-block { display: block !important; }
-.sf-d-inline { display: inline !important; }
-.sf-d-inline-block { display: inline-block !important; }
-.sf-d-none { display: none !important; }
-
-@each $bp-name, $bp-value in $breakpoints {
-  @media (min-width: $bp-value) {
-    .sf-d-#{$bp-name}-block { display: block !important; }
-    .sf-d-#{$bp-name}-flex { display: flex !important; }
-    .sf-d-#{$bp-name}-none { display: none !important; }
-  }
-}
-
-// -----------------------------------------------------------------------------
-// 2D. ACCESSIBILITY HELPERS
-// -----------------------------------------------------------------------------
-.sf-sr-only {
-  position: absolute !important; width:1px; height:1px; padding:0; margin:-1px;
-  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
-}
-
-
-/* ============================================================================
-   3. LEGACY & HELPER VARIABLES (For Mixins)
-   ============================================================================ */
+// LEGACY BREAKPOINTS (Kept for backward compatibility)
 $bp-xs: map-get($breakpoints, 'xs');
 $bp-sm: map-get($breakpoints, 'sm');
 $bp-md: map-get($breakpoints, 'md');
 $bp-lg: map-get($breakpoints, 'lg');
 $bp-xl: map-get($breakpoints, 'xl');
+
+
+// -----------------------------------------------------------------------------
+// 2. GRID & LAYOUT
+// Core variables for the responsive 12-column grid system.
+// -----------------------------------------------------------------------------
+$grid-columns: 12 !default;
+$grid-gutter: 1.5rem !default;
+
+
+// -----------------------------------------------------------------------------
+// 3. CONTAINER SIZES
+// Defines the max-width for the `.sf-container` at different sizes.
+// -----------------------------------------------------------------------------
+$container-sizes: (
+  'sm':  40rem,   // 640px
+  'md':  48rem,   // 768px
+  'lg':  64rem,   // 1024px
+  'xl':  80rem,   // 1280px
+  '2xl': 96rem    // 1536px
+) !default;
+
+
+// -----------------------------------------------------------------------------
+// 4. Z-INDEX STACKING ORDER
+// Manages the vertical stacking context (z-index) of elements.
+// Prevents z-index conflicts by establishing a clear hierarchy.
+// -----------------------------------------------------------------------------
+$z-stack: (
+  'base':           0,      // Default layer
+  'content':        1,
+  'dropdown':       900,
+  'sticky':         1000,   // Sticky elements (sidebars, headers)
+  'fixed':          1030,   // Fixed elements (mobile nav toggles)
+  'modal-backdrop': 1050,
+  'modal':          1100,
+  'popover':        1200,
+  'tooltip':        1300,
+  'toast':          1400    // Highest layer for notifications
+) !default;
+
+
+// -----------------------------------------------------------------------------
+// 5. MOTION & ANIMATION
+// Defines durations and easing curves for consistent animations.
+// -----------------------------------------------------------------------------
+$durations: (
+  '100': .10s,   // Fast interactions (e.g., hover color)
+  '150': .15s,
+  '200': .20s,
+  '300': .30s,   // Standard transitions (e.g., slide-in)
+  '500': .50s,   // Slower, more deliberate animations
+  '700': .70s,
+  '1000': 1s
+) !default;
+
+$easings: (
+  'standard': cubic-bezier(.2, 0, 0, 1),      // Decelerate curve
+  'decel':    cubic-bezier(0, 0, .2, 1),      // Sharp start, soft end
+  'accel':    cubic-bezier(.4, 0, 1, 1),      // Soft start, sharp end
+  'bounce':   cubic-bezier(0.34, 1.56, 0.64, 1) // "Overshoot" effect
+) !default;
+
+
+// -----------------------------------------------------------------------------
+// 6. CONTROLS & ICONS
+// Defines consistent sizing for interactive elements.
+// -----------------------------------------------------------------------------
+$control-heights: (
+  'sm': 2rem,
+  'md': 2.5rem, // Default button/input height
+  'lg': 3rem
+) !default;
+
+$icon-sizes: (
+  'sm': 1rem,
+  'md': 1.25rem, // Default icon size
+  'lg': 1.5rem,
+  'xl': 2rem
+) !default;
+
+
+// =============================================================================
+// NEW & ENHANCED SECTIONS
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// 7. SPACING & SIZING SCALE
+// The single source of truth for all margins, paddings, and gaps.
+// The keys ('0', '1', '2', etc.) are used to generate utility classes
+// and correspond to the `--sf-space-*` CSS variables.
+// NEW
+// -----------------------------------------------------------------------------
+$spacing-scale: (
+  '0':  0,
+  '1':  .25rem,    // 4px
+  '2':  .5rem,     // 8px
+  '3':  .75rem,    // 12px
+  '4':  1rem,      // 16px (Base unit)
+  '5':  1.5rem,    // 24px
+  '6':  2rem,      // 32px
+  '7':  2.5rem,    // 40px
+  '8':  3rem,      // 48px
+  '9':  3.5rem,    // 56px
+  '10': 4rem,      // 64px
+  '12': 6rem       // 96px
+);
+// LEGACY COMPATIBILITY: Your original variable for utility generation
 $space-keys: map-keys($spacing-scale) !default;
+
+
+// -----------------------------------------------------------------------------
+// 8. BORDERS & RADII
+// Defines all border-radius and border-width values.
+// NEW
+// -----------------------------------------------------------------------------
+$radii: (
+  'none':   0,
+  'sm':     .25rem,
+  'md':     .375rem,  // Default radius for controls
+  'lg':     .5rem,    // Default radius for cards
+  'xl':     .75rem,
+  'pill':   9999px,   // For pill-shaped elements
+  'circle': 50%      // For circular elements
+);
+
+$border-widths: (
+  'default': 1px,
+  'thick':   2px,
+  'heavy':   4px
+);
+
+
+// -----------------------------------------------------------------------------
+// 9. TYPOGRAPHY
+// Consolidates font weight and other type properties for easy access.
+// NEW
+// -----------------------------------------------------------------------------
+$font-weights: (
+  'light':    300,
+  'normal':   400,
+  'medium':   500,
+  'semibold': 600,
+  'bold':     700,
+  'extrabold':800
+);
+
+
+// -----------------------------------------------------------------------------
+// 10. SHADOW ELEVATION MAP
+// A semantic map for applying consistent box-shadows.
+// Corresponds to the shadow tokens.
+// NEW
+// -----------------------------------------------------------------------------
+$elevations: (
+  '1': var(--sf-shadow-sm),   // Low elevation, for borders or subtle lifts
+  '2': var(--sf-shadow-md),   // Default card elevation
+  '3': var(--sf-shadow-lg),   // Hover/active elevation
+  '4': var(--sf-shadow-xl)    // Modal/popover elevation (requires an --sf-shadow-xl token)
+);

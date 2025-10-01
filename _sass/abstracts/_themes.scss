@@ -9,12 +9,12 @@
    A cool, modern dark mode with vibrant blue accents, perfect for tech content.
    ============================================================================ */
 :root[data-theme="dark"] {
+  
   // --- A. COLOR PALETTE OVERRIDES ---
   --sf-brand-primary: #3b82f6;        // Brighter blue for better contrast
   --sf-brand-primary-hover: #60a5fa;
   --sf-brand-primary-active: #2563eb;
-  --sf-brand-accent: #818cf8;         // A soft violet accent
-
+  --sf-brand-accent: #818cf8;   // A soft violet accent
   --sf-gray-900: #f8fafc;  /* Ink -> nearly white */
   --sf-gray-800: #e2e8f0;  /* FG -> off-white */
   --sf-gray-700: #cbd5e1;
@@ -24,7 +24,6 @@
   --sf-gray-300: #1e293b;  /* Line-2 -> very subtle border */
   --sf-gray-200: #0f172a;  /* BG-1 -> main background */
   --sf-gray-100: #1e293b;  /* BG-2 -> card background (same as Line-2 for depth) */
-
   --sf-semantic-danger: #f87171; // Brighter red
   
   // --- B. SEMANTIC (DERIVED) TOKEN OVERRIDES ---
