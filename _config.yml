@@ -1,176 +1,345 @@
-# Site configuration
-# 1. Files excluded from Jekyll builds
-# 2. Installed Gems
-# 3. Gem settings
-# 4. Jekyll settings
-# 5. Collections
-# 6. Jekyll collections settings
-# 7. Site settings
-# 8. Site favicons & manifest icons
-# 9. Site navigation
+# ======================================================================
+# Trailblazer Jekyll Theme — _config.yml
+# Owner: Swarnil (ImSwarnil) — Portfolio • Résumé • Blog • Products I Use
+# ======================================================================
+# TABLE OF CONTENTS (most edited at top)
+#  0) 🔑 Site Identity & SEO Essentials
+#  1) 🌏 URL, Build, Markdown & Sass
+#  2) 👤 Author & Social
+#  3) 🧭 Navigation (with dropdowns + Phosphor bold icons)
+#  4) 🗂 Collections (posts, docs, projects, resume, courses, videos, uses, products)
+#  5) 🧬 Defaults (layouts, social images)
+#  6) 🪄 Plugins (gems) & Settings
+#  7) 🧱 Assets, Favicons & Web Manifest
+#  8) 🔍 Search (optional)
+#  9) 📈 Analytics (optional)
+# 10) 🤖 Robots & Crawling
+# 11) 🅰️ Fonts
+# 12) 🧪 Feature Flags / Misc
+# ======================================================================
 
-# 1. Files excluded from Jekyll builds
-exclude:
-- README.md
-- CODE_OF_CONDUCT.md
-- CONTRIBUTING.md
-- screenshot.png
-- LICENSE
-- CNAME
-- Gemfile
-- Gemfile.lock
-- alembic-jekyll-theme.gemspec
-- .jekyll-cache
 
-# 2. Installed Gems
-plugins:
-- jekyll-sitemap
-- jekyll-mentions
-- jekyll-paginate
-- jekyll-seo-tag
-- jekyll-redirect-from
-- jekyll-feed
-- jekyll-commonmark
-- jekyll-include-cache
-- jemoji
+# ----------------------------------------------------------------------
+# 0) 🔑 Site Identity & SEO Essentials
+# ----------------------------------------------------------------------
+title: "Trailblazer — Swarnil"            # Primary site title (SEO <title>)
+short_name: "Trailblazer"                  # PWA short name
+description: "Filmmaker & Salesforce Engineer. Portfolio, projects, and stories with a Deadpool wink and a Jack Sparrow plan."
+lang: en-IN                                # Audience language
+timezone: Asia/Kolkata                     # Consistent post dates for India
+url: "https://trailblzer.imswarnil.com"    # Canonical site URL (no trailing slash)
+baseurl: ""                                # If hosted at a subpath, set like "/blog"
+logo: "/assets/logos/logo.svg"             # Used by jekyll-seo-tag
+image: "/assets/default-social-image.png"  # Social share default
+permalink: pretty                          # /yyyy/mm/dd/title/ → /title/
+excerpt_separator: "<!-- more -->"
 
-# 3. Gem settings
-paginate: 2 # jekyll-paginate > items per page
-paginate_path: blog/page:num # jekyll-paginate > blog page
-jekyll-mentions: https://twitter.com # jekyll-mentions > service used when @replying
-twitter:
-  username: DavidDarnes # jekyll-seo-tag > Owners twitter username
-author: DavidDarnes # jekyll-seo-tag > default author
-social: # jekyll-seo-tag > social overrides
-  name: David Darnes # jekyll-seo-tag > real name
-  links:  # jekyll-seo-tag > social aliases (sameAs)
-    - https://twitter.com/DavidDarnes
-    - https://www.facebook.com/daviddarnes
-    - https://www.linkedin.com/in/daviddarnes
-    - https://github.com/daviddarnes
-# markdown: CommonMark # Markdown parse settings, CommonMark performs slightly better an others in build time
-# commonmark:
-  # options: ["SMART", "FOOTNOTES"]
-  # extensions: ["strikethrough", "autolink", "table"]
+# SEO Structured Data (kept simple; expand if needed)
+seo:
+  type: "Person"                           # Person or Organization
+  name: "Raja Swarnil Singhai"
+  job_title: "Salesforce Application Developer & Filmmaker"
+  same_as:
+    - "https://www.youtube.com/@ImSwarnil"
+    - "https://twitter.com/ImSwarnil"
+    - "https://github.com/ImSwarnil"
+    - "https://www.linkedin.com/in/imswarnil"
 
-# 4. Jekyll settings
+# ----------------------------------------------------------------------
+# 1) 🌏 URL, Build, Markdown & Sass
+# ----------------------------------------------------------------------
 sass:
   quiet_deps: true
-  style: compressed # Style compression
-permalink: pretty  # Permalink style (/YYYY/MM/DD/page-name/)
-excerpt_separator: <!-- more --> # Marks end of excerpt in posts
-timezone: Europe/London # Timezone for blog posts and alike
+  style: compressed
 
-# 5. Collections
+markdown: CommonMark
+commonmark:
+  options: ["SMART", "FOOTNOTES"]
+  extensions: ["strikethrough", "autolink", "table"]
+css_inline: true                           # Inlines compiled CSS into <head> for speed
+
+
+# ----------------------------------------------------------------------
+# 2) 👤 Author & Social
+# ----------------------------------------------------------------------
+author: "Swarnil"
+email: "hello@imswarnil.com"               # TODO: update
+twitter:
+  username: ImSwarnil
+social:
+  name: "Raja Swarnil Singhai"
+  links:
+    - "https://twitter.com/ImSwarnil"
+    - "https://github.com/ImSwarnil"
+    - "https://www.linkedin.com/in/imswarnil"
+    - "https://www.instagram.com/imswarnil"
+
+# Sidebar / Footer quick links
+social_links:
+  Twitter:  "https://twitter.com/ImSwarnil"
+  LinkedIn: "https://www.linkedin.com/in/imswarnil"
+  GitHub:   "https://github.com/ImSwarnil"
+  YouTube:  "https://www.youtube.com/@ImSwarnil"
+  link:     "https://imswarnil.com"
+  RSS:      "/feed.xml"
+
+
+# ----------------------------------------------------------------------
+# 3) 🧭 Navigation (with dropdowns + Phosphor bold icons)
+# Tip: icon classes use Phosphor "bold" set (e.g., ph-bold ph-user, ph-film-reel)
+# Your templates should render icon classes from these entries.
+# ----------------------------------------------------------------------
+navigation_header:
+  - title: "Home"
+    url: "/"
+    icon: "ph-bold ph-house"
+  - title: "About"
+    url: "/about/"
+    icon: "ph-bold ph-user"
+  - title: "Portfolio"
+    icon: "ph-bold ph-briefcase"
+    children:
+      - title: "Projects"
+        url: "/projects/"
+        icon: "ph-bold ph-circles-three-plus"
+      - title: "Videos"
+        url: "/videos/"
+        icon: "ph-bold ph-film-reel"
+      - title: "Web Series"
+        url: "/webseries/"
+        icon: "ph-bold ph-play-circle"
+      - title: "Résumé"
+        url: "/resume/"
+        icon: "ph-bold ph-file-text"
+  - title: "Blog"
+    url: "/blog/"
+    icon: "ph-bold ph-notebook"
+  - title: "Courses"
+    url: "/courses/"
+    icon: "ph-bold ph-graduation-cap"
+  - title: "Uses"
+    url: "/uses/"
+    icon: "ph-bold ph-wrench"
+  - title: "Products"
+    url: "/products/"
+    icon: "ph-bold ph-bag"
+  - title: "Docs"
+    url: "/docs/"
+    icon: "ph-bold ph-book"
+  - title: "Search"
+    url: "/search/"
+    icon: "ph-bold ph-magnifying-glass"
+
+navigation_footer:
+  - title: "Built by ImSwarnil"
+    url: "https://imswarnil.com"
+  - title: "Theme Repo"
+    url: "https://github.com/ImSwarnil/trailblazer-jekyll"  # TODO: update
+
+
+# ----------------------------------------------------------------------
+# 4) 🗂 Collections
+# Add what you actually use; others can be removed.
+# ----------------------------------------------------------------------
 collections:
   posts:
-    title: Posts # Needed for Siteleaf
+    title: "Blog"
     output: true
-    description: "My thoughts and ideas" # The post list page content
-    feature_text: |
-      Welcome to the blog
-    feature_image: "https://picsum.photos/2560/600?image=866"
+    description: "Stories, breakdowns, and dev notes"
   docs:
     output: true
-    permalink: /docs/:path/
+    permalink: "/docs/:path/"
+  projects:
+    output: true
+    permalink: "/projects/:path/"
+  resume:
+    output: true
+    permalink: "/resume/:path/"
+  courses:
+    output: true
+    permalink: "/courses/:path/"
+  videos:
+    output: true
+    permalink: "/videos/:path/"
+  webseries:
+    output: true
+    permalink: "/webseries/:path/"
+  uses:             # “Products I use” / gear / apps
+    output: true
+    permalink: "/uses/:path/"
+  products:         # Your own products or affiliate kits
+    output: true
+    permalink: "/products/:path/"
 
-# 6. Jekyll collections settings
+# Optional collection feature content for blog index
+posts_feature:
+  feature_text: "Welcome to the blog"
+  feature_image: "https://picsum.photos/2560/600?image=866"
+
+
+# ----------------------------------------------------------------------
+# 5) 🧬 Defaults (layouts, social images)
+# Applies to groups of pages by path/type to avoid repeating front matter.
+# ----------------------------------------------------------------------
 defaults:
-  -
-    scope:
+  - scope:
       path: ""
     values:
-      image: "/assets/default-social-image.png" # Default image for sharing
-  -
-    scope:
+      image: "/assets/default-social-image.png"
+  - scope:
       path: ""
       type: "posts"
     values:
-      layout: post # Set the default layout for posts
-  -
-    scope:
+      layout: "post"
+  - scope:
       path: ""
       type: "pages"
     values:
-      layout: page # Set the default layout for pages
+      layout: "page"
   - scope:
       path: ""
       type: "docs"
     values:
       layout: "docs"
+  - scope:
+      path: ""
+      type: "projects"
+    values:
+      layout: "project"
+  - scope:
+      path: ""
+      type: "resume"
+    values:
+      layout: "resume"
+  - scope:
+      path: ""
+      type: "courses"
+    values:
+      layout: "course"
+  - scope:
+      path: ""
+      type: "videos"
+    values:
+      layout: "video"
+  - scope:
+      path: ""
+      type: "uses"
+    values:
+      layout: "uses"
+  - scope:
+      path: ""
+      type: "products"
+    values:
+      layout: "product"
 
-# 7. Site settings
-encoding: utf-8 # Make sure the encoding is right
-lang: en-GB # Set the site language
-title: "SFDC Jekyll Theme" # Site name or title, also used in jekyll-seo-tag
-description: "Alembic is a starting point for Jekyll projects. Rather than starting from scratch, this boilerplate is designed to get the ball rolling immediately" # Site description and default description, also used in jekyll-seo-tag
-url: "https://trailblzer.imswarnil.com" # Site url, also used in jekyll-seo-tag
-baseurl: ""
-repo: "https://github.com/daviddarnes/alembic"
-github_repo_url: https://github.com/your-username/your-repo
-sponsor_url: https://github.com/sponsors/your-username
-logo: "/assets/logos/logo.svg" # Site logo, also used in jekyll-seo-tag
-email: "me@daviddarnes.com"
-job_title : Salesforce Application Developer
 
-# disqus: "alembic-1" # Blog post comments, uncomment the option and set the site ID from your Disqus account
-# date_format: "%-d %B %Y" # Blog post date formatting using placeholder formatting
-# google_analytics: ""
-# google_analytics_anonymize_ip: ""
-# service_worker: false # Will turn off the service worker if set to false
-# short_name: "Al" # The web application short name, defaults to the site title
-css_inline: true # Will insert all styles into a single <style> block in the <head> element and remove the style <link> reference
+# ----------------------------------------------------------------------
+# 6) 🪄 Plugins (gems) & Settings
+# Keep essentials; comment optionals you don't need.
+# ----------------------------------------------------------------------
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-feed
+  - jekyll-paginate
+  - jekyll-redirect-from
+  - jekyll-include-cache
+  - jemoji
+  - jekyll-commonmark
+  # - jekyll-algolia            # Optional search (see Section 8)
 
-# 8. Site favicons & manifest icons
-favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
-  16: '/assets/logos/logo@16px.png'
-  32: '/assets/logos/logo@32px.png'
-  96: '/assets/logos/logo@96px.png'
-  120: '/assets/logos/logo@120px.png'
-  144: '/assets/logos/logo@144px.png'
-  180: '/assets/logos/logo@180px.png'
-  512: '/assets/logos/logo@512px.png'
-  1024: '/assets/logos/logo@1024px.png'
+paginate: 10
+paginate_path: "/blog/page:num"
+jekyll-mentions: https://twitter.com
 
-# 9. Site navigation
-navigation_header:
-- title: Home
-  url: /
-- title : About
-  url : /about/
-- title: Elements
-  url: /elements/
-- title: Blog
-  url: /blog/
-- title: Products
-  url: /products/
-- title: Search
-  url: /search/
-- title: Fork Alembic
-  url: https://github.com/daviddarnes/alembic
+# Repo metadata (used by some templates)
+repo: "https://github.com/ImSwarnil/trailblazer-jekyll"       # TODO
+github_repo_url: "https://github.com/ImSwarnil/trailblazer-jekyll"
+sponsor_url: "https://github.com/sponsors/ImSwarnil"
 
-navigation_footer:
-- title: Created by David Darnes
-  url: https://darn.es
+# Excludes from build
+exclude:
+  - README.md
+  - CODE_OF_CONDUCT.md
+  - CONTRIBUTING.md
+  - screenshot.png
+  - LICENSE
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - .jekyll-cache
 
-social_links: # Appears in sidebar. Set the urls then uncomment and comment out as desired
-  Twitter: https://twitter.com/DavidDarnes
-  LinkedIn: https://www.linkedin.com/in/daviddarnes
-  GitHub: https://github.com/daviddarnes
-  link: https://darn.es
-  RSS: /feed.xml
 
-sharing_links: # Appear at the bottom of single blog posts, add as desired. The value can be 'true' or the desired button colour
+# ----------------------------------------------------------------------
+# 7) 🧱 Assets, Favicons & Web Manifest
+# ----------------------------------------------------------------------
+favicons:
+  16:   "/assets/logos/logo@16px.png"
+  32:   "/assets/logos/logo@32px.png"
+  96:   "/assets/logos/logo@96px.png"
+  120:  "/assets/logos/logo@120px.png"
+  144:  "/assets/logos/logo@144px.png"
+  180:  "/assets/logos/logo@180px.png"
+  512:  "/assets/logos/logo@512px.png"
+  1024: "/assets/logos/logo@1024px.png"
+
+
+# ----------------------------------------------------------------------
+# 9) 📈 Analytics (optional)
+# Use ONE provider at a time to avoid dueling scripts.
+# ----------------------------------------------------------------------
+analytics:
+  provider: "ga4"            # "ga4" | "gtag" | "plausible" | "umami" | false
+  ga4_measurement_id: ""     # TODO
+  anonymize_ip: true
+
+# Legacy keys (leave empty if using Section 9):
+google_analytics: ""
+google_analytics_anonymize_ip: ""
+
+
+# ----------------------------------------------------------------------
+# 10) 🤖 Robots & Crawling
+# ----------------------------------------------------------------------
+robots:
+  allow: ["/"]
+  disallow: []
+  sitemap: "/sitemap.xml"
+  crawl_delay: 10
+
+# Canonical defaults for templates that generate them
+canonical:
+  enabled: true
+
+
+# ----------------------------------------------------------------------
+# 11) 🅰️ Fonts
+# Keep URLs minimal; combine when possible.
+# ----------------------------------------------------------------------
+fonts:
+  preconnect_urls:
+    - "https://fonts.gstatic.com"
+  font_urls:
+    - "https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
+
+
+# ----------------------------------------------------------------------
+# 12) 🧪 Feature Flags / Misc Site Vars (used in layouts/partials)
+# These are handy knobs you’ll read from Liquid.
+# ----------------------------------------------------------------------
+feature_flags:
+  show_hero_badge: true
+  show_subscribe_cta: true
+  lazyload_images: true
+  dark_mode: true
+
+hero:
+  title: "Life. Code. Camera. Repeat."
+  subtitle: "Salesforce CRM Analytics & cinematic storytelling—because dashboards deserve drama."
+  company: "Your Company"                  # or pull from data file
+  location: "Bengaluru, India"
+
+sharing_links:
   Twitter: "#0d94e7"
   facebook: "#3B5998"
   Email: true
-
-# Load custom fonts from fonts.google.com etc
-#
-# TIP: Try to keep the number of urls as low to reduce the performance cost
-#      If multiple fonts can be requested in a single url opt for this
-fonts:
-  preconnect_urls:
-    - https://fonts.gstatic.com
-  font_urls:
-    - https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap
