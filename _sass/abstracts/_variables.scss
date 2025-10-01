@@ -3,6 +3,7 @@
    - This single file contains ALL SCSS variables, maps, and logic.
    - The utility class generators have been rewritten to be 100% robust.
    ============================================================================ */
+@use "sass:map";
 
 /* ============================================================================
    1. CORE THEME CONFIGURATION (VARIABLES & MAPS)
