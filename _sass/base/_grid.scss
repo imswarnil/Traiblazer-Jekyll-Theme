@@ -1,56 +1,38 @@
 /* ============================================================================
-   LAYOUT / GRID.SCSS (DEFINITIVE & UNABRIDGED)
-   - Provides a comprehensive, responsive 12-column grid system.
-   - Includes flexible container classes with responsive modifiers.
-   - Defines row, column, and offset helper classes.
+   LAYOUT / GRID.SCSS (DEFINITIVE & CORRECTED)
+   - The faulty universal selector (`> *`) has been REMOVED.
+   - The system is now truly mobile-first and allows responsive classes
+     to apply correctly.
    ============================================================================ */
 @use "sass:map";
 
 /* ============================================================================
    1. CONTAINER
-   The `.sf-container` is the primary wrapper for your content. It centers
-   content and applies horizontal padding.
    ============================================================================ */
 .sf-container {
   width: 100%;
   margin-inline: auto;
-  padding-inline: var(--sf-grid-gap, #{$grid-gutter}); // Use grid-gap as padding for consistency
+  padding-inline: var(--sf-grid-gap, #{$grid-gutter});
 
-  // Generate responsive container size modifiers from the $container-sizes map
-  // Example: `<div class="sf-container sf-container--lg">`
   @each $name, $size in $container-sizes {
     &.sf-container--#{$name} {
       max-width: $size;
     }
-  }
-
-  // A fluid container that always takes up 100% width
-  &.sf-container--fluid {
-    max-width: 100%;
   }
 }
 
 
 /* ============================================================================
    2. GRID ROW
-   The `.sf-row` is a CSS grid container that establishes the 12-column layout.
-   It must be the direct parent of `.sf-col-*` elements.
    ============================================================================ */
 .sf-row {
   display: grid;
   grid-template-columns: repeat(var(--sf-grid-columns, #{$grid-columns}), 1fr);
   gap: var(--sf-grid-gap, #{$grid-gutter});
 
-  // --- Row Modifiers ---
-
-  // No Gutters
-  // Removes the gap between columns.
   &.sf-row--no-gutters {
     gap: 0;
   }
-
-  // Alignment Modifiers
-  // Controls the vertical alignment of columns if they have different heights.
   &.sf-row--align-start { align-items: flex-start; }
   &.sf-row--align-center { align-items: center; }
   &.sf-row--align-end { align-items: flex-end; }
@@ -59,8 +41,6 @@
 
 /* ============================================================================
    3. GRID COLUMNS & OFFSETS
-   These classes define how many of the 12 columns an element should span.
-   They are mobile-first and can be combined for complex responsive layouts.
    ============================================================================ */
 
 // --- SCSS Mixin to generate column and offset classes ---
@@ -72,32 +52,24 @@
       grid-column: span #{$i};
     }
   }
-  // Add a helper for auto-width columns
-  .sf-col#{$prefix} {
-    grid-column: auto;
-    min-width: 0;
-  }
-  .sf-col#{$prefix}-auto {
-    grid-column: auto;
-  }
-
 
   // --- Column Offset Classes ---
   // Pushes a column to the right.
   // Example: `.sf-offset-1`, `.sf-offset-md-3`
   @for $i from 0 through ($grid-columns - 1) {
     .sf-offset#{$prefix}-#{$i} {
+      // We use +2 here because grid-column-start is 1-based and we want offset-0 to do nothing.
       grid-column-start: #{$i + 1};
     }
   }
 }
 
-
 // --- Generate Base (Mobile-First) Classes ---
-// By default, all columns are full-width unless specified otherwise.
-.sf-row > * {
+// The `.sf-col` class is now the base. It defaults to full width.
+.sf-col {
   grid-column: span $grid-columns;
 }
+// Generate non-responsive classes like .sf-col-6
 @include make-grid-classes();
 
 
@@ -106,11 +78,5 @@
   @media (min-width: $bp) {
     // Generate classes with the breakpoint infix, e.g., `-sm`
     @include make-grid-classes('-#{$name}');
-
-    // Add a default behavior at each breakpoint so columns stack naturally
-    // unless a specific `.sf-col-[bp]-*` class is applied.
-    .sf-row > .sf-col-#{$name} {
-       grid-column: auto;
-    }
   }
 }
