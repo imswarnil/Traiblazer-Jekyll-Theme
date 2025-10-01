@@ -1,30 +1,123 @@
 /* ============================================================================
-   ABSTRACTS / TOKENS (THE CSS GENERATOR)
-   This file reads the simple variables from `_settings.scss` and generates
-   the final CSS Custom Properties for the browser.
+   ABSTRACTS / TOKENS (THE DEFINITIVE AUTO-GENERATOR)
+   This file reads the SCSS maps from _variables.scss and automatically
+   generates the complete set of CSS Custom Properties for the theme.
    ============================================================================ */
+@use "sass:map";
 
 :root {
-  // --- A. COLOR TOKENS ---
-  --accent-color: #{$accentColour};
-  --hover-color: #{$hoverColour};
-  --focus-color: #{$focusColour};
-  --heading-color: #{$headingColour};
-  --body-color: #{$bodyColour};
-  --link-color: #{$linkColour};
-  --caption-color: #{$captionColour};
-  --white: #{$white};
-  --background-color: #{$backgroundColour};
-  --code-background-color: #{$codeBackgroundColour};
-  --feature-background-color: #{$featureBackgroundColour};
+  /* ==========================================================================
+     1. PRIMITIVE TOKENS (AUTO-GENERATED)
+     ========================================================================== */
+  @each $name, $value in $colors { --sf-#{$name}: #{$value}; }
+  @each $name, $value in $typography { --sf-#{$name}: #{$value}; }
+  @each $name, $value in $spacing-scale { --sf-space-#{$name}: #{$value}; }
+  @each $name, $value in $radii { --sf-radius-#{$name}: #{$value}; }
+  @each $name, $value in $control-heights { --sf-control-height-#{$name}: #{$value}; }
+  @each $name, $value in $container-sizes { --sf-container-#{$name}: #{$value}; }
+  @each $name, $value in $shadows { --sf-#{$name}: #{$value}; }
+  @each $name, $value in $z-stack { --sf-z-#{$name}: #{$value}; }
+  @each $name, $value in $icon-sizes { --sf-icon-#{$name}: #{$value}; }
 
-  // --- B. TYPOGRAPHY TOKENS ---
-  --font-family-body: #{map-get($bodytype, 'font-family')};
-  --font-family-heading: #{map-get($headingtype, 'font-family')};
-  --font-family-mono: #{map-get($monospacetype, 'font-family')};
+  /* ==========================================================================
+     2. SEMANTIC (DERIVED) TOKENS
+     ========================================================================== */
+  --body-bg: var(--sf-gray-200);
+  --body-fg: var(--sf-gray-800);
+  --heading-fg: var(--sf-gray-900);
+  --link-fg: var(--sf-brand-primary);
+  --link-hover-fg: var(--sf-brand-primary-hover);
+  --border-color: var(--sf-gray-400);
+  --border-color-subtle: var(--sf-gray-300);
+  --btn-radius: var(--sf-radius-md);
+  --btn-primary-bg: var(--sf-brand-primary);
+  --btn-primary-fg: var(--sf-gray-100);
+  --btn-primary-hover-bg: var(--sf-brand-primary-hover);
+  --btn-primary-active-bg: var(--sf-brand-primary-active);
+  --btn-secondary-bg: var(--sf-gray-100);
+  --btn-secondary-fg: var(--sf-gray-800);
+  --btn-secondary-border: var(--border-color);
+  --btn-secondary-hover-bg: var(--sf-gray-200);
+  --btn-danger-bg: var(--sf-semantic-danger);
+  --btn-danger-fg: var(--sf-gray-100);
+  --btn-danger-hover-bg: color-mix(in srgb, var(--sf-semantic-danger), #000 10%);
+  --input-bg: var(--sf-gray-100);
+  --input-fg: var(--sf-gray-800);
+  --input-border: var(--border-color);
+  --input-radius: var(--sf-radius-md);
+  --input-height: var(--sf-control-height-md);
+  --input-padding-x: var(--sf-space-3);
+  --placeholder-fg: var(--sf-gray-500);
+  --disabled-bg: var(--sf-gray-200);
+  --disabled-fg: var(--sf-gray-600);
+  --focus-ring: var(--sf-focus-ring);
+  --card-bg: var(--sf-gray-100);
+  --card-padding: var(--sf-space-5);
+  --card-radius: var(--sf-radius-lg);
+  --card-border: var(--border-color-subtle);
+  --card-shadow: var(--sf-shadow-sm);
+  --card-header-bg: transparent;
+  --card-footer-bg: var(--sf-gray-200);
+  --nav-height: 3.5rem;
+  --nav-bg: color-mix(in srgb, var(--sf-gray-100) 80%, transparent);
+  --nav-border-color: var(--border-color-subtle);
+  --nav-link-fg: var(--sf-gray-700);
+  --nav-link-hover-fg: var(--sf-gray-900);
+  --nav-link-hover-bg: var(--sf-gray-200);
+  --nav-link-active-fg: var(--sf-brand-primary);
+  --hero-padding-y: var(--sf-space-12);
+  --hero-grid-line-color: color-mix(in srgb, var(--border-color-subtle) 55%, transparent);
+  --hero-gradient-start: color-mix(in srgb, var(--sf-brand-primary) 8%, transparent);
+  --hero-gradient-end: color-mix(in srgb, var(--sf-brand-accent) 8%, transparent);
 
-  // --- C. SPACING & SIZING TOKENS ---
-  --gutter-small: #{map-get($gutterwidths, 'small')};
-  --gutter-medium: #{map-get($gutterwidths, 'medium')};
-  --gutter-large: #{map-get($gutterwidths, 'large')};
+  /* ==========================================================================
+     3. BACKWARD COMPATIBILITY ALIASES (1-to-1 Match with your original CSS)
+     ========================================================================== */
+  --sf-brand: var(--sf-brand-primary);
+  --sf-brand-hover: var(--sf-brand-primary-hover);
+  --sf-brand-active: var(--sf-brand-primary-active);
+  --sf-brand-2: var(--sf-brand-secondary);
+  --sf-accent: var(--sf-brand-accent);
+  --sf-ink: var(--sf-gray-900);
+  --sf-fg: var(--sf-gray-800);
+  --sf-fg-2: var(--sf-gray-700);
+  --sf-fg-3: var(--sf-gray-600);
+  --sf-muted: var(--sf-gray-500);
+  --sf-line-1: var(--sf-gray-400);
+  --sf-line-2: var(--sf-gray-300);
+  --sf-bg-1: var(--sf-gray-200);
+  --sf-bg-2: var(--sf-gray-100);
+  --sf-success: var(--sf-semantic-success);
+  --sf-warning: var(--sf-semantic-warning);
+  --sf-danger: var(--sf-semantic-danger);
+  --sf-info: var(--sf-semantic-info);
+  --sf-focus: var(--sf-focus-ring);
+  --sf-backdrop: var(--sf-backdrop-filter);
+  --sf-0: var(--sf-space-0); --sf-1: var(--sf-space-1); --sf-2: var(--sf-space-2);
+  --sf-3: var(--sf-space-3); --sf-4: var(--sf-space-4); --sf-5: var(--sf-space-5);
+  --sf-6: var(--sf-space-6); --sf-7: var(--sf-space-7); --sf-8: var(--sf-space-8);
+  --sf-9: var(--sf-space-9); --sf-10: var(--sf-space-10); --sf-12: var(--sf-space-12);
+  --sf-grid-columns: #{$grid-columns};
+  --sf-grid-gap: var(--sf-space-4);
+  --sf-control-sm: var(--sf-control-height-sm);
+  --sf-control-md: var(--sf-control-height-md);
+  --sf-control-lg: var(--sf-control-height-lg);
+  --sf-control-bg: var(--input-bg);
+  --sf-control-border: var(--input-border);
+  --sf-control-radius: var(--input-radius);
+  --sf-control-pad-x: var(--input-padding-x);
+  --sf-control-placeholder: var(--placeholder-fg);
+  --sf-control-disabled-bg: var(--disabled-bg);
+  --sf-control-disabled-fg: var(--disabled-fg);
+  --sf-btn-primary-bg: var(--btn-primary-bg);
+  --sf-btn-primary-text: var(--btn-primary-fg);
+  --sf-btn-primary-hover-bg: var(--btn-primary-hover-bg);
+  --sf-btn-primary-active-bg: var(--btn-primary-active-bg);
+  --sf-btn-radius: var(--btn-radius);
+  --sf-icon-stroke: 1.5;
+  --sf-nav-border: var(--nav-border-color);
+  --hero-pad-y: var(--hero-padding-y);
+  --hero-grid: var(--hero-grid-line-color);
+  --hero-grad-a: var(--hero-gradient-start);
+  --hero-grad-b: var(--hero-gradient-end);
 }

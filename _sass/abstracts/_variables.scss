@@ -1,74 +1,52 @@
 /* ============================================================================
-   ABSTRACTS / VARIABLES (THE LOGIC LAYER)
-   - Reads simple variables from `_settings.scss`.
-   - Organizes them into the structured SCSS maps that power the theme.
+   ABSTRACTS / VARIABLES (THE DEFINITIVE LOGIC LAYER)
    ============================================================================ */
-@use "sass:map";
 
-// --- 1. BREAKPOINTS & SIZING MAPS ---
-// These maps control the responsive behavior of the theme.
-$breakpoints: (
-  'break-0': 0,     // 0px       Mobile first
-  'break-1': 640,   // 640px   ~ Small tablet up
-  'break-2': 800,   // 800px   ~ Large tablet up
-  'break-3': 1024,  // 1024px  ~ Desktop up
-  'break-4': 1600   // 1600px  ~ Large desktop up
-) !default;
+// --- 1. COLOR PALETTE MAP ---
+$colors: (
+  'brand-primary': $brand-color, 'brand-primary-hover': darken($brand-color, 5%),
+  'brand-primary-active': darken($brand-color, 10%), 'brand-secondary': $brand-color-secondary,
+  'brand-accent': $accent-color, 'gray-900': $heading-text-color, 'gray-800': $text-color-body,
+  'gray-700': $text-color-subtle-1, 'gray-600': $text-color-subtle-2, 'gray-500': $text-color-muted,
+  'gray-400': $border-color, 'gray-300': $border-color-subtle,
+  'gray-200': $background-color-body, 'gray-100': $background-color-content,
+  'semantic-success': $color-success, 'semantic-warning': $color-warning,
+  'semantic-danger': $color-danger, 'semantic-info': $color-info
+);
 
-$rootsizes: (
-  'rootsize-0': 16,   // Base font size for mobile
-  'rootsize-1': 16,
-  'rootsize-2': 17,
-  'rootsize-3': 18,
-  'rootsize-4': 19
-) !default;
+// --- 2. TYPOGRAPHY MAPS ---
+$typography: (
+  'font-body': $font-family-base, 'font-mono': $font-family-mono,
+  'text-xs': "clamp(.75rem, .71rem + .2vw, .8125rem)", 'text-sm': "clamp(.875rem, .84rem + .2vw, .9375rem)",
+  'text-base': 1rem, 'text-lg': "clamp(1.125rem, 1.04rem + .4vw, 1.25rem)",
+  'text-xl': "clamp(1.25rem, 1.1rem + .8vw, 1.5rem)", 'text-2xl': "clamp(1.5rem, 1.2rem + 1.6vw, 1.875rem)",
+  'text-3xl': "clamp(1.875rem, 1.4rem + 2.6vw, 2.25rem)",
+  'leading-tight': $line-height-tight, 'leading-normal': $line-height-normal, 'leading-relaxed': $line-height-relaxed,
+  'tracking-tight': $tracking-tight, 'tracking-wide': $tracking-wide, 'measure': $measure-prose
+);
 
-// The `measure` is the ideal readable line-length for text.
-$measures: (
-  'measure-0': 550,
-  'measure-1': 600,
-  'measure-2': 650,
-  'measure-3': 700,
-  'measure-4': 750
-) !default;
+// --- 3. SPACING MAP ---
+$spacing-scale: (
+  '0':0, '1':$base-spacing-unit*0.25, '2':$base-spacing-unit*0.5, '3':$base-spacing-unit*0.75,
+  '4':$base-spacing-unit, '5':$base-spacing-unit*1.5, '6':$base-spacing-unit*2, '7':$base-spacing-unit*2.5,
+  '8':$base-spacing-unit*3, '9':$base-spacing-unit*3.5, '10':$base-spacing-unit*4, '12':$base-spacing-unit*6
+);
 
-// The `maxwidths` is the maximum width of the entire page container.
-$maxwidths: (
-  'width-0': map.get($measures, 'measure-0'), // On mobile, container = measure
-  'width-1': map.get($measures, 'measure-1'),
-  'width-2': 800,
-  'width-3': 1100,
-  'width-4': 1400
-) !default;
+// --- 4. RADII & SIZING MAPS ---
+$radii: ( 'sm':$radius-sm, 'md':$radius-controls, 'lg':$radius-cards, 'xl':$radius-xl, 'pill':$radius-pills, 'circle':50% );
+$control-heights: ( 'sm': 2rem, 'md': 2.5rem, 'lg': 3rem );
+$container-sizes: ( 'sm':40rem, 'md':48rem, 'lg':64rem, 'xl':80rem, '2xl':96rem );
+$icon-sizes: ( 'sm': 1rem, 'md': 1.25rem, 'lg': 1.5rem );
 
-// --- 2. MODULAR SCALE (FOR TYPOGRAPHY) ---
-// Defines a typographic scale for each breakpoint for perfect rhythm.
-$modular-scale: (
-  'ratio-0': 1.2,   // Mobile ratio (major third)
-  'ratio-1': 1.2,
-  'ratio-2': 1.25,  // Tablet ratio (perfect fourth)
-  'ratio-3': 1.25,
-  'ratio-4': 1.333  // Desktop ratio (perfect fourth)
-) !default;
+// --- 5. EFFECTS & LAYERS MAPS ---
+$shadows: ( 'sm':$shadow-sm, 'md':$shadow-md, 'lg':$shadow-lg, 'xl':$shadow-xl, 'focus-ring':0 0 0 .14rem $focus-ring-color, 'backdrop-filter':$backdrop-color );
+$z-stack: ( 'dropdown':900, 'sticky':1000, 'fixed':1030, 'modal':1100, 'popover':1200, 'tooltip':1300, 'toast':1400 );
 
-// Auto-generates the full scale map for the `fontsize` mixin.
-$scale: ();
-@for $i from 0 to length($breakpoints) {
-  $size: map.get($rootsizes, rootsize-#{$i});
-  $ratio: map.get($modular-scale, ratio-#{$i});
-  $map: (
-    'giga': $size * $ratio * $ratio * $ratio * $ratio,
-    'mega': $size * $ratio * $ratio * $ratio,
-    'alpha': $size * $ratio * $ratio,
-    'beta': $size * $ratio,
-    'gamma': $size,
-    'delta': $size / $ratio,
-    'epsilon': $size / $ratio / $ratio,
-    'zeta': $size / $ratio / $ratio / $ratio
-  );
-  $scale: map.merge($scale, ('scale-#{$i}': $map));
-}
-$modular-scale: $scale;
-
-// --- 3. OTHER CONFIG VARIABLES ---
-$gutterwidths: ( 'small': 1rem, 'medium': 2rem, 'large': 4rem ) !default;
+// --- 6. OTHER CONFIGURATION & LEGACY VARIABLES ---
+$breakpoints: ( 'xs':30em, 'sm':40em, 'md':60em, 'lg':75em, 'xl':90em );
+$bp-xs: map-get($breakpoints, 'xs'); $bp-sm: map-get($breakpoints, 'sm'); $bp-md: map-get($breakpoints, 'md'); $bp-lg: map-get($breakpoints, 'lg'); $bp-xl: map-get($breakpoints, 'xl');
+$grid-columns: 12 !default; $grid-gutter: 1.5rem !default;
+$space-keys: map-keys($spacing-scale) !default;
+$font-weights: ( 'light':300, 'normal':400, 'medium':500, 'semibold':600, 'bold':700, 'extrabold':800 );
+$durations: ('100':.10s, '150':.15s, '200':.20s, '300':.30s, '500':.50s);
+$easings: ('standard':cubic-bezier(.2,0,0,1), 'decel':cubic-bezier(0,0,.2,1), 'accel':cubic-bezier(.4,0,1,1));
