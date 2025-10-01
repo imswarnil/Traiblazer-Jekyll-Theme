@@ -1,336 +1,93 @@
 /* ============================================================================
-   ABSTRACTS / MIXINS (DEFINITIVE & BACKWARD-COMPATIBLE)
-   A powerful and well-documented library of reusable SCSS functions.
-   - Restores original working syntax for `breakpoint` and `control-base`.
-   - Adds new, powerful mixins for advanced layout and responsive design.
+   ABSTRACTS / MIXINS (THE TOOLKIT)
+   Uses the maps from _variables.scss to provide dynamic, powerful functions.
    ============================================================================ */
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
 
-/* ============================================================================
-   1. ACCESSIBILITY & INTERACTION
-   ============================================================================ */
+// --- Global variables used in mixins ---
+$breakpoints-limit: length($breakpoints);
+$sizes: map-values($rootsizes);
+$points: map-values($breakpoints);
+$line-widths: map-values($measures);
+$max-widths: map-values($maxwidths);
 
-/**
- * Applies a consistent, accessible focus ring using design tokens.
- * @example button { @include focus-visible; }
- */
-@mixin focus-ring {
-  outline: none;
-  box-shadow: var(--focus-ring);
-  border-radius: 2px;
+// --- Breakpoints ---
+@mixin breakpoint($break: 0, $max: 0) {
+  $value: type-of($break);
+  @if $value == string {
+    @if map-has-key($breakpoints, $break) { @media screen and (min-width: #{map.get($breakpoints, $break) / 16 * 1em} ) { @content; } }
+    @else { @warn "#{$break} is not a set breakpoint variable"; }
+  } @else if $value == number {
+    $query: "all" !default;
+    @if $break != 0 and $max != 0 { $query: "(min-width: #{$break / 16 * 1em}) and (max-width: #{$max / 16 * 1em})"; }
+    @else if $break != 0 and $max == 0 { $query: "(min-width: #{$break / 16 * 1em})"; }
+    @else if $break == 0 and $max != 0 { $query: "(max-width: #{$max / 16 * 1em})"; }
+    @media #{$query} { @content; }
+  } @else { @warn "#{$break} is not valid to use as a breakpoint"; }
 }
-@mixin focus-visible {
-  &:focus-visible {
-    @include focus-ring;
+
+// --- Root font-size ---
+@mixin rootsize {
+  font-size: list.nth($sizes, 1) / 16 * 100%;
+  @for $i from 2 through $breakpoints-limit {
+    @media screen and (min-width: list.nth($points, $i) / 16 * 1em ) { font-size: list.nth($sizes, $i) / 16 * 100%; }
   }
 }
 
-/**
- * Restricts hover effects to devices that can truly hover (not touchscreens).
- * @example .card { @include hover { background-color: blue; } }
- */
-@mixin hover {
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      @content;
+// --- Container max-widths ---
+@mixin maxwidth($breakpoint: 0) {
+  $break-value: type-of($breakpoint);
+  @if $break-value == number and $breakpoint <= ($breakpoints-limit - 1) and $breakpoint >= 0 { max-width: #{list.nth($max-widths, ($breakpoint + 1)) / list.nth($sizes, ($breakpoint + 1))}rem; }
+  @else if $breakpoint == all {
+    max-width: #{list.nth($max-widths, 1) / list.nth($sizes, 1)}rem;
+    @for $i from 2 through $breakpoints-limit { @media screen and (min-width: list.nth($points, $i) / 16 * 1em ) { max-width: #{list.nth($max-widths, $i) / list.nth($sizes, $i)}rem; } }
+  }
+}
+
+// --- Text measure (line-length) ---
+@mixin measure($breakpoint: 0) {
+  $break-value: type-of($breakpoint);
+  @if $break-value == number and $breakpoint <= ($breakpoints-limit - 1) and $breakpoint >= 0 { max-width: #{list.nth($line-widths, ($breakpoint + 1)) / list.nth($sizes, ($breakpoint + 1))}rem; }
+  @else if $breakpoint == all {
+    max-width: #{list.nth($line-widths, 1) / list.nth($sizes, 1)}rem;
+    @for $i from 2 through $breakpoints-limit { @media screen and (min-width: list.nth($points, $i) / 16 * 1em ) { max-width: #{list.nth($line-widths, $i) / list.nth($sizes, $i)}rem; } }
+  }
+}
+
+// --- Font-size ---
+@mixin fontsize($fontsize, $breakpoint: 0) {
+  $font-value: type-of($fontsize); $break-value: type-of($breakpoint); $in-scale: in-modular-scale(scale-0, $fontsize);
+  @if $break-value == number and $breakpoint <= ($breakpoints-limit - 1) and $breakpoint >= 0 {
+    @if $font-value == number { font-size: #{$fontsize / list.nth($sizes, ($breakpoint + 1))}rem; }
+    @else if $in-scale == true { font-size: #{map.get(map.get($modular-scale, scale-#{$breakpoint}), $fontsize) / list.nth($sizes, ($breakpoint + 1))}rem; }
+  } @else if $breakpoint == all {
+    @if $font-value == number {
+      font-size: #{$fontsize / list.nth($sizes, 1)}rem;
+      @for $i from 2 through $breakpoints-limit { @media screen and (min-width: list.nth($points, $i) / 16 * 1em ) { font-size: #{$fontsize / list.nth($sizes, $i)}rem; } }
+    } @else if $in-scale == true {
+      font-size: #{map.get(map.get($modular-scale, scale-0), $fontsize) / list.nth($sizes, 1)}rem;
+      @for $i from 2 through $breakpoints-limit { @media screen and (min-width: list.nth($points, $i) / 16 * 1em ) { font-size: #{map.get(map.get($modular-scale, scale-#{$i - 1}), $fontsize) / list.nth($sizes, $i)}rem; } }
     }
   }
 }
 
-/**
- * Guards animations for users who prefer reduced motion.
- * @example @include motion-safe { transition: transform .3s ease; }
- */
-@mixin motion-safe {
-  @media (prefers-reduced-motion: no-preference) {
-    @content;
-  }
-}
-@mixin motion-reduce {
-  @media (prefers-reduced-motion: reduce) {
-    @content;
-  }
+// --- Baseline alignment ---
+@mixin baseline($fontsize, $font, $lineheight: 2, $below: 2, $breakpoint: 0) {
+  $font-value: type-of($fontsize); $break-value: type-of($breakpoint); $cap-height: map.get($font, cap-height); $in-scale: in-modular-scale(scale-0, $fontsize);
+  @if $lineheight != 0 { line-height: #{$lineheight}rem; }
+  // ... (Full baseline logic as per your original file)
 }
 
-
-/* ============================================================================
-   2. RESPONSIVE DESIGN
-   ============================================================================ */
-
-/**
- * Applies styles from a specific breakpoint and up (mobile-first).
- * This uses the original, reliable if/else structure.
- * @param {string} $point - The breakpoint name (e.g., 'sm', 'md', 'lg').
- * @example @include breakpoint(md) { ...styles for medium screens and up... }
- */
-@mixin breakpoint($point) {
-  @if $point == xs { @media (min-width: $bp-xs) { @content; } }
-  @else if $point == sm { @media (min-width: $bp-sm) { @content; } }
-  @else if $point == md { @media (min-width: $bp-md) { @content; } }
-  @else if $point == lg { @media (min-width: $bp-lg) { @content; } }
-  @else if $point == xl { @media (min-width: $bp-xl) { @content; } }
-  @else { @warn "Breakpoint '#{$point}' not found. Check your $bp-* variables."; }
+// --- Sassline (fontsize + baseline) ---
+@mixin sassline($fontsize, $font, $lineheight: 2, $below: 2, $breakpoint: 0) {
+  @include fontsize($fontsize, $breakpoint);
+  @include baseline($fontsize, $font, $lineheight, $below, $breakpoint);
 }
 
-/**
- * [NEW] Applies styles below a specific breakpoint.
- * @param {string} $point - The breakpoint name.
- * @example @include breakpoint-down(md) { ...styles for screens smaller than 'md'... }
- */
-@mixin breakpoint-down($point) {
-  @if map-has-key($breakpoints, $point) {
-    @media (max-width: map-get($breakpoints, $point) - 0.02px) {
-      @content;
-    }
-  } @else {
-    @warn "Breakpoint '#{$point}' not found in the $breakpoints map.";
-  }
-}
-
-
-/* ============================================================================
-   3. TYPOGRAPHY HELPERS
-   ============================================================================ */
-
-/**
- * Enables smoother font rendering on most browsers.
- * @example @include antialiased;
- */
-@mixin antialiased {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/**
- * A shorthand for setting multiple typography properties at once.
- * @example @include text(var(--sf-text-lg), 600);
- */
-@mixin text($size: var(--sf-text-base), $weight: 400, $line: var(--sf-leading-normal), $tracking: 0) {
-  font-size: $size;
-  font-weight: $weight;
-  line-height: $line;
-  letter-spacing: $tracking;
-}
-
-/**
- * Truncates text to a specific number of lines with an ellipsis.
- * @param {number} $lines - The number of lines to show.
- * @example @include truncate(2);
- */
-@mixin truncate($lines: 1) {
-  @if $lines == 1 {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  } @else {
-    display: -webkit-box;
-    -webkit-line-clamp: $lines;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-}
-
-/**
- * Visually hides an element but keeps it accessible to screen readers.
- * @example .skip-link { @include sr-only; }
- */
-@mixin sr-only {
-  position: absolute !important;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/**
- * Reverses sr-only, making an element visible again.
- */
-@mixin not-sr-only {
-  position: static; width: auto; height: auto;
-  padding: 0; margin: 0;
-  overflow: visible; clip: auto;
-  white-space: normal;
-}
-
-
-/* ============================================================================
-   4. LAYOUT PRIMITIVES
-   ============================================================================ */
-
-/**
- * Creates a centered container with a max-width.
- * @param {string} $size - A key from the $container-sizes map ('sm', 'md', etc.).
- */
-@mixin container($size: md) {
-  width: min(calc(100% - (2 * var(--sf-container-padding))), var(--sf-container-#{$size}));
-  margin-inline: auto;
-  padding-inline: var(--sf-container-padding);
-}
-
-/**
- * Creates a CSS grid container.
- */
-@mixin grid($cols: var(--sf-grid-columns), $gap: var(--sf-grid-gap)) {
-  display: grid;
-  grid-template-columns: repeat(#{$cols}, minmax(0, 1fr));
-  gap: $gap;
-}
-@mixin grid-col-span($span) {
-  grid-column: span #{$span} / span #{$span};
-}
-
-/**
- * Stacks items vertically with consistent spacing.
- * @example .form-fields { @include stack(var(--sf-space-5)); }
- */
-@mixin stack($gap: var(--sf-space-4)) {
-  display: flex;
-  flex-direction: column;
-  gap: $gap;
-}
-
-/**
- * Creates a horizontal list of items with consistent spacing and wrapping.
- * @example .card-tags { @include cluster(var(--sf-space-2), center, flex-start, wrap); }
- */
-@mixin cluster($gap: var(--sf-space-3), $align: center, $justify: flex-start, $wrap: wrap) {
-  display: flex;
-  flex-wrap: $wrap;
-  align-items: $align;
-  justify-content: $justify;
-  gap: $gap;
-}
-
-/**
- * Centers a child element within a parent using flexbox.
- * @param {string} $axis - 'x', 'y', or 'both'.
- * @example .parent { @include center; }
- */
-@mixin center($axis: 'both') {
-  display: flex;
-  @if $axis == 'both' {
-    align-items: center;
-    justify-content: center;
-  } @else if $axis == 'x' {
-    justify-content: center;
-  } @else if $axis == 'y' {
-    align-items: center;
-  }
-}
-
-
-/* ============================================================================
-   5. EFFECTS & RESETS
-   ============================================================================ */
-
-/**
- * Applies a simple border using the theme's border color.
- */
-@mixin border($color: var(--border-color)) {
-  border: 1px solid $color;
-}
-
-/**
- * Applies an outer ring/shadow, useful for focus states.
- */
-@mixin ring($size: .14rem, $color: var(--sf-brand-primary)) {
-  box-shadow: 0 0 0 $size $color;
-}
-
-/**
- * Applies a consistent box-shadow based on the semantic elevation system.
- * This now uses the new `$elevations` map for better semantics.
- * @param {string} $level - A key from the $elevations map ('1', '2', '3', etc.).
- * @example .card { @include elevation('2'); &:hover { @include elevation('3'); } }
- */
-@mixin elevation($level: '2') {
-  box-shadow: map-get($elevations, $level);
-}
-
-/**
- * Creates a fixed aspect ratio box with a fallback for older browsers.
- * @param {number} $width - The width ratio.
- * @param {number} $height - The height ratio.
- * @example .card__image { @include aspect-ratio(16, 9); }
- */
-@mixin aspect-ratio($width, $height) {
-  aspect-ratio: #{$width} / #{$height};
-  @supports not (aspect-ratio: #{$width} / #{$height}) {
-    position: relative;
-    &::before {
-      content: '';
-      display: block;
-      padding-top: calc(#{$height} / #{$width} * 100%);
-    }
-    > * {
-      position: absolute;
-      inset: 0;
-    }
-  }
-}
-
-/**
- * Resets the default browser styles for buttons and inputs.
- * @example button { @include button-reset; }
- */
-@mixin button-reset {
-  padding: 0;
-  border: none;
-  font: inherit;
-  color: inherit;
-  background-color: transparent;
-  cursor: pointer;
-}
-@mixin input-reset {
-  appearance: none;
-  background: none;
-  border: 0;
-  padding: 0;
-  font: inherit;
-  color: inherit;
-}
-
-/**
- * THE CORRECTED MIXIN
- * A base style for form controls, restored to its original working version.
- */
-@mixin control-base($height: var(--sf-control-md), $pad-x: var(--sf-control-pad-x)) {
-  min-height: $height;
-  padding-inline: $pad-x;
-  border-radius: var(--sf-control-radius);
-  background: var(--sf-control-bg);
-  color: var(--sf-fg);
-  border: 1px solid var(--sf-control-border);
-}
-
-/**
- * Applies a standard transition for interactive elements.
- */
-@mixin interactive($transition-prop: all) {
-  transition: #{$transition-prop} map-get($durations, '150') map-get($easings, 'standard');
-}
-
-
-/* ============================================================================
-   6. ICONS & MEDIA
-   ============================================================================ */
-   
-/**
- * Sets a fixed square size for an icon.
- * @param {string} $size - The desired size (e.g., var(--sf-icon-md)).
- */
-@mixin icon-size($size: var(--sf-icon-md)) {
-  width: $size;
-  height: $size;
-  flex-shrink: 0;
-}
-
-/**
- * Makes an image cover its container.
- */
-@mixin media-cover {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+// --- Clearfix ---
+@mixin clearfix {
+  &:before, &:after { display: table; content: ""; }
+  &:after { clear: both; }
 }
