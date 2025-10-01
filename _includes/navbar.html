@@ -2,92 +2,115 @@
 _includes/navbar.html (Premium Animation Edition - MODIFIED FOR MULTI-THEME)
 ============================================================================ -->
 
+<!-- ============================================================================
+_includes/navbar.html (DEFINITIVE VERSION - UPDATED WITH GRID)
+- Now uses the responsive `sf-row` and `sf-col` classes for a robust,
+  flexible, and perfectly aligned layout.
+============================================================================ -->
+
 <header class="sf-header">
-<div class="sf-container sf-header__bar">
+  <div class="sf-container">
+    <!-- The .sf-header__bar is still the main flex container -->
+    <div class="sf-header__bar">
+      
+      <!-- NEW: Use the sf-row to structure the content inside the bar -->
+      <div class="sf-row sf-align-center" style="width: 100%;">
 
-<a href="{{ '/' | relative_url }}" class="sf-brand">
- <img src="{{ site.baseurl }}{{ site.logo }}" alt="{{ site.title }} Logo" class="sf-brand__image-logo">
- <div class="sf-brand__text">
-   <div class="sf-h5 sf-mb-0 sf-brand-title">{{ site.title }}</div>
-   <div style="font-size: xx-small;" class="sf-text--small">{{ site.job_title }}</div>
- </div>
-</a>
+        <!-- Column 1: Brand Logo (takes auto width) -->
+        <div class="sf-col-auto">
+          <a href="{{ '/' | relative_url }}" class="sf-brand">
+            <img src="{{ site.baseurl }}{{ site.logo }}" alt="{{ site.title }} Logo" class="sf-brand__image-logo">
+            <div class="sf-brand__text">
+              <div class="sf-h5 sf-mb-0 sf-brand-title">{{ site.title }}</div>
+              <div style="font-size: xx-small;" class="sf-text--small">{{ site.job_title }}</div>
+            </div>
+          </a>
+        </div>
 
-<nav class="sf-nav--desktop" aria-label="Main navigation">
- {% for item in site.navigation_header %}
-   <a href="{{ item.url | relative_url }}" class="sf-nav--desktop__link {% if page.url == item.url %}is-active{% endif %}">
-     {% if item.icon %}<i class="ph-bold ph-{{ item.icon }}"></i>{% endif %}
-     <span>{{ item.title }}</span>
-   </a>
- {% endfor %}
-</nav>
+        <!-- Column 2: Desktop Navigation (takes remaining space, centered) -->
+        <div class="sf-col">
+          <nav class="sf-nav--desktop" aria-label="Main navigation">
+            {% for item in site.navigation_header %}
+              <a href="{{ item.url | relative_url }}" class="sf-nav--desktop__link {% if page.url == item.url %}is-active{% endif %}">
+                {% if item.icon %}<i class="ph-bold ph-{{ item.icon }}"></i>{% endif %}
+                <span>{{ item.title }}</span>
+              </a>
+            {% endfor %}
+          </nav>
+        </div>
 
-<div class="sf-header__actions">
- <button class="sf-header__action-btn" aria-label="Open Search" data-toggle="search-panel">
-   <i class="ph-bold ph-magnifying-glass"></i>
- </button>
- <a href="https://github.com/your-username" class="sf-header__action-btn" aria-label="GitHub Profile" target="_blank" rel="noopener noreferrer">
-   <i class="ph-bold ph-github-logo"></i>
- </a>
- 
- <!-- THEME SWITCHER (MODIFIED) -->
- <button class="sf-header__action-btn sf-theme-switcher" aria-label="Toggle theme">
-   <i class="ph-bold ph-sun"></i>        <!-- For switching back to Light -->
-   <i class="ph-bold ph-cloud"></i>       <!-- For switching to Dark -->
-   <i class="ph-bold ph-sun-horizon"></i> <!-- For switching to Sunset -->
-   <i class="ph-bold ph-leaf"></i>        <!-- For switching to Nature -->
-   <i class="ph-bold ph-palette"></i>     <!-- For switching to B&W -->
- </button>
- 
- <button class="sf-nav-toggle" aria-label="Toggle navigation" data-toggle="nav-panel">
-   <span></span><span></span><span></span>
- </button>
-</div>
-</div>
+        <!-- Column 3: Header Actions (takes auto width) -->
+        <div class="sf-col-auto">
+          <div class="sf-header__actions">
+            <button class="sf-header__action-btn" aria-label="Open Search" data-toggle="search-panel">
+              <i class="ph-bold ph-magnifying-glass"></i>
+            </button>
+            <a href="https://github.com/your-username" class="sf-header__action-btn" aria-label="GitHub Profile" target="_blank" rel="noopener noreferrer">
+              <i class="ph-bold ph-github-logo"></i>
+            </a>
+            
+            <button class="sf-header__action-btn sf-theme-switcher" aria-label="Toggle theme">
+              <i class="ph-bold ph-sun"></i>
+              <i class="ph-bold ph-cloud"></i>
+              <i class="ph-bold ph-sun-horizon"></i>
+              <i class="ph-bold ph-leaf"></i>
+              <i class="ph-bold ph-palette"></i>
+            </button>
+            
+            <button class="sf-nav-toggle" aria-label="Toggle navigation" data-toggle="nav-panel">
+              <span></span><span></span><span></span>
+            </button>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 </header>
 
-<!-- Search Panel (Modal) -->
+<!-- Search Panel (Modal) - No changes needed here -->
 <div class="sf-search-panel" id="search-panel">
-<div class="sf-container">
-<div class="sf-search-panel__form">
- <i class="ph-bold ph-magnifying-glass" style="font-size: 1.5rem; color: var(--sf-muted);"></i>
- <input type="search" id="sf-search-input" class="sf-search-panel__input" placeholder="Search..." autocomplete="off" />
- <button type="button" class="sf-header__action-btn" aria-label="Close Search" data-toggle="search-panel">
-   <i class="ph-bold ph-x"></i>
- </button>
-</div>
-</div>
+  <div class="sf-container">
+    <div class="sf-search-panel__form">
+      <i class="ph-bold ph-magnifying-glass" style="font-size: 1.5rem; color: var(--sf-muted);"></i>
+      <input type="search" id="sf-search-input" class="sf-search-panel__input" placeholder="Search..." autocomplete="off" />
+      <button type="button" class="sf-header__action-btn" aria-label="Close Search" data-toggle="search-panel">
+        <i class="ph-bold ph-x"></i>
+      </button>
+    </div>
+  </div>
 </div>
 
-<!-- Search Results Container -->
+<!-- Search Results Container - No changes needed here -->
 <div class="sf-search-results-wrapper" id="sf-search-results-wrapper">
-<ul class="sf-search-results" id="sf-search-results-list"></ul>
+  <ul class="sf-search-results" id="sf-search-results-list"></ul>
 </div>
 
-<!-- Mobile Navigation Panel (Modal) -->
+<!-- Mobile Navigation Panel (Modal) - No changes needed here -->
 <div class="sf-nav-panel" id="nav-panel">
-<div class="sf-nav-panel__backdrop" data-toggle="nav-panel"></div>
-<div class="sf-nav-panel__content">
-<header class="sf-nav-panel__header">
- <span>Navigation</span>
- <button class="sf-header__action-btn" aria-label="Close navigation" data-toggle="nav-panel">
-   <i class="ph-bold ph-x"></i>
- </button>
-</header>
-<nav>
- <ul class="sf-nav-panel__list">
-   {% for item in site.navigation_header %}
-     <li>
-       <a href="{{ item.url | relative_url }}" class="sf-nav-panel__link {% if page.url == item.url %}is-active{% endif %}" data-toggle="nav-panel">
-         {% if item.icon %}<i class="ph-bold ph-{{ item.icon }}"></i>{% endif %}
-         <span>{{ item.title }}</span>
-       </a>
-     </li>
-   {% endfor %}
- </ul>
-</nav>
+  <div class="sf-nav-panel__backdrop" data-toggle="nav-panel"></div>
+  <div class="sf-nav-panel__content">
+    <header class="sf-nav-panel__header">
+      <span>Navigation</span>
+      <button class="sf-header__action-btn" aria-label="Close navigation" data-toggle="nav-panel">
+        <i class="ph-bold ph-x"></i>
+      </button>
+    </header>
+    <nav>
+      <ul class="sf-nav-panel__list">
+        {% for item in site.navigation_header %}
+          <li>
+            <a href="{{ item.url | relative_url }}" class="sf-nav-panel__link {% if page.url == item.url %}is-active{% endif %}" data-toggle="nav-panel">
+              {% if item.icon %}<i class="ph-bold ph-{{ item.icon }}"></i>{% endif %}
+              <span>{{ item.title }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+  </div>
 </div>
-</div>
+
 
 <!-- Self-contained JavaScript (MODIFIED) -->
 <script>
