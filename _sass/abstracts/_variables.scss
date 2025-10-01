@@ -1,8 +1,8 @@
 /* ============================================================================
    ABSTRACTS / VARIABLES (THE DEFINITIVE "FOUNDATION" FILE)
    - This single file contains ALL SCSS variables, maps, and logic.
-   - It includes all of your original variable maps.
-   - It now includes the complete, unabridged utility class generators.
+   - It generates a complete and consistent set of `sf-` branded utility classes.
+   - It is self-contained and does not rely on external mixins.
    ============================================================================ */
 @use "sass:map";
 
@@ -15,13 +15,7 @@
 // -----------------------------------------------------------------------------
 $breakpoints: (
   'xs': 30em, 'sm': 40em, 'md': 60em, 'lg': 75em, 'xl': 90em
-);
-// LEGACY BREAKPOINTS (For backward compatibility)
-$bp-xs: map-get($breakpoints, 'xs');
-$bp-sm: map-get($breakpoints, 'sm');
-$bp-md: map-get($breakpoints, 'md');
-$bp-lg: map-get($breakpoints, 'lg');
-$bp-xl: map-get($breakpoints, 'xl');
+) !default;
 
 // -----------------------------------------------------------------------------
 // 1B. GRID & LAYOUT
@@ -65,8 +59,7 @@ $spacing-scale: (
   '0':0, '1':.25rem, '2':.5rem, '3':.75rem, '4':1rem, '5':1.5rem, '6':2rem,
   '7':2.5rem, '8':3rem, '9':3.5rem, '10':4rem, '12':6rem
 );
-// LEGACY COMPATIBILITY: Your original variable for utility generation
-$space-keys: map-keys($spacing-scale) !default;
+$space-keys: map-keys($spacing-scale) !default; // Kept for any mixin that might still use it
 
 // -----------------------------------------------------------------------------
 // 1G. BORDERS & RADII
@@ -95,97 +88,105 @@ $elevations: (
 
 /* ============================================================================
    2. UTILITY CLASS GENERATORS
-   These loops create your responsive helper classes for spacing, etc.
+   These loops create your complete, responsive, `sf-` branded helper classes.
    ============================================================================ */
 
 // -----------------------------------------------------------------------------
-// 2A. SPACING UTILITIES (MARGINS & PADDINGS)
+// 2A. SPACING UTILITIES (e.g., .sf-m-4, .sf-py-lg-6)
 // -----------------------------------------------------------------------------
 $spacing-properties: ( 'm': 'margin', 'p': 'padding' );
 $spacing-directions: (
-  't': '-block-start', 'b': '-block-end', 's': '-inline-start',
-  'e': '-inline-end', 'x': '-inline', 'y': '-block'
+  't': '-top', 'b': '-bottom', 's': '-left', 'e': '-right', // Using s/e for start/end is more modern, but this matches slds style
+  'x': '-inline', 'y': '-block'
 );
 
-// Generate base (mobile-first) classes
 @each $prop-abbr, $prop-name in $spacing-properties {
+  // --- Generate Base (Mobile-First) Classes ---
   @each $key, $value in $spacing-scale {
-    .#{$prop-abbr}-#{$key} { #{$prop-name}: #{$value} !important; }
+    .sf-#{$prop-abbr}-#{$key} { #{$prop-name}: #{$value} !important; }
   }
   @each $dir-abbr, $dir-name in $spacing-directions {
     @each $key, $value in $spacing-scale {
-      .#{$prop-abbr}#{$dir-abbr}-#{$key} { #{$prop-name}#{$dir-name}: #{$value} !important; }
+      @if $dir-abbr == 'x' {
+        .sf-#{$prop-abbr}x-#{$key} { #{$prop-name}-left: #{$value} !important; #{$prop-name}-right: #{$value} !important; }
+      } @else if $dir-abbr == 'y' {
+        .sf-#{$prop-abbr}y-#{$key} { #{$prop-name}-top: #{$value} !important; #{$prop-name}-bottom: #{$value} !important; }
+      } @else {
+        .sf-#{$prop-abbr}#{$dir-abbr}-#{$key} { #{$prop-name}#{$dir-name}: #{$value} !important; }
+      }
     }
   }
   @if $prop-abbr == 'm' {
-    .mx-auto { margin-inline: auto !important; }
-    .my-auto { margin-block: auto !important; }
-    .ms-auto { margin-inline-start: auto !important; }
-    .me-auto { margin-inline-end: auto !important; }
+    .sf-mx-auto { margin-left: auto !important; margin-right: auto !important; }
   }
-}
 
-// Generate responsive classes
-@each $bp-name, $bp-value in $breakpoints {
-  @media (min-width: $bp-value) {
-    @each $prop-abbr, $prop-name in $spacing-properties {
+  // --- Generate Responsive Classes ---
+  @each $bp-name, $bp-value in $breakpoints {
+    @media (min-width: $bp-value) {
       @each $key, $value in $spacing-scale {
-        .#{$prop-abbr}-#{$bp-name}-#{$key} { #{$prop-name}: #{$value} !important; }
+        .sf-#{$prop-abbr}-#{$bp-name}-#{$key} { #{$prop-name}: #{$value} !important; }
       }
       @each $dir-abbr, $dir-name in $spacing-directions {
         @each $key, $value in $spacing-scale {
-          .#{$prop-abbr}#{$dir-abbr}-#{$bp-name}-#{$key} { #{$prop-name}#{$dir-name}: #{$value} !important; }
+           @if $dir-abbr == 'x' {
+            .sf-#{$prop-abbr}x-#{$bp-name}-#{$key} { #{$prop-name}-left: #{$value} !important; #{$prop-name}-right: #{$value} !important; }
+          } @else if $dir-abbr == 'y' {
+            .sf-#{$prop-abbr}y-#{$bp-name}-#{$key} { #{$prop-name}-top: #{$value} !important; #{$prop-name}-bottom: #{$value} !important; }
+          } @else {
+            .sf-#{$prop-abbr}#{$dir-abbr}-#{$bp-name}-#{$key} { #{$prop-name}#{$dir-name}: #{$value} !important; }
+          }
         }
       }
       @if $prop-abbr == 'm' {
-        .mx-#{$bp-name}-auto { margin-inline: auto !important; }
-        .my-#{$bp-name}-auto { margin-block: auto !important; }
-        .ms-#{$bp-name}-auto { margin-inline-start: auto !important; }
-        .me-#{$bp-name}-auto { margin-inline-end: auto !important; }
+        .sf-mx-#{$bp-name}-auto { margin-left: auto !important; margin-right: auto !important; }
       }
     }
   }
 }
 
 // -----------------------------------------------------------------------------
-// 2B. OTHER HELPER UTILITIES
-// This section includes the helpers from your `helpers.scss` example.
+// 2B. FLEXBOX & ALIGNMENT UTILITIES (e.g., .sf-d-flex, .sf-align-center)
 // -----------------------------------------------------------------------------
+.sf-d-flex { display: flex !important; }
+.sf-d-inline-flex { display: inline-flex !important; }
+.sf-align-start { align-items: flex-start !important; }
+.sf-align-center { align-items: center !important; }
+.sf-align-end { align-items: flex-end !important; }
+.sf-justify-start { justify-content: flex-start !important; }
+.sf-justify-center { justify-content: center !important; }
+.sf-justify-end { justify-content: flex-end !important; }
+.sf-justify-between { justify-content: space-between !important; }
 
-// --- Text Alignment ---
-.text-center { text-align: center; }
+// -----------------------------------------------------------------------------
+// 2C. DISPLAY & VISIBILITY UTILITIES (e.g., .sf-d-none, .sf-d-lg-block)
+// -----------------------------------------------------------------------------
+.sf-d-block { display: block !important; }
+.sf-d-inline { display: inline !important; }
+.sf-d-inline-block { display: inline-block !important; }
+.sf-d-none { display: none !important; }
 
-// --- Screen Reader Only ---
-.sr-only {
-  position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+@each $bp-name, $bp-value in $breakpoints {
+  @media (min-width: $bp-value) {
+    .sf-d-#{$bp-name}-block { display: block !important; }
+    .sf-d-#{$bp-name}-flex { display: flex !important; }
+    .sf-d-#{$bp-name}-none { display: none !important; }
+  }
 }
 
-// --- Display & Alignment (SLDS Style) ---
-.slds-show { display: block !important; }
-.slds-hide { display: none !important; }
-.slds-inline { display: inline !important; }
-.slds-inline-block { display: inline-block !important; }
-.slds-flex { display: flex !important; }
-.slds-inline-flex { display: inline-flex !important; }
-
-.slds-align_start { align-items: flex-start; }
-.slds-align_center { align-items: center; }
-.slds-align_end { align-items: flex-end; }
-.slds-justify_start { justify-content: flex-start; }
-.slds-justify_center { justify-content: center; }
-.slds-justify_end { justify-content: flex-end; }
-.slds-justify_between { justify-content: space-between; }
-
-// --- Gaps (SLDS Style) ---
-@function _space-var($k) { @return unquote("var(--sf-space-#{$k})"); }
-
-@each $k in $space-keys {
-  .slds-gap-#{$k} { gap: _space-var($k); }
-  .slds-gap-x-#{$k} { column-gap: _space-var($k); }
-  .slds-gap-y-#{$k} { row-gap: _space-var($k); }
+// -----------------------------------------------------------------------------
+// 2D. ACCESSIBILITY HELPERS
+// -----------------------------------------------------------------------------
+.sf-sr-only {
+  position: absolute !important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
 }
 
-// --- Assistive Text (SLDS Style) ---
-.slds-assistive-text { @include sr-only; }
-.slds-not-assistive { @include not-sr-only; }
+
+/* ============================================================================
+   3. LEGACY & HELPER VARIABLES (For Mixins)
+   ============================================================================ */
+$bp-xs: map-get($breakpoints, 'xs');
+$bp-sm: map-get($breakpoints, 'sm');
+$bp-md: map-get($breakpoints, 'md');
+$bp-lg: map-get($breakpoints, 'lg');
+$bp-xl: map-get($breakpoints, 'xl');
