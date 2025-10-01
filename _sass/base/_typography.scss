@@ -1,9 +1,7 @@
 /* ============================================================================
-   BASE / TYPOGRAPHY.SCSS (DEFINITIVE & COMPREHENSIVE)
+   BASE / TYPOGRAPHY.SCSS (THE DEFINITIVE "SPECIFICATION-COMPLETE" EDITION)
    - The single source of truth for all text styling.
-   - Defines base body font styles.
-   - Styles all semantic text elements (h1-h6, p, a, lists, etc.).
-   - Provides a complete suite of `sf-` branded typography utility classes.
+   - Defines base body font styles and styles all semantic text elements.
    ============================================================================ */
 
 /* --- 1. BASE FONT STYLES --- */
@@ -20,6 +18,7 @@ body {
 // Headings
 h1, h2, h3, h4, h5, h6 {
   margin-block: var(--sf-space-8) var(--sf-space-4);
+  font-family: var(--sf-font-body);
   font-weight: map-get($font-weights, 'bold');
   line-height: var(--sf-leading-tight);
   color: var(--heading-fg);
@@ -43,7 +42,7 @@ p {
   text-wrap: pretty;
 }
 
-// Links (Animated Underline)
+// Links
 a {
   color: var(--link-fg);
   text-decoration: none;
@@ -51,99 +50,112 @@ a {
   background-position: 0% 100%;
   background-repeat: no-repeat;
   background-size: 0% 1px;
-  transition: background-size .2s ease, color .2s ease;
+  transition: background-size .2s ease;
 
   &:hover {
     color: var(--link-hover-fg);
     background-size: 100% 1px;
   }
 }
-// Remove effect from links that are components or contain no text
-a:empty, .sf-btn, .sf-nav--desktop__link, .doc-sidebar-nav a {
-  background-image: none !important;
-  &:hover { background-size: 0% 1px !important; }
-}
+a:empty, .sf-btn { background-image: none !important; }
 
 // Lists
-ul, ol {
+ul, ol, dl {
   padding-left: var(--sf-space-5);
   margin-bottom: var(--sf-space-4);
 }
 li {
+  padding-left: var(--sf-space-2);
   margin-bottom: var(--sf-space-2);
 }
+li::marker {
+  color: var(--sf-brand-primary);
+  font-weight: map-get($font-weights, 'semibold');
+}
+dt {
+  font-weight: map-get($font-weights, 'bold');
+  margin-top: var(--sf-space-4);
+}
+dd {
+  margin-left: var(--sf-space-5);
+  margin-bottom: var(--sf-space-3);
+  color: var(--sf-fg-2);
+}
 
-// Other Text Elements
+// Blockquotes
+blockquote {
+  margin-inline: 0;
+  margin-block: var(--sf-space-6);
+  padding: var(--sf-space-4) var(--sf-space-5);
+  border-left: 4px solid var(--border-color);
+  background-color: var(--sf-bg-2);
+  font-style: italic;
+  color: var(--sf-fg-2);
+  p:last-child { margin-bottom: 0; }
+}
+blockquote footer, blockquote cite {
+  display: block;
+  font-style: normal;
+  font-size: var(--sf-text-sm);
+  color: var(--sf-muted);
+  margin-top: var(--sf-space-3);
+}
+
+// Code & Preformatted Text
+code, kbd, samp, pre {
+  font-family: var(--sf-font-mono);
+  font-size: 0.9em;
+  color: var(--sf-fg);
+}
+code, kbd, samp {
+  background-color: var(--sf-bg-1);
+  border: 1px solid var(--border-color-subtle);
+  padding: .2em .4em;
+  border-radius: var(--sf-radius-sm);
+}
+pre {
+  background-color: var(--sf-bg-1);
+  border: 1px solid var(--border-color-subtle);
+  border-radius: var(--sf-radius-md);
+  padding: var(--sf-space-4);
+  overflow-x: auto;
+  margin-bottom: var(--sf-space-5);
+  line-height: var(--sf-leading-normal);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  code { background: none; border: none; padding: 0; }
+}
+
+// Other Inline Text Elements
 strong, b { font-weight: map-get($font-weights, 'bold'); }
-em, i     { font-style: italic; }
-small     { font-size: var(--sf-text-sm); }
-code      { font-family: var(--sf-font-mono); font-size: 0.9em; background-color: var(--sf-bg-1); padding: .1em .3em; border-radius: var(--sf-radius-sm); }
-pre       { font-family: var(--sf-font-mono); }
-
-
-/* ============================================================================
-   3. TYPOGRAPHY UTILITY CLASSES
-   ============================================================================ */
-
-// --- FONT SIZE ---
-// Example: .sf-text-size-1 (largest)
-$font-sizes: (
-  '1': var(--sf-text-3xl), '2': var(--sf-text-2xl), '3': var(--sf-text-xl),
-  '4': var(--sf-text-lg),  '5': var(--sf-text-base), '6': var(--sf-text-sm),
-  '7': var(--sf-text-xs)
-);
-@each $name, $size in $font-sizes {
-  .sf-text-size-#{$name} { font-size: #{$size} !important; }
+em, i { font-style: italic; }
+small { font-size: var(--sf-text-sm); }
+abbr[title] { text-decoration: underline dotted; cursor: help; }
+sub, sup { font-size: 0.75em; line-height: 0; position: relative; vertical-align: baseline; }
+sub { bottom: -0.25em; }
+sup { top: -0.5em; }
+mark {
+  background-color: color-mix(in srgb, var(--sf-semantic-warning) 40%, transparent);
+  color: var(--heading-fg);
+  padding: .1em .3em;
+  border-radius: var(--sf-radius-sm);
 }
-@each $bp-name, $bp-value in $breakpoints {
-  @media (min-width: $bp-value) {
-    @each $name, $size in $font-sizes {
-      .sf-text-size-#{$bp-name}-#{$name} { font-size: #{$size} !important; }
-    }
-  }
+address {
+  font-style: normal;
 }
-
-// --- FONT WEIGHT ---
-// Example: .sf-text-weight-bold
-@each $name, $weight in $font-weights {
-  .sf-text-weight-#{$name} { font-weight: #{$weight} !important; }
+figcaption {
+  font-size: var(--sf-text-sm);
+  color: var(--sf-muted);
+  text-align: center;
 }
-
-// --- FONT FAMILY ---
-.sf-font-family-body { font-family: var(--sf-font-body) !important; }
-.sf-font-family-mono { font-family: var(--sf-font-mono) !important; }
-
-// --- LINE HEIGHT (LEADING) ---
-.sf-leading-tight   { line-height: var(--sf-leading-tight) !important; }
-.sf-leading-normal  { line-height: var(--sf-leading-normal) !important; }
-.sf-leading-relaxed { line-height: var(--sf-leading-relaxed) !important; }
-.sf-leading-none    { line-height: 1 !important; }
-
-// --- LETTER SPACING (TRACKING) ---
-.sf-tracking-tight  { letter-spacing: var(--sf-tracking-tight) !important; }
-.sf-tracking-normal { letter-spacing: normal !important; }
-.sf-tracking-wide   { letter-spacing: var(--sf-tracking-wide) !important; }
-
-// --- TEXT ALIGNMENT ---
-.sf-text-left    { text-align: left !important; }
-.sf-text-center  { text-align: center !important; }
-.sf-text-right   { text-align: right !important; }
-.sf-text-justify { text-align: justify !important; }
-
-@each $bp-name, $bp-value in $breakpoints {
-  @media (min-width: $bp-value) {
-    .sf-text-#{$bp-name}-left   { text-align: left !important; }
-    .sf-text-#{$bp-name}-center { text-align: center !important; }
-    .sf-text-#{$bp-name}-right  { text-align: right !important; }
-  }
+th {
+  font-weight: map-get($font-weights, 'semibold');
+  text-align: inherit;
 }
-
-// --- TEXT TRANSFORM ---
-.sf-uppercase  { text-transform: uppercase !important; }
-.sf-lowercase  { text-transform: lowercase !important; }
-.sf-capitalize { text-transform: capitalize !important; }
-.sf-normal-case{ text-transform: none !important; }
-
-// --- TEXT DECORATION ---
-.sf-underline     { text-decoration: underline !important; background-image: none !important; }
-.sf-no-underline  { text-decoration: none !important; background-image: none !important; }
+label {
+  font-weight: map-get($font-weights, 'medium');
+}
+legend {
+  font-weight: map-get($font-weights, 'semibold');
+  padding-inline: var(--sf-space-1);
+}

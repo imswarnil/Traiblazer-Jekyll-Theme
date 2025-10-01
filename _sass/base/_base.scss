@@ -1,68 +1,39 @@
 /* ============================================================================
-   BASE / BASE.SCSS
-   This file sets the foundational styles for the entire project. It includes:
-   1. A modern CSS reset.
-   2. Global styles for the `body` and core elements.
-   3. The complete typographic scale for headings, paragraphs, and links.
-   ============================================================================ */
-@use "sass:map";
-
-/* ============================================================================
-   1. MODERN CSS RESET
-   Establishes a consistent baseline across all browsers.
+   BASE / BASE.SCSS (THE DEFINITIVE "SPECIFICATION-COMPLETE" EDITION)
+   - Provides a comprehensive modern CSS reset.
+   - Sets foundational, non-typographic styles for EVERY common HTML element.
    ============================================================================ */
 
+/* --- 1. MODERN CSS RESET & GLOBAL DEFAULTS --- */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: var(--border-color, currentColor);
 }
 
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-height) + var(--sf-space-4));
+  font-size: 16px;
 }
 
 body {
   min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
-
-img, picture, video, canvas, svg {
-  display: block;
-  max-width: 100%;
-}
-
-input, button, textarea, select {
-  font: inherit;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  overflow-wrap: break-word;
-  text-wrap: balance; // Improves heading wrapping on modern browsers
-}
-
-p {
-  text-wrap: pretty; // Improves paragraph wrapping
 }
 
 
-/* ============================================================================
-   2. GLOBAL DOCUMENT STYLES
-   Defines the look and feel of the entire site.
-   ============================================================================ */
-
+/* --- 2. GLOBAL DOCUMENT STYLES --- */
 body {
-  font-family: var(--sf-font-body);
-  font-size: var(--sf-text-base);
-  line-height: var(--sf-leading-relaxed); // A more spacious default
-  color: var(--body-fg);
   background-color: var(--body-bg);
-  transition: background-color .3s ease, color .3s ease; // For theme switching
+  color: var(--body-fg);
+  transition: background-color .3s ease, color .3s ease;
 }
 
-// Global accessibility enhancement for reduced motion
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -72,7 +43,6 @@ body {
   }
 }
 
-// Selection highlight style
 ::selection {
   background-color: var(--sf-brand-primary);
   color: #fff;
@@ -80,81 +50,152 @@ body {
 
 
 /* ============================================================================
-   3. TYPOGRAPHY & TEXT ELEMENTS
+   3. CORE ELEMENT STYLES (NON-TYPOGRAPHIC)
    ============================================================================ */
 
-// --- HEADINGS ---
-// Styles are applied directly to semantic tags for markdown content,
-// and helper classes are available for custom use.
-h1, .sf-h1,
-h2, .sf-h2,
-h3, .sf-h3,
-h4, .sf-h4,
-h5, .sf-h5,
-h6, .sf-h6 {
-  margin-block: var(--sf-space-8) var(--sf-space-4);
-  font-weight: map-get($font-weights, 'bold');
-  line-height: var(--sf-leading-tight);
-  color: var(--heading-fg);
+// --- Media, Figures, and Embedded Content ---
+img, picture, video, canvas, svg, figure, iframe, embed, object {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
 }
-h1:first-child, .sf-h1:first-child { margin-top: 0; }
+img { font-style: italic; } // Alt text style
+figure { margin-block: var(--sf-space-5); }
 
-h1, .sf-h1 { font-size: var(--sf-text-3xl); }
-h2, .sf-h2 { font-size: var(--sf-text-2xl); }
-h3, .sf-h3 { font-size: var(--sf-text-xl); }
-h4, .sf-h4 { font-size: var(--sf-text-lg); }
-h5, .sf-h5 { font-size: var(--sf-text-base); font-weight: map-get($font-weights, 'semibold'); }
-h6, .sf-h6 { font-size: var(--sf-text-sm); font-weight: map-get($font-weights, 'semibold'); }
+// --- Horizontal Rule ---
+hr {
+  display: block;
+  border: 0;
+  border-top: 1px solid var(--border-color-subtle);
+  height: 1px;
+  margin-block: var(--sf-space-8);
+  padding: 0;
+}
 
-// --- PARAGRAPHS & TEXT ---
-p {
+// --- Tables ---
+table {
+  width: 100%;
+  margin-bottom: var(--sf-space-5);
+  border-collapse: collapse;
+  vertical-align: top;
+  border: 1px solid var(--border-color-subtle);
+  display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+thead { background-color: var(--sf-bg-1); }
+th, td {
+  padding: var(--sf-space-3) var(--sf-space-4);
+  border: 1px solid var(--border-color-subtle);
+}
+
+// --- Forms ---
+form { margin-bottom: var(--sf-space-6); }
+fieldset {
+  border: 1px solid var(--border-color-subtle);
+  padding: var(--sf-space-5);
+  border-radius: var(--sf-radius-lg);
   margin-bottom: var(--sf-space-4);
-  max-width: var(--sf-measure);
 }
-
-// Helper classes for text sizes
-.sf-text-sm {
-  font-size: var(--sf-text-sm);
-  color: var(--sf-color-muted);
+input, button, textarea, select {
+  font: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+  border-radius: 0;
+  width: 100%;
 }
-.sf-text-lg {
-  font-size: var(--sf-text-lg);
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
 }
+button, [role="button"], input[type="submit"], input[type="reset"], input[type="button"] {
+  cursor: pointer;
+}
+button:disabled, [disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+textarea { resize: vertical; }
+input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; }
+input[type="color"] { -webkit-appearance: none; appearance: none; padding: 0; border: none; }
+input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+input[type="color"]::-webkit-color-swatch { border: none; border-radius: var(--sf-radius-md); }
 
-// --- LINKS ---
-// A more modern, animated underline is now the default for all links.
-a {
-  color: var(--link-fg);
-  text-decoration: none;
-  background-image: linear-gradient(var(--link-fg), var(--link-fg));
-  background-position: 0% 100%;
-  background-repeat: no-repeat;
-  background-size: 0% 1px;
-  transition: background-size .2s ease, color .2s ease;
+// --- Interactive Elements ---
+details {
+  display: block;
+  background-color: var(--sf-bg-2);
+  border: 1px solid var(--border-color-subtle);
+  border-radius: var(--sf-radius-md);
+  padding: var(--sf-space-4);
+  margin-bottom: var(--sf-space-4);
 
-  &:hover {
-    color: var(--link-hover-fg);
-    background-size: 100% 1px;
+  summary {
+    cursor: pointer;
+    list-style: none;
+    &::-webkit-details-marker { display: none; }
+    &::before {
+      content: '►';
+      font-size: 0.8em;
+      margin-right: var(--sf-space-2);
+      transition: transform 0.2s ease;
+    }
+  }
+  &[open] > summary::before { transform: rotate(90deg); }
+
+  > *:not(summary) {
+    margin-top: var(--sf-space-4);
+    padding-top: var(--sf-space-4);
+    border-top: 1px solid var(--border-color-subtle);
   }
 }
-// Remove the effect from links that don't contain text (e.g., image links)
-a:empty {
-  background-image: none;
-}
-// Remove the effect from specific components where it's not desired
-.sf-btn, .sf-nav--desktop__link, .doc-sidebar-nav a {
-  background-image: none !important;
-  &:hover { background-size: 0% 1px !important; }
+
+dialog {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--sf-shadow-xl);
+  padding: var(--card-padding);
+  color: inherit;
+  &::backdrop { background-color: var(--sf-backdrop-filter); }
 }
 
-// --- OTHER TEXT ELEMENTS ---
-strong, b {
-  font-weight: map-get($font-weights, 'semibold');
+// --- Meter & Progress ---
+meter, progress {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: var(--sf-space-2);
+  border: 1px solid var(--border-color);
+  border-radius: var(--sf-radius-pill);
+  background-color: var(--sf-bg-1);
+  overflow: hidden;
+}
+meter::-webkit-meter-bar, progress::-webkit-progress-bar {
+  background-color: transparent;
+}
+meter::-webkit-meter-optimum-value,
+meter::-webkit-meter-suboptimum-value,
+meter::-webkit-meter-even-less-good-value,
+progress::-webkit-progress-value {
+  background-color: var(--sf-brand-primary);
+  border-radius: var(--sf-radius-pill);
+}
+meter::-moz-meter-bar, progress::-moz-progress-bar {
+  background-color: var(--sf-brand-primary);
+  border-radius: var(--sf-radius-pill);
 }
 
-hr {
-  border: 0;
-  height: 1px;
-  background-color: var(--border-color-subtle);
-  margin-block: var(--sf-space-8);
+// Low value
+meter[value^="0.1"]::-webkit-meter-optimum-value,
+meter[value^="0.2"]::-webkit-meter-optimum-value {
+  background-color: var(--sf-semantic-warning);
+}
+// High value
+meter[value^="0.8"]::-webkit-meter-optimum-value,
+meter[value^="0.9"]::-webkit-meter-optimum-value {
+  background-color: var(--sf-semantic-success);
 }
