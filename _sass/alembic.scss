@@ -3,6 +3,8 @@
    Master import file for the entire theme.
    ============================================================================ */
 
+   @import "settings";
+
 // 1) ABSTRACTS — core, no output deps broken
 
 @import "abstracts/variables";
