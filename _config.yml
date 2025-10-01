@@ -27,7 +27,7 @@ description: "Filmmaker & Salesforce Engineer. Portfolio, projects, and stories 
 lang: en-IN
 timezone: Asia/Kolkata
 url: "https://trailblzer.imswarnil.com"
-baseurl: ""
+baseurl: "/"
 logo: "/assets/logos/logo.svg"
 image: "/assets/default-social-image.png"   # default social share image
 permalink: pretty
