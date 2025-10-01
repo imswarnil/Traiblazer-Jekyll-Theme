@@ -1,16 +1,41 @@
 /* ============================================================================
-   ABSTRACTS / SETTINGS
+   ABSTRACTS / SETTINGS (USER CONTROL PANEL)
+   This is the primary file for customizing the theme's look and feel.
    ============================================================================ */
-$brand-color: #0176d3 !default;
-$accent-color: #009ed9 !default;
-$text-color-headings: #0b1221 !default;
-$text-color-body: #2e2e3a !default;
-$text-color-muted: #8a96a3 !default;
-$background-color-body: #f4f6f9 !default;
-$background-color-content: #ffffff !default;
-$border-color: #cfd7e0 !default;
-$border-color-subtle: #e6ebf1 !default;
-$font-family-base: system-ui, -apple-system, Segoe UI, Roboto, sans-serif !default;
-$font-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace !default;
-$radius-controls: .375rem !default;
-$radius-cards: .5rem !default;
+
+// --- 1. BACKGROUND COLOURS ---
+$backgroundColour:       #FCFCFC !default;
+$codeBackgroundColour:   #F5F4F2 !default;
+$featureBackgroundColour:#FEFEFE !default;
+
+// --- 2. TEXT COLOURS ---
+$headingColour: #2E2E2E !default;
+$bodyColour:    #494949 !default;
+$linkColour:    #0176d3 !default; // Using your SFDC blue as the base
+$hoverColour:   #0163b5 !default;
+$captionColour: #BDC8CC !default;
+$white:         #FFFFFF !default;
+
+// --- 3. TYPOGRAPHY ---
+// Define your font stacks and their properties.
+// ! Set cap-height for precise baseline alignment in the `sassline` mixin.
+$bodytype: (
+  font-family: 'system-ui, -apple-system, sans-serif',
+  regular: 400,
+  bold: 700,
+  italic: italic,
+  cap-height: 0.68
+) !default;
+
+$headingtype: (
+  font-family: 'system-ui, -apple-system, sans-serif',
+  regular: 400,
+  bold: 800,
+  cap-height: 0.68
+) !default;
+
+$monospacetype: (
+  font-family: 'Menlo, ui-monospace, monospace',
+  regular: 400,
+  cap-height: 0.68
+) !default;

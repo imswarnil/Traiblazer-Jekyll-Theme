@@ -1,43 +1,186 @@
 /* ============================================================================
-   ABSTRACTS / VARIABLES (UNABRIDGED)
+   ABSTRACTS / VARIABLES
+   SCSS-only variables for logic, loops, media queries, and configuration.
+   These variables are NOT compiled directly into the final CSS.
+   This is the central control panel for the theme's SCSS architecture.
    ============================================================================ */
-@use "sass:map";
 
-// --- CORE CONFIGURATION MAPS ---
-$breakpoints: ( 'xs':30em, 'sm':40em, 'md':60em, 'lg':75em, 'xl':90em ) !default;
-$container-sizes: ( 'sm':40rem, 'md':48rem, 'lg':64rem, 'xl':80rem, '2xl':96rem ) !default;
-$z-stack: ( 'base':0, 'dropdown':900, 'sticky':1000, 'fixed':1030, 'modal-backdrop':1050, 'modal':1100, 'popover':1200, 'tooltip':1300, 'toast':1400 ) !default;
-$durations: ( '100':.10s, '150':.15s, '200':.20s, '300':.30s, '500':.50s ) !default;
-$easings: ( 'standard':cubic-bezier(.2,0,0,1), 'decel':cubic-bezier(0,0,.2,1), 'accel':cubic-bezier(.4,0,1,1), 'bounce':cubic-bezier(0.34,1.56,0.64,1) ) !default;
-$control-heights: ( 'sm':2rem, 'md':2.5rem, 'lg':3rem ) !default;
-$icon-sizes: ( 'sm':1rem, 'md':1.25rem, 'lg':1.5rem, 'xl':2rem ) !default;
-$font-weights: ( 'light':300, 'normal':400, 'medium':500, 'semibold':600, 'bold':700, 'extrabold':800 );
-
-// --- DYNAMIC MAPS (Powered by _settings.scss) ---
-$colors: (
-  'brand-primary': $brand-color, 'brand-primary-hover': darken($brand-color, 5%),
-  'brand-primary-active': darken($brand-color, 10%), 'brand-accent': $accent-color,
-  'gray-900': $heading-text-color, 'gray-800': $text-color-body,
-  'gray-500': $text-color-muted, 'gray-400': $border-color, 'gray-300': $border-color-subtle,
-  'gray-200': $background-color-body, 'gray-100': $background-color-content,
-  'semantic-success': #2e844a, 'semantic-warning': #ffb75d,
-  'semantic-danger': #ba0517, 'semantic-info': #1b96ff
+// -----------------------------------------------------------------------------
+// 1. BREAKPOINTS
+// Defines the minimum widths for each viewport size.
+// Used by the `breakpoint` mixin for creating responsive styles.
+// Example: @include breakpoint(md) { ... }
+// -----------------------------------------------------------------------------
+$breakpoints: (
+  'xs': 30em,  // 480px - Extra small devices (large phones)
+  'sm': 40em,  // 640px - Small devices (tablets, portrait)
+  'md': 60em,  // 960px - Medium devices (tablets, landscape)
+  'lg': 75em,  // 1200px - Large devices (desktops)
+  'xl': 90em   // 1440px - Extra large devices (large desktops)
 );
-$typography: (
-  'font-body': $font-family-base, 'font-mono': $font-family-mono,
-  'text-xs': "clamp(.75rem, .71rem + .2vw, .8125rem)", 'text-sm': "clamp(.875rem, .84rem + .2vw, .9375rem)",
-  'text-base': 1rem, 'text-lg': "clamp(1.125rem, 1.04rem + .4vw, 1.25rem)",
-  'text-xl': "clamp(1.25rem, 1.1rem + .8vw, 1.5rem)", 'text-2xl': "clamp(1.5rem, 1.2rem + 1.6vw, 1.875rem)",
-  'text-3xl': "clamp(1.875rem, 1.4rem + 2.6vw, 2.25rem)",
-  'leading-tight': 1.25, 'leading-normal': 1.5, 'leading-relaxed': 1.7,
-  'tracking-tight': -0.005em, 'tracking-wide': 0.02em, 'measure': 65ch
-);
-$radii: ( 'sm':max(0, $radius-controls - 0.125rem), 'md':$radius-controls, 'lg':$radius-cards, 'xl':$radius-cards + 0.25rem, 'pill':9999px, 'circle':50% );
-$spacing-scale: ( '0':0, '1':.25rem, '2':.5rem, '3':.75rem, '4':1rem, '5':1.5rem, '6':2rem, '7':2.5rem, '8':3rem, '9':3.5rem, '10':4rem, '12':6rem );
-$shadows: ( 'sm': $shadow-sm, 'md': $shadow-md, 'lg': $shadow-lg, 'xl': $shadow-xl, 'focus-ring': 0 0 0 .14rem #{rgba($brand-color, .9)} );
-$elevations: ( '1':var(--sf-shadow-sm), '2':var(--sf-shadow-md), '3':var(--sf-shadow-lg), '4':var(--sf-shadow-xl) );
+// LEGACY BREAKPOINTS (Kept for backward compatibility)
+$bp-xs: map-get($breakpoints, 'xs');
+$bp-sm: map-get($breakpoints, 'sm');
+$bp-md: map-get($breakpoints, 'md');
+$bp-lg: map-get($breakpoints, 'lg');
+$bp-xl: map-get($breakpoints, 'xl');
 
-// --- LEGACY & HELPER VARIABLES ---
-$bp-xs: map-get($breakpoints, 'xs'); $bp-sm: map-get($breakpoints, 'sm'); $bp-md: map-get($breakpoints, 'md'); $bp-lg: map-get($breakpoints, 'lg'); $bp-xl: map-get($breakpoints, 'xl');
+
+// -----------------------------------------------------------------------------
+// 2. GRID & LAYOUT
+// Core variables for the responsive 12-column grid system.
+// -----------------------------------------------------------------------------
 $grid-columns: 12 !default;
+$grid-gutter: 1.5rem !default;
+
+
+// -----------------------------------------------------------------------------
+// 3. CONTAINER SIZES
+// Defines the max-width for the `.sf-container` at different sizes.
+// -----------------------------------------------------------------------------
+$container-sizes: (
+  'sm':  40rem,   // 640px
+  'md':  48rem,   // 768px
+  'lg':  64rem,   // 1024px
+  'xl':  80rem,   // 1280px
+  '2xl': 96rem    // 1536px
+) !default;
+
+
+// -----------------------------------------------------------------------------
+// 4. Z-INDEX STACKING ORDER
+// Manages the vertical stacking context (z-index) of elements.
+// Prevents z-index conflicts by establishing a clear hierarchy.
+// -----------------------------------------------------------------------------
+$z-stack: (
+  'base':           0,      // Default layer
+  'content':        1,
+  'dropdown':       900,
+  'sticky':         1000,   // Sticky elements (sidebars, headers)
+  'fixed':          1030,   // Fixed elements (mobile nav toggles)
+  'modal-backdrop': 1050,
+  'modal':          1100,
+  'popover':        1200,
+  'tooltip':        1300,
+  'toast':          1400    // Highest layer for notifications
+) !default;
+
+
+// -----------------------------------------------------------------------------
+// 5. MOTION & ANIMATION
+// Defines durations and easing curves for consistent animations.
+// -----------------------------------------------------------------------------
+$durations: (
+  '100': .10s,   // Fast interactions (e.g., hover color)
+  '150': .15s,
+  '200': .20s,
+  '300': .30s,   // Standard transitions (e.g., slide-in)
+  '500': .50s,   // Slower, more deliberate animations
+  '700': .70s,
+  '1000': 1s
+) !default;
+
+$easings: (
+  'standard': cubic-bezier(.2, 0, 0, 1),      // Decelerate curve
+  'decel':    cubic-bezier(0, 0, .2, 1),      // Sharp start, soft end
+  'accel':    cubic-bezier(.4, 0, 1, 1),      // Soft start, sharp end
+  'bounce':   cubic-bezier(0.34, 1.56, 0.64, 1) // "Overshoot" effect
+) !default;
+
+
+// -----------------------------------------------------------------------------
+// 6. CONTROLS & ICONS
+// Defines consistent sizing for interactive elements.
+// -----------------------------------------------------------------------------
+$control-heights: (
+  'sm': 2rem,
+  'md': 2.5rem, // Default button/input height
+  'lg': 3rem
+) !default;
+
+$icon-sizes: (
+  'sm': 1rem,
+  'md': 1.25rem, // Default icon size
+  'lg': 1.5rem,
+  'xl': 2rem
+) !default;
+
+
+// =============================================================================
+// NEW & ENHANCED SECTIONS
+// =============================================================================
+
+// -----------------------------------------------------------------------------
+// 7. SPACING & SIZING SCALE
+// The single source of truth for all margins, paddings, and gaps.
+// The keys ('0', '1', '2', etc.) are used to generate utility classes
+// and correspond to the `--sf-space-*` CSS variables.
+// NEW
+// -----------------------------------------------------------------------------
+$spacing-scale: (
+  '0':  0,
+  '1':  .25rem,    // 4px
+  '2':  .5rem,     // 8px
+  '3':  .75rem,    // 12px
+  '4':  1rem,      // 16px (Base unit)
+  '5':  1.5rem,    // 24px
+  '6':  2rem,      // 32px
+  '7':  2.5rem,    // 40px
+  '8':  3rem,      // 48px
+  '9':  3.5rem,    // 56px
+  '10': 4rem,      // 64px
+  '12': 6rem       // 96px
+);
+// LEGACY COMPATIBILITY: Your original variable for utility generation
 $space-keys: map-keys($spacing-scale) !default;
+
+
+// -----------------------------------------------------------------------------
+// 8. BORDERS & RADII
+// Defines all border-radius and border-width values.
+// NEW
+// -----------------------------------------------------------------------------
+$radii: (
+  'none':   0,
+  'sm':     .25rem,
+  'md':     .375rem,  // Default radius for controls
+  'lg':     .5rem,    // Default radius for cards
+  'xl':     .75rem,
+  'pill':   9999px,   // For pill-shaped elements
+  'circle': 50%      // For circular elements
+);
+
+$border-widths: (
+  'default': 1px,
+  'thick':   2px,
+  'heavy':   4px
+);
+
+
+// -----------------------------------------------------------------------------
+// 9. TYPOGRAPHY
+// Consolidates font weight and other type properties for easy access.
+// NEW
+// -----------------------------------------------------------------------------
+$font-weights: (
+  'light':    300,
+  'normal':   400,
+  'medium':   500,
+  'semibold': 600,
+  'bold':     700,
+  'extrabold':800
+);
+
+
+// -----------------------------------------------------------------------------
+// 10. SHADOW ELEVATION MAP
+// A semantic map for applying consistent box-shadows.
+// Corresponds to the shadow tokens.
+// NEW
+// -----------------------------------------------------------------------------
+$elevations: (
+  '1': var(--sf-shadow-sm),   // Low elevation, for borders or subtle lifts
+  '2': var(--sf-shadow-md),   // Default card elevation
+  '3': var(--sf-shadow-lg),   // Hover/active elevation
+  '4': var(--sf-shadow-xl)    // Modal/popover elevation (requires an --sf-shadow-xl token)
+);

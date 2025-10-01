@@ -1,18 +1,183 @@
 /* ============================================================================
    ABSTRACTS / THEMES
-   Contains all theme overrides.
+   Contains all theme overrides for the site. The base 'light' theme is
+   defined by the semantic tokens in _tokens.scss.
    ============================================================================ */
-@use "sass:map";
 
-// Example Dark Theme
-[data-theme="dark"] {
-  // We override the CSS variables directly, as the SCSS variables are compile-time.
-  --background-color: #1a1a1a;
-  --feature-background-color: #262626;
-  --code-background-color: #2E2E2E;
-  --heading-color: #f5f5f5;
-  --body-color: #e0e0e0;
-  --link-color: #66b3ff;
-  --hover-color: #a3d1ff;
-  --caption-color: #7a7a7a;
+/* ============================================================================
+   1. "MIDNIGHT" (Dark Theme)
+   A cool, modern dark mode with vibrant blue accents, perfect for tech content.
+   ============================================================================ */
+:root[data-theme="dark"] {
+  // --- A. COLOR PALETTE OVERRIDES ---
+  --sf-brand-primary: #3b82f6;        // Brighter blue for better contrast
+  --sf-brand-primary-hover: #60a5fa;
+  --sf-brand-primary-active: #2563eb;
+  --sf-brand-accent: #818cf8;         // A soft violet accent
+
+  --sf-gray-900: #f8fafc;  /* Ink -> nearly white */
+  --sf-gray-800: #e2e8f0;  /* FG -> off-white */
+  --sf-gray-700: #cbd5e1;
+  --sf-gray-600: #94a3b8;
+  --sf-gray-500: #64748b;  /* Muted */
+  --sf-gray-400: #334155;  /* Line-1 -> darker border */
+  --sf-gray-300: #1e293b;  /* Line-2 -> very subtle border */
+  --sf-gray-200: #0f172a;  /* BG-1 -> main background */
+  --sf-gray-100: #1e293b;  /* BG-2 -> card background (same as Line-2 for depth) */
+
+  --sf-semantic-danger: #f87171; // Brighter red
+  
+  // --- B. SEMANTIC (DERIVED) TOKEN OVERRIDES ---
+  --body-bg: var(--sf-gray-200);
+  --body-fg: var(--sf-gray-800);
+  --heading-fg: var(--sf-gray-900);
+  --link-fg: #93c5fd; // A very light, accessible blue for links
+  --link-hover-fg: var(--sf-gray-100);
+
+  --border-color: var(--sf-gray-400);
+  --border-color-subtle: var(--sf-gray-300);
+
+  --control-bg: var(--sf-gray-300);
+  --input-bg: var(--sf-gray-300);
+  --card-bg: var(--sf-gray-100);
+
+  --btn-secondary-bg: var(--sf-gray-400);
+  --btn-secondary-hover-bg: color-mix(in srgb, var(--sf-gray-400), #fff 10%);
+  
+  // --- C. EFFECT OVERRIDES ---
+  --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.5);
+  --sf-shadow-md: 0 6px 24px rgba(0,0,0,.45);
+  --sf-shadow-lg: 0 16px 32px rgba(0,0,0,.5);
+  --sf-backdrop-filter: rgba(0,0,0,.6);
+  --hero-grid-line-color: color-mix(in srgb, var(--sf-gray-400) 25%, transparent);
+}
+
+
+/* ============================================================================
+   2. "SUNSET"
+   A warm, vibrant, and stylish dark theme with fiery oranges and deep purples.
+   ============================================================================ */
+:root[data-theme="sunset"] {
+  
+  // --- A. COLOR PALETTE OVERRIDES ---
+  --sf-brand-primary: #f97316;     // Vibrant orange
+  --sf-brand-primary-hover: #fb923c;
+  --sf-brand-primary-active: #ea580c;
+  --sf-brand-accent: #ec4899;      // Hot pink accent
+
+  --sf-gray-900: #fdf2f8;  /* Ink -> soft pink-white */
+  --sf-gray-800: #fbcfe8;  /* FG */
+  --sf-gray-600: #e7c5e0;
+  --sf-gray-500: #c084fc;  /* Muted -> a vibrant purple for contrast */
+  --sf-gray-400: #581c87;  /* Line-1 */
+  --sf-gray-300: #3b0764;  /* Line-2 */
+  --sf-gray-200: #2a0248;  /* BG-1 -> deep, rich purple */
+  --sf-gray-100: #3b0764;  /* BG-2 -> slightly lighter purple */
+
+  // --- B. SEMANTIC (DERIVED) TOKEN OVERRIDES ---
+  --body-bg: var(--sf-gray-200);
+  --body-fg: var(--sf-gray-800);
+  --heading-fg: var(--sf-gray-900);
+  --link-fg: #fca5a5; // Soft red for links
+  --link-hover-fg: var(--sf-gray-100);
+
+  --border-color: var(--sf-gray-400);
+  --border-color-subtle: var(--sf-gray-300);
+
+  --control-bg: var(--sf-gray-300);
+  --input-bg: var(--sf-gray-300);
+  --card-bg: var(--sf-gray-100);
+
+  --btn-secondary-bg: var(--sf-gray-400);
+  --btn-secondary-hover-bg: color-mix(in srgb, var(--sf-gray-400), #fff 10%);
+
+  // --- C. EFFECT OVERRIDES ---
+  --sf-shadow-sm: 0 1px 2px rgba(25,10,50,.5);
+  --sf-shadow-md: 0 6px 24px rgba(25,10,50,.45);
+  --sf-shadow-lg: 0 16px 32px rgba(25,10,50,.5);
+  --sf-backdrop-filter: rgba(25,10,50,.6);
+  --hero-grid-line-color: color-mix(in srgb, var(--sf-gray-400) 25%, transparent);
+  --hero-gradient-end: color-mix(in srgb, var(--sf-brand-accent) 10%, transparent);
+}
+
+
+/* ============================================================================
+   3. "NATURE" (Now called "Evergreen")
+   A light, earthy, and organic theme with greens and warm off-whites.
+   ============================================================================ */
+:root[data-theme="nature"] {
+
+  // --- A. COLOR PALETTE OVERRIDES ---
+  --sf-brand-primary: #166534;     // A deeper, more confident green
+  --sf-brand-primary-hover: #15803d;
+  --sf-brand-primary-active: #14532d;
+  --sf-brand-accent: #ca8a04;      // A golden/yellow accent
+
+  --sf-gray-900: #292524;  /* Ink -> very dark brown */
+  --sf-gray-800: #44403c;  /* FG */
+  --sf-gray-600: #78716c;
+  --sf-gray-500: #a8a29e;  /* Muted */
+  --sf-gray-400: #d6d3d1;  /* Line-1 */
+  --sf-gray-300: #e7e5e4;  /* Line-2 */
+  --sf-gray-200: #f8f7f6;  /* BG-1 -> warm off-white, like parchment */
+  --sf-gray-100: #ffffff;  /* BG-2 */
+
+  // --- B. SEMANTIC (DERIVED) TOKEN OVERRIDES ---
+  --body-bg: var(--sf-gray-200);
+  --body-fg: var(--sf-gray-800);
+  --heading-fg: var(--sf-gray-900);
+  --link-fg: var(--sf-brand-primary);
+
+  // --- C. EFFECT OVERRIDES ---
+  --sf-shadow-sm: 0 1px 2px rgba(120,113,108,.1);
+  --sf-shadow-md: 0 4px 12px rgba(120,113,108,.12);
+  --sf-shadow-lg: 0 12px 28px rgba(120,113,108,.15);
+  --sf-backdrop-filter: rgba(68,64,60,.55);
+  --hero-gradient-end: color-mix(in srgb, var(--sf-brand-accent) 5%, transparent);
+}
+
+
+/* ============================================================================
+   4. "MONOCHROME" (Black & White Theme)
+   A high-contrast, minimalist, and accessible theme. No color.
+   ============================================================================ */
+:root[data-theme="b&w"] {
+  
+  // --- A. COLOR PALETTE OVERRIDES ---
+  --sf-brand-primary: #171717;
+  --sf-brand-primary-hover: #404040;
+  --sf-brand-primary-active: #000000;
+  --sf-brand-accent: #737373; // Muted gray accent
+
+  --sf-gray-900: #000000;
+  --sf-gray-800: #0a0a0a;
+  --sf-gray-600: #525252;
+  --sf-gray-500: #737373;
+  --sf-gray-400: #d4d4d4;
+  --sf-gray-300: #e5e5e5;
+  --sf-gray-200: #f5f5f5;
+  --sf-gray-100: #ffffff;
+
+  --sf-semantic-success: #171717;
+  --sf-semantic-warning: #171717;
+  --sf-semantic-danger:  #171717;
+  --sf-semantic-info:    #171717;
+  
+  // --- B. SEMANTIC (DERIVED) TOKEN OVERRIDES ---
+  --body-bg: var(--sf-gray-100);
+  --body-fg: var(--sf-gray-800);
+  --heading-fg: var(--sf-gray-900);
+  --link-fg: var(--sf-brand-primary);
+  --link-hover-fg: var(--sf-brand-primary-hover);
+  
+  --btn-primary-fg: var(--sf-gray-100);
+  --card-bg: var(--sf-gray-100);
+  
+  // --- C. EFFECT OVERRIDES ---
+  --sf-shadow-sm: 0 1px 2px rgba(0,0,0,.08);
+  --sf-shadow-md: 0 4px 12px rgba(0,0,0,.1);
+  --sf-shadow-lg: 0 12px 28px rgba(0,0,0,.12);
+  --sf-backdrop-filter: rgba(10,10,10,.6);
+  --hero-gradient-start: transparent;
+  --hero-gradient-end: transparent;
 }

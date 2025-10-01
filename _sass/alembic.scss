@@ -4,9 +4,7 @@
    ============================================================================ */
 
 // 1) ABSTRACTS — core, no output deps broken
-@import "abstracts/settings";   // 1. User-editable settings (MUST BE FIRST)
 @import "abstracts/variables";  // 2. Theme logic that uses the settings
-@import "abstracts/functions";  // 3. Global functions (optional but good practice)
 @import "abstracts/mixins";     // 4. Reusable style blocks that depend on variables
 @import "abstracts/tokens";     // 5. Generates all CSS Custom Properties for the browser
 @import "abstracts/themes"; 
