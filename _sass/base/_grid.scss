@@ -1,8 +1,8 @@
 /* ============================================================================
-   LAYOUT / GRID.SCSS (DEFINITIVE & CORRECTED)
-   - The faulty universal selector (`> *`) has been REMOVED.
-   - The system is now truly mobile-first and allows responsive classes
-     to apply correctly.
+   LAYOUT / GRID.SCSS (THE DEFINITIVE "PRO-FRAMEWORK" EDITION)
+   - A complete, professional, 12-column responsive grid system.
+   - Includes containers, rows, columns, offsets, ordering, and alignment.
+   - Fully documented and built to be intuitive and powerful.
    ============================================================================ */
 @use "sass:map";
 
@@ -26,50 +26,95 @@
    2. GRID ROW
    ============================================================================ */
 .sf-row {
-  display: grid;
-  grid-template-columns: repeat(var(--sf-grid-columns, #{$grid-columns}), 1fr);
-  gap: var(--sf-grid-gap, #{$grid-gutter});
+  display: flex;
+  flex-wrap: wrap;
+  // Negative margins to counteract the padding on columns, creating a true gutter system.
+  margin-top: calc(-1 * var(--sf-grid-gap, #{$grid-gutter}));
+  margin-right: calc(-0.5 * var(--sf-grid-gap, #{$grid-gutter}));
+  margin-left: calc(-0.5 * var(--sf-grid-gap, #{$grid-gutter}));
+
+  // --- Row Modifiers ---
 
   &.sf-row--no-gutters {
-    gap: 0;
+    margin-right: 0;
+    margin-left: 0;
+
+    > .sf-col,
+    > [class*="sf-col-"] {
+      padding-right: 0;
+      padding-left: 0;
+    }
   }
-  &.sf-row--align-start { align-items: flex-start; }
-  &.sf-row--align-center { align-items: center; }
-  &.sf-row--align-end { align-items: flex-end; }
+
+  // Horizontal Alignment
+  &.sf-justify-start   { justify-content: flex-start; }
+  &.sf-justify-center  { justify-content: center; }
+  &.sf-justify-end     { justify-content: flex-end; }
+  &.sf-justify-around  { justify-content: space-around; }
+  &.sf-justify-between { justify-content: space-between; }
+
+  // Vertical Alignment
+  &.sf-align-start   { align-items: flex-start; }
+  &.sf-align-center  { align-items: center; }
+  &.sf-align-end     { align-items: flex-end; }
 }
 
 
 /* ============================================================================
-   3. GRID COLUMNS & OFFSETS
+   3. GRID COLUMNS
    ============================================================================ */
 
-// --- SCSS Mixin to generate column and offset classes ---
-@mixin make-grid-classes($prefix: '') {
-  // --- Column Span Classes ---
-  // Example: `.sf-col-6`, `.sf-col-md-4`
+// --- Base Column Styles ---
+// This is the universal selector for all column classes.
+[class*="sf-col-"] {
+  width: 100%;
+  padding-right: calc(0.5 * var(--sf-grid-gap, #{$grid-gutter}));
+  padding-left: calc(0.5 * var(--sf-grid-gap, #{$grid-gutter}));
+  margin-top: var(--sf-grid-gap, #{$grid-gutter});
+}
+
+// --- SCSS Mixin to generate column, offset, and order classes ---
+@mixin make-grid-classes($infix: '') {
+  // --- Column Classes ---
+  // e.g., .sf-col-6, .sf-col-md-4
   @for $i from 1 through $grid-columns {
-    .sf-col#{$prefix}-#{$i} {
-      grid-column: span #{$i};
+    .sf-col#{$infix}-#{$i} {
+      flex: 0 0 auto;
+      width: percentage($i / $grid-columns);
     }
   }
+  .sf-col#{$infix}-auto {
+    flex: 0 0 auto;
+    width: auto;
+  }
+  .sf-col#{$infix} {
+    flex: 1 1 0;
+    width: 0;
+    min-width: 0;
+  }
 
-  // --- Column Offset Classes ---
-  // Pushes a column to the right.
-  // Example: `.sf-offset-1`, `.sf-offset-md-3`
+  // --- Offset Classes ---
+  // e.g., .sf-offset-1, .sf-offset-md-2
   @for $i from 0 through ($grid-columns - 1) {
-    .sf-offset#{$prefix}-#{$i} {
-      // We use +2 here because grid-column-start is 1-based and we want offset-0 to do nothing.
-      grid-column-start: #{$i + 1};
+    .sf-offset#{$infix}-#{$i} {
+      margin-left: if($i > 0, percentage($i / $grid-columns), 0);
+    }
+  }
+  
+  // --- Order Classes ---
+  // e.g., .sf-order-1, .sf-order-md-2
+  .sf-order#{$infix}-first { order: -1; }
+  .sf-order#{$infix}-last  { order: $grid-columns + 1; }
+  @for $i from 0 through $grid-columns {
+    .sf-order#{$infix}-#{$i} {
+      order: $i;
     }
   }
 }
+
 
 // --- Generate Base (Mobile-First) Classes ---
-// The `.sf-col` class is now the base. It defaults to full width.
-.sf-col {
-  grid-column: span $grid-columns;
-}
-// Generate non-responsive classes like .sf-col-6
+// No infix, e.g., `.sf-col-12`
 @include make-grid-classes();
 
 
