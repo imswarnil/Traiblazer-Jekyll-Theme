@@ -1,42 +1,40 @@
 # ======================================================================
-# Trailblazer Jekyll Theme — _config.yml
-# Owner: Swarnil (ImSwarnil) — Portfolio • Résumé • Blog • Products I Use
+# Trailblazer Jekyll Theme — _config.yml (Portfolio • Resume • Blog)
+# Owner: Swarnil / Imswarnil
 # ======================================================================
-# TABLE OF CONTENTS (most edited at top)
-#  0) 🔑 Site Identity & SEO Essentials
-#  1) 🌏 URL, Build, Markdown & Sass
-#  2) 👤 Author & Social
-#  3) 🧭 Navigation (with dropdowns + Phosphor bold icons)
+# TABLE OF CONTENTS (edit-heavy at top)
+#  0) 🔑 Identity & SEO
+#  1) 🧭 Navigation (dropdowns + Phosphor bold icons)
+#  2) 🧾 Résumé Data (skills • work timeline • achievements • awards • certs)
+#  3) 🖼 Media & Images (hero, gallery, social defaults)
 #  4) 🗂 Collections (posts, docs, projects, resume, courses, videos, uses, products)
-#  5) 🧬 Defaults (layouts, social images)
-#  6) 🪄 Plugins (gems) & Settings
-#  7) 🧱 Assets, Favicons & Web Manifest
-#  8) 🔍 Search (optional)
-#  9) 📈 Analytics (optional)
-# 10) 🤖 Robots & Crawling
-# 11) 🅰️ Fonts
-# 12) 🧪 Feature Flags / Misc
+#  5) 🧬 Defaults (layouts)
+#  6) 🧪 Integrations (AdSense, Formspree, GA4, Microsoft Clarity)
+#  7) 🔌 Plugins (gems) & Build Settings
+#  8) 🧱 Favicons (Manifest is in a separate file)
+#  9) 🅰️ Fonts
+# 10) 🤖 Robots
+# 11) 🧯 Misc / Feature Flags
+# 12) 🚫 Excludes
 # ======================================================================
 
-
 # ----------------------------------------------------------------------
-# 0) 🔑 Site Identity & SEO Essentials
+# 0) 🔑 Identity & SEO
 # ----------------------------------------------------------------------
-title: "Trailblazer — Swarnil"            # Primary site title (SEO <title>)
-short_name: "Trailblazer"                  # PWA short name
+title: "Trailblazer — Swarnil"
+short_name: "Trailblazer"
 description: "Filmmaker & Salesforce Engineer. Portfolio, projects, and stories with a Deadpool wink and a Jack Sparrow plan."
-lang: en-IN                                # Audience language
-timezone: Asia/Kolkata                     # Consistent post dates for India
-url: "https://trailblzer.imswarnil.com"    # Canonical site URL (no trailing slash)
-baseurl: ""                                # If hosted at a subpath, set like "/blog"
-logo: "/assets/logos/logo.svg"             # Used by jekyll-seo-tag
-image: "/assets/default-social-image.png"  # Social share default
-permalink: pretty                          # /yyyy/mm/dd/title/ → /title/
+lang: en-IN
+timezone: Asia/Kolkata
+url: "https://trailblzer.imswarnil.com"
+baseurl: ""
+logo: "/assets/logos/logo.svg"
+image: "/assets/default-social-image.png"   # default social share image
+permalink: pretty
 excerpt_separator: "<!-- more -->"
 
-# SEO Structured Data (kept simple; expand if needed)
 seo:
-  type: "Person"                           # Person or Organization
+  type: "Person"
   name: "Raja Swarnil Singhai"
   job_title: "Salesforce Application Developer & Filmmaker"
   same_as:
@@ -45,49 +43,12 @@ seo:
     - "https://github.com/ImSwarnil"
     - "https://www.linkedin.com/in/imswarnil"
 
-# ----------------------------------------------------------------------
-# 1) 🌏 URL, Build, Markdown & Sass
-# ----------------------------------------------------------------------
-sass:
-  quiet_deps: true
-  style: compressed
-
-markdown: CommonMark
-commonmark:
-  options: ["SMART", "FOOTNOTES"]
-  extensions: ["strikethrough", "autolink", "table"]
-css_inline: true                           # Inlines compiled CSS into <head> for speed
-
-
-# ----------------------------------------------------------------------
-# 2) 👤 Author & Social
-# ----------------------------------------------------------------------
 author: "Swarnil"
-email: "hello@imswarnil.com"               # TODO: update
-twitter:
-  username: ImSwarnil
-social:
-  name: "Raja Swarnil Singhai"
-  links:
-    - "https://twitter.com/ImSwarnil"
-    - "https://github.com/ImSwarnil"
-    - "https://www.linkedin.com/in/imswarnil"
-    - "https://www.instagram.com/imswarnil"
-
-# Sidebar / Footer quick links
-social_links:
-  Twitter:  "https://twitter.com/ImSwarnil"
-  LinkedIn: "https://www.linkedin.com/in/imswarnil"
-  GitHub:   "https://github.com/ImSwarnil"
-  YouTube:  "https://www.youtube.com/@ImSwarnil"
-  link:     "https://imswarnil.com"
-  RSS:      "/feed.xml"
-
+email: "hello@imswarnil.com"
 
 # ----------------------------------------------------------------------
-# 3) 🧭 Navigation (with dropdowns + Phosphor bold icons)
-# Tip: icon classes use Phosphor "bold" set (e.g., ph-bold ph-user, ph-film-reel)
-# Your templates should render icon classes from these entries.
+# 1) 🧭 Navigation (dropdowns + Phosphor bold icons)
+#    Your nav include should render icon classes: <i class="{{ item.icon }}"></i>
 # ----------------------------------------------------------------------
 navigation_header:
   - title: "Home"
@@ -108,6 +69,9 @@ navigation_header:
       - title: "Web Series"
         url: "/webseries/"
         icon: "ph-bold ph-play-circle"
+      - title: "Gallery"
+        url: "/gallery/"
+        icon: "ph-bold ph-images"
       - title: "Résumé"
         url: "/resume/"
         icon: "ph-bold ph-file-text"
@@ -134,108 +98,206 @@ navigation_footer:
   - title: "Built by ImSwarnil"
     url: "https://imswarnil.com"
   - title: "Theme Repo"
-    url: "https://github.com/ImSwarnil/trailblazer-jekyll"  # TODO: update
+    url: "https://github.com/ImSwarnil/trailblazer-jekyll"  # TODO
 
+social_links:
+  Twitter:  "https://twitter.com/ImSwarnil"
+  LinkedIn: "https://www.linkedin.com/in/imswarnil"
+  GitHub:   "https://github.com/ImSwarnil"
+  YouTube:  "https://www.youtube.com/@ImSwarnil"
+  link:     "https://imswarnil.com"
+  RSS:      "/feed.xml"
+
+# ----------------------------------------------------------------------
+# 2) 🧾 Résumé Data (edit here; render in /resume/ layout)
+# ----------------------------------------------------------------------
+resume:
+  headline: "Salesforce CRM Analytics • Filmmaker • Story-led Engineer"
+  summary: >
+    Salesforce CRM Analytics from SAQL to embedded dashboards. I craft products,
+    stories, and dashboards with cinematic pacing and measurable outcomes.
+  location: "Bengaluru, India"
+  availability: "Open to selective collaborations & speaking."
+
+  # Top skills grouped (you can show meters/stars via 'level')
+  skills:
+    - group: "Salesforce & Analytics"
+      items:
+        - { name: "CRM Analytics (TCRM/EA)", level: 5 }
+        - { name: "SAQL & Bindings", level: 5 }
+        - { name: "Dashboard JSON", level: 5 }
+        - { name: "Lightning Embedding", level: 4 }
+        - { name: "Apex, LWC", level: 4 }
+    - group: "Data & Viz"
+      items:
+        - { name: "Recipes/Dataflows", level: 5 }
+        - { name: "Modeling & KPIs", level: 4 }
+        - { name: "Storyboarding Dashboards", level: 5 }
+    - group: "Film & Creative"
+      items:
+        - { name: "Direction & Editing", level: 5 }
+        - { name: "Scriptwriting", level: 4 }
+        - { name: "Cinematography", level: 4 }
+    - group: "Web & Theming"
+      items:
+        - { name: "Jekyll & SCSS", level: 5 }
+        - { name: "Bulma/SLDS/Tailwind", level: 4 }
+        - { name: "SEO & Performance", level: 4 }
+
+  # Work timeline: newest first
+  work:
+    - company: "Twilio / (Salesforce CRM-Analytics focus)"
+      logo: "/assets/logos/twilio.svg"
+      role: "Software Engineer"
+      period: "2024 — Present"
+      location: "Bengaluru"
+      summary: "Built creator-grade analytics experiences inside Salesforce; Tweek-Week prototypes that stuck."
+      highlights:
+        - "AE Quote Dashboard with Bento UI; CPQ Embedded AI assistant."
+        - "Credit-memo analytics and Quote Insights experiments."
+        - "Improved dashboard performance & adoption with story-first UX."
+      tech: ["CRM Analytics", "SAQL", "Apex", "LWC", "CPQ", "Jekyll"]
+      links:
+        - { label: "Demo write-up", url: "/projects/ae-quote-dashboard/" }
+    - company: "Accenture"
+      logo: "/assets/logos/accenture.svg"
+      role: "Application Development Analyst"
+      period: "2022 — 2024"
+      location: "Bengaluru"
+      summary: "Delivered Salesforce features at scale; mentored analysts; built reusable UI kits."
+      highlights:
+        - "CPQ dashboards; embedded CRM Analytics with guardrails."
+        - "Internal Jekyll theme & docs for faster delivery."
+      tech: ["Salesforce", "CPQ", "CRM Analytics", "Jekyll"]
+    - company: "Cognizant"
+      logo: "/assets/logos/cognizant.svg"
+      role: "Programmer Analyst"
+      period: "2020 — 2022"
+      location: "Bengaluru"
+      summary: "First enterprise rodeo—automation, data pipelines, and client storytelling."
+      highlights:
+        - "Stabilized dataflows and SAQL queries for exec views."
+      tech: ["Salesforce", "Dataflows", "APIs"]
+
+  # Education (optional)
+  education:
+    - school: "LNCT"
+      logo: "/assets/logos/lnct.svg"
+      degree: "B.E., Computer Science"
+      period: "2016 — 2020"
+      location: "Bhopal, India"
+
+  # Certifications
+  certifications:
+    - name: "Salesforce Certified Administrator"
+      org: "Salesforce"
+      date: "2023-08-01"
+      id: "XXXX-ADMIN"
+      url: "https://trailhead.salesforce.com/credentials"
+      badge: "/assets/badges/sf-admin.png"
+    - name: "Tableau CRM & Einstein Discovery Consultant"
+      org: "Salesforce"
+      date: "2024-03-10"
+      id: "XXXX-TCRM"
+      url: "https://trailhead.salesforce.com/credentials"
+      badge: "/assets/badges/tcrm.png"
+
+  # Awards / Achievements
+  awards:
+    - title: "Tweek Week Winner — Analytics Experience"
+      by: "Twilio"
+      year: "2025"
+      note: "Prototype to production path for CPQ analytics."
+    - title: "YouTube Silver-ish Soul"
+      by: "ImSwarnil Fam"
+      year: "Evergreen"
+      note: "17k subs pre-hiatus; comeback arc initiated."
+
+  # Quick facts for a sidebar card
+  quickfacts:
+    - { label: "Experience", value: "5+ years" }
+    - { label: "Specialty", value: "CRM Analytics & Film" }
+    - { label: "Location", value: "Bengaluru" }
+
+# ----------------------------------------------------------------------
+# 3) 🖼 Media & Images (hero + gallery; manifest handled separately)
+# ----------------------------------------------------------------------
+media:
+  hero:
+    title: "Life. Code. Camera. Repeat."
+    subtitle: "Dashboards with drama. Stories with data."
+    company: "Your Company"
+    location: "Bengaluru, India"
+    image: "/assets/hero/hero-portrait.png"     # right-side hero image
+    pattern: "/assets/hero/pattern.svg"         # subtle background pattern
+  gallery:
+    enabled: true
+    items:
+      - { src: "/assets/gallery/frame-01.jpg", alt: "Cinematic still 1" }
+      - { src: "/assets/gallery/frame-02.jpg", alt: "Cinematic still 2" }
+      - { src: "/assets/gallery/frame-03.jpg", alt: "Cinematic still 3" }
 
 # ----------------------------------------------------------------------
 # 4) 🗂 Collections
-# Add what you actually use; others can be removed.
 # ----------------------------------------------------------------------
 collections:
-  posts:
-    title: "Blog"
-    output: true
-    description: "Stories, breakdowns, and dev notes"
-  docs:
-    output: true
-    permalink: "/docs/:path/"
-  projects:
-    output: true
-    permalink: "/projects/:path/"
-  resume:
-    output: true
-    permalink: "/resume/:path/"
-  courses:
-    output: true
-    permalink: "/courses/:path/"
-  videos:
-    output: true
-    permalink: "/videos/:path/"
-  webseries:
-    output: true
-    permalink: "/webseries/:path/"
-  uses:             # “Products I use” / gear / apps
-    output: true
-    permalink: "/uses/:path/"
-  products:         # Your own products or affiliate kits
-    output: true
-    permalink: "/products/:path/"
+  posts:     { title: "Blog", output: true, description: "Stories, breakdowns, and dev notes" }
+  docs:      { output: true, permalink: "/docs/:path/" }
+  projects:  { output: true, permalink: "/projects/:path/" }
+  resume:    { output: true, permalink: "/resume/:path/" }
+  courses:   { output: true, permalink: "/courses/:path/" }
+  videos:    { output: true, permalink: "/videos/:path/" }
+  webseries: { output: true, permalink: "/webseries/:path/" }
+  uses:      { output: true, permalink: "/uses/:path/" }
+  products:  { output: true, permalink: "/products/:path/" }
 
-# Optional collection feature content for blog index
 posts_feature:
   feature_text: "Welcome to the blog"
   feature_image: "https://picsum.photos/2560/600?image=866"
 
-
 # ----------------------------------------------------------------------
-# 5) 🧬 Defaults (layouts, social images)
-# Applies to groups of pages by path/type to avoid repeating front matter.
+# 5) 🧬 Defaults (layouts)
 # ----------------------------------------------------------------------
 defaults:
-  - scope:
-      path: ""
-    values:
-      image: "/assets/default-social-image.png"
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: "post"
-  - scope:
-      path: ""
-      type: "pages"
-    values:
-      layout: "page"
-  - scope:
-      path: ""
-      type: "docs"
-    values:
-      layout: "docs"
-  - scope:
-      path: ""
-      type: "projects"
-    values:
-      layout: "project"
-  - scope:
-      path: ""
-      type: "resume"
-    values:
-      layout: "resume"
-  - scope:
-      path: ""
-      type: "courses"
-    values:
-      layout: "course"
-  - scope:
-      path: ""
-      type: "videos"
-    values:
-      layout: "video"
-  - scope:
-      path: ""
-      type: "uses"
-    values:
-      layout: "uses"
-  - scope:
-      path: ""
-      type: "products"
-    values:
-      layout: "product"
-
+  - scope: { path: "" }
+    values: { image: "/assets/default-social-image.png" }
+  - scope: { path: "", type: "posts" }     ; values: { layout: "post" }
+  - scope: { path: "", type: "pages" }     ; values: { layout: "page" }
+  - scope: { path: "", type: "docs" }      ; values: { layout: "docs" }
+  - scope: { path: "", type: "projects" }  ; values: { layout: "project" }
+  - scope: { path: "", type: "resume" }    ; values: { layout: "resume" }
+  - scope: { path: "", type: "courses" }   ; values: { layout: "course" }
+  - scope: { path: "", type: "videos" }    ; values: { layout: "video" }
+  - scope: { path: "", type: "uses" }      ; values: { layout: "uses" }
+  - scope: { path: "", type: "products" }  ; values: { layout: "product" }
 
 # ----------------------------------------------------------------------
-# 6) 🪄 Plugins (gems) & Settings
-# Keep essentials; comment optionals you don't need.
+# 6) 🧪 Integrations (turn keys on, templates include scripts via these)
+# ----------------------------------------------------------------------
+integrations:
+  adsense:
+    enabled: false
+    publisher_id: "ca-pub-XXXXXXXXXXXXXXXX"    # TODO
+    enable_auto_ads: true
+  formspree:
+    enabled: false
+    endpoint: "https://formspree.io/f/XXXXXXXX" # TODO
+  analytics:
+    provider: "ga4"                             # ga4|plausible|umami|false
+    ga4_measurement_id: ""                      # TODO if provider=ga4
+    anonymize_ip: true
+  clarity:
+    enabled: false
+    project_id: ""                               # Microsoft Clarity Project ID
+  # optional: verify site ownership
+  webmaster_verifications:
+    google: ""                                   # e.g., google-site-verification meta
+    bing: ""
+    yandex: ""
+    pinterest: ""
+
+# ----------------------------------------------------------------------
+# 7) 🔌 Plugins (gems) & Build Settings
 # ----------------------------------------------------------------------
 plugins:
   - jekyll-sitemap
@@ -246,32 +308,29 @@ plugins:
   - jekyll-include-cache
   - jemoji
   - jekyll-commonmark
-  # - jekyll-algolia            # Optional search (see Section 8)
+  # - jekyll-algolia  # enable if you wire Algolia
 
 paginate: 10
 paginate_path: "/blog/page:num"
+
+markdown: CommonMark
+commonmark:
+  options: ["SMART", "FOOTNOTES"]
+  extensions: ["strikethrough", "autolink", "table"]
+
+sass:
+  quiet_deps: true
+  style: compressed
+css_inline: true
+
 jekyll-mentions: https://twitter.com
 
-# Repo metadata (used by some templates)
 repo: "https://github.com/ImSwarnil/trailblazer-jekyll"       # TODO
 github_repo_url: "https://github.com/ImSwarnil/trailblazer-jekyll"
 sponsor_url: "https://github.com/sponsors/ImSwarnil"
 
-# Excludes from build
-exclude:
-  - README.md
-  - CODE_OF_CONDUCT.md
-  - CONTRIBUTING.md
-  - screenshot.png
-  - LICENSE
-  - CNAME
-  - Gemfile
-  - Gemfile.lock
-  - .jekyll-cache
-
-
 # ----------------------------------------------------------------------
-# 7) 🧱 Assets, Favicons & Web Manifest
+# 8) 🧱 Favicons (Manifest is managed in a separate file 👍)
 # ----------------------------------------------------------------------
 favicons:
   16:   "/assets/logos/logo@16px.png"
@@ -283,38 +342,8 @@ favicons:
   512:  "/assets/logos/logo@512px.png"
   1024: "/assets/logos/logo@1024px.png"
 
-
 # ----------------------------------------------------------------------
-# 9) 📈 Analytics (optional)
-# Use ONE provider at a time to avoid dueling scripts.
-# ----------------------------------------------------------------------
-analytics:
-  provider: "ga4"            # "ga4" | "gtag" | "plausible" | "umami" | false
-  ga4_measurement_id: ""     # TODO
-  anonymize_ip: true
-
-# Legacy keys (leave empty if using Section 9):
-google_analytics: ""
-google_analytics_anonymize_ip: ""
-
-
-# ----------------------------------------------------------------------
-# 10) 🤖 Robots & Crawling
-# ----------------------------------------------------------------------
-robots:
-  allow: ["/"]
-  disallow: []
-  sitemap: "/sitemap.xml"
-  crawl_delay: 10
-
-# Canonical defaults for templates that generate them
-canonical:
-  enabled: true
-
-
-# ----------------------------------------------------------------------
-# 11) 🅰️ Fonts
-# Keep URLs minimal; combine when possible.
+# 9) 🅰️ Fonts
 # ----------------------------------------------------------------------
 fonts:
   preconnect_urls:
@@ -322,10 +351,17 @@ fonts:
   font_urls:
     - "https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap"
 
+# ----------------------------------------------------------------------
+# 10) 🤖 Robots
+# ----------------------------------------------------------------------
+robots:
+  allow: ["/"]
+  disallow: []
+  sitemap: "/sitemap.xml"
+  crawl_delay: 10
 
 # ----------------------------------------------------------------------
-# 12) 🧪 Feature Flags / Misc Site Vars (used in layouts/partials)
-# These are handy knobs you’ll read from Liquid.
+# 11) 🧯 Misc / Feature Flags
 # ----------------------------------------------------------------------
 feature_flags:
   show_hero_badge: true
@@ -333,13 +369,21 @@ feature_flags:
   lazyload_images: true
   dark_mode: true
 
-hero:
-  title: "Life. Code. Camera. Repeat."
-  subtitle: "Salesforce CRM Analytics & cinematic storytelling—because dashboards deserve drama."
-  company: "Your Company"                  # or pull from data file
-  location: "Bengaluru, India"
-
 sharing_links:
   Twitter: "#0d94e7"
   facebook: "#3B5998"
   Email: true
+
+# ----------------------------------------------------------------------
+# 12) 🚫 Excludes
+# ----------------------------------------------------------------------
+exclude:
+  - README.md
+  - CODE_OF_CONDUCT.md
+  - CONTRIBUTING.md
+  - screenshot.png
+  - LICENSE
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - .jekyll-cache
