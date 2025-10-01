@@ -1,71 +1,74 @@
 /* ============================================================================
-   ABSTRACTS / SETTINGS (THE ULTIMATE CONTROL PANEL)
-   This is the primary file for customizing the theme's look and feel.
-   Change the values of these SCSS variables to re-brand the entire site.
+   ABSTRACTS / VARIABLES (THE LOGIC LAYER)
+   - Reads simple variables from `_settings.scss`.
+   - Organizes them into the structured SCSS maps that power the theme.
    ============================================================================ */
+@use "sass:map";
 
-// -----------------------------------------------------------------------------
-// 1. CORE BRANDING & COLORS
-// -----------------------------------------------------------------------------
-$brand-color:       #0176d3 !default;
-$accent-color:      #009ed9 !default;
+// --- 1. BREAKPOINTS & SIZING MAPS ---
+// These maps control the responsive behavior of the theme.
+$breakpoints: (
+  'break-0': 0,     // 0px       Mobile first
+  'break-1': 640,   // 640px   ~ Small tablet up
+  'break-2': 800,   // 800px   ~ Large tablet up
+  'break-3': 1024,  // 1024px  ~ Desktop up
+  'break-4': 1600   // 1600px  ~ Large desktop up
+) !default;
 
-$text-color-headings: #0b1221 !default;
-$text-color-body:     #2e2e3a !default;
-$text-color-muted:    #8a96a3 !default;
+$rootsizes: (
+  'rootsize-0': 16,   // Base font size for mobile
+  'rootsize-1': 16,
+  'rootsize-2': 17,
+  'rootsize-3': 18,
+  'rootsize-4': 19
+) !default;
 
-$background-color-body:    #f4f6f9 !default;
-$background-color-content: #ffffff !default;
+// The `measure` is the ideal readable line-length for text.
+$measures: (
+  'measure-0': 550,
+  'measure-1': 600,
+  'measure-2': 650,
+  'measure-3': 700,
+  'measure-4': 750
+) !default;
 
-$border-color:          #cfd7e0 !default;
-$border-color-subtle:   #e6ebf1 !default;
+// The `maxwidths` is the maximum width of the entire page container.
+$maxwidths: (
+  'width-0': map.get($measures, 'measure-0'), // On mobile, container = measure
+  'width-1': map.get($measures, 'measure-1'),
+  'width-2': 800,
+  'width-3': 1100,
+  'width-4': 1400
+) !default;
 
-$color-success: #2e844a !default;
-$color-warning: #ffb75d !default;
-$color-danger:  #ba0517 !default;
-$color-info:    #1b96ff !default;
+// --- 2. MODULAR SCALE (FOR TYPOGRAPHY) ---
+// Defines a typographic scale for each breakpoint for perfect rhythm.
+$modular-scale: (
+  'ratio-0': 1.2,   // Mobile ratio (major third)
+  'ratio-1': 1.2,
+  'ratio-2': 1.25,  // Tablet ratio (perfect fourth)
+  'ratio-3': 1.25,
+  'ratio-4': 1.333  // Desktop ratio (perfect fourth)
+) !default;
 
-// -----------------------------------------------------------------------------
-// 2. TYPOGRAPHY
-// -----------------------------------------------------------------------------
-$font-family-base: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif !default;
-$font-family-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace !default;
-$base-font-size:   16px !default;
-$line-height-tight:   1.25 !default;
-$line-height-normal:  1.5 !default;
-$line-height-relaxed: 1.7 !default;
+// Auto-generates the full scale map for the `fontsize` mixin.
+$scale: ();
+@for $i from 0 to length($breakpoints) {
+  $size: map.get($rootsizes, rootsize-#{$i});
+  $ratio: map.get($modular-scale, ratio-#{$i});
+  $map: (
+    'giga': $size * $ratio * $ratio * $ratio * $ratio,
+    'mega': $size * $ratio * $ratio * $ratio,
+    'alpha': $size * $ratio * $ratio,
+    'beta': $size * $ratio,
+    'gamma': $size,
+    'delta': $size / $ratio,
+    'epsilon': $size / $ratio / $ratio,
+    'zeta': $size / $ratio / $ratio / $ratio
+  );
+  $scale: map.merge($scale, ('scale-#{$i}': $map));
+}
+$modular-scale: $scale;
 
-// -----------------------------------------------------------------------------
-// 3. SPACING & SIZING
-// -----------------------------------------------------------------------------
-$base-spacing-unit: 1rem !default;
-$container-max-width-lg: 64rem !default;
-$container-max-width-xl: 80rem !default;
-$control-height-sm: 2rem !default;
-$control-height-md: 2.5rem !default;
-$control-height-lg: 3rem !default;
-$navbar-height:  3.5rem !default;
-
-// -----------------------------------------------------------------------------
-// 4. GRID & LAYOUT
-// -----------------------------------------------------------------------------
-$grid-columns: 12 !default;
-$grid-gutter:  1.5rem !default;
-
-// -----------------------------------------------------------------------------
-// 5. BORDERS & RADII
-// -----------------------------------------------------------------------------
-$radius-controls: .375rem !default;
-$radius-cards:    .5rem !default;
-$radius-pills:    9999px !default;
-$border-width:    1px !default;
-$border-width-thick: 2px !default;
-
-// -----------------------------------------------------------------------------
-// 6. SHADOWS & EFFECTS
-// -----------------------------------------------------------------------------
-$shadow-color-base: rgba(0, 0, 0, 0.1);
-$shadow-sm: 0 1px 2px #{rgba($shadow-color-base, 0.6)};
-$shadow-md: 0 4px 12px #{rgba($shadow-color-base, 0.8)};
-$shadow-lg: 0 12px 28px #{rgba($shadow-color-base, 1.2)};
-$shadow-xl: 0 24px 48px #{rgba($shadow-color-base, 1.5)};
+// --- 3. OTHER CONFIG VARIABLES ---
+$gutterwidths: ( 'small': 1rem, 'medium': 2rem, 'large': 4rem ) !default;

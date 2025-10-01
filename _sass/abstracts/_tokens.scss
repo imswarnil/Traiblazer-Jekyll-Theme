@@ -1,60 +1,30 @@
 /* ============================================================================
-   ABSTRACTS / VARIABLES (DEFINITIVE LOGIC LAYER)
-   - Reads ALL simple variables from `_settings.scss`.
-   - Organizes them into the structured SCSS maps that power the theme.
+   ABSTRACTS / TOKENS (THE CSS GENERATOR)
+   This file reads the simple variables from `_settings.scss` and generates
+   the final CSS Custom Properties for the browser.
    ============================================================================ */
 
-// --- 1. COLOR PALETTE MAP (Powered by _settings.scss) ---
-$colors: (
-  'brand-primary': $brand-color, 'brand-primary-hover': darken($brand-color, 5%),
-  'brand-primary-active': darken($brand-color, 10%), 'brand-accent': $accent-color,
-  'gray-900': $heading-text-color, 'gray-800': $body-text-color, 'gray-500': $muted-text-color,
-  'gray-400': $border-color, 'gray-300': $border-color-subtle,
-  'gray-200': $body-background-color, 'gray-100': $content-background-color,
-  'semantic-success': $color-success, 'semantic-warning': $color-warning,
-  'semantic-danger': $color-danger, 'semantic-info': $color-info
-);
+:root {
+  // --- A. COLOR TOKENS ---
+  --accent-color: #{$accentColour};
+  --hover-color: #{$hoverColour};
+  --focus-color: #{$focusColour};
+  --heading-color: #{$headingColour};
+  --body-color: #{$bodyColour};
+  --link-color: #{$linkColour};
+  --caption-color: #{$captionColour};
+  --white: #{$white};
+  --background-color: #{$backgroundColour};
+  --code-background-color: #{$codeBackgroundColour};
+  --feature-background-color: #{$featureBackgroundColour};
 
-// --- 2. TYPOGRAPHY MAPS (Powered by _settings.scss) ---
-$typography: (
-  'font-body': $font-family-base, 'font-mono': $font-family-mono,
-  'text-xs': "clamp(0.75rem, 0.71rem + 0.2vw, 0.8125rem)",
-  'text-sm': "clamp(0.875rem, 0.84rem + 0.2vw, 0.9375rem)",
-  'text-base': $base-font-size,
-  'text-lg': "clamp(1.125rem, 1.04rem + 0.4vw, 1.25rem)",
-  'text-xl': "clamp(1.25rem, 1.1rem + 0.8vw, 1.5rem)",
-  'text-2xl': "clamp(1.5rem, 1.2rem + 1.6vw, 1.875rem)",
-  'text-3xl': "clamp(1.875rem, 1.4rem + 2.6vw, 2.25rem)",
-  'leading-tight': $line-height-tight, 'leading-normal': $line-height-normal, 'leading-relaxed': $line-height-relaxed,
-  'measure': 65ch
-);
-$font-weights: ( 'light':300, 'normal':400, 'medium':500, 'semibold':600, 'bold':700, 'extrabold':800 );
+  // --- B. TYPOGRAPHY TOKENS ---
+  --font-family-body: #{map-get($bodytype, 'font-family')};
+  --font-family-heading: #{map-get($headingtype, 'font-family')};
+  --font-family-mono: #{map-get($monospacetype, 'font-family')};
 
-// --- 3. RADII & SIZING MAPS (Powered by _settings.scss) ---
-$radii: (
-  'sm': max(0, $radius-controls - 0.125rem), 'md': $radius-controls, 'lg': $radius-cards,
-  'xl': $radius-cards + 0.25rem, 'pill': $radius-pills, 'circle': 50%
-);
-$control-heights: ( 'sm': $control-height-sm, 'md': $control-height-md, 'lg': $control-height-lg );
-$container-sizes: ( 'lg': $container-width-lg, 'xl': $container-width-xl );
-$icon-sizes: ( 'sm': 1rem, 'md': 1.25rem, 'lg': 1.5rem, 'xl': 2rem );
-
-// --- 4. SPACING MAP (Powered by _settings.scss) ---
-$spacing-scale: (
-  '0':0, '1':$base-spacing-unit*0.25, '2':$base-spacing-unit*0.5, '3':$base-spacing-unit*0.75,
-  '4':$base-spacing-unit, '5':$base-spacing-unit*1.5, '6':$base-spacing-unit*2, '7':$base-spacing-unit*2.5,
-  '8':$base-spacing-unit*3, '9':$base-spacing-unit*3.5, '10':$base-spacing-unit*4, '12':$base-spacing-unit*6
-);
-$space-keys: map-keys($spacing-scale) !default;
-
-// --- 5. SHADOWS, Z-INDEX & MOTION MAPS (Powered by _settings.scss) ---
-$shadows: ( 'sm':$shadow-sm, 'md':$shadow-md, 'lg':$shadow-lg, 'xl':$shadow-xl, 'focus-ring':0 0 0 .14rem #{rgba($brand-color, .9)} );
-$elevations: ( '1':var(--sf-shadow-sm), '2':var(--sf-shadow-md), '3':var(--sf-shadow-lg), '4':var(--sf-shadow-xl) );
-$z-stack: ( 'base':0, 'dropdown':900, 'sticky':1000, 'fixed':1030, 'modal':1100, 'popover':1200, 'tooltip':1300, 'toast':1400 );
-$durations: ( '100':.10s, '150':.15s, '200':.20s, '300':.30s, '500':.50s );
-$easings: ( 'standard':cubic-bezier(.2,0,0,1), 'decel':cubic-bezier(0,0,.2,1), 'accel':cubic-bezier(.4,0,1,1) );
-
-// --- 6. CORE CONFIGURATION & LEGACY VARIABLES ---
-$breakpoints: ( 'xs':30em, 'sm':40em, 'md':60em, 'lg':75em, 'xl':90em );
-$bp-xs: map-get($breakpoints, 'xs'); $bp-sm: map-get($breakpoints, 'sm'); $bp-md: map-get($breakpoints, 'md');
-$bp-lg: map-get($breakpoints, 'lg'); $bp-xl: map-get($breakpoints, 'xl');
+  // --- C. SPACING & SIZING TOKENS ---
+  --gutter-small: #{map-get($gutterwidths, 'small')};
+  --gutter-medium: #{map-get($gutterwidths, 'medium')};
+  --gutter-large: #{map-get($gutterwidths, 'large')};
+}

@@ -4,6 +4,7 @@
    ============================================================================ */
 
 // 1) ABSTRACTS — core, no output deps broken
+@import "settings";
 @import "abstracts/variables";
 @import "abstracts/tokens";
 @import "abstracts/themes"; // <-- ADD THIS LINE

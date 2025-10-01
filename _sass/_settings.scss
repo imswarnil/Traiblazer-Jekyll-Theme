@@ -1,96 +1,45 @@
-// ============================================================================
-// settings.scss  — mapped from your :root CSS variables & SCSS maps
-// ============================================================================
+/* ============================================================================
+   ABSTRACTS / SETTINGS (USER CONTROL PANEL)
+   This is the primary file for customizing the theme's look and feel.
+   ============================================================================ */
 
-// ---------------------------------------------------------------------------
-// Background colours (mapped from --sf-bg-* / neutrals)
-// ---------------------------------------------------------------------------
-$backgroundColour:        #ffffff !default;  // --sf-bg-2
-$codeBackgroundColour:    #f4f6f9 !default;  // --sf-bg-1
-$featureBackgroundColour: #f4f6f9 !default;  // section/feature surfaces
+// --- 1. BRAND & ACCENT COLOURS ---
+$accentColour: #0176d3 !default; // Main interactive color for links, buttons
+$hoverColour:  #0163b5 !default; // Hover state for links and interactive elements
+$focusColour:  #009ed9 !default; // Color for focus rings and highlights
 
-// ---------------------------------------------------------------------------
-// Text colours (mapped from semantic + neutral tokens)
-// ---------------------------------------------------------------------------
-$headingColour: #0b1221 !default; // --sf-gray-900
-$bodyColour:    #2e2e3a !default; // --sf-gray-800
-$linkColour:    #009ed9 !default; // --sf-brand-accent
-$hoverColour:   #0163b5 !default; // --sf-brand-primary-hover
-$focusColour:   rgba(1,118,211,.9) !default; // --sf-focus-ring color
-$captionColour: #8a96a3 !default; // --sf-gray-500
-$white:         #ffffff !default;
+// --- 2. TEXT COLOURS ---
+$headingColour: #0b1221 !default; // Darkest text, for H1, H2, etc.
+$bodyColour:    #2e2e3a !default; // Standard body text
+$captionColour: #8a96a3 !default; // For placeholders, captions, and subtle text
+$white:         #ffffff !default; // Pure white, for text on dark backgrounds
 
-// ---------------------------------------------------------------------------
-// Accent / brand (primary vs accent split kept simple here)
-// ---------------------------------------------------------------------------
-$accentColour:  #009ed9 !default; // --sf-brand-accent
+// --- 3. BACKGROUND COLOURS ---
+$backgroundColour:       #f4f6f9 !default; // Muted page background (the "canvas")
+$codeBackgroundColour:   #f8fafc !default; // Background for code blocks
+$featureBackgroundColour:#ffffff !default; // Background for cards, inputs (the "paper")
 
-// ---------------------------------------------------------------------------
-// Typography (mapped from --sf-font-body / --sf-font-mono)
-// TIP: Load custom fonts in your site config before these apply.
-// ---------------------------------------------------------------------------
+// --- 4. TYPOGRAPHY ---
+// Define your font stacks and their properties.
+// ! Set cap-height for precise baseline alignment in the `sassline` mixin.
+// TIP: For custom fonts, ensure you load them in your site's <head>.
 $bodytype: (
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
+  font-family: 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif',
   regular: 400,
   bold: 700,
   italic: italic,
-  cap-height: 0.75
-) !default;
-
-$headingtype: (
-  // If you later introduce a distinct heading family, swap here.
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif,
-  regular: 600, // Slightly stronger default for headings
-  bold: 700,
-  cap-height: 0.75
-) !default;
-
-$monospacetype: (
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace,
-  regular: 400,
   cap-height: 0.68
 ) !default;
 
-// ============================================================================
-// Optional: expose a few helpful maps from your SCSS config for downstream use
-// (kept lightweight; comment out if your target system doesn’t consume them)
-// ============================================================================
-
-$breakpoints: (
-  xs: 30em, // 480px
-  sm: 40em, // 640px
-  md: 60em, // 960px
-  lg: 75em, // 1200px
-  xl: 90em  // 1440px
+$headingtype: (
+  font-family: 'system-ui, -apple-system, Segoe UI, Roboto, sans-serif',
+  regular: 400,
+  bold: 800,
+  cap-height: 0.68
 ) !default;
 
-$spacing-scale: (
-  0:  0,
-  1:  .25rem,
-  2:  .5rem,
-  3:  .75rem,
-  4:  1rem,
-  5:  1.5rem,
-  6:  2rem,
-  7:  2.5rem,
-  8:  3rem,
-  9:  3.5rem,
-  10: 4rem,
-  12: 6rem
-) !default;
-
-$radii: (
-  sm:   .25rem,
-  md:   .375rem,
-  lg:   .5rem,
-  xl:   .75rem,
-  pill: 9999px,
-  full: 50%
-) !default;
-
-$elevations: (
-  1: 0 1px 2px rgba(0,0,0,.06),   // --sf-shadow-sm
-  2: 0 4px 12px rgba(0,0,0,.08),  // --sf-shadow-md
-  3: 0 12px 28px rgba(0,0,0,.12), // --sf-shadow-lg
-  4: 0 24px 48px rgba(0,0,0,.15)  // --sf-shadow-xl
+$monospacetype: (
+  font-family: 'Menlo, ui-monospace, monospace',
+  regular: 400,
+  cap-height: 0.68
 ) !default;
