@@ -8,6 +8,7 @@
 @import "abstracts/mixins";     // 4. Reusable style blocks that depend on variables
 @import "abstracts/tokens";     // 5. Generates all CSS Custom Properties for the browser
 @import "abstracts/themes"; 
+@import "abstracts/grid"; 
 
 // 2. BASE
 // Contains global styles, resets, and typography.

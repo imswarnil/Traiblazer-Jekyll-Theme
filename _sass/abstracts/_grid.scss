@@ -1,0 +1,113 @@
+// _layout/_grid.scss
+// ============================================================================
+// FLEXBOX GRID SYSTEM
+// A modern, responsive, 12-column grid system inspired by Bootstrap.
+// It uses the `gap` property for gutters, which is cleaner than negative margins.
+// Prefixed with `sf-` to avoid conflicts.
+// ============================================================================
+
+@use "sass:math";
+
+// -----------------------------------------------------------------------------
+// 1. CONTAINER
+// Provides a centered, max-width wrapper for your content.
+// -----------------------------------------------------------------------------
+
+// .sf-container provides a responsive fixed-width container.
+.sf-container {
+  width: 100%;
+  margin-inline: auto;
+  // Use half the grid gutter for consistent padding on the sides.
+  padding-inline: calc(var(--sf-grid-gap, #{$grid-gutter}) / 2);
+
+  // Generate max-widths based on the $container-sizes map from _variables.scss
+  // The key becomes the class suffix, e.g., .sf-container-sm
+  @each $key, $value in $container-sizes {
+    &.sf-container-#{$key} {
+      max-width: $value;
+    }
+  }
+
+  // Set a default max-width if no suffix is used (e.g., just .sf-container)
+  // We'll default to the 'lg' size.
+  &:not([class*="sf-container-"]) {
+    max-width: map-get($container-sizes, 'lg');
+  }
+}
+
+// .sf-container-fluid provides a full-width container, spanning the entire viewport.
+.sf-container-fluid {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: calc(var(--sf-grid-gap, #{$grid-gutter}) / 2);
+}
+
+
+// -----------------------------------------------------------------------------
+// 2. ROW
+// A wrapper for columns that uses flexbox to align them.
+// -----------------------------------------------------------------------------
+
+.sf-row {
+  display: flex;
+  flex-wrap: wrap;
+
+  // The `gap` property is the modern way to create gutters.
+  // It applies consistent spacing both horizontally and vertically.
+  // We use a CSS variable fallback that defaults to the SCSS variable.
+  gap: var(--sf-grid-gap, #{$grid-gutter});
+}
+
+
+// -----------------------------------------------------------------------------
+// 3. COLUMNS & OFFSETS
+// The core of the grid. Columns define the width of your content.
+// -----------------------------------------------------------------------------
+
+// --- A. Mixin for generating column and offset classes ---
+// This keeps our code DRY (Don't Repeat Yourself).
+@mixin make-grid-classes($infix: "") {
+  // --- Column Width Classes ---
+  // e.g., .sf-col-6, .sf-col-md-4
+  @for $i from 1 through $grid-columns {
+    .sf-col#{$infix}-#{$i} {
+      // Don't grow or shrink, and set the width explicitly.
+      flex: 0 0 auto;
+      width: percentage(math.div($i, $grid-columns));
+    }
+  }
+
+  // --- Offset Classes ---
+  // e.g., .sf-offset-3, .sf-offset-md-2
+  @for $i from 0 through ($grid-columns - 1) {
+    .sf-offset#{$infix}-#{$i} {
+      // `if` statement prevents a rule for `offset-0`
+      margin-left: if($i > 0, percentage(math.div($i, $grid-columns)), 0);
+    }
+  }
+
+  // --- Auto-layout Column ---
+  // A column that automatically fills available space.
+  // e.g., .sf-col, .sf-col-md
+  .sf-col#{$infix} {
+    flex-grow: 1;
+    flex-basis: 0;
+    max-width: 100%;
+  }
+}
+
+// --- B. Generate the classes ---
+
+// First, generate the mobile-first (default) classes with no infix.
+// These apply to all screen sizes unless overridden.
+@include make-grid-classes();
+
+// Second, loop through our breakpoints to generate responsive classes.
+// e.g., for 'md', it will generate .sf-col-md-*, .sf-offset-md-*, etc.
+@each $breakpoint, $min-width in $breakpoints {
+  // Use our existing breakpoint mixin to create the media query
+  @include breakpoint($breakpoint) {
+    // Pass the infix (e.g., "-md") to the mixin
+    @include make-grid-classes("-#{$breakpoint}");
+  }
+}
