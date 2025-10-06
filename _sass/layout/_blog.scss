@@ -3,18 +3,7 @@
    Styles for the blog archive/listing pages.
    ============================================================================ */
 
-/* --- 1. Main Layout & Container --- */
-.blog-layout-container {
-  @extend .sf-container; // Use the base container for max-width and padding.
-  display: grid;
-  grid-template-columns: minmax(0, 1fr); // Mobile-first single column
-  gap: var(--sf-8);
-  padding-block: var(--sf-8);
 
-  @include breakpoint(lg) {
-    grid-template-columns: minmax(0, 1fr) 320px; // Two columns on large screens
-  }
-}
 
 .blog-main-content {
   display: flex;
