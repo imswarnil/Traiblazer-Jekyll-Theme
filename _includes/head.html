@@ -28,14 +28,16 @@
     <meta name="theme-color" content="{{ site.manifest.theme_color | default: '#242e2b' }}"/>
 
     {% if site.css_inline == true %}
-      {% include site-styles.html %}
+      {% include styles.html %}
     {% else %}
       <link rel="stylesheet" href="{{ "/assets/styles.css" | relative_url }}">
     {% endif %}
 
     {% if site.favicons or site.avatarurl %}{% include site-favicons.html %}{% endif %}
 
-    {% if site.google_analytics %}{% include site-analytics.html %}{% endif %}
+    {% if site.google_analytics %}
+    {% include utility/analytics.html %}
+    {% endif %}
 
     {% include site-fonts.html %}
 

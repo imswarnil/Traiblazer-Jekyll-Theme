@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="{{ site.lang | default: "en-US" }}">
-  {% include head.html %}
-  <body class="sf-page layout-{{ page.layout | slugify }}">
-    {% include navbar.html %}
-    <!-- Main content wrapper -->
-    <main class="sf-main">
+---
+layout: default
+---
+{% include navbar.html %}
+  <main class="sf-main">
       {{ content }}
-    </main>
-    <!-- Service Worker or other end-of-body includes -->
-    {% if site.service_worker != false %}{% include site-sw.html %}{% endif %}
-  </body>
+  </main>
+   
 
-</html>
 
