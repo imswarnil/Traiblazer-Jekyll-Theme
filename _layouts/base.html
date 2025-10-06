@@ -4,7 +4,7 @@
   <body class="sf-page layout-{{ page.layout | slugify }}">
       {{ content }}
     <!-- Service Worker or other end-of-body includes -->
-    {% if site.service_worker != false %}{% include sw.html %}{% endif %}
+    {% if site.service_worker != false %}{% include utility/sw.html %}{% endif %}
   </body>
 </html>
 
