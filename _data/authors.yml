@@ -1,8 +1,0 @@
-# _data/authors.yml
-swarnil:
-  name: "Swarnil Singhai"
-  avatar: "/assets/images/authors/swarnil.jpg"
-  
-default: # <-- Add this default author
-  name: "ImSwarnil Team"
-  avatar: "/assets/images/authors/default-avatar.png"
