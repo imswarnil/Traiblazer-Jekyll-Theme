@@ -154,9 +154,7 @@ body.sidebars-sticky {
   
   a {
     color: var(--sf-link);
-    text-decoration: underline;
     text-decoration-color: color-mix(in srgb, var(--sf-brand) 30%, transparent);
-    text-underline-offset: 3px;
     transition: all .2s ease;
     &:hover {
       background-color: color-mix(in srgb, var(--sf-brand) 10%, transparent);
