@@ -1,5 +1,5 @@
 ---
 layout: default
-title: ImSwarnil — Filmmaker • Software Engineer • Storyteller
+title: Trailblazer Jekyll Theme
 ---
  
